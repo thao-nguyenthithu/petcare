@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
@@ -10,4 +5,207 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+}
+
+model User {
+  id               String            @id @default(uuid())
+  fullName         String
+  email            String            @unique
+  phone            String?           @unique
+  passwordHash     String?
+  firebaseUid      String?           @unique
+  role             UserRole          @default(OWNER)
+  avatarUrl        String?
+  isVerified       Boolean           @default(false)
+  isActive         Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  bookingsAsOwner  Booking[]         @relation("OwnerBookings")
+  pets             Pet[]
+  reviews          Review[]
+  provider         ServiceProvider?
+  violationReports ViolationReport[]
+}
+
+model ServiceProvider {
+  id                String    @id @default(uuid())
+  userId            String    @unique
+  bio               String?
+  ratingAvg         Float     @default(0)
+  totalReviews      Int       @default(0)
+  backgroundChecked Boolean   @default(false)
+  lat               Float?
+  lng               Float?
+  serviceAreas      Json?
+  certifications    Json?
+  createdAt         DateTime  @default(now())
+  bookings          Booking[] @relation("ProviderBookings")
+  user              User      @relation(fields: [userId], references: [id])
+}
+
+model Pet {
+  id        String    @id @default(uuid())
+  ownerId   String
+  name      String
+  species   String
+  breed     String?
+  ageMonths Int?
+  weight    Float?
+  notes     String?
+  avatarUrl String?
+  createdAt DateTime  @default(now())
+  bookings  Booking[]
+  owner     User      @relation(fields: [ownerId], references: [id])
+}
+
+model Service {
+  id               String      @id @default(uuid())
+  type             ServiceType
+  name             String
+  description      String?
+  basePricePerHour Float
+  durationMinutes  Int?
+  bookings         Booking[]
+}
+
+model Booking {
+  id                 String            @id @default(uuid())
+  ownerId            String
+  providerId         String
+  petId              String
+  serviceId          String
+  status             BookingStatus     @default(PENDING)
+  scheduledAt        DateTime
+  startedAt          DateTime?
+  endedAt            DateTime?
+  totalPrice         Float?
+  specialNotes       String?
+  cancellationFee    Float?
+  cancelledBy        String?
+  cancellationReason String?
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  owner              User              @relation("OwnerBookings", fields: [ownerId], references: [id])
+  pet                Pet               @relation(fields: [petId], references: [id])
+  provider           ServiceProvider   @relation("ProviderBookings", fields: [providerId], references: [id])
+  service            Service           @relation(fields: [serviceId], references: [id])
+  gpsReport          BookingGpsReport?
+  locationTracks     LocationTrack[]
+  review             Review?
+  sessionPhotos      SessionPhoto[]
+  reports            ViolationReport[]
+}
+
+model SessionPhoto {
+  id                String     @id @default(uuid())
+  bookingId         String
+  photoUrl          String
+  phase             PhotoPhase
+  photoLat          Float?
+  photoLng          Float?
+  aiRawResponse     Json?
+  aiProvider        String?
+  aiConfidenceScore Float?
+  aiPassed          Boolean?
+  aiFailCount       Int?
+  ownerOverrideAt   DateTime?
+  ownerOverrideNote String?
+  ownerRejectedAt   DateTime?
+  overrideTimeoutAt DateTime?
+  takenAt           DateTime   @default(now())
+  booking           Booking    @relation(fields: [bookingId], references: [id])
+}
+
+model LocationTrack {
+  id         String   @id @default(uuid())
+  bookingId  String
+  latitude   Float
+  longitude  Float
+  clientTs   DateTime
+  serverTs   DateTime
+  driftMs    Int?
+  batchSeq   Int?
+  isNoise    Boolean  @default(false)
+  recordedAt DateTime @default(now())
+  booking    Booking  @relation(fields: [bookingId], references: [id])
+
+  @@index([bookingId, clientTs])
+  @@index([bookingId, serverTs])
+  @@index([bookingId, isNoise])
+}
+
+model BookingGpsReport {
+  id               String   @id @default(uuid())
+  bookingId        String   @unique
+  totalWaypoints   Int
+  totalDistanceM   Float
+  durationMinutes  Int
+  avgSpeedKmh      Float
+  suspicionScore   Float    @default(0)
+  flaggedForReview Boolean  @default(false)
+  suspicionNote    String?
+  createdAt        DateTime @default(now())
+  booking          Booking  @relation(fields: [bookingId], references: [id])
+
+  @@index([flaggedForReview])
+  @@index([suspicionScore])
+}
+
+model Review {
+  id         String   @id @default(uuid())
+  bookingId  String   @unique
+  reviewerId String
+  rating     Int
+  comment    String?
+  createdAt  DateTime @default(now())
+  booking    Booking  @relation(fields: [bookingId], references: [id])
+  reviewer   User     @relation(fields: [reviewerId], references: [id])
+}
+
+model ViolationReport {
+  id           String       @id @default(uuid())
+  bookingId    String
+  reporterId   String
+  description  String
+  evidenceUrls Json?
+  status       ReportStatus @default(OPEN)
+  adminNote    String?
+  createdAt    DateTime     @default(now())
+  booking      Booking      @relation(fields: [bookingId], references: [id])
+  reporter     User         @relation(fields: [reporterId], references: [id])
+}
+
+enum UserRole {
+  OWNER
+  PROVIDER
+  ADMIN
+}
+
+enum ServiceType {
+  WALKING
+  BOARDING
+  GROOMING
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  AWAITING_OWNER_APPROVAL
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  DISPUTED
+  RESOLVED
+}
+
+enum PhotoPhase {
+  CHECK_IN
+  IN_PROGRESS
+  CHECK_OUT
+}
+
+enum ReportStatus {
+  OPEN
+  REVIEWING
+  RESOLVED
 }
