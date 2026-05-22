@@ -27,7 +27,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     }
 
     // Log lỗi 500 để debug
-    if (status === HttpStatus.INTERNAL_SERVER_ERROR) {
+    if (status === (HttpStatus.INTERNAL_SERVER_ERROR as number)) {
       this.logger.error(exception);
     }
 
