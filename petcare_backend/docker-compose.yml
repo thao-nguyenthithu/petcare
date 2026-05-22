@@ -1,0 +1,12 @@
+﻿services:
+  redis:
+    image: redis:alpine
+    container_name: petcare_redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - redisdata:/data
+    command: redis-server --appendonly yes
+
+volumes:
+  redisdata:
