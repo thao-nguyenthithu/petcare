@@ -29,6 +29,6 @@ jobs:
         with:
           node-version: '24'
       - run: npm install -g @railway/cli
-      - run: railway up --service petcare_backend --detach
+      - run: railway up --service petcare-backend --detach
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
