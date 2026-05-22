@@ -20,11 +20,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
     // Xử lý message — ưu tiên lấy mảng lỗi chi tiết từ ValidationPipe
     let message: string | string[];
     if (exception instanceof HttpException) {
-      const res = exception.getResponse();
-      // ValidationPipe trả về { message: string[], error: string }
-      message = typeof res === 'object' && 'message' in res
-        ? (res as any).message
-        : exception.message;
+      const res = exception.getResponse() as Record<string, unknown>;
+      message = (res['message'] as string | string[]) ?? exception.message;
     } else {
       message = 'Internal server error';
     }
