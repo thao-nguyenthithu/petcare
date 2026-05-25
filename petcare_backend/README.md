@@ -1,98 +1,209 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Smart Pet Care — Backend API (NestJS)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Backend cho ứng dụng Smart Pet Care Service Platform.  
+Kiến trúc: **NestJS Modular Monolith** · **Supabase PostgreSQL + PostGIS** · **Firebase** · **Redis + BullMQ**
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## Yêu cầu môi trường
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+| Tool | Version |
+|---|---|
+| Node.js | v24.x LTS |
+| npm | 11.x |
+| NestJS CLI | Latest |
 
-## Project setup
+---
+
+## Cài đặt
+
+### 1. Clone và cài dependencies
 
 ```bash
-$ npm install
+git clone <repo-url>
+cd petcare_backend
+npm install
 ```
 
-## Compile and run the project
+### 2. Tạo file môi trường
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+cp .env.example .env
 ```
 
-## Run tests
+Điền đầy đủ các biến trong `.env`:
+
+```env
+# App
+NODE_ENV=development
+PORT=3000
+
+# Database (Supabase)
+DATABASE_URL=postgresql://postgres.[PROJECT]:[PASSWORD]@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true
+DIRECT_URL=postgresql://postgres.[PROJECT]:[PASSWORD]@db.[PROJECT].supabase.co:5432/postgres
+
+# Redis
+REDIS_URL=redis://localhost:6379
+
+# Supabase Storage
+SUPABASE_URL=https://[PROJECT].supabase.co
+SUPABASE_SERVICE_KEY=your_service_role_key
+
+# JWT
+JWT_SECRET=your_jwt_secret
+JWT_EXPIRES_IN=7d
+JWT_REFRESH_EXPIRES_IN=30d
+
+# Firebase
+FIREBASE_PROJECT_ID=your_firebase_project_id
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+FIREBASE_CLIENT_EMAIL=firebase-adminsdk@project.iam.gserviceaccount.com
+FIREBASE_DATABASE_URL=https://your-project-default-rtdb.firebaseio.com
+
+# AI
+ANTHROPIC_API_KEY=sk-ant-...
+
+# Google Maps
+GOOGLE_MAPS_API_KEY=AIza...
+```
+
+### 3. Chạy migration database
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npx prisma migrate dev
+npx prisma generate
 ```
+
+### 4. Chạy ứng dụng
+
+```bash
+# Development (watch mode)
+npm run start:dev
+
+# Production
+npm run start:prod
+```
+
+---
+
+## Cấu trúc thư mục
+
+```
+src/
+├── app.module.ts
+├── main.ts
+└── modules/
+    ├── admin/          ← Quản trị hệ thống
+    ├── ai/             ← Claude Vision API + Owner Override (ADR-001)
+    ├── auth/           ← JWT + Firebase Auth
+    ├── bookings/       ← Booking State Machine (ADR-003)
+    ├── location/       ← PostGIS geosearch + Geofencing
+    ├── media/          ← Supabase Storage (Service Key)
+    ├── notification/   ← FCM Push Notification + BullMQ
+    ├── pets/           ← Pet CRUD
+    ├── reports/        ← Báo cáo vi phạm
+    ├── reviews/        ← Đánh giá dịch vụ
+    ├── services/       ← Service Catalog (Walking/Boarding/Grooming)
+    └── users/          ← User Profile
+```
+
+---
+
+## Scripts
+
+```bash
+# Development
+npm run start:dev       # Chạy với watch mode
+
+# Build
+npm run build           # Build production
+
+# Testing
+npm run test            # Unit tests
+npm run test:cov        # Test coverage
+npm run test:e2e        # E2E tests
+
+# Database
+npx prisma migrate dev  # Tạo và apply migration mới
+npx prisma generate     # Regenerate Prisma Client
+npx prisma studio       # Mở Prisma Studio (GUI)
+npx prisma db seed      # Chạy seed data
+```
+
+---
+
+## API Documentation
+
+Swagger UI: `http://localhost:3000/api/docs`
+
+---
+
+## Lưu ý quan trọng
+
+### GIST Spatial Index — PostGIS
+
+Index `idx_service_provider_location` **không thể** tạo qua `prisma migrate dev` vì Prisma shadow database là DB tạm tự tạo mới — không có PostGIS extension, dù Supabase Primary Database đã bật PostGIS sẵn.
+
+**Đã apply thủ công** qua Supabase SQL Editor (task B02.4).
+
+Nếu reset DB, chạy lại SQL trong:
+```
+prisma/migrations/20260525083625_add_spatial_index/migration.sql
+```
+
+Hoặc chạy thủ công trong Supabase SQL Editor:
+```sql
+CREATE INDEX IF NOT EXISTS idx_service_provider_location
+ON "ServiceProvider"
+USING GIST (ST_SetSRID(ST_MakePoint(lng, lat), 4326));
+```
+
+### Supabase Storage
+
+- Flutter upload ảnh **trực tiếp** lên Supabase Storage bằng Firebase JWT — không qua NestJS
+- NestJS chỉ dùng `SUPABASE_SERVICE_KEY` cho admin operations (xóa ảnh vi phạm, seed data)
+- `SUPABASE_SERVICE_KEY` là server-side secret — **không bao giờ** đưa vào Flutter app
+
+### Firebase Auth
+
+- Dự án dùng Firebase Auth cho Social Login (Google/Facebook)
+- Supabase đã cấu hình Third-party Auth với Firebase Project ID: `smart-pet-care-vn`
+- RLS policy trên Storage dùng `auth.uid() IS NOT NULL` — hoạt động nhờ Firebase JWT verification qua Google JWKS
+
+---
+
+## Architecture Decision Records
+
+| ADR | Tóm tắt |
+|---|---|
+| ADR-001 | AI fail 3 lần → Owner Override 5 phút (thay Admin Manual Review) |
+| ADR-002 | GPS Dual Stream: Firebase RTDB (live) + REST batch (history). Anti-Fraud: clientTs vs serverTs |
+| ADR-003 | Optimistic Lock bằng `updatedAt` cho Booking State Machine — tránh Race Condition |
+
+---
+
+## Docker (Local Development)
+
+```bash
+# Khởi động PostgreSQL + Redis + Adminer
+docker-compose up -d
+
+# Dừng
+docker-compose down
+```
+
+---
 
 ## Deployment
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Deploy lên Railway:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+# Cài Railway CLI
+npm install -g @railway/cli
+
+# Deploy
+railway up --service petcare-api
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Biến môi trường được cấu hình trong Railway Dashboard — không dùng file `.env` trên server.
