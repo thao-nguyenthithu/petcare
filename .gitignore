@@ -1,0 +1,19 @@
+# Flutter secrets
+petcare_app/secrets.env
+petcare_app/android/app/google-services.json
+petcare_app/ios/Runner/GoogleService-Info.plist
+petcare_app/lib/firebase_options.dart
+
+# Backend secrets
+petcare_backend/.env
+
+# Flutter build
+petcare_app/build/
+petcare_app/.dart_tool/
+petcare_app/.flutter-plugins
+petcare_app/.flutter-plugins-dependencies
+
+# NestJS build
+petcare_backend/dist/
+petcare_backend/node_modules/
+petcare_backend/generated/
