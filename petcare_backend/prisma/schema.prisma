@@ -25,6 +25,7 @@ model User {
   reviews          Review[]
   provider         ServiceProvider?
   violationReports ViolationReport[]
+  messages         Message[]
 }
 
 model ServiceProvider {
@@ -94,6 +95,7 @@ model Booking {
   review             Review?
   sessionPhotos      SessionPhoto[]
   reports            ViolationReport[]
+  messages           Message[]
 }
 
 model SessionPhoto {
@@ -173,6 +175,20 @@ model ViolationReport {
   createdAt    DateTime     @default(now())
   booking      Booking      @relation(fields: [bookingId], references: [id])
   reporter     User         @relation(fields: [reporterId], references: [id])
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  bookingId String
+  senderId  String
+  role      String // OWNER | PROVIDER
+  text      String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  booking   Booking  @relation(fields: [bookingId], references: [id])
+  sender    User     @relation(fields: [senderId], references: [id])
+
+  @@index([bookingId, createdAt])
 }
 
 enum UserRole {

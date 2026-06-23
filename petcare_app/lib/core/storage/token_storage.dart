@@ -2,7 +2,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class TokenStorageService {
   static const _storage = FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+    aOptions: AndroidOptions(),
     iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
   );
 
@@ -10,7 +10,7 @@ class TokenStorageService {
   static const _refreshTokenKey = 'refresh_token';
   static const _languageKey = 'app_language';
 
-  // ── JWT Tokens ──────────────────────────────────────────
+  // JWT Tokens
   Future<void> saveTokens({
     required String accessToken,
     required String refreshToken,

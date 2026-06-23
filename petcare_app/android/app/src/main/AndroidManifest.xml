@@ -20,11 +20,6 @@
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
-        <!-- Google Maps API key — inject qua secrets.env, không hardcode -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="${MAPS_API_KEY}"/>
-            
         <!-- Facebook App ID cho Social Login -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

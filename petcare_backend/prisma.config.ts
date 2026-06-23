@@ -8,5 +8,7 @@ export default defineConfig({
   },
   datasource: {
     url: process.env["DIRECT_URL"],
+    // Database riêng để Prisma thử migration, tránh lỗi thiếu hàm PostGIS
+    shadowDatabaseUrl: process.env["SHADOW_DATABASE_URL"],
   },
 });

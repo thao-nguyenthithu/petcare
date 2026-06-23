@@ -17,3 +17,7 @@ petcare_app/.flutter-plugins-dependencies
 petcare_backend/dist/
 petcare_backend/node_modules/
 petcare_backend/generated/
+
+.claude/
+CLAUDE.md
+docs/
