@@ -1,11 +1,20 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:petcare_app/core/theme/app_colors.dart';
+import 'package:petcare_app/features/auth/screens/splash_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    debugPrint('Tạm thời bỏ qua Firebase: $e');
+  }
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -13,11 +22,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Smart Pet Care',
-      home: Scaffold(
-        body: Center(child: Text('Smart Pet Care — đang khởi tạo...')),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        fontFamily: 'Inter',
+        scaffoldBackgroundColor: AppColors.background,
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
       ),
+      home: const SplashScreen(),
     );
   }
 }
