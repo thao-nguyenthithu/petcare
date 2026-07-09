@@ -5,8 +5,7 @@ import 'package:petcare_app/core/l10n/generated/app_localizations.dart';
 import 'package:petcare_app/core/l10n/locale_provider.dart';
 import 'package:petcare_app/core/storage/locale_storage.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
-import 'package:petcare_app/features/auth/screens/splash_screen.dart';
-import 'package:petcare_app/features/auth/screens/language_screen.dart';
+import 'package:petcare_app/core/router/app_router.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -39,9 +38,10 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Smart Pet Care',
       debugShowCheckedModeBanner: false,
+      routerConfig: appRouter,
       locale: ref.watch(localeProvider),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
@@ -50,7 +50,6 @@ class MyApp extends ConsumerWidget {
         scaffoldBackgroundColor: AppColors.background,
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
       ),
-      home: const LanguageScreen(),
     );
   }
 }

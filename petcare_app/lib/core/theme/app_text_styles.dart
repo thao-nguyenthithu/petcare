@@ -35,6 +35,15 @@ class AppTextStyles {
     color: AppColors.textWhite,
   );
 
+  // w600
+  static const TextStyle label = TextStyle(
+    fontFamily: _f,
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    height: 20 / 14,
+    color: AppColors.textPrimary,
+  );
+
   // w400
   static const TextStyle body = TextStyle(
     fontFamily: _f,

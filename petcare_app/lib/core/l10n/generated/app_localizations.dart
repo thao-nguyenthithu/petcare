@@ -121,6 +121,84 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Tiếp tục'**
   String get tiepTuc;
+
+  /// No description provided for @boQua.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bỏ qua'**
+  String get boQua;
+
+  /// No description provided for @chaoMungDen.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chào mừng đến'**
+  String get chaoMungDen;
+
+  /// No description provided for @thuCungVui.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thú cưng vui, sống vui mỗi ngày'**
+  String get thuCungVui;
+
+  /// No description provided for @ketNoiNguoiChamSoc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Kết nối với người chăm sóc thú cưng uy tín, ngay gần bạn'**
+  String get ketNoiNguoiChamSoc;
+
+  /// No description provided for @chamSoc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chăm sóc'**
+  String get chamSoc;
+
+  /// No description provided for @tinCay.
+  ///
+  /// In vi, this message translates to:
+  /// **'tin cậy'**
+  String get tinCay;
+
+  /// No description provided for @minhBachAnhGps.
+  ///
+  /// In vi, this message translates to:
+  /// **'Minh bạch bằng ảnh & GPS realtime'**
+  String get minhBachAnhGps;
+
+  /// No description provided for @nguoiCungCapXacMinh.
+  ///
+  /// In vi, this message translates to:
+  /// **'Người cung cấp được xác minh, minh bạch bằng ảnh và GPS thời gian thực'**
+  String get nguoiCungCapXacMinh;
+
+  /// No description provided for @theoDoi.
+  ///
+  /// In vi, this message translates to:
+  /// **'Theo dõi'**
+  String get theoDoi;
+
+  /// No description provided for @sucKhoe.
+  ///
+  /// In vi, this message translates to:
+  /// **'sức khỏe'**
+  String get sucKhoe;
+
+  /// No description provided for @hoSoNhacLich.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hồ sơ & nhắc lịch thú cưng'**
+  String get hoSoNhacLich;
+
+  /// No description provided for @lichSuDichVu.
+  ///
+  /// In vi, this message translates to:
+  /// **'Lịch sử dịch vụ, nhắc lịch và hồ sơ sức khỏe luôn trong tầm tay'**
+  String get lichSuDichVu;
+
+  /// No description provided for @batDauNgay.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bắt đầu ngay'**
+  String get batDauNgay;
 }
 
 class _AppLocalizationsDelegate
