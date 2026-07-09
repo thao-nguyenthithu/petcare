@@ -1,8 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:petcare_app/core/l10n/generated/app_localizations.dart';
+import 'package:petcare_app/core/l10n/locale_provider.dart';
+import 'package:petcare_app/core/storage/locale_storage.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/features/auth/screens/splash_screen.dart';
+import 'package:petcare_app/features/auth/screens/language_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -14,23 +18,39 @@ void main() async {
   } catch (e) {
     debugPrint('Tạm thời bỏ qua Firebase: $e');
   }
-  runApp(const ProviderScope(child: MyApp()));
+  String? savedLanguageCode;
+  try {
+    savedLanguageCode = await const LocaleStorage().readLanguageCode();
+  } catch (e) {
+    debugPrint('Không đọc được ngôn ngữ đã lưu: $e');
+  }
+  runApp(
+    ProviderScope(
+      overrides: [
+        savedLanguageCodeProvider.overrideWithValue(savedLanguageCode),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       title: 'Smart Pet Care',
       debugShowCheckedModeBanner: false,
+      locale: ref.watch(localeProvider),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
         fontFamily: 'Inter',
         scaffoldBackgroundColor: AppColors.background,
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
       ),
-      home: const SplashScreen(),
+      home: const LanguageScreen(),
     );
   }
 }

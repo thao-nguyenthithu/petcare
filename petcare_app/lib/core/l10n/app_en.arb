@@ -1,5 +1,7 @@
-﻿{
+{
   "@@locale": "en",
-  "appName": "Smart Pet Care",
-  "hello": "Hello"
+  "tenUngDung": "Smart Pet Care",
+  "xinChao": "Hello",
+  "doiLaiTrongCaiDat": "You can change this later in Settings",
+  "tiepTuc": "Continue"
 }

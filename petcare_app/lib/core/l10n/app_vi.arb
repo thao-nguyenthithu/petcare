@@ -1,5 +1,7 @@
-﻿{
+{
   "@@locale": "vi",
-  "appName": "Smart Pet Care",
-  "hello": "Xin chào"
+  "tenUngDung": "Smart Pet Care",
+  "xinChao": "Xin chào",
+  "doiLaiTrongCaiDat": "Bạn có thể thay đổi lại trong Cài đặt",
+  "tiepTuc": "Tiếp tục"
 }
