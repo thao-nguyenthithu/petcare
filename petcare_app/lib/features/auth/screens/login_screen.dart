@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
+import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/validators.dart';
@@ -27,10 +29,10 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void _dangNhap() {
-    if (_formKey.currentState!.validate()) {
-      // TODO (backend): gọi API đăng nhập
-    }
+  Future<void> _dangNhap() async {
+    if (!_formKey.currentState!.validate()) return;
+    // TODO (backend): thay giả lập bằng gọi API đăng nhập thật
+    await Future.delayed(const Duration(seconds: 2));
   }
 
   @override
@@ -138,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      AppButton(text: l10n.dangNhap, onTap: _dangNhap),
+                      AppButton(text: l10n.dangNhap, onTapAsync: _dangNhap),
                       const SizedBox(height: 36),
                       Row(
                         children: [
@@ -197,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 36),
                       Center(
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () => context.push(AppRoutes.register),
                           child: Text.rich(
                             TextSpan(
                               text: '${l10n.chuaCoTaiKhoan} ',

@@ -102,7 +102,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get dangKyTaiKhoan => 'Đăng ký tài khoản';
 
   @override
-  String get thamGiaCongDong => 'Tham gia cộng đồng chủ nuôi thú cưng';
+  String get thamGiaCongDong => 'Tham gia cộng đồng yêu thú cưng';
 
   @override
   String get hoVaTen => 'Họ và tên';

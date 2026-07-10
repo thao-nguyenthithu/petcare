@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:petcare_app/features/auth/screens/language_screen.dart';
 import 'package:petcare_app/features/auth/screens/login_screen.dart';
 import 'package:petcare_app/features/auth/screens/onboarding_screen.dart';
+import 'package:petcare_app/features/auth/screens/register_screen.dart';
 import 'package:petcare_app/features/auth/screens/splash_screen.dart';
 
 /// Đường dẫn các màn hình trong app
@@ -33,6 +34,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.login,
       builder: (context, state) => const LoginScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.register,
+      builder: (context, state) => const RegisterScreen(),
     ),
   ],
 );

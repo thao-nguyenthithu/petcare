@@ -8,8 +8,11 @@ class AppTextField extends StatefulWidget {
   final String hint;
   final TextEditingController controller;
   final bool isPassword;
+  final bool isRequired;
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
+  final GlobalKey<FormFieldState<String>>? fieldKey;
   final double height;
 
   const AppTextField({
@@ -18,8 +21,11 @@ class AppTextField extends StatefulWidget {
     required this.hint,
     required this.controller,
     this.isPassword = false,
+    this.isRequired = false,
     this.keyboardType = TextInputType.text,
     this.validator,
+    this.onChanged,
+    this.fieldKey,
     this.height = 52,
   });
 
@@ -36,16 +42,28 @@ class _AppTextFieldState extends State<AppTextField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.label,
-          style: AppTextStyles.label.copyWith(color: AppColors.textSecondary),
+        Text.rich(
+          TextSpan(
+            text: widget.label,
+            style: AppTextStyles.label.copyWith(color: AppColors.textSecondary),
+            children: [
+              if (widget.isRequired)
+                TextSpan(
+                  text: ' *',
+                  style: AppTextStyles.label.copyWith(color: AppColors.error),
+                ),
+            ],
+          ),
         ),
         const SizedBox(height: 6),
         TextFormField(
+          key: widget.fieldKey,
           controller: widget.controller,
           obscureText: _obscure,
           keyboardType: widget.keyboardType,
           validator: widget.validator,
+          onChanged: widget.onChanged,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           style: AppTextStyles.caption.copyWith(color: AppColors.textPrimary),
           decoration: InputDecoration(
             hintText: widget.hint,
@@ -58,9 +76,9 @@ class _AppTextFieldState extends State<AppTextField> {
             ),
             enabledBorder: _vien(AppColors.neutral),
             focusedBorder: _vien(AppColors.primaryColor),
-            errorBorder: _vien(AppColors.accent),
-            focusedErrorBorder: _vien(AppColors.accent),
-            errorStyle: AppTextStyles.caption.copyWith(color: AppColors.accent),
+            errorBorder: _vien(AppColors.error),
+            focusedErrorBorder: _vien(AppColors.error),
+            errorStyle: AppTextStyles.caption.copyWith(color: AppColors.error),
             suffixIcon: widget.isPassword
                 ? IconButton(
                     onPressed: () => setState(() => _obscure = !_obscure),

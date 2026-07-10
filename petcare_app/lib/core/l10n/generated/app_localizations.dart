@@ -281,7 +281,7 @@ abstract class AppLocalizations {
   /// No description provided for @thamGiaCongDong.
   ///
   /// In vi, this message translates to:
-  /// **'Tham gia cộng đồng chủ nuôi thú cưng'**
+  /// **'Tham gia cộng đồng yêu thú cưng'**
   String get thamGiaCongDong;
 
   /// No description provided for @hoVaTen.

@@ -101,7 +101,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dangKyTaiKhoan => 'Create an account';
 
   @override
-  String get thamGiaCongDong => 'Join the pet owner community';
+  String get thamGiaCongDong => 'Join the pet-loving community';
 
   @override
   String get hoVaTen => 'Full name';
