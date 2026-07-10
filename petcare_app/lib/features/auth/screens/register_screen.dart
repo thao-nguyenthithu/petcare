@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
+import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
@@ -42,9 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // TODO (backend): thay giả lập bằng gọi API đăng ký kèm _vaiTro
     await Future.delayed(const Duration(seconds: 2));
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(context.l10n.chucNangDangPhatTrien)),
-    );
+    context.push(AppRoutes.verifyEmail, extra: _emailController.text.trim());
   }
 
   @override

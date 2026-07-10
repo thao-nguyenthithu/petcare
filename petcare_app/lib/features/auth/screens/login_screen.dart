@@ -31,7 +31,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _dangNhap() async {
     if (!_formKey.currentState!.validate()) return;
-    // TODO (backend): thay giả lập bằng gọi API đăng nhập thật
     await Future.delayed(const Duration(seconds: 2));
   }
 
@@ -128,9 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: GestureDetector(
-                          onTap: () {
-                            // TODO (router): chuyển sang màn Quên mật khẩu (A0.9)
-                          },
+                          onTap: () => context.push(AppRoutes.forgotPassword),
                           child: Text(
                             l10n.quenMatKhau,
                             style: AppTextStyles.label.copyWith(
