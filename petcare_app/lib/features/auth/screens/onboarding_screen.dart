@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
+import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
+import 'package:petcare_app/shared/widgets/app_button.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -94,7 +96,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                   const Spacer(),
                   GestureDetector(
-                    onTap: () => _denTrang(pages.length - 1),
+                    onTap: () => context.push(AppRoutes.login),
                     child: Padding(
                       padding: const EdgeInsets.all(8),
                       child: Text(
@@ -137,31 +139,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 );
               }),
             ),
-            // Khoảng co giãn: màn thấp tự ép lại để không tràn
             const Flexible(child: SizedBox(height: 88)),
-            // Nút chính: 2 trang đầu chuyển trang, trang cuối vào app
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: GestureDetector(
+              child: AppButton(
+                height: 56,
+                text: isLastPage ? l10n.batDauNgay : l10n.tiepTuc,
                 onTap: () {
                   if (isLastPage) {
-                    // TODO (router)
+                    context.push(AppRoutes.login);
                   } else {
                     _denTrang(_currentPage + 1);
                   }
                 },
-                child: Container(
-                  height: 56,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryColor,
-                    borderRadius: BorderRadius.circular(AppRadius.radius14),
-                  ),
-                  child: Text(
-                    isLastPage ? l10n.batDauNgay : l10n.tiepTuc,
-                    style: AppTextStyles.button,
-                  ),
-                ),
               ),
             ),
             const Flexible(child: SizedBox(height: 64)),
@@ -191,7 +181,6 @@ class _OnboardingPageData {
   });
 }
 
-// Bố cục 1 trang: hero card mint + minh họa tràn đáy card + mô tả
 class _OnboardingPage extends StatelessWidget {
   final _OnboardingPageData data;
 

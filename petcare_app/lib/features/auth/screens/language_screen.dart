@@ -7,6 +7,7 @@ import 'package:petcare_app/core/l10n/locale_provider.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
+import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 
 class LanguageScreen extends ConsumerWidget {
@@ -98,21 +99,9 @@ class LanguageScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 16),
                   // Nút Tiếp tục
-                  GestureDetector(
+                  AppButton(
+                    text: context.l10n.tiepTuc,
                     onTap: () => context.push(AppRoutes.onboarding),
-                    child: Container(
-                      width: double.infinity,
-                      height: 54,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryColor,
-                        borderRadius: BorderRadius.circular(AppRadius.radius14),
-                      ),
-                      child: Text(
-                        context.l10n.tiepTuc,
-                        style: AppTextStyles.button,
-                      ),
-                    ),
                   ),
                   const SizedBox(height: 24),
                 ],

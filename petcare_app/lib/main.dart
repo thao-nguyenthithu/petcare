@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petcare_app/core/l10n/generated/app_localizations.dart';
 import 'package:petcare_app/core/l10n/locale_provider.dart';
 import 'package:petcare_app/core/storage/locale_storage.dart';
-import 'package:petcare_app/core/theme/app_colors.dart';
+import 'package:petcare_app/core/theme/app_theme.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 import 'firebase_options.dart';
 
@@ -45,11 +45,7 @@ class MyApp extends ConsumerWidget {
       locale: ref.watch(localeProvider),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      theme: ThemeData(
-        fontFamily: 'Inter',
-        scaffoldBackgroundColor: AppColors.background,
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
-      ),
+      theme: AppTheme.light,
     );
   }
 }
