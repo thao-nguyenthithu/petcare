@@ -133,7 +133,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   decoration: BoxDecoration(
                     color: active
                         ? AppColors.primaryColor
-                        : AppColors.dotInactive,
+                        : AppColors.neutral,
                     borderRadius: BorderRadius.circular(4),
                   ),
                 );

@@ -139,7 +139,7 @@ class _LanguageTile extends StatelessWidget {
           color: selected ? AppColors.cardMint : AppColors.surface,
           borderRadius: BorderRadius.circular(AppRadius.radius14),
           border: Border.all(
-            color: selected ? AppColors.primaryColor : Color(0xFFE6E9E8),
+            color: selected ? AppColors.primaryColor : AppColors.neutral,
             width: 2,
           ),
         ),
@@ -168,7 +168,7 @@ class _LanguageTile extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: selected
                     ? null
-                    : Border.all(color: Color(0xFFE6E9E8), width: 2),
+                    : Border.all(color: AppColors.neutral, width: 2),
               ),
               child: selected
                   ? const Icon(

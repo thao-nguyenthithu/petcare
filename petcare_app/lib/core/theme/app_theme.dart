@@ -10,7 +10,6 @@ class AppTheme {
     fontFamily: 'Inter',
     scaffoldBackgroundColor: AppColors.background,
     colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
-    // Nút chính (FilledButton) theo design system
     filledButtonTheme: FilledButtonThemeData(
       style: FilledButton.styleFrom(
         backgroundColor: AppColors.primaryColor,
@@ -25,7 +24,7 @@ class AppTheme {
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: AppColors.textPrimary,
-        side: const BorderSide(color: AppColors.inputBorder, width: 1.5),
+        side: const BorderSide(color: AppColors.neutral, width: 1.5),
         minimumSize: const Size.fromHeight(48),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.radius14),
