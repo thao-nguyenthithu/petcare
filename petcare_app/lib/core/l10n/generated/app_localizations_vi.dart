@@ -61,4 +61,106 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get batDauNgay => 'Bắt đầu ngay';
+
+  @override
+  String get dangNhap => 'Đăng nhập';
+
+  @override
+  String get chaoMungQuayLai => 'Chào mừng bạn quay trở lại!';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get nhapEmail => 'Nhập email của bạn';
+
+  @override
+  String get matKhau => 'Mật khẩu';
+
+  @override
+  String get nhapMatKhau => 'Nhập mật khẩu';
+
+  @override
+  String get quenMatKhau => 'Quên mật khẩu?';
+
+  @override
+  String get hoac => 'hoặc';
+
+  @override
+  String get google => 'Google';
+
+  @override
+  String get facebook => 'Facebook';
+
+  @override
+  String get chuaCoTaiKhoan => 'Chưa có tài khoản?';
+
+  @override
+  String get dangKyNgay => 'Đăng ký ngay';
+
+  @override
+  String get dangKyTaiKhoan => 'Đăng ký tài khoản';
+
+  @override
+  String get thamGiaCongDong => 'Tham gia cộng đồng chủ nuôi thú cưng';
+
+  @override
+  String get hoVaTen => 'Họ và tên';
+
+  @override
+  String get nhapHoVaTen => 'Nhập họ và tên của bạn';
+
+  @override
+  String get soDienThoai => 'Số điện thoại';
+
+  @override
+  String get nhapSoDienThoai => 'Nhập số điện thoại';
+
+  @override
+  String get toiThieu6KyTu => 'Tối thiểu 6 ký tự';
+
+  @override
+  String get xacNhanMatKhau => 'Xác nhận mật khẩu';
+
+  @override
+  String get nhapLaiMatKhau => 'Nhập lại mật khẩu';
+
+  @override
+  String get banLa => 'Bạn là';
+
+  @override
+  String get chuNuoi => 'Chủ nuôi';
+
+  @override
+  String get nguoiCungCap => 'Người cung cấp';
+
+  @override
+  String get dangKy => 'Đăng ký';
+
+  @override
+  String get daCoTaiKhoan => 'Đã có tài khoản?';
+
+  @override
+  String get vuiLongNhapEmail => 'Vui lòng nhập email';
+
+  @override
+  String get emailKhongHopLe => 'Email không hợp lệ';
+
+  @override
+  String get vuiLongNhapMatKhau => 'Vui lòng nhập mật khẩu';
+
+  @override
+  String get matKhauKhongKhop => 'Mật khẩu nhập lại không khớp';
+
+  @override
+  String get vuiLongNhapHoTen => 'Vui lòng nhập họ và tên';
+
+  @override
+  String get vuiLongNhapSoDienThoai => 'Vui lòng nhập số điện thoại';
+
+  @override
+  String get soDienThoaiKhongHopLe => 'Số điện thoại không hợp lệ';
+
+  @override
+  String get chucNangDangPhatTrien => 'Chức năng đang phát triển';
 }

@@ -199,6 +199,210 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Bắt đầu ngay'**
   String get batDauNgay;
+
+  /// No description provided for @dangNhap.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng nhập'**
+  String get dangNhap;
+
+  /// No description provided for @chaoMungQuayLai.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chào mừng bạn quay trở lại!'**
+  String get chaoMungQuayLai;
+
+  /// No description provided for @email.
+  ///
+  /// In vi, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @nhapEmail.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhập email của bạn'**
+  String get nhapEmail;
+
+  /// No description provided for @matKhau.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mật khẩu'**
+  String get matKhau;
+
+  /// No description provided for @nhapMatKhau.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhập mật khẩu'**
+  String get nhapMatKhau;
+
+  /// No description provided for @quenMatKhau.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quên mật khẩu?'**
+  String get quenMatKhau;
+
+  /// No description provided for @hoac.
+  ///
+  /// In vi, this message translates to:
+  /// **'hoặc'**
+  String get hoac;
+
+  /// No description provided for @google.
+  ///
+  /// In vi, this message translates to:
+  /// **'Google'**
+  String get google;
+
+  /// No description provided for @facebook.
+  ///
+  /// In vi, this message translates to:
+  /// **'Facebook'**
+  String get facebook;
+
+  /// No description provided for @chuaCoTaiKhoan.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có tài khoản?'**
+  String get chuaCoTaiKhoan;
+
+  /// No description provided for @dangKyNgay.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng ký ngay'**
+  String get dangKyNgay;
+
+  /// No description provided for @dangKyTaiKhoan.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng ký tài khoản'**
+  String get dangKyTaiKhoan;
+
+  /// No description provided for @thamGiaCongDong.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tham gia cộng đồng chủ nuôi thú cưng'**
+  String get thamGiaCongDong;
+
+  /// No description provided for @hoVaTen.
+  ///
+  /// In vi, this message translates to:
+  /// **'Họ và tên'**
+  String get hoVaTen;
+
+  /// No description provided for @nhapHoVaTen.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhập họ và tên của bạn'**
+  String get nhapHoVaTen;
+
+  /// No description provided for @soDienThoai.
+  ///
+  /// In vi, this message translates to:
+  /// **'Số điện thoại'**
+  String get soDienThoai;
+
+  /// No description provided for @nhapSoDienThoai.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhập số điện thoại'**
+  String get nhapSoDienThoai;
+
+  /// No description provided for @toiThieu6KyTu.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tối thiểu 6 ký tự'**
+  String get toiThieu6KyTu;
+
+  /// No description provided for @xacNhanMatKhau.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác nhận mật khẩu'**
+  String get xacNhanMatKhau;
+
+  /// No description provided for @nhapLaiMatKhau.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhập lại mật khẩu'**
+  String get nhapLaiMatKhau;
+
+  /// No description provided for @banLa.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn là'**
+  String get banLa;
+
+  /// No description provided for @chuNuoi.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chủ nuôi'**
+  String get chuNuoi;
+
+  /// No description provided for @nguoiCungCap.
+  ///
+  /// In vi, this message translates to:
+  /// **'Người cung cấp'**
+  String get nguoiCungCap;
+
+  /// No description provided for @dangKy.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng ký'**
+  String get dangKy;
+
+  /// No description provided for @daCoTaiKhoan.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã có tài khoản?'**
+  String get daCoTaiKhoan;
+
+  /// No description provided for @vuiLongNhapEmail.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vui lòng nhập email'**
+  String get vuiLongNhapEmail;
+
+  /// No description provided for @emailKhongHopLe.
+  ///
+  /// In vi, this message translates to:
+  /// **'Email không hợp lệ'**
+  String get emailKhongHopLe;
+
+  /// No description provided for @vuiLongNhapMatKhau.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vui lòng nhập mật khẩu'**
+  String get vuiLongNhapMatKhau;
+
+  /// No description provided for @matKhauKhongKhop.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mật khẩu nhập lại không khớp'**
+  String get matKhauKhongKhop;
+
+  /// No description provided for @vuiLongNhapHoTen.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vui lòng nhập họ và tên'**
+  String get vuiLongNhapHoTen;
+
+  /// No description provided for @vuiLongNhapSoDienThoai.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vui lòng nhập số điện thoại'**
+  String get vuiLongNhapSoDienThoai;
+
+  /// No description provided for @soDienThoaiKhongHopLe.
+  ///
+  /// In vi, this message translates to:
+  /// **'Số điện thoại không hợp lệ'**
+  String get soDienThoaiKhongHopLe;
+
+  /// No description provided for @chucNangDangPhatTrien.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chức năng đang phát triển'**
+  String get chucNangDangPhatTrien;
 }
 
 class _AppLocalizationsDelegate

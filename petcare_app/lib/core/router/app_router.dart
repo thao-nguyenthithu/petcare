@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/features/auth/screens/language_screen.dart';
+import 'package:petcare_app/features/auth/screens/login_screen.dart';
 import 'package:petcare_app/features/auth/screens/onboarding_screen.dart';
 import 'package:petcare_app/features/auth/screens/splash_screen.dart';
 
@@ -10,6 +11,8 @@ class AppRoutes {
   static const String splash = '/';
   static const String language = '/language';
   static const String onboarding = '/onboarding';
+  static const String login = '/login';
+  static const String register = '/register';
 }
 
 final appRouter = GoRouter(
@@ -26,6 +29,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.onboarding,
       builder: (context, state) => const OnboardingScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.login,
+      builder: (context, state) => const LoginScreen(),
     ),
   ],
 );
