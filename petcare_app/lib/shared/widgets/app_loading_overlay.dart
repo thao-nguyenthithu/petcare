@@ -6,7 +6,7 @@ Future<T> showAppLoading<T>(
   Future<T> Function() task,
 ) async {
   final navigator = Navigator.of(context, rootNavigator: true);
-  showDialog<void>(
+  final route = DialogRoute<void>(
     context: context,
     barrierDismissible: false,
     barrierColor: Colors.black38,
@@ -15,9 +15,10 @@ Future<T> showAppLoading<T>(
       child: Center(child: CircularProgressIndicator(color: AppColors.surface)),
     ),
   );
+  navigator.push(route);
   try {
     return await task();
   } finally {
-    navigator.pop();
+    if (route.isActive) navigator.removeRoute(route);
   }
 }

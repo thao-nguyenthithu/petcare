@@ -163,4 +163,74 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get chucNangDangPhatTrien => 'Chức năng đang phát triển';
+
+  @override
+  String get xacMinhEmail => 'Xác minh email';
+
+  @override
+  String get nhapMa6So => 'Nhập mã 6 số vừa gửi tới email:';
+
+  @override
+  String get nhapMa6SoCuaBan => 'Nhập mã 6 số vừa gửi tới email của bạn';
+
+  @override
+  String guiLaiMaSau(String time) {
+    return 'Gửi lại mã sau $time';
+  }
+
+  @override
+  String get khongNhanDuocMa => 'Không nhận được mã?';
+
+  @override
+  String guiLaiSauGiay(String seconds) {
+    return 'Gửi lại sau ${seconds}s';
+  }
+
+  @override
+  String get guiLaiMa => 'Gửi lại mã';
+
+  @override
+  String get xacNhan => 'Xác nhận';
+
+  @override
+  String get doiEmail => 'Đổi email';
+
+  @override
+  String get nhapEmailMoiNhanMa => 'Nhập email mới để nhận lại mã xác minh.';
+
+  @override
+  String get nhapEmailDaDangKy =>
+      'Nhập email đã đăng ký, chúng tôi sẽ gửi mã xác minh để đặt lại mật khẩu.';
+
+  @override
+  String get guiMaXacMinh => 'Gửi mã xác minh';
+
+  @override
+  String get quayLaiDangNhap => 'Quay lại đăng nhập';
+
+  @override
+  String get xacMinhOtp => 'Xác minh OTP';
+
+  @override
+  String get datLaiMatKhau => 'Đặt lại mật khẩu';
+
+  @override
+  String get taoMatKhauMoi => 'Tạo mật khẩu mới cho tài khoản của bạn.';
+
+  @override
+  String get matKhauMoi => 'Mật khẩu mới';
+
+  @override
+  String get dungChuHoaThuongSo =>
+      'Dùng chữ hoa, chữ thường và số để mạnh hơn.';
+
+  @override
+  String get vuiLongNhapDu6So => 'Vui lòng nhập đủ 6 số';
+
+  @override
+  String get xacMinhThanhCong => 'Xác minh thành công, hãy đăng nhập';
+
+  @override
+  String get datLaiMatKhauThanhCong =>
+      'Đặt lại mật khẩu thành công, hãy đăng nhập';
 }

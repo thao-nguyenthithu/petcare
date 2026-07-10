@@ -50,5 +50,36 @@
   "vuiLongNhapHoTen": "Please enter your full name",
   "vuiLongNhapSoDienThoai": "Please enter your phone number",
   "soDienThoaiKhongHopLe": "Invalid phone number",
-  "chucNangDangPhatTrien": "Feature under development"
+  "chucNangDangPhatTrien": "Feature under development",
+  "xacMinhEmail": "Verify email",
+  "nhapMa6So": "Enter the 6-digit code sent to:",
+  "nhapMa6SoCuaBan": "Enter the 6-digit code sent to your email",
+  "guiLaiMaSau": "Resend code in {time}",
+  "@guiLaiMaSau": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+  "khongNhanDuocMa": "Didn't receive the code?",
+  "guiLaiSauGiay": "Resend in {seconds}s",
+  "@guiLaiSauGiay": {
+    "placeholders": {
+      "seconds": {"type": "String"}
+    }
+  },
+  "guiLaiMa": "Resend code",
+  "xacNhan": "Confirm",
+  "doiEmail": "Change email",
+  "nhapEmailMoiNhanMa": "Enter a new email to receive a new verification code.",
+  "nhapEmailDaDangKy": "Enter your registered email and we will send a verification code to reset your password.",
+  "guiMaXacMinh": "Send verification code",
+  "quayLaiDangNhap": "Back to sign in",
+  "xacMinhOtp": "Verify OTP",
+  "datLaiMatKhau": "Reset password",
+  "taoMatKhauMoi": "Create a new password for your account.",
+  "matKhauMoi": "New password",
+  "dungChuHoaThuongSo": "Use uppercase, lowercase and numbers for a stronger password.",
+  "vuiLongNhapDu6So": "Please enter all 6 digits",
+  "xacMinhThanhCong": "Verified successfully, please sign in",
+  "datLaiMatKhauThanhCong": "Password reset successfully, please sign in"
 }

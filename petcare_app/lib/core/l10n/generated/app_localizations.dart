@@ -403,6 +403,132 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Chức năng đang phát triển'**
   String get chucNangDangPhatTrien;
+
+  /// No description provided for @xacMinhEmail.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác minh email'**
+  String get xacMinhEmail;
+
+  /// No description provided for @nhapMa6So.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhập mã 6 số vừa gửi tới email:'**
+  String get nhapMa6So;
+
+  /// No description provided for @nhapMa6SoCuaBan.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhập mã 6 số vừa gửi tới email của bạn'**
+  String get nhapMa6SoCuaBan;
+
+  /// No description provided for @guiLaiMaSau.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gửi lại mã sau {time}'**
+  String guiLaiMaSau(String time);
+
+  /// No description provided for @khongNhanDuocMa.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không nhận được mã?'**
+  String get khongNhanDuocMa;
+
+  /// No description provided for @guiLaiSauGiay.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gửi lại sau {seconds}s'**
+  String guiLaiSauGiay(String seconds);
+
+  /// No description provided for @guiLaiMa.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gửi lại mã'**
+  String get guiLaiMa;
+
+  /// No description provided for @xacNhan.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác nhận'**
+  String get xacNhan;
+
+  /// No description provided for @doiEmail.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đổi email'**
+  String get doiEmail;
+
+  /// No description provided for @nhapEmailMoiNhanMa.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhập email mới để nhận lại mã xác minh.'**
+  String get nhapEmailMoiNhanMa;
+
+  /// No description provided for @nhapEmailDaDangKy.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhập email đã đăng ký, chúng tôi sẽ gửi mã xác minh để đặt lại mật khẩu.'**
+  String get nhapEmailDaDangKy;
+
+  /// No description provided for @guiMaXacMinh.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gửi mã xác minh'**
+  String get guiMaXacMinh;
+
+  /// No description provided for @quayLaiDangNhap.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quay lại đăng nhập'**
+  String get quayLaiDangNhap;
+
+  /// No description provided for @xacMinhOtp.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác minh OTP'**
+  String get xacMinhOtp;
+
+  /// No description provided for @datLaiMatKhau.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đặt lại mật khẩu'**
+  String get datLaiMatKhau;
+
+  /// No description provided for @taoMatKhauMoi.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tạo mật khẩu mới cho tài khoản của bạn.'**
+  String get taoMatKhauMoi;
+
+  /// No description provided for @matKhauMoi.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mật khẩu mới'**
+  String get matKhauMoi;
+
+  /// No description provided for @dungChuHoaThuongSo.
+  ///
+  /// In vi, this message translates to:
+  /// **'Dùng chữ hoa, chữ thường và số để mạnh hơn.'**
+  String get dungChuHoaThuongSo;
+
+  /// No description provided for @vuiLongNhapDu6So.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vui lòng nhập đủ 6 số'**
+  String get vuiLongNhapDu6So;
+
+  /// No description provided for @xacMinhThanhCong.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác minh thành công, hãy đăng nhập'**
+  String get xacMinhThanhCong;
+
+  /// No description provided for @datLaiMatKhauThanhCong.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đặt lại mật khẩu thành công, hãy đăng nhập'**
+  String get datLaiMatKhauThanhCong;
 }
 
 class _AppLocalizationsDelegate

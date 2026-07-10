@@ -162,4 +162,75 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chucNangDangPhatTrien => 'Feature under development';
+
+  @override
+  String get xacMinhEmail => 'Verify email';
+
+  @override
+  String get nhapMa6So => 'Enter the 6-digit code sent to:';
+
+  @override
+  String get nhapMa6SoCuaBan => 'Enter the 6-digit code sent to your email';
+
+  @override
+  String guiLaiMaSau(String time) {
+    return 'Resend code in $time';
+  }
+
+  @override
+  String get khongNhanDuocMa => 'Didn\'t receive the code?';
+
+  @override
+  String guiLaiSauGiay(String seconds) {
+    return 'Resend in ${seconds}s';
+  }
+
+  @override
+  String get guiLaiMa => 'Resend code';
+
+  @override
+  String get xacNhan => 'Confirm';
+
+  @override
+  String get doiEmail => 'Change email';
+
+  @override
+  String get nhapEmailMoiNhanMa =>
+      'Enter a new email to receive a new verification code.';
+
+  @override
+  String get nhapEmailDaDangKy =>
+      'Enter your registered email and we will send a verification code to reset your password.';
+
+  @override
+  String get guiMaXacMinh => 'Send verification code';
+
+  @override
+  String get quayLaiDangNhap => 'Back to sign in';
+
+  @override
+  String get xacMinhOtp => 'Verify OTP';
+
+  @override
+  String get datLaiMatKhau => 'Reset password';
+
+  @override
+  String get taoMatKhauMoi => 'Create a new password for your account.';
+
+  @override
+  String get matKhauMoi => 'New password';
+
+  @override
+  String get dungChuHoaThuongSo =>
+      'Use uppercase, lowercase and numbers for a stronger password.';
+
+  @override
+  String get vuiLongNhapDu6So => 'Please enter all 6 digits';
+
+  @override
+  String get xacMinhThanhCong => 'Verified successfully, please sign in';
+
+  @override
+  String get datLaiMatKhauThanhCong =>
+      'Password reset successfully, please sign in';
 }

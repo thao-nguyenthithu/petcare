@@ -14,6 +14,7 @@ class AppTextField extends StatefulWidget {
   final void Function(String)? onChanged;
   final GlobalKey<FormFieldState<String>>? fieldKey;
   final double height;
+  final Color? fillColor;
 
   const AppTextField({
     super.key,
@@ -27,6 +28,7 @@ class AppTextField extends StatefulWidget {
     this.onChanged,
     this.fieldKey,
     this.height = 52,
+    this.fillColor,
   });
 
   @override
@@ -69,7 +71,7 @@ class _AppTextFieldState extends State<AppTextField> {
             hintText: widget.hint,
             hintStyle: AppTextStyles.caption,
             filled: true,
-            fillColor: AppColors.background,
+            fillColor: widget.fillColor ?? AppColors.background,
             contentPadding: EdgeInsets.symmetric(
               horizontal: 16,
               vertical: paddingDoc,

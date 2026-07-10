@@ -50,5 +50,36 @@
   "vuiLongNhapHoTen": "Vui lòng nhập họ và tên",
   "vuiLongNhapSoDienThoai": "Vui lòng nhập số điện thoại",
   "soDienThoaiKhongHopLe": "Số điện thoại không hợp lệ",
-  "chucNangDangPhatTrien": "Chức năng đang phát triển"
+  "chucNangDangPhatTrien": "Chức năng đang phát triển",
+  "xacMinhEmail": "Xác minh email",
+  "nhapMa6So": "Nhập mã 6 số vừa gửi tới email:",
+  "nhapMa6SoCuaBan": "Nhập mã 6 số vừa gửi tới email của bạn",
+  "guiLaiMaSau": "Gửi lại mã sau {time}",
+  "@guiLaiMaSau": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+  "khongNhanDuocMa": "Không nhận được mã?",
+  "guiLaiSauGiay": "Gửi lại sau {seconds}s",
+  "@guiLaiSauGiay": {
+    "placeholders": {
+      "seconds": {"type": "String"}
+    }
+  },
+  "guiLaiMa": "Gửi lại mã",
+  "xacNhan": "Xác nhận",
+  "doiEmail": "Đổi email",
+  "nhapEmailMoiNhanMa": "Nhập email mới để nhận lại mã xác minh.",
+  "nhapEmailDaDangKy": "Nhập email đã đăng ký, chúng tôi sẽ gửi mã xác minh để đặt lại mật khẩu.",
+  "guiMaXacMinh": "Gửi mã xác minh",
+  "quayLaiDangNhap": "Quay lại đăng nhập",
+  "xacMinhOtp": "Xác minh OTP",
+  "datLaiMatKhau": "Đặt lại mật khẩu",
+  "taoMatKhauMoi": "Tạo mật khẩu mới cho tài khoản của bạn.",
+  "matKhauMoi": "Mật khẩu mới",
+  "dungChuHoaThuongSo": "Dùng chữ hoa, chữ thường và số để mạnh hơn.",
+  "vuiLongNhapDu6So": "Vui lòng nhập đủ 6 số",
+  "xacMinhThanhCong": "Xác minh thành công, hãy đăng nhập",
+  "datLaiMatKhauThanhCong": "Đặt lại mật khẩu thành công, hãy đăng nhập"
 }
