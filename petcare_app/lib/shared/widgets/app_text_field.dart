@@ -15,6 +15,7 @@ class AppTextField extends StatefulWidget {
   final GlobalKey<FormFieldState<String>>? fieldKey;
   final double height;
   final Color? fillColor;
+  final String? suffixText;
 
   const AppTextField({
     super.key,
@@ -29,6 +30,7 @@ class AppTextField extends StatefulWidget {
     this.fieldKey,
     this.height = 52,
     this.fillColor,
+    this.suffixText,
   });
 
   @override
@@ -44,20 +46,24 @@ class _AppTextFieldState extends State<AppTextField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text.rich(
-          TextSpan(
-            text: widget.label,
-            style: AppTextStyles.label.copyWith(color: AppColors.textSecondary),
-            children: [
-              if (widget.isRequired)
-                TextSpan(
-                  text: ' *',
-                  style: AppTextStyles.label.copyWith(color: AppColors.error),
-                ),
-            ],
+        if (widget.label.isNotEmpty) ...[
+          Text.rich(
+            TextSpan(
+              text: widget.label,
+              style: AppTextStyles.label.copyWith(
+                color: AppColors.textSecondary,
+              ),
+              children: [
+                if (widget.isRequired)
+                  TextSpan(
+                    text: ' *',
+                    style: AppTextStyles.label.copyWith(color: AppColors.error),
+                  ),
+              ],
+            ),
           ),
-        ),
-        const SizedBox(height: 6),
+          const SizedBox(height: 6),
+        ],
         TextFormField(
           key: widget.fieldKey,
           controller: widget.controller,
@@ -81,6 +87,8 @@ class _AppTextFieldState extends State<AppTextField> {
             errorBorder: _vien(AppColors.error),
             focusedErrorBorder: _vien(AppColors.error),
             errorStyle: AppTextStyles.caption.copyWith(color: AppColors.error),
+            suffixText: widget.suffixText,
+            suffixStyle: AppTextStyles.caption,
             suffixIcon: widget.isPassword
                 ? IconButton(
                     onPressed: () => setState(() => _obscure = !_obscure),

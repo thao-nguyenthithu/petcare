@@ -78,10 +78,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
     // TODO (backend): gọi API xác minh email
     await Future.delayed(const Duration(seconds: 2));
     if (!mounted) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(context.l10n.xacMinhThanhCong)));
-    context.go(AppRoutes.login);
+    context.go(AppRoutes.verifySuccess);
   }
 
   @override

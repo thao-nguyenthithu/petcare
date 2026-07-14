@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
-import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/validators.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
@@ -25,8 +24,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _matKhauController = TextEditingController();
   final _xacNhanController = TextEditingController();
   final _xacNhanKey = GlobalKey<FormFieldState<String>>();
-  // 0 = Chủ nuôi, 1 = Người cung cấp
-  int _vaiTro = 0;
 
   @override
   void dispose() {
@@ -40,7 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future<void> _dangKy() async {
     if (!_formKey.currentState!.validate()) return;
-    // TODO (backend): thay giả lập bằng gọi API đăng ký kèm _vaiTro
+    // TODO (backend): gọi API đăng ký
     await Future.delayed(const Duration(seconds: 2));
     if (!mounted) return;
     context.push(AppRoutes.verifyEmail, extra: _emailController.text.trim());
@@ -136,18 +133,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       _matKhauController.text,
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  Text(
-                    l10n.banLa,
-                    style: AppTextStyles.label.copyWith(
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  _RoleSelector(
-                    selectedIndex: _vaiTro,
-                    onChanged: (index) => setState(() => _vaiTro = index),
-                  ),
                   const SizedBox(height: 20),
                   AppButton(text: l10n.dangKy, onTapAsync: _dangKy),
                   const SizedBox(height: 20),
@@ -174,72 +159,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ],
               ),
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _RoleSelector extends StatelessWidget {
-  final int selectedIndex;
-  final ValueChanged<int> onChanged;
-
-  const _RoleSelector({required this.selectedIndex, required this.onChanged});
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return Container(
-      height: 46,
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: AppColors.neutral,
-        borderRadius: BorderRadius.circular(AppRadius.radius14),
-      ),
-      child: Stack(
-        children: [
-          AnimatedAlign(
-            duration: const Duration(milliseconds: 250),
-            curve: Curves.easeOut,
-            alignment: selectedIndex == 0
-                ? Alignment.centerLeft
-                : Alignment.centerRight,
-            child: FractionallySizedBox(
-              widthFactor: 0.5,
-              heightFactor: 1,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.circular(AppRadius.radius14),
-                ),
-              ),
-            ),
-          ),
-          Row(
-            children: [
-              _luaChon(l10n.chuNuoi, 0),
-              _luaChon(l10n.nguoiCungCap, 1),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _luaChon(String text, int index) {
-    final duocChon = index == selectedIndex;
-    return Expanded(
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () => onChanged(index),
-        child: Center(
-          child: AnimatedDefaultTextStyle(
-            duration: const Duration(milliseconds: 100),
-            style: duocChon
-                ? AppTextStyles.label.copyWith(color: AppColors.primaryColor)
-                : AppTextStyles.label.copyWith(color: AppColors.textSecondary),
-            child: Text(text),
           ),
         ),
       ),

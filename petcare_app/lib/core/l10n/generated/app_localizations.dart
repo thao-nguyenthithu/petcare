@@ -326,24 +326,6 @@ abstract class AppLocalizations {
   /// **'Nhập lại mật khẩu'**
   String get nhapLaiMatKhau;
 
-  /// No description provided for @banLa.
-  ///
-  /// In vi, this message translates to:
-  /// **'Bạn là'**
-  String get banLa;
-
-  /// No description provided for @chuNuoi.
-  ///
-  /// In vi, this message translates to:
-  /// **'Chủ nuôi'**
-  String get chuNuoi;
-
-  /// No description provided for @nguoiCungCap.
-  ///
-  /// In vi, this message translates to:
-  /// **'Người cung cấp'**
-  String get nguoiCungCap;
-
   /// No description provided for @dangKy.
   ///
   /// In vi, this message translates to:
@@ -518,17 +500,467 @@ abstract class AppLocalizations {
   /// **'Vui lòng nhập đủ 6 số'**
   String get vuiLongNhapDu6So;
 
-  /// No description provided for @xacMinhThanhCong.
-  ///
-  /// In vi, this message translates to:
-  /// **'Xác minh thành công, hãy đăng nhập'**
-  String get xacMinhThanhCong;
-
   /// No description provided for @datLaiMatKhauThanhCong.
   ///
   /// In vi, this message translates to:
   /// **'Đặt lại mật khẩu thành công, hãy đăng nhập'**
   String get datLaiMatKhauThanhCong;
+
+  /// No description provided for @xacThucEmailThanhCong.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác thực email thành công!'**
+  String get xacThucEmailThanhCong;
+
+  /// No description provided for @taiKhoanSanSang.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tài khoản của bạn đã sẵn sàng. Bạn có thể đăng nhập và sử dụng app với vai trò Chủ nuôi ngay bây giờ.'**
+  String get taiKhoanSanSang;
+
+  /// No description provided for @moiDangKyNcc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Muốn cung cấp dịch vụ và kiếm thêm thu nhập? Sau khi đăng nhập, bạn có thể đăng ký trở thành Người cung cấp dịch vụ trong mục Tài khoản.'**
+  String get moiDangKyNcc;
+
+  /// No description provided for @buocTrenTong.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bước {current} / {total}'**
+  String buocTrenTong(String current, String total);
+
+  /// No description provided for @dichVuCuaBan.
+  ///
+  /// In vi, this message translates to:
+  /// **'Dịch vụ của bạn'**
+  String get dichVuCuaBan;
+
+  /// No description provided for @themItNhatMotDichVu.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thêm ít nhất một dịch vụ bạn cung cấp.'**
+  String get themItNhatMotDichVu;
+
+  /// No description provided for @themDichVu.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thêm dịch vụ'**
+  String get themDichVu;
+
+  /// No description provided for @loaiDichVu.
+  ///
+  /// In vi, this message translates to:
+  /// **'Loại dịch vụ'**
+  String get loaiDichVu;
+
+  /// No description provided for @datThuCung.
+  ///
+  /// In vi, this message translates to:
+  /// **'Dắt thú cưng'**
+  String get datThuCung;
+
+  /// No description provided for @trongGiu.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trông giữ'**
+  String get trongGiu;
+
+  /// No description provided for @catTia.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cắt tỉa'**
+  String get catTia;
+
+  /// No description provided for @nhanLoai.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhận loài'**
+  String get nhanLoai;
+
+  /// No description provided for @cho.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chó'**
+  String get cho;
+
+  /// No description provided for @meo.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mèo'**
+  String get meo;
+
+  /// No description provided for @caHai.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cả hai'**
+  String get caHai;
+
+  /// No description provided for @chiHoTroChoMeo.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hiện chỉ hỗ trợ chó và mèo.'**
+  String get chiHoTroChoMeo;
+
+  /// No description provided for @tenDichVu.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tên dịch vụ'**
+  String get tenDichVu;
+
+  /// No description provided for @viDuDatCho.
+  ///
+  /// In vi, this message translates to:
+  /// **'VD: Dắt chó buổi sáng'**
+  String get viDuDatCho;
+
+  /// No description provided for @viDuTrongGiu.
+  ///
+  /// In vi, this message translates to:
+  /// **'VD: Trông giữ ban ngày'**
+  String get viDuTrongGiu;
+
+  /// No description provided for @viDuCatTia.
+  ///
+  /// In vi, this message translates to:
+  /// **'VD: Cắt tỉa - tạo kiểu'**
+  String get viDuCatTia;
+
+  /// No description provided for @moTaDvDat.
+  ///
+  /// In vi, this message translates to:
+  /// **'Dịch vụ dắt tính theo lượt · cho 1 bé.'**
+  String get moTaDvDat;
+
+  /// No description provided for @moTaDvTrongGiu.
+  ///
+  /// In vi, this message translates to:
+  /// **'Dịch vụ trông giữ tính theo ngày · cho 1 bé.'**
+  String get moTaDvTrongGiu;
+
+  /// No description provided for @moTaDvCatTia.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cắt tỉa tính giá theo cân nặng · cho 1 bé.'**
+  String get moTaDvCatTia;
+
+  /// No description provided for @thoiLuongMoiLuot.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thời lượng mỗi lượt'**
+  String get thoiLuongMoiLuot;
+
+  /// No description provided for @soPhut.
+  ///
+  /// In vi, this message translates to:
+  /// **'{minutes} phút'**
+  String soPhut(String minutes);
+
+  /// No description provided for @giaDichVu.
+  ///
+  /// In vi, this message translates to:
+  /// **'Giá dịch vụ'**
+  String get giaDichVu;
+
+  /// No description provided for @donGiaLuot.
+  ///
+  /// In vi, this message translates to:
+  /// **'đ / lượt / bé'**
+  String get donGiaLuot;
+
+  /// No description provided for @donGiaNgay.
+  ///
+  /// In vi, this message translates to:
+  /// **'đ / ngày / bé'**
+  String get donGiaNgay;
+
+  /// No description provided for @donGiaBe.
+  ///
+  /// In vi, this message translates to:
+  /// **'đ / bé'**
+  String get donGiaBe;
+
+  /// No description provided for @sucChuaToiDa.
+  ///
+  /// In vi, this message translates to:
+  /// **'Sức chứa tối đa'**
+  String get sucChuaToiDa;
+
+  /// No description provided for @hintSucChua.
+  ///
+  /// In vi, this message translates to:
+  /// **'Số bé nhận cùng lúc (VD: 5)'**
+  String get hintSucChua;
+
+  /// No description provided for @bangGiaCanNang.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bảng giá theo cân nặng'**
+  String get bangGiaCanNang;
+
+  /// No description provided for @duoi5kg.
+  ///
+  /// In vi, this message translates to:
+  /// **'Dưới 5 kg'**
+  String get duoi5kg;
+
+  /// No description provided for @tu5den10kg.
+  ///
+  /// In vi, this message translates to:
+  /// **'5 - 10 kg'**
+  String get tu5den10kg;
+
+  /// No description provided for @tu10den20kg.
+  ///
+  /// In vi, this message translates to:
+  /// **'10 - 20 kg'**
+  String get tu10den20kg;
+
+  /// No description provided for @tren20kg.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trên 20 kg'**
+  String get tren20kg;
+
+  /// No description provided for @luuDichVu.
+  ///
+  /// In vi, this message translates to:
+  /// **'Lưu dịch vụ'**
+  String get luuDichVu;
+
+  /// No description provided for @thongTinCaNhan.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thông tin cá nhân'**
+  String get thongTinCaNhan;
+
+  /// No description provided for @nhapDungGiayTo.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhập đúng theo giấy tờ tùy thân.'**
+  String get nhapDungGiayTo;
+
+  /// No description provided for @hoVaTenThat.
+  ///
+  /// In vi, this message translates to:
+  /// **'Họ và tên thật'**
+  String get hoVaTenThat;
+
+  /// No description provided for @hintHoTenThat.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nguyễn Văn A'**
+  String get hintHoTenThat;
+
+  /// No description provided for @soCccd.
+  ///
+  /// In vi, this message translates to:
+  /// **'Số CCCD'**
+  String get soCccd;
+
+  /// No description provided for @hintCccd.
+  ///
+  /// In vi, this message translates to:
+  /// **'12 chữ số trên thẻ CCCD'**
+  String get hintCccd;
+
+  /// No description provided for @cccdKhongHopLe.
+  ///
+  /// In vi, this message translates to:
+  /// **'Số CCCD phải đủ 12 chữ số'**
+  String get cccdKhongHopLe;
+
+  /// No description provided for @diaChiThuongTru.
+  ///
+  /// In vi, this message translates to:
+  /// **'Địa chỉ thường trú'**
+  String get diaChiThuongTru;
+
+  /// No description provided for @chonTinhThanh.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chọn Tỉnh/Thành phố'**
+  String get chonTinhThanh;
+
+  /// No description provided for @hintDiaChiChiTiet.
+  ///
+  /// In vi, this message translates to:
+  /// **'Số nhà, đường, phường/xã'**
+  String get hintDiaChiChiTiet;
+
+  /// No description provided for @noiCap.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nơi cấp'**
+  String get noiCap;
+
+  /// No description provided for @hintNoiCap.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cục CSQLHC'**
+  String get hintNoiCap;
+
+  /// No description provided for @ngayCap.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngày cấp'**
+  String get ngayCap;
+
+  /// No description provided for @hintNgayCap.
+  ///
+  /// In vi, this message translates to:
+  /// **'dd/mm/yyyy'**
+  String get hintNgayCap;
+
+  /// No description provided for @khongDuocDeTrong.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không được để trống'**
+  String get khongDuocDeTrong;
+
+  /// No description provided for @taiLenCccd.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tải lên CCCD'**
+  String get taiLenCccd;
+
+  /// No description provided for @anhRoNet.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ảnh rõ nét, đủ 4 góc, không bị lóa sáng.'**
+  String get anhRoNet;
+
+  /// No description provided for @anhCccd.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ảnh CCCD'**
+  String get anhCccd;
+
+  /// No description provided for @matTruoc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mặt trước'**
+  String get matTruoc;
+
+  /// No description provided for @matSau.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mặt sau'**
+  String get matSau;
+
+  /// No description provided for @thongTinKhopBuocTruoc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thông tin trên ảnh phải khớp với bước trước.'**
+  String get thongTinKhopBuocTruoc;
+
+  /// No description provided for @vuiLongTaiDuAnh.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vui lòng tải đủ ảnh mặt trước và mặt sau'**
+  String get vuiLongTaiDuAnh;
+
+  /// No description provided for @camKetDieuKhoan.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cam kết & điều khoản'**
+  String get camKetDieuKhoan;
+
+  /// No description provided for @xacNhanTrachNhiem.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác nhận trách nhiệm trước khi gửi hồ sơ.'**
+  String get xacNhanTrachNhiem;
+
+  /// No description provided for @camKetTrachNhiemNcc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cam kết & trách nhiệm nhà cung cấp'**
+  String get camKetTrachNhiemNcc;
+
+  /// No description provided for @camKet1.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chăm sóc tận tâm, an toàn cho thú cưng'**
+  String get camKet1;
+
+  /// No description provided for @camKet2.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cung cấp thông tin trung thực, chính xác'**
+  String get camKet2;
+
+  /// No description provided for @camKet3.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chịu trách nhiệm pháp lý về chất lượng & an toàn dịch vụ'**
+  String get camKet3;
+
+  /// No description provided for @nenTangTrungGian.
+  ///
+  /// In vi, this message translates to:
+  /// **'Smart Pet Care là nền tảng trung gian kết nối, không phải bên cung cấp dịch vụ.'**
+  String get nenTangTrungGian;
+
+  /// No description provided for @dongYDieuKhoan.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tôi đồng ý với Cam kết, Điều khoản dịch vụ và Chính sách bảo mật.'**
+  String get dongYDieuKhoan;
+
+  /// No description provided for @batBuoc.
+  ///
+  /// In vi, this message translates to:
+  /// **'* Bắt buộc'**
+  String get batBuoc;
+
+  /// No description provided for @hoanTatGuiHoSo.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hoàn tất & gửi hồ sơ'**
+  String get hoanTatGuiHoSo;
+
+  /// No description provided for @hoSoDuyet24h.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hồ sơ được duyệt trong vòng 24 giờ. Bạn sẽ nhận thông báo để cập nhật hồ sơ sau khi được duyệt.'**
+  String get hoSoDuyet24h;
+
+  /// No description provided for @vuiLongDongY.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vui lòng đồng ý với điều khoản để tiếp tục'**
+  String get vuiLongDongY;
+
+  /// No description provided for @daGuiHoSo.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã gửi hồ sơ!'**
+  String get daGuiHoSo;
+
+  /// No description provided for @hoSoDangXemXet.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hồ sơ của bạn đang được xem xét, thường trong vòng 24 giờ. Chúng tôi sẽ gửi thông báo ngay khi có kết quả.'**
+  String get hoSoDangXemXet;
+
+  /// No description provided for @trongLucChoDungChuNuoi.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trong lúc chờ, bạn vẫn có thể dùng app với vai trò Chủ nuôi.'**
+  String get trongLucChoDungChuNuoi;
+
+  /// No description provided for @veTrangChu.
+  ///
+  /// In vi, this message translates to:
+  /// **'Về trang chủ'**
+  String get veTrangChu;
+
+  /// No description provided for @xemTrangThaiHoSo.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xem trạng thái hồ sơ'**
+  String get xemTrangThaiHoSo;
 }
 
 class _AppLocalizationsDelegate

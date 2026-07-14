@@ -8,6 +8,13 @@ import 'package:petcare_app/features/auth/screens/register_screen.dart';
 import 'package:petcare_app/features/auth/screens/reset_password_screen.dart';
 import 'package:petcare_app/features/auth/screens/splash_screen.dart';
 import 'package:petcare_app/features/auth/screens/verify_email_screen.dart';
+import 'package:petcare_app/features/auth/screens/verify_success_screen.dart';
+import 'package:petcare_app/features/provider_profile/screens/add_service_screen.dart';
+import 'package:petcare_app/features/provider_profile/screens/commitment_screen.dart';
+import 'package:petcare_app/features/provider_profile/screens/id_upload_screen.dart';
+import 'package:petcare_app/features/provider_profile/screens/personal_info_screen.dart';
+import 'package:petcare_app/features/provider_profile/screens/profile_submitted_screen.dart';
+import 'package:petcare_app/features/provider_profile/screens/service_list_screen.dart';
 
 /// Đường dẫn các màn hình trong app
 class AppRoutes {
@@ -19,9 +26,16 @@ class AppRoutes {
   static const String login = '/login';
   static const String register = '/register';
   static const String verifyEmail = '/verify-email';
+  static const String verifySuccess = '/verify-success';
   static const String forgotPassword = '/forgot-password';
   static const String otp = '/otp';
   static const String resetPassword = '/reset-password';
+  static const String providerServices = '/provider-profile/services';
+  static const String providerAddService = '/provider-profile/add-service';
+  static const String providerPersonalInfo = '/provider-profile/personal-info';
+  static const String providerIdUpload = '/provider-profile/id-upload';
+  static const String providerCommitment = '/provider-profile/commitment';
+  static const String providerSubmitted = '/provider-profile/submitted';
 }
 
 final appRouter = GoRouter(
@@ -49,8 +63,14 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.verifyEmail,
-      builder: (context, state) =>
-          VerifyEmailScreen(email: state.extra as String? ?? ''),
+      builder: (context, state) {
+        final email = state.extra as String?;
+        return VerifyEmailScreen(email: email ?? '');
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.verifySuccess,
+      builder: (context, state) => const VerifySuccessScreen(),
     ),
     GoRoute(
       path: AppRoutes.forgotPassword,
@@ -63,6 +83,30 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.resetPassword,
       builder: (context, state) => const ResetPasswordScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.providerServices,
+      builder: (context, state) => const ServiceListScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.providerAddService,
+      builder: (context, state) => const AddServiceScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.providerPersonalInfo,
+      builder: (context, state) => const PersonalInfoScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.providerIdUpload,
+      builder: (context, state) => const IdUploadScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.providerCommitment,
+      builder: (context, state) => const CommitmentScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.providerSubmitted,
+      builder: (context, state) => const ProfileSubmittedScreen(),
     ),
   ],
 );

@@ -21,3 +21,5 @@ petcare_backend/generated/
 .claude/
 CLAUDE.md
 docs/
+
+.vscode/
