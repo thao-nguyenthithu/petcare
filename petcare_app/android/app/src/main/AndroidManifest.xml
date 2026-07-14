@@ -16,7 +16,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:label="smart_pet_care_app"
+        android:label="Pet Care"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
