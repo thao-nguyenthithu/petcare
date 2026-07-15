@@ -5,6 +5,8 @@ import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/validators.dart';
+import 'package:petcare_app/features/auth/services/auth_api_service.dart';
+import 'package:petcare_app/features/auth/services/auth_error_mapper.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_text_field.dart';
@@ -24,6 +26,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _matKhauController = TextEditingController();
   final _xacNhanController = TextEditingController();
   final _xacNhanKey = GlobalKey<FormFieldState<String>>();
+  final _emailKey = GlobalKey<FormFieldState<String>>();
+  final _soDienThoaiKey = GlobalKey<FormFieldState<String>>();
+  final _authApi = AuthApiService();
+
+  // Lỗi từ server gắn với từng ô, hiện ngay dưới ô đó qua validator
+  String? _emailServerError;
+  String? _soDienThoaiServerError;
 
   @override
   void dispose() {
@@ -36,11 +45,43 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future<void> _dangKy() async {
+    setState(() {
+      _emailServerError = null;
+      _soDienThoaiServerError = null;
+    });
     if (!_formKey.currentState!.validate()) return;
-    // TODO (backend): gọi API đăng ký
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      await _authApi.register(
+        fullName: _hoTenController.text.trim(),
+        email: _emailController.text.trim(),
+        phone: _soDienThoaiController.text.trim(),
+        password: _matKhauController.text,
+      );
+    } catch (e) {
+      if (!mounted) return;
+      _xuLyLoi(e);
+      return;
+    }
     if (!mounted) return;
     context.push(AppRoutes.verifyEmail, extra: _emailController.text.trim());
+  }
+
+  void _xuLyLoi(Object e) {
+    switch (AuthApiService.codeFromError(e)) {
+      case 'EMAIL_ALREADY_USED':
+        setState(() => _emailServerError = context.l10n.loiEmailDaSuDung);
+        _emailKey.currentState?.validate();
+        return;
+      case 'PHONE_ALREADY_USED':
+        setState(
+          () => _soDienThoaiServerError = context.l10n.loiSoDienThoaiDaSuDung,
+        );
+        _soDienThoaiKey.currentState?.validate();
+        return;
+    }
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(mapAuthError(context.l10n, e))));
   }
 
   @override
@@ -89,20 +130,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     label: l10n.email,
                     hint: l10n.nhapEmail,
                     isRequired: true,
+                    fieldKey: _emailKey,
                     controller: _emailController,
                     height: 46,
                     keyboardType: TextInputType.emailAddress,
-                    validator: validators.email,
+                    validator: (giaTri) =>
+                        validators.email(giaTri) ?? _emailServerError,
+                    onChanged: (_) {
+                      if (_emailServerError != null) {
+                        setState(() => _emailServerError = null);
+                        _emailKey.currentState?.validate();
+                      }
+                    },
                   ),
                   const SizedBox(height: 12),
                   AppTextField(
                     label: l10n.soDienThoai,
                     hint: l10n.nhapSoDienThoai,
                     isRequired: true,
+                    fieldKey: _soDienThoaiKey,
                     controller: _soDienThoaiController,
                     height: 46,
                     keyboardType: TextInputType.phone,
-                    validator: validators.phoneNumber,
+                    validator: (giaTri) =>
+                        validators.phoneNumber(giaTri) ??
+                        _soDienThoaiServerError,
+                    onChanged: (_) {
+                      if (_soDienThoaiServerError != null) {
+                        setState(() => _soDienThoaiServerError = null);
+                        _soDienThoaiKey.currentState?.validate();
+                      }
+                    },
                   ),
                   const SizedBox(height: 12),
                   AppTextField(

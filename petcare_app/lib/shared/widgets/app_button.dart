@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_app/shared/widgets/app_loading_overlay.dart';
 
-/// Nút chính full-width. Truyền MỘT trong hai:
-/// - onTap: hành động tức thời (điều hướng...) — không có trạng thái chờ
-/// - onTapAsync: hành động cần chờ (gọi API...) — trong lúc chạy sẽ phủ
-///   loading toàn màn hình VÀ nút tự đổi sang màu disabled cho tới khi xong
 class AppButton extends StatefulWidget {
   final String text;
   final VoidCallback? onTap;
   final Future<void> Function()? onTapAsync;
   final double height;
+  final bool enabled;
 
   const AppButton({
     super.key,
@@ -17,6 +14,7 @@ class AppButton extends StatefulWidget {
     this.onTap,
     this.onTapAsync,
     this.height = 54,
+    this.enabled = true,
   }) : assert(
          (onTap == null) != (onTapAsync == null),
          'Truyền đúng một trong hai: onTap hoặc onTapAsync',
@@ -45,8 +43,7 @@ class _AppButtonState extends State<AppButton> {
       width: double.infinity,
       height: widget.height,
       child: FilledButton(
-        // Đang chờ: onPressed null để nút nhận màu disabled từ AppTheme
-        onPressed: _isLoading
+        onPressed: (!widget.enabled || _isLoading)
             ? null
             : (widget.onTapAsync != null ? _runAsyncTap : widget.onTap),
         child: Text(widget.text),

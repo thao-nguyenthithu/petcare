@@ -961,6 +961,72 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Xem trạng thái hồ sơ'**
   String get xemTrangThaiHoSo;
+
+  /// No description provided for @loiKetNoiMayChu.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không thể kết nối máy chủ, vui lòng thử lại'**
+  String get loiKetNoiMayChu;
+
+  /// No description provided for @loiEmailDaSuDung.
+  ///
+  /// In vi, this message translates to:
+  /// **'Email đã được sử dụng'**
+  String get loiEmailDaSuDung;
+
+  /// No description provided for @loiSoDienThoaiDaSuDung.
+  ///
+  /// In vi, this message translates to:
+  /// **'Số điện thoại đã được sử dụng'**
+  String get loiSoDienThoaiDaSuDung;
+
+  /// No description provided for @loiTaiKhoanKhongTonTai.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tài khoản không tồn tại'**
+  String get loiTaiKhoanKhongTonTai;
+
+  /// No description provided for @loiEmailDaXacMinh.
+  ///
+  /// In vi, this message translates to:
+  /// **'Email đã được xác minh, vui lòng đăng nhập'**
+  String get loiEmailDaXacMinh;
+
+  /// No description provided for @loiMaOtpKhongDung.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mã xác minh không đúng'**
+  String get loiMaOtpKhongDung;
+
+  /// No description provided for @loiMaOtpHetHan.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mã xác minh đã hết hạn, vui lòng gửi lại mã'**
+  String get loiMaOtpHetHan;
+
+  /// No description provided for @loiGuiLaiOtpQuaSom.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vui lòng chờ 30 giây trước khi gửi lại mã'**
+  String get loiGuiLaiOtpQuaSom;
+
+  /// No description provided for @loiOtpBiKhoa.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn đã nhập sai quá nhiều lần, vui lòng thử lại sau {phut} phút'**
+  String loiOtpBiKhoa(int phut);
+
+  /// No description provided for @vuiLongThuLaiSau.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vui lòng thử lại sau {time}'**
+  String vuiLongThuLaiSau(String time);
+
+  /// No description provided for @loiNhapSaiQuaSoLan.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn đã nhập sai quá {soLan} lần'**
+  String loiNhapSaiQuaSoLan(int soLan);
 }
 
 class _AppLocalizationsDelegate

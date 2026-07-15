@@ -164,5 +164,31 @@
   "hoSoDangXemXet": "Hồ sơ của bạn đang được xem xét, thường trong vòng 24 giờ. Chúng tôi sẽ gửi thông báo ngay khi có kết quả.",
   "trongLucChoDungChuNuoi": "Trong lúc chờ, bạn vẫn có thể dùng app với vai trò Chủ nuôi.",
   "veTrangChu": "Về trang chủ",
-  "xemTrangThaiHoSo": "Xem trạng thái hồ sơ"
+  "xemTrangThaiHoSo": "Xem trạng thái hồ sơ",
+  "loiKetNoiMayChu": "Không thể kết nối máy chủ, vui lòng thử lại",
+  "loiEmailDaSuDung": "Email đã được sử dụng",
+  "loiSoDienThoaiDaSuDung": "Số điện thoại đã được sử dụng",
+  "loiTaiKhoanKhongTonTai": "Tài khoản không tồn tại",
+  "loiEmailDaXacMinh": "Email đã được xác minh, vui lòng đăng nhập",
+  "loiMaOtpKhongDung": "Mã xác minh không đúng",
+  "loiMaOtpHetHan": "Mã xác minh đã hết hạn, vui lòng gửi lại mã",
+  "loiGuiLaiOtpQuaSom": "Vui lòng chờ 30 giây trước khi gửi lại mã",
+  "loiOtpBiKhoa": "Bạn đã nhập sai quá nhiều lần, vui lòng thử lại sau {phut} phút",
+  "@loiOtpBiKhoa": {
+    "placeholders": {
+      "phut": {"type": "int"}
+    }
+  },
+  "vuiLongThuLaiSau": "Vui lòng thử lại sau {time}",
+  "@vuiLongThuLaiSau": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+  "loiNhapSaiQuaSoLan": "Bạn đã nhập sai quá {soLan} lần",
+  "@loiNhapSaiQuaSoLan": {
+    "placeholders": {
+      "soLan": {"type": "int"}
+    }
+  }
 }

@@ -463,4 +463,46 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get xemTrangThaiHoSo => 'View profile status';
+
+  @override
+  String get loiKetNoiMayChu =>
+      'Cannot connect to the server, please try again';
+
+  @override
+  String get loiEmailDaSuDung => 'This email is already in use';
+
+  @override
+  String get loiSoDienThoaiDaSuDung => 'This phone number is already in use';
+
+  @override
+  String get loiTaiKhoanKhongTonTai => 'Account does not exist';
+
+  @override
+  String get loiEmailDaXacMinh => 'Email already verified, please sign in';
+
+  @override
+  String get loiMaOtpKhongDung => 'Invalid verification code';
+
+  @override
+  String get loiMaOtpHetHan =>
+      'The verification code has expired, please request a new one';
+
+  @override
+  String get loiGuiLaiOtpQuaSom =>
+      'Please wait 30 seconds before requesting a new code';
+
+  @override
+  String loiOtpBiKhoa(int phut) {
+    return 'Too many failed attempts, please try again in $phut minutes';
+  }
+
+  @override
+  String vuiLongThuLaiSau(String time) {
+    return 'Please try again in $time';
+  }
+
+  @override
+  String loiNhapSaiQuaSoLan(int soLan) {
+    return 'You have entered the wrong code more than $soLan times';
+  }
 }

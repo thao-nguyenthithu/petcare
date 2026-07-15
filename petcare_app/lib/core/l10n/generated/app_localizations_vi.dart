@@ -462,4 +462,43 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get xemTrangThaiHoSo => 'Xem trạng thái hồ sơ';
+
+  @override
+  String get loiKetNoiMayChu => 'Không thể kết nối máy chủ, vui lòng thử lại';
+
+  @override
+  String get loiEmailDaSuDung => 'Email đã được sử dụng';
+
+  @override
+  String get loiSoDienThoaiDaSuDung => 'Số điện thoại đã được sử dụng';
+
+  @override
+  String get loiTaiKhoanKhongTonTai => 'Tài khoản không tồn tại';
+
+  @override
+  String get loiEmailDaXacMinh => 'Email đã được xác minh, vui lòng đăng nhập';
+
+  @override
+  String get loiMaOtpKhongDung => 'Mã xác minh không đúng';
+
+  @override
+  String get loiMaOtpHetHan => 'Mã xác minh đã hết hạn, vui lòng gửi lại mã';
+
+  @override
+  String get loiGuiLaiOtpQuaSom => 'Vui lòng chờ 30 giây trước khi gửi lại mã';
+
+  @override
+  String loiOtpBiKhoa(int phut) {
+    return 'Bạn đã nhập sai quá nhiều lần, vui lòng thử lại sau $phut phút';
+  }
+
+  @override
+  String vuiLongThuLaiSau(String time) {
+    return 'Vui lòng thử lại sau $time';
+  }
+
+  @override
+  String loiNhapSaiQuaSoLan(int soLan) {
+    return 'Bạn đã nhập sai quá $soLan lần';
+  }
 }

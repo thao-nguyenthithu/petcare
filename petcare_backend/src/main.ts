@@ -5,7 +5,7 @@ import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 
 async function bootstrap() {
-  const app    = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule);
   const logger = new Logger('Bootstrap');
 
   // Global Exception Filter
@@ -14,9 +14,9 @@ async function bootstrap() {
   // Global Validation Pipe
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist:           true,  // strip unknown fields
+      whitelist: true, 
       forbidNonWhitelisted: true,
-      transform:           true,  // auto-transform types
+      transform: true, 
     }),
   );
 
@@ -26,7 +26,6 @@ async function bootstrap() {
   // API prefix
   app.setGlobalPrefix('api/v1');
 
-  // Swagger UI — tài liệu API tự động (setup đầy đủ ở B01.7)
   const config = new DocumentBuilder()
     .setTitle('Smart Pet Care API')
     .setDescription('REST API cho Smart Pet Care Service Platform')

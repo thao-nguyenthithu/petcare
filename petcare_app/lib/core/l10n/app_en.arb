@@ -164,5 +164,31 @@
   "hoSoDangXemXet": "Your profile is being reviewed, usually within 24 hours. We will notify you as soon as there is a result.",
   "trongLucChoDungChuNuoi": "While waiting, you can still use the app as a Pet owner.",
   "veTrangChu": "Go to home",
-  "xemTrangThaiHoSo": "View profile status"
+  "xemTrangThaiHoSo": "View profile status",
+  "loiKetNoiMayChu": "Cannot connect to the server, please try again",
+  "loiEmailDaSuDung": "This email is already in use",
+  "loiSoDienThoaiDaSuDung": "This phone number is already in use",
+  "loiTaiKhoanKhongTonTai": "Account does not exist",
+  "loiEmailDaXacMinh": "Email already verified, please sign in",
+  "loiMaOtpKhongDung": "Invalid verification code",
+  "loiMaOtpHetHan": "The verification code has expired, please request a new one",
+  "loiGuiLaiOtpQuaSom": "Please wait 30 seconds before requesting a new code",
+  "loiOtpBiKhoa": "Too many failed attempts, please try again in {phut} minutes",
+  "@loiOtpBiKhoa": {
+    "placeholders": {
+      "phut": {"type": "int"}
+    }
+  },
+  "vuiLongThuLaiSau": "Please try again in {time}",
+  "@vuiLongThuLaiSau": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+  "loiNhapSaiQuaSoLan": "You have entered the wrong code more than {soLan} times",
+  "@loiNhapSaiQuaSoLan": {
+    "placeholders": {
+      "soLan": {"type": "int"}
+    }
+  }
 }
