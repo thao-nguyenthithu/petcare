@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/validators.dart';
+import 'package:petcare_app/features/auth/providers/auth_provider.dart';
 import 'package:petcare_app/features/auth/services/auth_api_service.dart';
 import 'package:petcare_app/features/auth/services/auth_error_mapper.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_text_field.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   final _hoTenController = TextEditingController();
   final _emailController = TextEditingController();
@@ -28,7 +30,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _xacNhanKey = GlobalKey<FormFieldState<String>>();
   final _emailKey = GlobalKey<FormFieldState<String>>();
   final _soDienThoaiKey = GlobalKey<FormFieldState<String>>();
-  final _authApi = AuthApiService();
 
   // Lỗi từ server gắn với từng ô, hiện ngay dưới ô đó qua validator
   String? _emailServerError;
@@ -51,12 +52,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
     if (!_formKey.currentState!.validate()) return;
     try {
-      await _authApi.register(
-        fullName: _hoTenController.text.trim(),
-        email: _emailController.text.trim(),
-        phone: _soDienThoaiController.text.trim(),
-        password: _matKhauController.text,
-      );
+      await ref
+          .read(authProvider.notifier)
+          .register(
+            fullName: _hoTenController.text.trim(),
+            email: _emailController.text.trim(),
+            phone: _soDienThoaiController.text.trim(),
+            password: _matKhauController.text,
+          );
     } catch (e) {
       if (!mounted) return;
       _xuLyLoi(e);

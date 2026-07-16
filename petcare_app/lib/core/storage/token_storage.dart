@@ -21,6 +21,9 @@ class TokenStorageService {
     ]);
   }
 
+  Future<void> saveAccessToken(String accessToken) =>
+      _storage.write(key: _accessTokenKey, value: accessToken);
+
   Future<String?> getAccessToken() => _storage.read(key: _accessTokenKey);
   Future<String?> getRefreshToken() => _storage.read(key: _refreshTokenKey);
 

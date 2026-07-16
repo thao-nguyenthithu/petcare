@@ -24,6 +24,36 @@ class AuthApiService {
   Future<void> resendVerifyOtp(String email) =>
       apiClient.post('/auth/resend-verify-otp', data: {'email': email});
 
+  // Đăng nhập email/password
+  Future<Map<String, dynamic>> login({
+    required String email,
+    required String password,
+  }) async {
+    final res = await apiClient.post(
+      '/auth/login',
+      data: {'email': email, 'password': password},
+    );
+    return Map<String, dynamic>.from(res.data as Map);
+  }
+
+  // Đăng nhập Google bằng Firebase ID Token
+  Future<Map<String, dynamic>> loginGoogle(String idToken) async {
+    final res = await apiClient.post(
+      '/auth/login/google',
+      data: {'idToken': idToken},
+    );
+    return Map<String, dynamic>.from(res.data as Map);
+  }
+
+  // Đăng nhập Facebook bằng Firebase ID Token
+  Future<Map<String, dynamic>> loginFacebook(String idToken) async {
+    final res = await apiClient.post(
+      '/auth/login/facebook',
+      data: {'idToken': idToken},
+    );
+    return Map<String, dynamic>.from(res.data as Map);
+  }
+
   // Lấy message backend trả về từ lỗi Dio
   static String? messageFromError(Object error) {
     final data = _dataFromError(error);

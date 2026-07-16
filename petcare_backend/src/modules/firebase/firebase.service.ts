@@ -53,9 +53,10 @@ export class FirebaseService implements OnModuleInit {
 
   async verifyIdToken(idToken: string) {
     if (!this.daKhoiTao) {
-      throw new ServiceUnavailableException(
-        'Đăng nhập mạng xã hội chưa được cấu hình trên server',
-      );
+      throw new ServiceUnavailableException({
+        code: 'SOCIAL_NOT_CONFIGURED',
+        message: 'Đăng nhập mạng xã hội chưa được cấu hình trên server',
+      });
     }
     try {
       const decoded = await admin.auth().verifyIdToken(idToken);
@@ -66,9 +67,10 @@ export class FirebaseService implements OnModuleInit {
         avatarUrl: decoded.picture ?? null,
       };
     } catch {
-      throw new UnauthorizedException(
-        'Token đăng nhập không hợp lệ hoặc đã hết hạn',
-      );
+      throw new UnauthorizedException({
+        code: 'INVALID_SOCIAL_TOKEN',
+        message: 'Token đăng nhập không hợp lệ hoặc đã hết hạn',
+      });
     }
   }
 }

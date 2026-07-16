@@ -9,6 +9,7 @@ import 'package:petcare_app/features/auth/screens/reset_password_screen.dart';
 import 'package:petcare_app/features/auth/screens/splash_screen.dart';
 import 'package:petcare_app/features/auth/screens/verify_email_screen.dart';
 import 'package:petcare_app/features/auth/screens/verify_success_screen.dart';
+import 'package:petcare_app/features/home/screens/home_screen.dart';
 import 'package:petcare_app/features/provider_profile/screens/add_service_screen.dart';
 import 'package:petcare_app/features/provider_profile/screens/commitment_screen.dart';
 import 'package:petcare_app/features/provider_profile/screens/id_upload_screen.dart';
@@ -25,6 +26,7 @@ class AppRoutes {
   static const String onboarding = '/onboarding';
   static const String login = '/login';
   static const String register = '/register';
+  static const String home = '/home';
   static const String verifyEmail = '/verify-email';
   static const String verifySuccess = '/verify-success';
   static const String forgotPassword = '/forgot-password';
@@ -60,6 +62,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.register,
       builder: (context, state) => const RegisterScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.home,
+      builder: (context, state) => const HomeScreen(),
     ),
     GoRoute(
       path: AppRoutes.verifyEmail,

@@ -143,16 +143,25 @@ export class AuthService {
 
     const user = await this.prisma.user.findUnique({ where: { email } });
     if (!user || !user.passwordHash) {
-      throw new UnauthorizedException('Email hoặc mật khẩu không đúng');
+      throw new UnauthorizedException({
+        code: 'INVALID_CREDENTIALS',
+        message: 'Email hoặc mật khẩu không đúng',
+      });
     }
 
     const dungMatKhau = await bcrypt.compare(dto.password, user.passwordHash);
     if (!dungMatKhau) {
-      throw new UnauthorizedException('Email hoặc mật khẩu không đúng');
+      throw new UnauthorizedException({
+        code: 'INVALID_CREDENTIALS',
+        message: 'Email hoặc mật khẩu không đúng',
+      });
     }
 
     if (!user.isVerified) {
-      throw new ForbiddenException('Email chưa được xác minh');
+      throw new ForbiddenException({
+        code: 'EMAIL_NOT_VERIFIED',
+        message: 'Email chưa được xác minh',
+      });
     }
 
     return this.signToken(user.id, user.email, user.role);
@@ -161,9 +170,10 @@ export class AuthService {
   async loginWithFirebase(idToken: string) {
     const thongTin = await this.firebase.verifyIdToken(idToken);
     if (!thongTin.email) {
-      throw new UnauthorizedException(
-        'Tài khoản mạng xã hội không cung cấp email',
-      );
+      throw new UnauthorizedException({
+        code: 'SOCIAL_NO_EMAIL',
+        message: 'Tài khoản mạng xã hội không cung cấp email',
+      });
     }
     const email = thongTin.email.toLowerCase();
 

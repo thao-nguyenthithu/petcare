@@ -20,6 +20,16 @@ String mapAuthError(AppLocalizations l10n, Object error) {
       return l10n.loiGuiLaiOtpQuaSom;
     case 'OTP_LOCKED':
       return l10n.loiOtpBiKhoa(AuthApiService.metaInt(error, 'minutes') ?? 5);
+    case 'INVALID_CREDENTIALS':
+      return l10n.loiThongTinDangNhap;
+    case 'EMAIL_NOT_VERIFIED':
+      return l10n.loiEmailChuaXacMinh;
+    case 'SOCIAL_NOT_CONFIGURED':
+      return l10n.loiMangXaHoiChuaCauHinh;
+    case 'INVALID_SOCIAL_TOKEN':
+      return l10n.loiTokenMangXaHoi;
+    case 'SOCIAL_NO_EMAIL':
+      return l10n.loiMangXaHoiThieuEmail;
   }
   return AuthApiService.messageFromError(error) ?? l10n.loiKetNoiMayChu;
 }

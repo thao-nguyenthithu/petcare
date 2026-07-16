@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
+import 'package:petcare_app/features/auth/providers/auth_provider.dart';
 import 'package:petcare_app/features/auth/services/auth_api_service.dart';
 import 'package:petcare_app/features/auth/services/auth_error_mapper.dart';
 import 'package:petcare_app/features/auth/widgets/otp_input.dart';
@@ -14,18 +16,17 @@ import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_loading_overlay.dart';
 
-class VerifyEmailScreen extends StatefulWidget {
+class VerifyEmailScreen extends ConsumerStatefulWidget {
   final String email;
 
   const VerifyEmailScreen({super.key, required this.email});
 
   @override
-  State<VerifyEmailScreen> createState() => _VerifyEmailScreenState();
+  ConsumerState<VerifyEmailScreen> createState() => _VerifyEmailScreenState();
 }
 
-class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
+class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
   final _otpController = TextEditingController();
-  final _authApi = AuthApiService();
   String? _otpError;
   Timer? _timer;
   static const int _thoiGianCho = 30;
@@ -70,7 +71,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
     try {
       await showAppLoading(
         context,
-        () => _authApi.resendVerifyOtp(widget.email),
+        () => ref.read(authProvider.notifier).resendVerifyOtp(widget.email),
       );
     } catch (e) {
       if (!mounted) return;
@@ -95,7 +96,9 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
 
   Future<void> _xacNhan() async {
     try {
-      await _authApi.verifyEmail(email: widget.email, otp: _otpController.text);
+      await ref
+          .read(authProvider.notifier)
+          .verifyEmail(email: widget.email, otp: _otpController.text);
     } catch (e) {
       if (!mounted) return;
       _xuLyLoi(e);
