@@ -1,6 +1,10 @@
 ﻿import {
-  ExceptionFilter, Catch, ArgumentsHost,
-  HttpException, HttpStatus, Logger,
+  ExceptionFilter,
+  Catch,
+  ArgumentsHost,
+  HttpException,
+  HttpStatus,
+  Logger,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 
@@ -9,34 +13,45 @@ export class AllExceptionsFilter implements ExceptionFilter {
   private readonly logger = new Logger(AllExceptionsFilter.name);
 
   catch(exception: unknown, host: ArgumentsHost) {
-    const ctx      = host.switchToHttp();
+    const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-    const request  = ctx.getRequest<Request>();
+    const request = ctx.getRequest<Request>();
 
-    const status = exception instanceof HttpException
-      ? exception.getStatus()
-      : HttpStatus.INTERNAL_SERVER_ERROR;
+    const status =
+      exception instanceof HttpException
+        ? exception.getStatus()
+        : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    // Xử lý message — ưu tiên lấy mảng lỗi chi tiết từ ValidationPipe
     let message: string | string[];
+    let code: string | undefined;
+    let meta: Record<string, unknown> | undefined;
     if (exception instanceof HttpException) {
-      const res = exception.getResponse() as Record<string, unknown>;
-      message = (res['message'] as string | string[]) ?? exception.message;
+      const res = exception.getResponse();
+      if (typeof res === 'object' && res !== null) {
+        const obj = res as Record<string, unknown>;
+        message = (obj['message'] as string | string[]) ?? exception.message;
+        code = obj['code'] as string | undefined;
+        meta = obj['meta'] as Record<string, unknown> | undefined;
+      } else {
+        message = res;
+      }
     } else {
       message = 'Internal server error';
     }
 
-    // Log lỗi 500 để debug
-    if (status === (HttpStatus.INTERNAL_SERVER_ERROR as number)) {
+
+    if (status === HttpStatus.INTERNAL_SERVER_ERROR) {
       this.logger.error(exception);
     }
 
     response.status(status).json({
-      success:    false,
+      success: false,
       statusCode: status,
-      message,           // string hoặc string[] tùy loại lỗi
-      path:       request.url,
-      timestamp:  new Date().toISOString(),
+      code, 
+      message, 
+      meta, // tham số cho câu dịch
+      path: request.url,
+      timestamp: new Date().toISOString(),
     });
   }
 }

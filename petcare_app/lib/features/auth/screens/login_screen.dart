@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
@@ -6,21 +7,28 @@ import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/validators.dart';
+import 'package:petcare_app/features/auth/providers/auth_provider.dart';
+import 'package:petcare_app/features/auth/services/auth_api_service.dart';
+import 'package:petcare_app/features/auth/services/auth_error_mapper.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
+import 'package:petcare_app/shared/widgets/app_loading_overlay.dart';
 import 'package:petcare_app/shared/widgets/app_text_field.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _matKhauController = TextEditingController();
+  final _matKhauKey = GlobalKey<FormFieldState<String>>();
+
+  String? _serverError;
 
   @override
   void dispose() {
@@ -30,8 +38,67 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _dangNhap() async {
+    setState(() => _serverError = null);
     if (!_formKey.currentState!.validate()) return;
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      await ref
+          .read(authProvider.notifier)
+          .login(
+            email: _emailController.text.trim(),
+            password: _matKhauController.text,
+          );
+    } catch (e) {
+      if (!mounted) return;
+      _xuLyLoiDangNhap(e);
+      return;
+    }
+    if (!mounted) return;
+    _vaoTrangChu();
+  }
+
+  void _xuLyLoiDangNhap(Object e) {
+    final l10n = context.l10n;
+    switch (AuthApiService.codeFromError(e)) {
+      case 'INVALID_CREDENTIALS':
+        setState(() => _serverError = l10n.loiThongTinDangNhap);
+        _matKhauKey.currentState?.validate();
+        return;
+      case 'EMAIL_NOT_VERIFIED':
+        context.push(
+          AppRoutes.verifyEmail,
+          extra: _emailController.text.trim(),
+        );
+        return;
+    }
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(mapAuthError(l10n, e))));
+  }
+
+  Future<void> _dangNhapGoogle() =>
+      _dangNhapMangXaHoi(ref.read(authProvider.notifier).loginGoogle);
+
+  Future<void> _dangNhapFacebook() =>
+      _dangNhapMangXaHoi(ref.read(authProvider.notifier).loginFacebook);
+
+  Future<void> _dangNhapMangXaHoi(Future<bool> Function() dangNhap) async {
+    setState(() => _serverError = null);
+    try {
+      final thanhCong = await showAppLoading(context, dangNhap);
+      if (!thanhCong) return;
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(mapAuthError(context.l10n, e))));
+      return;
+    }
+    if (!mounted) return;
+    _vaoTrangChu();
+  }
+
+  void _vaoTrangChu() {
+    context.go(AppRoutes.home);
   }
 
   @override
@@ -119,9 +186,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       AppTextField(
                         label: l10n.matKhau,
                         hint: l10n.nhapMatKhau,
+                        fieldKey: _matKhauKey,
                         controller: _matKhauController,
                         isPassword: true,
-                        validator: validators.password,
+                        validator: (giaTri) =>
+                            validators.password(giaTri) ?? _serverError,
+                        onChanged: (_) {
+                          if (_serverError != null) {
+                            setState(() => _serverError = null);
+                            _matKhauKey.currentState?.validate();
+                          }
+                        },
                       ),
                       const SizedBox(height: 10),
                       Align(
@@ -168,8 +243,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           Expanded(
                             child: OutlinedButton.icon(
-                              // TODO (backend): đăng nhập Google
-                              onPressed: () {},
+                              onPressed: _dangNhapGoogle,
                               icon: SvgPicture.asset(
                                 'assets/icons/google.svg',
                                 width: 20,
@@ -181,8 +255,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           const SizedBox(width: 12),
                           Expanded(
                             child: OutlinedButton.icon(
-                              // TODO (backend): đăng nhập Facebook
-                              onPressed: () {},
+                              onPressed: _dangNhapFacebook,
                               icon: SvgPicture.asset(
                                 'assets/icons/facebook.svg',
                                 width: 20,

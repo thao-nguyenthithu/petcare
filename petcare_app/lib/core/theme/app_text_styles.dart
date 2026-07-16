@@ -45,6 +45,13 @@ class AppTextStyles {
   );
 
   // w400
+  static const TextStyle captionSm = TextStyle(
+    fontFamily: _f,
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 16 / 12,
+    color: AppColors.textSecondary,
+  );
   static const TextStyle body = TextStyle(
     fontFamily: _f,
     fontSize: 15,

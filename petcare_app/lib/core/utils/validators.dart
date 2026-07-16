@@ -29,6 +29,19 @@ class Validators {
     return null;
   }
 
+  String? notEmpty(String? value) {
+    if (value == null || value.trim().isEmpty) return l10n.khongDuocDeTrong;
+    return null;
+  }
+
+  String? citizenId(String? value) {
+    if (value == null || value.trim().isEmpty) return l10n.khongDuocDeTrong;
+    if (!RegExp(r'^\d{12}$').hasMatch(value.trim())) {
+      return l10n.cccdKhongHopLe;
+    }
+    return null;
+  }
+
   String? phoneNumber(String? value) {
     if (value == null || value.trim().isEmpty) {
       return l10n.vuiLongNhapSoDienThoai;

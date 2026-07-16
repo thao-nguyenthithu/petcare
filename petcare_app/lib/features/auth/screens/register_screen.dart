@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
-import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/validators.dart';
+import 'package:petcare_app/features/auth/providers/auth_provider.dart';
+import 'package:petcare_app/features/auth/services/auth_api_service.dart';
+import 'package:petcare_app/features/auth/services/auth_error_mapper.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_text_field.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   final _hoTenController = TextEditingController();
   final _emailController = TextEditingController();
@@ -25,8 +28,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _matKhauController = TextEditingController();
   final _xacNhanController = TextEditingController();
   final _xacNhanKey = GlobalKey<FormFieldState<String>>();
-  // 0 = Chủ nuôi, 1 = Người cung cấp
-  int _vaiTro = 0;
+  final _emailKey = GlobalKey<FormFieldState<String>>();
+  final _soDienThoaiKey = GlobalKey<FormFieldState<String>>();
+
+  // Lỗi từ server gắn với từng ô, hiện ngay dưới ô đó qua validator
+  String? _emailServerError;
+  String? _soDienThoaiServerError;
 
   @override
   void dispose() {
@@ -39,11 +46,45 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future<void> _dangKy() async {
+    setState(() {
+      _emailServerError = null;
+      _soDienThoaiServerError = null;
+    });
     if (!_formKey.currentState!.validate()) return;
-    // TODO (backend): thay giả lập bằng gọi API đăng ký kèm _vaiTro
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      await ref
+          .read(authProvider.notifier)
+          .register(
+            fullName: _hoTenController.text.trim(),
+            email: _emailController.text.trim(),
+            phone: _soDienThoaiController.text.trim(),
+            password: _matKhauController.text,
+          );
+    } catch (e) {
+      if (!mounted) return;
+      _xuLyLoi(e);
+      return;
+    }
     if (!mounted) return;
     context.push(AppRoutes.verifyEmail, extra: _emailController.text.trim());
+  }
+
+  void _xuLyLoi(Object e) {
+    switch (AuthApiService.codeFromError(e)) {
+      case 'EMAIL_ALREADY_USED':
+        setState(() => _emailServerError = context.l10n.loiEmailDaSuDung);
+        _emailKey.currentState?.validate();
+        return;
+      case 'PHONE_ALREADY_USED':
+        setState(
+          () => _soDienThoaiServerError = context.l10n.loiSoDienThoaiDaSuDung,
+        );
+        _soDienThoaiKey.currentState?.validate();
+        return;
+    }
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(mapAuthError(context.l10n, e))));
   }
 
   @override
@@ -92,20 +133,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     label: l10n.email,
                     hint: l10n.nhapEmail,
                     isRequired: true,
+                    fieldKey: _emailKey,
                     controller: _emailController,
                     height: 46,
                     keyboardType: TextInputType.emailAddress,
-                    validator: validators.email,
+                    validator: (giaTri) =>
+                        validators.email(giaTri) ?? _emailServerError,
+                    onChanged: (_) {
+                      if (_emailServerError != null) {
+                        setState(() => _emailServerError = null);
+                        _emailKey.currentState?.validate();
+                      }
+                    },
                   ),
                   const SizedBox(height: 12),
                   AppTextField(
                     label: l10n.soDienThoai,
                     hint: l10n.nhapSoDienThoai,
                     isRequired: true,
+                    fieldKey: _soDienThoaiKey,
                     controller: _soDienThoaiController,
                     height: 46,
                     keyboardType: TextInputType.phone,
-                    validator: validators.phoneNumber,
+                    validator: (giaTri) =>
+                        validators.phoneNumber(giaTri) ??
+                        _soDienThoaiServerError,
+                    onChanged: (_) {
+                      if (_soDienThoaiServerError != null) {
+                        setState(() => _soDienThoaiServerError = null);
+                        _soDienThoaiKey.currentState?.validate();
+                      }
+                    },
                   ),
                   const SizedBox(height: 12),
                   AppTextField(
@@ -136,18 +194,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       _matKhauController.text,
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  Text(
-                    l10n.banLa,
-                    style: AppTextStyles.label.copyWith(
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  _RoleSelector(
-                    selectedIndex: _vaiTro,
-                    onChanged: (index) => setState(() => _vaiTro = index),
-                  ),
                   const SizedBox(height: 20),
                   AppButton(text: l10n.dangKy, onTapAsync: _dangKy),
                   const SizedBox(height: 20),
@@ -174,72 +220,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ],
               ),
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _RoleSelector extends StatelessWidget {
-  final int selectedIndex;
-  final ValueChanged<int> onChanged;
-
-  const _RoleSelector({required this.selectedIndex, required this.onChanged});
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return Container(
-      height: 46,
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: AppColors.neutral,
-        borderRadius: BorderRadius.circular(AppRadius.radius14),
-      ),
-      child: Stack(
-        children: [
-          AnimatedAlign(
-            duration: const Duration(milliseconds: 250),
-            curve: Curves.easeOut,
-            alignment: selectedIndex == 0
-                ? Alignment.centerLeft
-                : Alignment.centerRight,
-            child: FractionallySizedBox(
-              widthFactor: 0.5,
-              heightFactor: 1,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.circular(AppRadius.radius14),
-                ),
-              ),
-            ),
-          ),
-          Row(
-            children: [
-              _luaChon(l10n.chuNuoi, 0),
-              _luaChon(l10n.nguoiCungCap, 1),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _luaChon(String text, int index) {
-    final duocChon = index == selectedIndex;
-    return Expanded(
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () => onChanged(index),
-        child: Center(
-          child: AnimatedDefaultTextStyle(
-            duration: const Duration(milliseconds: 100),
-            style: duocChon
-                ? AppTextStyles.label.copyWith(color: AppColors.primaryColor)
-                : AppTextStyles.label.copyWith(color: AppColors.textSecondary),
-            child: Text(text),
           ),
         ),
       ),

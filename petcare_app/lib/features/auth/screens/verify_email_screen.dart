@@ -1,31 +1,39 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
+import 'package:petcare_app/features/auth/providers/auth_provider.dart';
+import 'package:petcare_app/features/auth/services/auth_api_service.dart';
+import 'package:petcare_app/features/auth/services/auth_error_mapper.dart';
 import 'package:petcare_app/features/auth/widgets/otp_input.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_loading_overlay.dart';
 
-class VerifyEmailScreen extends StatefulWidget {
+class VerifyEmailScreen extends ConsumerStatefulWidget {
   final String email;
 
   const VerifyEmailScreen({super.key, required this.email});
 
   @override
-  State<VerifyEmailScreen> createState() => _VerifyEmailScreenState();
+  ConsumerState<VerifyEmailScreen> createState() => _VerifyEmailScreenState();
 }
 
-class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
+class _VerifyEmailScreenState extends ConsumerState<VerifyEmailScreen> {
   final _otpController = TextEditingController();
+  String? _otpError;
   Timer? _timer;
   static const int _thoiGianCho = 30;
   int _secondsLeft = _thoiGianCho;
+  Timer? _lockTimer;
+  int _lockSecondsLeft = 0;
+  bool get _daKhoa => _lockSecondsLeft > 0;
 
   @override
   void initState() {
@@ -36,6 +44,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
   @override
   void dispose() {
     _timer?.cancel();
+    _lockTimer?.cancel();
     _otpController.dispose();
     super.dispose();
   }
@@ -59,13 +68,24 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
       '${seconds ~/ 60}:${(seconds % 60).toString().padLeft(2, '0')}';
 
   Future<void> _guiLaiMa() async {
-    // TODO (backend): gọi API gửi lại mã xác minh
-    await showAppLoading(
-      context,
-      () => Future.delayed(const Duration(seconds: 1)),
-    );
+    try {
+      await showAppLoading(
+        context,
+        () => ref.read(authProvider.notifier).resendVerifyOtp(widget.email),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      _baoLoi(e);
+      return;
+    }
     if (!mounted) return;
     setState(_startCountdown);
+  }
+
+  void _baoLoi(Object e) {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(mapAuthError(context.l10n, e))));
   }
 
   void _baoThieuMa() {
@@ -75,13 +95,49 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
   }
 
   Future<void> _xacNhan() async {
-    // TODO (backend): gọi API xác minh email
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      await ref
+          .read(authProvider.notifier)
+          .verifyEmail(email: widget.email, otp: _otpController.text);
+    } catch (e) {
+      if (!mounted) return;
+      _xuLyLoi(e);
+      return;
+    }
     if (!mounted) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(context.l10n.xacMinhThanhCong)));
-    context.go(AppRoutes.login);
+    context.go(AppRoutes.verifySuccess);
+  }
+
+  void _xuLyLoi(Object e) {
+    final code = AuthApiService.codeFromError(e);
+    if (code == 'OTP_LOCKED') {
+      final giay = AuthApiService.metaInt(e, 'seconds') ?? 300;
+      final soLan = AuthApiService.metaInt(e, 'attempts') ?? 5;
+      _startLockCountdown(giay, context.l10n.loiNhapSaiQuaSoLan(soLan));
+      return;
+    }
+    if (code != null && code.startsWith('OTP_')) {
+      setState(() => _otpError = mapAuthError(context.l10n, e));
+      return;
+    }
+    _baoLoi(e);
+  }
+
+  void _startLockCountdown(int seconds, String lyDo) {
+    _lockTimer?.cancel();
+    setState(() {
+      _otpError = lyDo;
+      _lockSecondsLeft = seconds;
+    });
+    _lockTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        _lockSecondsLeft--;
+        if (_lockSecondsLeft <= 0) {
+          timer.cancel();
+          _otpError = null;
+        }
+      });
+    });
   }
 
   @override
@@ -141,11 +197,32 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                 const SizedBox(height: 24),
                 OtpInput(
                   controller: _otpController,
-                  onChanged: (_) => setState(() {}),
+                  hasError: _otpError != null || _daKhoa,
+                  onChanged: (_) => setState(() {
+                    if (!_daKhoa) _otpError = null;
+                  }),
                 ),
+                if (_otpError != null) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    _otpError!,
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles.caption.copyWith(
+                      color: AppColors.error,
+                    ),
+                  ),
+                ],
                 const SizedBox(height: 32),
                 Center(
-                  child: _secondsLeft > 0
+                  child: _daKhoa
+                      ? Text(
+                          l10n.vuiLongThuLaiSau(_formatTime(_lockSecondsLeft)),
+                          textAlign: TextAlign.center,
+                          style: AppTextStyles.caption.copyWith(
+                            color: AppColors.error,
+                          ),
+                        )
+                      : _secondsLeft > 0
                       ? Text(
                           l10n.guiLaiMaSau(_formatTime(_secondsLeft)),
                           textAlign: TextAlign.center,
@@ -165,6 +242,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                 AppButton(
                   text: l10n.xacNhan,
                   height: 56,
+                  enabled: !_daKhoa,
                   onTap: duMa ? null : _baoThieuMa,
                   onTapAsync: duMa ? _xacNhan : null,
                 ),

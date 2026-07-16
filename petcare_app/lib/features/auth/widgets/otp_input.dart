@@ -8,12 +8,14 @@ class OtpInput extends StatefulWidget {
   final TextEditingController controller;
   final int length;
   final ValueChanged<String>? onChanged;
+  final bool hasError;
 
   const OtpInput({
     super.key,
     required this.controller,
     this.length = 6,
     this.onChanged,
+    this.hasError = false,
   });
 
   @override
@@ -35,12 +37,20 @@ class _OtpInputState extends State<OtpInput> {
     super.dispose();
   }
 
+  void _moBanPhim() {
+    if (_focusNode.hasFocus) {
+      SystemChannels.textInput.invokeMethod<void>('TextInput.show');
+    } else {
+      _focusNode.requestFocus();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final value = widget.controller.text;
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: () => _focusNode.requestFocus(),
+      onTap: _moBanPhim,
       child: Stack(
         children: [
           Opacity(
@@ -75,7 +85,9 @@ class _OtpInputState extends State<OtpInput> {
                   borderRadius: BorderRadius.circular(AppRadius.radius14),
                   border: Border.all(
                     color: (filled || active)
-                        ? AppColors.primaryColor
+                        ? (widget.hasError
+                              ? AppColors.error
+                              : AppColors.primaryColor)
                         : AppColors.neutral,
                     width: (filled || active) ? 1.5 : 1,
                   ),

@@ -1,0 +1,23 @@
+import { Global, Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import Redis from 'ioredis';
+
+// Token client Redis dùng chung lưu OTP, cooldown
+export const REDIS_CLIENT = 'REDIS_CLIENT';
+
+@Global()
+@Module({
+  providers: [
+    {
+      provide: REDIS_CLIENT,
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) =>
+        new Redis({
+          host: config.get<string>('redis.host'),
+          port: config.get<number>('redis.port'),
+        }),
+    },
+  ],
+  exports: [REDIS_CLIENT],
+})
+export class RedisModule {}
