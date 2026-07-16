@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/validators.dart';
+import 'package:petcare_app/features/auth/providers/auth_provider.dart';
+import 'package:petcare_app/features/auth/services/auth_error_mapper.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_text_field.dart';
 
-class ResetPasswordScreen extends StatefulWidget {
-  const ResetPasswordScreen({super.key});
+class ResetPasswordScreen extends ConsumerStatefulWidget {
+  final String resetToken;
+
+  const ResetPasswordScreen({super.key, required this.resetToken});
 
   @override
-  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
+  ConsumerState<ResetPasswordScreen> createState() =>
+      _ResetPasswordScreenState();
 }
 
-class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
+class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   final _matKhauMoiController = TextEditingController();
   final _xacNhanController = TextEditingController();
@@ -30,8 +36,20 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   Future<void> _datLai() async {
     if (!_formKey.currentState!.validate()) return;
-    // TODO (backend): gọi API đặt lại mật khẩu
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      await ref
+          .read(authProvider.notifier)
+          .resetPassword(
+            resetToken: widget.resetToken,
+            newPassword: _matKhauMoiController.text,
+          );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(mapAuthError(context.l10n, e))));
+      return;
+    }
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(context.l10n.datLaiMatKhauThanhCong)),

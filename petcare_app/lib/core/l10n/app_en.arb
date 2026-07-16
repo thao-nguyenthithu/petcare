@@ -175,6 +175,8 @@
   "dangXuat": "Sign out",
   "loiThongTinDangNhap": "Incorrect email or password",
   "loiEmailChuaXacMinh": "Email not verified yet",
+  "loiEmailChuaDangKy": "This email is not registered, please check again",
+  "loiPhienDatLaiHetHan": "Your reset session is invalid or has expired, please try again",
   "loiMangXaHoiChuaCauHinh": "Social login is not configured on the server",
   "loiTokenMangXaHoi": "Social login session is invalid, please try again",
   "loiMangXaHoiThieuEmail": "Your social account did not provide an email",

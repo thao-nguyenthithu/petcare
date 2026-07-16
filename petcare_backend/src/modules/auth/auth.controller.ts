@@ -4,10 +4,13 @@ import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { FirebaseAuthDto } from './dto/firebase-auth.dto';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 import { SendOtpDto } from './dto/send-otp.dto';
 import { VerifyEmailDto } from './dto/verify-email.dto';
+import { VerifyResetOtpDto } from './dto/verify-reset-otp.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -50,6 +53,24 @@ export class AuthController {
   })
   loginFacebook(@Body() dto: FirebaseAuthDto) {
     return this.authService.loginWithFirebase(dto.idToken);
+  }
+
+  @Post('forgot-password')
+  @ApiOperation({ summary: 'Gửi OTP đặt lại mật khẩu về email' })
+  forgotPassword(@Body() dto: ForgotPasswordDto) {
+    return this.authService.forgotPassword(dto.email);
+  }
+
+  @Post('verify-reset-otp')
+  @ApiOperation({ summary: 'Xác minh OTP quên mật khẩu, trả về resetToken' })
+  verifyResetOtp(@Body() dto: VerifyResetOtpDto) {
+    return this.authService.verifyResetOtp(dto.email, dto.otp);
+  }
+
+  @Post('reset-password')
+  @ApiOperation({ summary: 'Đặt mật khẩu mới bằng resetToken' })
+  resetPassword(@Body() dto: ResetPasswordDto) {
+    return this.authService.resetPassword(dto.resetToken, dto.newPassword);
   }
 
   @Get('me')

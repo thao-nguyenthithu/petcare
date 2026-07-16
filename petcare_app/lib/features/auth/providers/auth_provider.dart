@@ -33,6 +33,16 @@ class AuthNotifier extends _$AuthNotifier {
 
   Future<void> resendVerifyOtp(String email) => _api.resendVerifyOtp(email);
 
+  Future<void> forgotPassword(String email) => _api.forgotPassword(email);
+
+  Future<String> verifyResetOtp({required String email, required String otp}) =>
+      _api.verifyResetOtp(email: email, otp: otp);
+
+  Future<void> resetPassword({
+    required String resetToken,
+    required String newPassword,
+  }) => _api.resetPassword(resetToken: resetToken, newPassword: newPassword);
+
   Future<void> login({required String email, required String password}) async {
     await _luuPhien(await _api.login(email: email, password: password));
   }

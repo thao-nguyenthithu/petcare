@@ -37,12 +37,20 @@ class _OtpInputState extends State<OtpInput> {
     super.dispose();
   }
 
+  void _moBanPhim() {
+    if (_focusNode.hasFocus) {
+      SystemChannels.textInput.invokeMethod<void>('TextInput.show');
+    } else {
+      _focusNode.requestFocus();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final value = widget.controller.text;
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: () => _focusNode.requestFocus(),
+      onTap: _moBanPhim,
       child: Stack(
         children: [
           Opacity(

@@ -87,6 +87,7 @@ class _AppTextFieldState extends State<AppTextField> {
             errorBorder: _vien(AppColors.error),
             focusedErrorBorder: _vien(AppColors.error),
             errorStyle: AppTextStyles.caption.copyWith(color: AppColors.error),
+            errorMaxLines: 2,
             suffixText: widget.suffixText,
             suffixStyle: AppTextStyles.caption,
             suffixIcon: widget.isPassword

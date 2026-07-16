@@ -30,6 +30,8 @@ String mapAuthError(AppLocalizations l10n, Object error) {
       return l10n.loiTokenMangXaHoi;
     case 'SOCIAL_NO_EMAIL':
       return l10n.loiMangXaHoiThieuEmail;
+    case 'RESET_TOKEN_INVALID':
+      return l10n.loiPhienDatLaiHetHan;
   }
   return AuthApiService.messageFromError(error) ?? l10n.loiKetNoiMayChu;
 }

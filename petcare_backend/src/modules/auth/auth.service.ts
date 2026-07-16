@@ -207,6 +207,48 @@ export class AuthService {
     return this.signToken(user.id, user.email, user.role);
   }
 
+  // Gửi OTP đặt lại mật khẩu
+  async forgotPassword(email: string) {
+    email = email.toLowerCase().trim();
+
+    const user = await this.prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      throw new NotFoundException({
+        code: 'USER_NOT_FOUND',
+        message: 'Email chưa được đăng ký',
+      });
+    }
+
+    await this.otpService.generateAndSend(email, 'reset');
+    return { message: 'Mã xác minh đã được gửi tới email của bạn' };
+  }
+
+  async verifyResetOtp(email: string, otp: string) {
+    email = email.toLowerCase().trim();
+
+    const user = await this.prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      throw new NotFoundException({
+        code: 'USER_NOT_FOUND',
+        message: 'Tài khoản không tồn tại',
+      });
+    }
+
+    await this.otpService.verify(email, 'reset', otp);
+    const resetToken = await this.otpService.createResetToken(email);
+    return { resetToken };
+  }
+
+  async resetPassword(resetToken: string, newPassword: string) {
+    const email = await this.otpService.consumeResetToken(resetToken);
+    const passwordHash = await bcrypt.hash(newPassword, BCRYPT_ROUNDS);
+    await this.prisma.user.update({
+      where: { email },
+      data: { passwordHash },
+    });
+    return { message: 'Đặt lại mật khẩu thành công' };
+  }
+
   async getMe(userId: string) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },

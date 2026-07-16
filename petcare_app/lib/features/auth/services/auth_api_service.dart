@@ -24,6 +24,31 @@ class AuthApiService {
   Future<void> resendVerifyOtp(String email) =>
       apiClient.post('/auth/resend-verify-otp', data: {'email': email});
 
+  Future<void> forgotPassword(String email) =>
+      apiClient.post('/auth/forgot-password', data: {'email': email});
+
+  // Xác minh OTP quên mật khẩu
+  Future<String> verifyResetOtp({
+    required String email,
+    required String otp,
+  }) async {
+    final res = await apiClient.post(
+      '/auth/verify-reset-otp',
+      data: {'email': email, 'otp': otp},
+    );
+    final data = Map<String, dynamic>.from(res.data as Map);
+    return data['resetToken'] as String;
+  }
+
+  // Đặt mật khẩu mới
+  Future<void> resetPassword({
+    required String resetToken,
+    required String newPassword,
+  }) => apiClient.post(
+    '/auth/reset-password',
+    data: {'resetToken': resetToken, 'newPassword': newPassword},
+  );
+
   // Đăng nhập email/password
   Future<Map<String, dynamic>> login({
     required String email,

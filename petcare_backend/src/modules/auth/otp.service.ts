@@ -4,7 +4,7 @@ import {
   Injectable,
   Logger,
 } from '@nestjs/common';
-import { createHash, randomInt } from 'crypto';
+import { createHash, randomBytes, randomInt } from 'crypto';
 import Redis from 'ioredis';
 import { REDIS_CLIENT } from '../../common/redis/redis.module';
 import { MailService, OtpPurpose } from '../mail/mail.service';
@@ -14,6 +14,7 @@ const OTP_TTL_SECONDS = 5 * 60;
 const MAX_ATTEMPTS = 5;
 const RESEND_COOLDOWN_SECONDS = 30;
 const LOCK_SECONDS = 5 * 60;
+const RESET_TOKEN_TTL_SECONDS = 10 * 60;
 
 @Injectable()
 export class OtpService {
@@ -135,5 +136,34 @@ export class OtpService {
       this.otpKey(purpose, email),
       this.attemptsKey(purpose, email),
     );
+  }
+
+  private resetTokenKey(token: string) {
+    return `reset_token:${token}`;
+  }
+
+  async createResetToken(email: string): Promise<string> {
+    const token = randomBytes(32).toString('hex');
+    await this.redis.set(
+      this.resetTokenKey(token),
+      email,
+      'EX',
+      RESET_TOKEN_TTL_SECONDS,
+    );
+    return token;
+  }
+
+  async consumeResetToken(token: string): Promise<string> {
+    const key = this.resetTokenKey(token);
+    const email = await this.redis.get(key);
+    if (!email) {
+      throw new BadRequestException({
+        code: 'RESET_TOKEN_INVALID',
+        message:
+          'Phiên đặt lại mật khẩu không hợp lệ hoặc đã hết hạn, vui lòng thử lại',
+      });
+    }
+    await this.redis.del(key);
+    return email;
   }
 }

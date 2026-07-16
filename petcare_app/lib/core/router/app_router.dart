@@ -84,11 +84,13 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.otp,
-      builder: (context, state) => const OtpScreen(),
+      builder: (context, state) =>
+          OtpScreen(email: state.extra as String? ?? ''),
     ),
     GoRoute(
       path: AppRoutes.resetPassword,
-      builder: (context, state) => const ResetPasswordScreen(),
+      builder: (context, state) =>
+          ResetPasswordScreen(resetToken: state.extra as String? ?? ''),
     ),
     GoRoute(
       path: AppRoutes.providerServices,

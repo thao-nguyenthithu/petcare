@@ -175,6 +175,8 @@
   "dangXuat": "Đăng xuất",
   "loiThongTinDangNhap": "Email hoặc mật khẩu không đúng",
   "loiEmailChuaXacMinh": "Email chưa được xác minh",
+  "loiEmailChuaDangKy": "Email chưa được đăng ký, vui lòng kiểm tra lại",
+  "loiPhienDatLaiHetHan": "Phiên đặt lại mật khẩu không hợp lệ hoặc đã hết hạn, vui lòng thử lại",
   "loiMangXaHoiChuaCauHinh": "Đăng nhập mạng xã hội chưa được cấu hình trên máy chủ",
   "loiTokenMangXaHoi": "Phiên đăng nhập mạng xã hội không hợp lệ, vui lòng thử lại",
   "loiMangXaHoiThieuEmail": "Tài khoản mạng xã hội không cung cấp email",
