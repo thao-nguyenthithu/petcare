@@ -14,4 +14,6 @@ class AppColors {
   static const Color textWhite = Color(0xFFFFFFFF);
   static const Color textPrimary = Color(0xFF1A1A1A);
   static const Color textSecondary = Color(0xFF6B7280);
+
+  static const Color shadow = Color.fromARGB(36, 145, 248, 217);
 }

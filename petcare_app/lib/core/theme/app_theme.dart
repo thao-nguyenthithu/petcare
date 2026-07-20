@@ -23,6 +23,25 @@ class AppTheme {
         textStyle: AppTextStyles.button,
       ),
     ),
+    navigationBarTheme: NavigationBarThemeData(
+      backgroundColor: AppColors.surface,
+      height: 60,
+      indicatorColor: Colors.transparent,
+      iconTheme: WidgetStateProperty.resolveWith(
+        (states) => IconThemeData(
+          color: states.contains(WidgetState.selected)
+              ? AppColors.primaryColor
+              : AppColors.textSecondary,
+        ),
+      ),
+      labelTextStyle: WidgetStateProperty.resolveWith(
+        (states) => AppTextStyles.captionSm.copyWith(
+          color: states.contains(WidgetState.selected)
+              ? AppColors.primaryColor
+              : AppColors.textSecondary,
+        ),
+      ),
+    ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: AppColors.textPrimary,

@@ -171,7 +171,6 @@
   "loiTaiKhoanKhongTonTai": "Tài khoản không tồn tại",
   "loiEmailDaXacMinh": "Email đã được xác minh, vui lòng đăng nhập",
   "trangChu": "Trang chủ",
-  "manTamHome": "Màn hình tạm — Home Owner sẽ làm ở task sau",
   "dangXuat": "Đăng xuất",
   "loiThongTinDangNhap": "Email hoặc mật khẩu không đúng",
   "loiEmailChuaXacMinh": "Email chưa được xác minh",
@@ -200,5 +199,37 @@
     "placeholders": {
       "soLan": {"type": "int"}
     }
-  }
+  },
+  "timDichVuNguoiCham": "Tìm dịch vụ, người chăm sóc...",
+  "nguoiChamDaXacMinh": "Kết nối với người chăm sóc",
+  "timNgay": "Tìm ngay",
+  "dichVuPhoBien": "Dịch vụ phổ biến",
+  "datDiDao": "Dắt đi dạo",
+  "tamVaTia": "Tắm & Tỉa",
+  "trongQuaDem": "Trông qua đêm",
+  "khamThuY": "Khám thú y",
+  "tuGia": "từ {gia}",
+  "@tuGia": {
+    "placeholders": {
+      "gia": {"type": "String"}
+    }
+  },
+  "nguoiCungCapGanBan": "Người cung cấp gần bạn",
+  "datLaiLanNua": "Đặt lại lần nữa",
+  "thuCungCuaBan": "Thú cưng của bạn",
+  "them": "Thêm",
+  "duocDanhGiaCao": "Được đánh giá cao",
+  "troThanhNguoiCungCap": "Trở thành người cung cấp dịch vụ",
+  "xacMinhDeNhanDon": "Xác minh hồ sơ để nhận đơn và kiếm thêm thu nhập",
+  "dangKyLamNcc": "Đăng ký ngay",
+  "xemThem": "Xem thêm",
+  "capNhatThongTin": "Cập nhật thông tin",
+  "donCuaToi": "Đơn của tôi",
+  "tinNhan": "Tin nhắn",
+  "taiKhoan": "Tài khoản",
+  "chonDiaChi": "Chọn địa chỉ",
+  "themDiaChiDeTimNguoiCham": "Thêm địa chỉ để tìm dịch vụ gần bạn",
+  "themDiaChi": "Thêm địa chỉ",
+  "dungViTriHienTai": "Dùng vị trí hiện tại",
+  "themHoSoThuCung": "Thêm hồ sơ thú cưng để đặt dịch vụ nhanh và chính xác hơn"
 }

@@ -6,7 +6,7 @@ import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/provider_profile/models/service_draft.dart';
+import 'package:petcare_app/features/provider_profile/data/service_draft.dart';
 import 'package:petcare_app/features/provider_profile/widgets/dashed_border.dart';
 import 'package:petcare_app/features/provider_profile/widgets/step_progress_bar.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
