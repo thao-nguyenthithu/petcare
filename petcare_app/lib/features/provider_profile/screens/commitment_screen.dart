@@ -10,6 +10,7 @@ import 'package:petcare_app/features/provider_profile/widgets/step_progress_bar.
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 
+// Bước 3/3 đăng ký NCC cam kết trách nhiệm
 class CommitmentScreen extends StatefulWidget {
   const CommitmentScreen({super.key});
 
@@ -19,12 +20,6 @@ class CommitmentScreen extends StatefulWidget {
 
 class _CommitmentScreenState extends State<CommitmentScreen> {
   bool _daDongY = false;
-
-  void _baoChuaDongY() {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(context.l10n.vuiLongDongY)));
-  }
 
   Future<void> _guiHoSo() async {
     // TODO (backend): gọi API gửi hồ sơ NCC
@@ -50,7 +45,7 @@ class _CommitmentScreenState extends State<CommitmentScreen> {
                   child: AppBackButton(),
                 ),
                 const SizedBox(height: 20),
-                const StepProgressBar(currentStep: 4),
+                const StepProgressBar(currentStep: 3),
                 const SizedBox(height: 16),
                 Center(
                   child: Container(
@@ -62,7 +57,7 @@ class _CommitmentScreenState extends State<CommitmentScreen> {
                     ),
                     child: Center(
                       child: SvgPicture.asset(
-                        'assets/icons/icon_shield.svg',
+                        'assets/icons/paw.svg',
                         width: 34,
                       ),
                     ),
@@ -70,7 +65,7 @@ class _CommitmentScreenState extends State<CommitmentScreen> {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  l10n.buocTrenTong('4', '4'),
+                  l10n.buocTrenTong('3', '3'),
                   textAlign: TextAlign.center,
                   style: AppTextStyles.label.copyWith(
                     color: AppColors.primaryColor,
@@ -145,7 +140,7 @@ class _CommitmentScreenState extends State<CommitmentScreen> {
                     ),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: GestureDetector(
+                      child: InkWell(
                         onTap: () => setState(() => _daDongY = !_daDongY),
                         child: Text.rich(
                           TextSpan(
@@ -157,7 +152,7 @@ class _CommitmentScreenState extends State<CommitmentScreen> {
                               TextSpan(
                                 text: l10n.batBuoc,
                                 style: AppTextStyles.captionSm.copyWith(
-                                  color: AppColors.error,
+                                  color: AppColors.accent,
                                 ),
                               ),
                             ],
@@ -171,8 +166,8 @@ class _CommitmentScreenState extends State<CommitmentScreen> {
                 AppButton(
                   text: l10n.hoanTatGuiHoSo,
                   height: 56,
-                  onTap: _daDongY ? null : _baoChuaDongY,
-                  onTapAsync: _daDongY ? _guiHoSo : null,
+                  enabled: _daDongY,
+                  onTapAsync: _guiHoSo,
                 ),
                 const SizedBox(height: 12),
                 Text(
@@ -200,18 +195,10 @@ class _DongCamKet extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          width: 17,
-          height: 17,
-          decoration: BoxDecoration(
-            color: AppColors.cardMint,
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: const Icon(
-            Icons.check_rounded,
-            size: 12,
-            color: AppColors.primaryColor,
-          ),
+        const Icon(
+          Icons.check_rounded,
+          size: 12,
+          color: AppColors.primaryColor,
         ),
         const SizedBox(width: 8),
         Expanded(

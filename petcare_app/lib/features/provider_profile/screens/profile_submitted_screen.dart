@@ -9,6 +9,7 @@ import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/success_badge.dart';
 
+// Màn kết quả sau khi gửi hồ sơ NCC, báo chờ duyệt trong 24 giờ
 class ProfileSubmittedScreen extends StatelessWidget {
   const ProfileSubmittedScreen({super.key});
 
@@ -64,14 +65,13 @@ class ProfileSubmittedScreen extends StatelessWidget {
                 text: l10n.veTrangChu,
                 height: 56,
                 onTap: () {
-                  // TODO (router): về trang chủ Owner khi có màn Home
-                  context.go(AppRoutes.login);
+                  context.go(AppRoutes.home);
                 },
               ),
               const SizedBox(height: 16),
               Center(
-                child: GestureDetector(
-                  onTap: () {
+                child: TextButton(
+                  onPressed: () {
                     // TODO (router): màn trạng thái hồ sơ sẽ làm sau
                   },
                   child: Text(

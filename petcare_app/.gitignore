@@ -52,3 +52,4 @@ android/app/google-services.json
 lib/firebase_options.dart
 
 lib/core/l10n/generated/
+**/data/mock_*.dart
