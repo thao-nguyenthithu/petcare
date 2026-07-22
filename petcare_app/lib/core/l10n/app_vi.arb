@@ -88,13 +88,27 @@
       "total": {"type": "String"}
     }
   },
+  "troThanhNcc": "Trở thành người cung cấp dịch vụ",
+  "gioiThieuNcc": "Kiếm thêm thu nhập từ việc chăm sóc thú cưng, chủ động thời gian của bạn.",
+  "quyTrinhDangKy": "Quy trình đăng ký",
+  "buocThongTinMoTa": "Khai họ tên, số CCCD và địa chỉ thường trú.",
+  "buocXacMinhCccd": "Xác minh CCCD",
+  "buocXacMinhMoTa": "Tải ảnh mặt trước và mặt sau, rõ nét đủ 4 góc.",
+  "buocCamKetGuiHoSo": "Cam kết và gửi hồ sơ",
+  "buocCamKetMoTa": "Đồng ý điều khoản trách nhiệm rồi gửi đi.",
+  "canChuanBi": "Cần chuẩn bị trước",
+  "canChuanBiCccd": "CCCD còn hạn và điện thoại chụp được ảnh rõ hai mặt. Cả quá trình mất khoảng 5 phút.",
+  "khaiDichVuSauDuyet": "Dịch vụ, giá và khu vực phục vụ sẽ khai sau khi hồ sơ được duyệt.",
+  "batDauDangKy": "Bắt đầu đăng ký",
   "dichVuCuaBan": "Dịch vụ của bạn",
   "themItNhatMotDichVu": "Thêm ít nhất một dịch vụ bạn cung cấp.",
+  "themDichVuBanCungCap": "Thêm dịch vụ bạn cung cấp để chủ nuôi tìm thấy bạn.",
   "themDichVu": "Thêm dịch vụ",
   "loaiDichVu": "Loại dịch vụ",
   "datThuCung": "Dắt thú cưng",
   "trongGiu": "Trông giữ",
   "catTia": "Cắt tỉa",
+  "tamVaTia": "Tắm & tỉa",
   "nhanLoai": "Nhận loài",
   "cho": "Chó",
   "meo": "Mèo",
@@ -102,11 +116,11 @@
   "chiHoTroChoMeo": "Hiện chỉ hỗ trợ chó và mèo.",
   "tenDichVu": "Tên dịch vụ",
   "viDuDatCho": "VD: Dắt chó buổi sáng",
-  "viDuTrongGiu": "VD: Trông giữ ban ngày",
-  "viDuCatTia": "VD: Cắt tỉa - tạo kiểu",
-  "moTaDvDat": "Dịch vụ dắt tính theo lượt · cho 1 bé.",
-  "moTaDvTrongGiu": "Dịch vụ trông giữ tính theo ngày · cho 1 bé.",
-  "moTaDvCatTia": "Cắt tỉa tính giá theo cân nặng · cho 1 bé.",
+  "viDuTrongGiu": "VD: Trông cún PKA",
+  "viDuCatTia": "VD: Tỉa lông cún poodle",
+  "moTaDvDat": "Dịch vụ dắt thú cưng tính theo lượt cho 1 bé.",
+  "moTaDvTrongGiu": "Dịch vụ trông giữ tại cơ sở tính theo ngày cho 1 bé.",
+  "moTaDvCatTia": "Dịch vụ tắm và cắt tỉa tính giá theo cân nặng cho 1 bé.",
   "thoiLuongMoiLuot": "Thời lượng mỗi lượt",
   "soPhut": "{minutes} phút",
   "@soPhut": {
@@ -118,23 +132,70 @@
   "donGiaLuot": "đ / lượt / bé",
   "donGiaNgay": "đ / ngày / bé",
   "donGiaBe": "đ / bé",
+  "donViDong": "đ",
+  "ghiChuMotNgay": "1 ngày được tính là 24 giờ kể từ giờ nhận bé.",
   "sucChuaToiDa": "Sức chứa tối đa",
-  "hintSucChua": "Số bé nhận cùng lúc (VD: 5)",
+  "hintSucChua": "VD: 5",
+  "tomTatDatDv": "{loai} · {phut} phút · {gia}đ/lượt",
+  "@tomTatDatDv": {
+    "placeholders": {
+      "loai": {"type": "String"},
+      "phut": {"type": "String"},
+      "gia": {"type": "String"}
+    }
+  },
+  "tomTatTrongGiu": "{loai} · {gia}đ/ngày · tối đa {sucChua} bé",
+  "@tomTatTrongGiu": {
+    "placeholders": {
+      "loai": {"type": "String"},
+      "gia": {"type": "String"},
+      "sucChua": {"type": "String"}
+    }
+  },
+  "tomTatCatTia": "{loai} · {hangMuc} · từ {gia}đ/bé",
+  "@tomTatCatTia": {
+    "placeholders": {
+      "loai": {"type": "String"},
+      "hangMuc": {"type": "String"},
+      "gia": {"type": "String"}
+    }
+  },
+  "goiNayGom": "Gói này gồm",
+  "chiTam": "Chỉ tắm",
+  "tamVaCatTia": "Tắm và cắt tỉa",
+  "banRiengThiTaoHaiGoi": "Muốn bán cả hai thì tạo hai dịch vụ riêng.",
   "bangGiaCanNang": "Bảng giá theo cân nặng",
+  "chonMucCanNhan": "Chọn mức cân bạn nhận.",
+  "chonItNhatMotMucCan": "Chọn ít nhất một mức cân nặng",
   "duoi5kg": "Dưới 5 kg",
   "tu5den10kg": "5 - 10 kg",
   "tu10den20kg": "10 - 20 kg",
   "tren20kg": "Trên 20 kg",
   "luuDichVu": "Lưu dịch vụ",
+  "suaDichVu": "Sửa dịch vụ",
+  "luuThayDoi": "Lưu thay đổi",
+  "xoaDichVu": "Xóa dịch vụ",
+  "xacNhanXoaDichVu": "Dịch vụ này sẽ bị gỡ khỏi hồ sơ của bạn.",
+  "xoa": "Xóa",
+  "huy": "Hủy",
   "thongTinCaNhan": "Thông tin cá nhân",
   "nhapDungGiayTo": "Nhập đúng theo giấy tờ tùy thân.",
   "hoVaTenThat": "Họ và tên thật",
   "hintHoTenThat": "Nguyễn Văn A",
+  "ngaySinh": "Ngày sinh",
+  "chonNgaySinh": "Chọn ngày sinh",
+  "gioiTinh": "Giới tính",
+  "chonGioiTinh": "Chọn giới tính",
+  "gioiTinhNam": "Nam",
+  "gioiTinhNu": "Nữ",
+  "gioiTinhKhac": "Khác",
+  "phaiDu18Tuoi": "Bạn phải đủ 18 tuổi để đăng ký cung cấp dịch vụ",
   "soCccd": "Số CCCD",
   "hintCccd": "12 chữ số trên thẻ CCCD",
   "cccdKhongHopLe": "Số CCCD phải đủ 12 chữ số",
   "diaChiThuongTru": "Địa chỉ thường trú",
   "chonTinhThanh": "Chọn Tỉnh/Thành phố",
+  "timKiem": "Tìm kiếm",
   "hintDiaChiChiTiet": "Số nhà, đường, phường/xã",
   "noiCap": "Nơi cấp",
   "hintNoiCap": "Cục CSQLHC",
@@ -146,6 +207,14 @@
   "anhCccd": "Ảnh CCCD",
   "matTruoc": "Mặt trước",
   "matSau": "Mặt sau",
+  "chupMatTruoc": "Chụp mặt trước CCCD",
+  "chupMatSau": "Chụp mặt sau CCCD",
+  "chupLai": "Chụp lại",
+  "datTheVaoKhung": "Đặt thẻ nằm gọn trong khung",
+  "huongDanChupThe": "Đưa thẻ vào khung, giữ máy vững và đủ sáng",
+  "khongMoDuocCamera": "Không mở được camera. Kiểm tra quyền truy cập camera trong Cài đặt.",
+  "thuLai": "Thử lại",
+  "dangXuLyAnh": "Đang xử lý ảnh...",
   "thongTinKhopBuocTruoc": "Thông tin trên ảnh phải khớp với bước trước.",
   "vuiLongTaiDuAnh": "Vui lòng tải đủ ảnh mặt trước và mặt sau",
   "camKetDieuKhoan": "Cam kết & điều khoản",
@@ -157,7 +226,7 @@
   "nenTangTrungGian": "Smart Pet Care là nền tảng trung gian kết nối, không phải bên cung cấp dịch vụ.",
   "dongYDieuKhoan": "Tôi đồng ý với Cam kết, Điều khoản dịch vụ và Chính sách bảo mật.",
   "batBuoc": "* Bắt buộc",
-  "hoanTatGuiHoSo": "Hoàn tất & gửi hồ sơ",
+  "hoanTatGuiHoSo": "Gửi hồ sơ",
   "hoSoDuyet24h": "Hồ sơ được duyệt trong vòng 24 giờ. Bạn sẽ nhận thông báo để cập nhật hồ sơ sau khi được duyệt.",
   "vuiLongDongY": "Vui lòng đồng ý với điều khoản để tiếp tục",
   "daGuiHoSo": "Đã gửi hồ sơ!",
@@ -166,6 +235,9 @@
   "veTrangChu": "Về trang chủ",
   "xemTrangThaiHoSo": "Xem trạng thái hồ sơ",
   "loiKetNoiMayChu": "Không thể kết nối máy chủ, vui lòng thử lại",
+  "loiHoSoDaDuyet": "Hồ sơ đã được duyệt, không thể gửi lại",
+  "loiCccdDaDangKy": "Số CCCD này đã được đăng ký",
+  "loiTaiAnhCccd": "Không tải được ảnh CCCD lên kho lưu trữ, kiểm tra kết nối mạng hoặc cấu hình Supabase",
   "loiEmailDaSuDung": "Email đã được sử dụng",
   "loiSoDienThoaiDaSuDung": "Số điện thoại đã được sử dụng",
   "loiTaiKhoanKhongTonTai": "Tài khoản không tồn tại",
@@ -223,7 +295,24 @@
   "xacMinhDeNhanDon": "Xác minh hồ sơ để nhận đơn và kiếm thêm thu nhập",
   "dangKyLamNcc": "Đăng ký ngay",
   "xemThem": "Xem thêm",
-  "capNhatThongTin": "Cập nhật thông tin",
+  "conXphut": "còn {phut} phút",
+  "@conXphut": {
+    "placeholders": {
+      "phut": {"type": "int"}
+    }
+  },
+  "conXgio": "còn {gio} giờ",
+  "@conXgio": {
+    "placeholders": {
+      "gio": {"type": "int"}
+    }
+  },
+  "conXngay": "còn {ngay} ngày",
+  "@conXngay": {
+    "placeholders": {
+      "ngay": {"type": "int"}
+    }
+  },
   "donCuaToi": "Đơn của tôi",
   "tinNhan": "Tin nhắn",
   "taiKhoan": "Tài khoản",
@@ -231,5 +320,88 @@
   "themDiaChiDeTimNguoiCham": "Thêm địa chỉ để tìm dịch vụ gần bạn",
   "themDiaChi": "Thêm địa chỉ",
   "dungViTriHienTai": "Dùng vị trí hiện tại",
-  "themHoSoThuCung": "Thêm hồ sơ thú cưng để đặt dịch vụ nhanh và chính xác hơn"
+  "themHoSoThuCung": "Thêm hồ sơ thú cưng để đặt dịch vụ nhanh và chính xác hơn",
+  "meoChamSoc": "Mẹo chăm sóc thú cưng",
+  "noiBat": "Nổi bật",
+  "baiVietMoi": "Bài viết mới",
+  "truocSoPhut": "{minutes} phút trước",
+  "@truocSoPhut": {
+    "placeholders": {
+      "minutes": {"type": "String"}
+    }
+  },
+  "truocSoGio": "{hours} giờ trước",
+  "@truocSoGio": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "truocSoNgay": "{days} ngày trước",
+  "@truocSoNgay": {
+    "placeholders": {
+      "days": {"type": "String"}
+    }
+  },
+  "homQua": "Hôm qua",
+  "dichVuChoBe": "Dịch vụ cho bé",
+  "tatCaDichVu": "Tất cả dịch vụ",
+  "chonLoaiDichVuPhuHop": "Chọn loại dịch vụ phù hợp với thú cưng của bạn",
+  "moTaLoaiDatDiDao": "GPS thời gian thực · gói 30 / 60 / 90 phút",
+  "moTaLoaiTrongGiu": "Tại cơ sở người chăm · nhật ký ảnh mỗi ngày",
+  "moTaLoaiCatTia": "Tại nhà · 3 gói Cơ bản / Tiêu chuẩn / Full",
+  "theoCan": " (theo cân)",
+  "luuYPhucVuChoMeo": "Hiện phục vụ chó và mèo. Các loài khác sẽ sớm có mặt.",
+  "thongBao": "Thông báo",
+  "docTatCa": "Đọc tất cả",
+  "tatCa": "Tất cả",
+  "chuaDoc": "Chưa đọc",
+  "soMoi": "{count} mới",
+  "@soMoi": {
+    "placeholders": {
+      "count": {"type": "String"}
+    }
+  },
+  "canXuLy": "Cần xử lý",
+  "homNay": "Hôm nay",
+  "truocDo": "Trước đó",
+  "chuaCoThongBao": "Chưa có thông báo",
+  "moTaChuaCoThongBao": "Thông báo về đơn và nhắc lịch của bạn sẽ hiện ở đây.",
+  "huy": "Huỷ",
+  "timKiemGanDay": "Tìm kiếm gần đây",
+  "xoa": "Xoá",
+  "phoBien": "Phổ biến",
+  "danhMuc": "Danh mục",
+  "boLoc": "Bộ lọc",
+  "goiY": "Gợi ý",
+  "nguoiCham": "Người chăm",
+  "khongTimThayKetQua": "Không tìm thấy kết quả",
+  "moTaKhongTimThay": "Thử kiểm tra chính tả hoặc dùng từ khoá khác.",
+  "coTheBanQuanTam": "Có thể bạn quan tâm",
+  "hoacNhapTay": "hoặc nhập tay",
+  "tinhThanhPho": "Tỉnh / Thành phố",
+  "quanHuyen": "Quận / Huyện",
+  "chonQuanHuyen": "Chọn quận / huyện",
+  "phuongXa": "Phường / Xã",
+  "chonPhuongXa": "Chọn phường / xã",
+  "soNhaTenDuong": "Số nhà, tên đường",
+  "hintSoNha": "VD: 12 Ngõ 4 Đặng Văn Ngữ",
+  "nhanDiaChi": "Nhãn địa chỉ",
+  "nha": "Nhà",
+  "congTy": "Công ty",
+  "khac": "Khác",
+  "luuDiaChi": "Lưu địa chỉ",
+  "choPhepTruyCapViTri": "Cho phép truy cập vị trí?",
+  "moTaQuyenViTri": "Smart Pet Care dùng vị trí để gợi ý người chăm gần bạn và theo dõi GPS khi dắt thú cưng. Bạn có thể tắt bất cứ lúc nào.",
+  "choPhepTruyCap": "Cho phép truy cập",
+  "deSau": "Để sau",
+  "loiQuyenViTriBiTat": "Bạn đã tắt quyền vị trí. Mở Cài đặt để bật lại.",
+  "loiKhongLayDuocViTri": "Không lấy được vị trí hiện tại, vui lòng thử lại.",
+  "dangLayViTri": "Đang lấy vị trí...",
+  "daLayViTri": "Đã lấy vị trí hiện tại: {toaDo}",
+  "@daLayViTri": {
+    "placeholders": {
+      "toaDo": {"type": "String"}
+    }
+  },
+  "moCaiDat": "Mở Cài đặt"
 }

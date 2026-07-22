@@ -7,7 +7,9 @@ import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/auth/providers/auth_provider.dart';
+import 'package:petcare_app/features/home/data/mock_home_data.dart';
 import 'package:petcare_app/features/home/screens/owner_home_tab.dart';
+import 'package:petcare_app/features/home/widgets/active_order_bar.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -25,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final l10n = context.l10n;
     return Scaffold(
       body: switch (_tabIndex) {
-        0 => const OwnerHomeTab(),
+        0 => const _HomeTabWithLiveBar(),
         1 => _PlaceholderTab(title: l10n.donCuaToi),
         2 => _PlaceholderTab(title: l10n.tinNhan),
         _ => const _AccountTab(),
@@ -66,6 +68,28 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+    );
+  }
+}
+
+// Tab Trang chủ với đơn đang diễn ra
+class _HomeTabWithLiveBar extends StatelessWidget {
+  const _HomeTabWithLiveBar();
+
+  @override
+  Widget build(BuildContext context) {
+    const orders = MockHomeData.activeOrders;
+    return Stack(
+      children: [
+        OwnerHomeTab(bottomInset: orders.isEmpty ? 24 : 108),
+        if (orders.isNotEmpty)
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 12,
+            child: ActiveOrderBar(orders: orders),
+          ),
+      ],
     );
   }
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
+import 'package:petcare_app/core/router/app_router.dart';
+import 'package:petcare_app/features/article/data/mock_article_data.dart';
+import 'package:petcare_app/features/article/widgets/article_list.dart';
 import 'package:petcare_app/features/home/data/mock_home_data.dart';
-import 'package:petcare_app/features/home/widgets/article_list.dart';
 import 'package:petcare_app/features/home/widgets/home_app_bar.dart';
 import 'package:petcare_app/features/home/widgets/home_banners.dart';
 import 'package:petcare_app/shared/utils/placeholder_action.dart';
@@ -12,7 +15,10 @@ import 'package:petcare_app/features/home/widgets/section_header.dart';
 import 'package:petcare_app/features/home/widgets/service_categories.dart';
 
 class OwnerHomeTab extends StatelessWidget {
-  const OwnerHomeTab({super.key});
+  const OwnerHomeTab({super.key, this.bottomInset = 24});
+
+  // Chừa chỗ cuối trang cho thanh đơn đang diễn
+  final double bottomInset;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +39,7 @@ class OwnerHomeTab extends StatelessWidget {
               const SizedBox(height: 20),
               SectionHeader(
                 title: l10n.dichVuPhoBien,
-                onTapMore: () => baoDangPhatTrien(context),
+                onTapMore: () => context.push(AppRoutes.services),
               ),
               const SizedBox(height: 8),
               const ServiceCategories(
@@ -80,12 +86,16 @@ class OwnerHomeTab extends StatelessWidget {
               const BecomeProviderBanner(),
               const SizedBox(height: 24),
               SectionHeader(
-                title: l10n.capNhatThongTin,
-                onTapMore: () => baoDangPhatTrien(context),
+                title: l10n.meoChamSoc,
+                onTapMore: () => context.push(AppRoutes.articles),
               ),
               const SizedBox(height: 8),
-              ArticleList(articles: MockHomeData.articles.take(5).toList()),
-              const SizedBox(height: 24),
+              ArticleList(
+                articles: MockArticle.latest
+                    .take(MockArticle.homePreviewCount)
+                    .toList(),
+              ),
+              SizedBox(height: bottomInset),
             ],
           ),
         ),
