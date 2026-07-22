@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:petcare_app/core/network/api_client.dart';
 
-/// Gọi các API luồng đăng ký
+// Gọi các API luồng đăng ký
 class AuthApiService {
   Future<void> register({
     required String fullName,
@@ -58,6 +58,12 @@ class AuthApiService {
       '/auth/login',
       data: {'email': email, 'password': password},
     );
+    return Map<String, dynamic>.from(res.data as Map);
+  }
+
+  // Lấy hồ sơ người dùng đang đăng nhập
+  Future<Map<String, dynamic>> getMe() async {
+    final res = await apiClient.get('/auth/me');
     return Map<String, dynamic>.from(res.data as Map);
   }
 
