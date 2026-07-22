@@ -3,6 +3,8 @@ import 'package:petcare_app/shared/widgets/app_loading_overlay.dart';
 
 class AppButton extends StatefulWidget {
   final String text;
+  final IconData? icon;
+  final bool outlined;
   final VoidCallback? onTap;
   final Future<void> Function()? onTapAsync;
   final double height;
@@ -11,6 +13,8 @@ class AppButton extends StatefulWidget {
   const AppButton({
     super.key,
     required this.text,
+    this.icon,
+    this.outlined = false,
     this.onTap,
     this.onTapAsync,
     this.height = 54,
@@ -32,22 +36,38 @@ class _AppButtonState extends State<AppButton> {
     try {
       await showAppLoading(context, widget.onTapAsync!);
     } finally {
-      // Trang có thể đã bị đóng trong lúc chờ — chỉ setState khi còn sống
       if (mounted) setState(() => _isLoading = false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final onPressed = (!widget.enabled || _isLoading)
+        ? null
+        : (widget.onTapAsync != null ? _runAsyncTap : widget.onTap);
+    final label = Text(widget.text);
+    final Widget button;
+    if (widget.outlined) {
+      button = widget.icon == null
+          ? OutlinedButton(onPressed: onPressed, child: label)
+          : OutlinedButton.icon(
+              onPressed: onPressed,
+              icon: Icon(widget.icon, size: 20),
+              label: label,
+            );
+    } else {
+      button = widget.icon == null
+          ? FilledButton(onPressed: onPressed, child: label)
+          : FilledButton.icon(
+              onPressed: onPressed,
+              icon: Icon(widget.icon, size: 20),
+              label: label,
+            );
+    }
     return SizedBox(
       width: double.infinity,
       height: widget.height,
-      child: FilledButton(
-        onPressed: (!widget.enabled || _isLoading)
-            ? null
-            : (widget.onTapAsync != null ? _runAsyncTap : widget.onTap),
-        child: Text(widget.text),
-      ),
+      child: button,
     );
   }
 }

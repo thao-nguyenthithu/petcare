@@ -1,7 +1,9 @@
+import 'package:petcare_app/core/storage/token_storage.dart';
+import 'package:petcare_app/features/auth/services/auth_api_service.dart';
+import 'package:petcare_app/features/auth/services/social_auth_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../core/storage/token_storage.dart';
-import '../services/auth_api_service.dart';
-import '../services/social_auth_service.dart';
+import 'package:petcare_app/features/auth/providers/current_user_provider.dart';
+import 'package:petcare_app/features/address/providers/saved_addresses_provider.dart';
 
 part 'auth_provider.g.dart';
 
@@ -64,6 +66,7 @@ class AuthNotifier extends _$AuthNotifier {
   // Đăng xuất
   Future<void> logout() async {
     await _tokenStorage.clearTokens();
+    ref.invalidate(currentUserProvider);
     state = const AsyncData(false);
   }
 
@@ -72,6 +75,8 @@ class AuthNotifier extends _$AuthNotifier {
     final token = res['accessToken'] as String?;
     if (token != null) {
       await _tokenStorage.saveAccessToken(token);
+      ref.invalidate(currentUserProvider);
+      ref.invalidate(savedAddressesProvider);
       state = const AsyncData(true);
     }
   }

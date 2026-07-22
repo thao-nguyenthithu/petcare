@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/router/app_router.dart';
+import 'package:petcare_app/features/address/providers/saved_addresses_provider.dart';
 import 'package:petcare_app/features/article/data/mock_article_data.dart';
 import 'package:petcare_app/features/article/widgets/article_list.dart';
 import 'package:petcare_app/features/home/data/mock_home_data.dart';
@@ -14,16 +16,18 @@ import 'package:petcare_app/features/home/widgets/recent_booking_list.dart';
 import 'package:petcare_app/features/home/widgets/section_header.dart';
 import 'package:petcare_app/features/home/widgets/service_categories.dart';
 
-class OwnerHomeTab extends StatelessWidget {
+class OwnerHomeTab extends ConsumerWidget {
   const OwnerHomeTab({super.key, this.bottomInset = 24});
 
   // Chừa chỗ cuối trang cho thanh đơn đang diễn
   final double bottomInset;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     const user = MockHomeData.user;
+    final coDiaChi =
+        ref.watch(savedAddressesProvider).asData?.value.isNotEmpty ?? false;
     return CustomScrollView(
       slivers: [
         const HomeAppBar(user: user),
@@ -46,7 +50,7 @@ class OwnerHomeTab extends StatelessWidget {
                 categories: MockHomeData.serviceCategories,
               ),
               const SizedBox(height: 28),
-              if (user.address != null) ...[
+              if (coDiaChi) ...[
                 SectionHeader(
                   title: l10n.nguoiCungCapGanBan,
                   onTapMore: () => baoDangPhatTrien(context),

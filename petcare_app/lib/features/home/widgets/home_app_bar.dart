@@ -1,29 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
+import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
+import 'package:petcare_app/core/theme/app_system_ui.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
+import 'package:petcare_app/features/address/data/saved_address.dart';
+import 'package:petcare_app/features/address/providers/saved_addresses_provider.dart';
+import 'package:petcare_app/features/auth/providers/current_user_provider.dart';
 import 'package:petcare_app/features/home/data/mock_home_data.dart';
-import 'package:petcare_app/shared/utils/placeholder_action.dart';
 
 // Header xanh logo, chuông, lời chào, địa chỉ
-class HomeAppBar extends StatelessWidget {
+class HomeAppBar extends ConsumerWidget {
   const HomeAppBar({super.key, required this.user});
 
   final MockHomeUser user;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
+    final userName =
+        ref.watch(currentUserProvider).asData?.value.fullName ?? '';
     return SliverAppBar(
       pinned: true,
       automaticallyImplyLeading: false,
       backgroundColor: AppColors.primaryColor,
       surfaceTintColor: AppColors.primaryColor,
       elevation: 0,
-      systemOverlayStyle: SystemUiOverlayStyle.light,
+      systemOverlayStyle: AppSystemUi.onDarkBackground,
       toolbarHeight: 0,
       expandedHeight: 128,
       flexibleSpace: FlexibleSpaceBar(
@@ -52,7 +59,7 @@ class HomeAppBar extends StatelessWidget {
                       color: const Color(0xFF23705A),
                       shape: const CircleBorder(),
                       child: IconButton(
-                        onPressed: () => baoDangPhatTrien(context),
+                        onPressed: () => context.push(AppRoutes.notifications),
                         padding: EdgeInsets.zero,
                         constraints: const BoxConstraints.tightFor(
                           width: 40,
@@ -81,7 +88,7 @@ class HomeAppBar extends StatelessWidget {
                     ),
                     children: [
                       TextSpan(
-                        text: user.name,
+                        text: userName,
                         style: AppTextStyles.h3.copyWith(
                           color: AppColors.textWhite,
                         ),
@@ -90,7 +97,7 @@ class HomeAppBar extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10),
-                _AddressRow(address: user.address),
+                const _AddressRow(),
               ],
             ),
           ),
@@ -141,90 +148,83 @@ class SearchBarHeaderDelegate extends SliverPersistentHeaderDelegate {
   bool shouldRebuild(SearchBarHeaderDelegate oldDelegate) => false;
 }
 
-// Có địa chỉ thì hiện, chưa có thì mời chọn
-class _AddressRow extends StatelessWidget {
-  const _AddressRow({required this.address});
-
-  final String? address;
+// Có địa chỉ mặc định thì hiện nó (bấm mở danh sách), chưa có thì mời chọn
+// (bấm mở thẳng form thêm).
+class _AddressRow extends ConsumerWidget {
+  const _AddressRow();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final danhSach =
+        ref.watch(savedAddressesProvider).asData?.value ??
+        const <SavedAddress>[];
+    SavedAddress? macDinh;
+    for (final dc in danhSach) {
+      if (dc.isDefault) {
+        macDinh = dc;
+        break;
+      }
+    }
+    macDinh ??= danhSach.isNotEmpty ? danhSach.first : null;
+    final coDiaChi = macDinh != null;
     return InkWell(
-      onTap: () => baoDangPhatTrien(context),
+      onTap: () =>
+          context.push(coDiaChi ? AppRoutes.addresses : AppRoutes.addAddress),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
         children: [
           SvgPicture.asset('assets/icons/icon_location.svg', height: 18),
           const SizedBox(width: 10),
-          Text(
-            address ?? context.l10n.chonDiaChi,
-            style: AppTextStyles.captionSm.copyWith(color: AppColors.neutral),
+          Flexible(
+            child: Text(
+              macDinh?.diaChiDayDu ?? context.l10n.chonDiaChi,
+              style: AppTextStyles.captionSm.copyWith(color: AppColors.neutral),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-          if (address == null) ...[
-            const SizedBox(width: 8),
-            const Icon(Icons.chevron_right, size: 18, color: AppColors.neutral),
-          ],
+          const SizedBox(width: 8),
+          const Icon(Icons.chevron_right, size: 18, color: AppColors.neutral),
         ],
       ),
     );
   }
 }
 
-// Thanh tìm kiếm nút bộ lọc
+// Thanh tìm kiếm, bấm vào mở màn Tìm kiếm
 class _SearchBar extends StatelessWidget {
   const _SearchBar();
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Material(
-            color: AppColors.surface,
-            elevation: 2,
-            shadowColor: AppColors.shadow,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppRadius.radius14),
-            ),
-            child: InkWell(
-              onTap: () => baoDangPhatTrien(context),
-              borderRadius: BorderRadius.circular(AppRadius.radius14),
-              child: SizedBox(
-                height: 52,
-                child: Row(
-                  children: [
-                    const SizedBox(width: 18),
-                    SvgPicture.asset('assets/icons/icon_search.svg', width: 18),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        context.l10n.timDichVuNguoiCham,
-                        style: AppTextStyles.body,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
+    return Material(
+      color: AppColors.surface,
+      elevation: 2,
+      shadowColor: AppColors.shadow,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppRadius.radius14),
+      ),
+      child: InkWell(
+        onTap: () => context.push(AppRoutes.search),
+        borderRadius: BorderRadius.circular(AppRadius.radius14),
+        child: SizedBox(
+          height: 52,
+          child: Row(
+            children: [
+              const SizedBox(width: 18),
+              SvgPicture.asset('assets/icons/icon_search.svg', width: 18),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  context.l10n.timDichVuNguoiCham,
+                  style: AppTextStyles.body,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-            ),
+              const SizedBox(width: 12),
+            ],
           ),
         ),
-        const SizedBox(width: 8),
-        SizedBox(
-          width: 48,
-          height: 52,
-          child: IconButton.filled(
-            onPressed: () => baoDangPhatTrien(context),
-            style: IconButton.styleFrom(
-              backgroundColor: AppColors.accent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppRadius.radius14),
-              ),
-            ),
-            icon: const Icon(Icons.tune, color: AppColors.textWhite),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

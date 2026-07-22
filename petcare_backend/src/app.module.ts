@@ -11,6 +11,7 @@ import { MailModule } from './modules/mail/mail.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MediaModule } from './modules/media/media.module';
 import { ProviderProfileModule } from './modules/provider-profile/provider-profile.module';
+import { AddressesModule } from './modules/addresses/addresses.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { ProviderProfileModule } from './modules/provider-profile/provider-profi
     AuthModule,
     MediaModule,
     ProviderProfileModule,
+    AddressesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -27,6 +27,32 @@ model User {
   provider         ServiceProvider?
   violationReports ViolationReport[]
   messages         Message[]
+  addresses        Address[]
+}
+
+model Address {
+  id          String       @id @default(uuid())
+  userId      String
+  label       AddressLabel @default(HOME)
+  customLabel String? 
+  province    String 
+  ward        String 
+  street      String 
+  note        String? 
+  lat         Float
+  lng         Float
+  isDefault   Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+enum AddressLabel {
+  HOME
+  WORK
+  OTHER
 }
 
 model ServiceProvider {
