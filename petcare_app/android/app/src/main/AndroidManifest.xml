@@ -15,6 +15,10 @@
     <!-- Internet — cần cho Firebase, Maps, API calls -->
     <uses-permission android:name="android.permission.INTERNET"/>
 
+    <!-- Camera — màn chụp CCCD tự dựng bằng package camera -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera" android:required="false"/>
+
     <application
         android:label="Pet Care"
         android:name="${applicationName}"

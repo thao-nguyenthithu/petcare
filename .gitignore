@@ -24,3 +24,4 @@ docs/
 
 .vscode/
 run-app-with-api.bat
+petcare_app/assets/mock/
