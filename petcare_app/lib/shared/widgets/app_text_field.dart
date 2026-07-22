@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
@@ -16,6 +17,11 @@ class AppTextField extends StatefulWidget {
   final double height;
   final Color? fillColor;
   final String? suffixText;
+  final List<TextInputFormatter>? inputFormatters;
+
+  // Ô chỉ đọc
+  final bool readOnly;
+  final VoidCallback? onTap;
 
   const AppTextField({
     super.key,
@@ -31,6 +37,9 @@ class AppTextField extends StatefulWidget {
     this.height = 52,
     this.fillColor,
     this.suffixText,
+    this.inputFormatters,
+    this.readOnly = false,
+    this.onTap,
   });
 
   @override
@@ -69,6 +78,9 @@ class _AppTextFieldState extends State<AppTextField> {
           controller: widget.controller,
           obscureText: _obscure,
           keyboardType: widget.keyboardType,
+          inputFormatters: widget.inputFormatters,
+          readOnly: widget.readOnly,
+          onTap: widget.onTap,
           validator: widget.validator,
           onChanged: widget.onChanged,
           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -88,8 +100,6 @@ class _AppTextFieldState extends State<AppTextField> {
             focusedErrorBorder: _vien(AppColors.error),
             errorStyle: AppTextStyles.caption.copyWith(color: AppColors.error),
             errorMaxLines: 2,
-            suffixText: widget.suffixText,
-            suffixStyle: AppTextStyles.caption,
             suffixIcon: widget.isPassword
                 ? IconButton(
                     onPressed: () => setState(() => _obscure = !_obscure),
@@ -101,7 +111,19 @@ class _AppTextFieldState extends State<AppTextField> {
                       color: AppColors.textSecondary,
                     ),
                   )
-                : null,
+                : widget.suffixText == null
+                ? null
+                : Padding(
+                    padding: const EdgeInsets.only(right: 16, left: 8),
+                    child: Text(
+                      widget.suffixText!,
+                      style: AppTextStyles.caption,
+                    ),
+                  ),
+            suffixIconConstraints:
+                widget.isPassword || widget.suffixText == null
+                ? null
+                : const BoxConstraints(minWidth: 0, minHeight: 0),
           ),
         ),
       ],

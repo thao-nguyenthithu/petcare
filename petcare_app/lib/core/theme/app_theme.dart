@@ -42,6 +42,21 @@ class AppTheme {
         ),
       ),
     ),
+    chipTheme: ChipThemeData(
+      backgroundColor: AppColors.surface,
+      selectedColor: AppColors.primaryColor,
+      showCheckmark: false,
+      side: BorderSide.none,
+      shape: const StadiumBorder(),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      labelStyle: WidgetStateTextStyle.resolveWith(
+        (states) => AppTextStyles.label.copyWith(
+          color: states.contains(WidgetState.selected)
+              ? AppColors.textWhite
+              : AppColors.textPrimary,
+        ),
+      ),
+    ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: AppColors.textPrimary,
