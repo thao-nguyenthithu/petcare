@@ -1,23 +1,15 @@
 import 'package:go_router/go_router.dart';
-import 'package:petcare_app/features/auth/screens/forgot_password_screen.dart';
-import 'package:petcare_app/features/auth/screens/language_screen.dart';
-import 'package:petcare_app/features/auth/screens/login_screen.dart';
-import 'package:petcare_app/features/auth/screens/onboarding_screen.dart';
-import 'package:petcare_app/features/auth/screens/otp_screen.dart';
-import 'package:petcare_app/features/auth/screens/register_screen.dart';
-import 'package:petcare_app/features/auth/screens/reset_password_screen.dart';
-import 'package:petcare_app/features/auth/screens/splash_screen.dart';
-import 'package:petcare_app/features/auth/screens/verify_email_screen.dart';
-import 'package:petcare_app/features/auth/screens/verify_success_screen.dart';
-import 'package:petcare_app/features/home/screens/home_screen.dart';
-import 'package:petcare_app/features/provider_profile/screens/add_service_screen.dart';
-import 'package:petcare_app/features/provider_profile/screens/commitment_screen.dart';
-import 'package:petcare_app/features/provider_profile/screens/id_upload_screen.dart';
-import 'package:petcare_app/features/provider_profile/screens/personal_info_screen.dart';
-import 'package:petcare_app/features/provider_profile/screens/profile_submitted_screen.dart';
-import 'package:petcare_app/features/provider_profile/screens/service_list_screen.dart';
+import 'package:petcare_app/core/storage/token_storage.dart';
+import 'package:petcare_app/features/address/address_routes.dart';
+import 'package:petcare_app/features/article/article_routes.dart';
+import 'package:petcare_app/features/auth/auth_routes.dart';
+import 'package:petcare_app/features/home/home_routes.dart';
+import 'package:petcare_app/features/notification/notification_routes.dart';
+import 'package:petcare_app/features/provider_profile/provider_profile_routes.dart';
+import 'package:petcare_app/features/search/search_routes.dart';
+import 'package:petcare_app/features/service/service_routes.dart';
 
-/// Đường dẫn các màn hình trong app
+// Đường dẫn các màn — tập trung một chỗ để tra nhanh + tránh trùng.
 class AppRoutes {
   AppRoutes._();
 
@@ -32,89 +24,54 @@ class AppRoutes {
   static const String forgotPassword = '/forgot-password';
   static const String otp = '/otp';
   static const String resetPassword = '/reset-password';
+  static const String articles = '/articles';
+  static const String notifications = '/notifications';
+  static const String search = '/search';
+  static const String services = '/services';
+  static const String addresses = '/address';
+  static const String addAddress = '/address/add';
+  static const String locationPicker = '/address/pick-location';
+  static const String providerIntro = '/provider-profile/intro';
   static const String providerServices = '/provider-profile/services';
   static const String providerAddService = '/provider-profile/add-service';
   static const String providerPersonalInfo = '/provider-profile/personal-info';
   static const String providerIdUpload = '/provider-profile/id-upload';
+  static const String providerIdCapture = '/provider-profile/id-capture';
   static const String providerCommitment = '/provider-profile/commitment';
   static const String providerSubmitted = '/provider-profile/submitted';
 }
 
+// Màn không cần đăng nhập
+const _manCongKhai = {
+  AppRoutes.splash,
+  AppRoutes.language,
+  AppRoutes.onboarding,
+  AppRoutes.login,
+  AppRoutes.register,
+  AppRoutes.verifyEmail,
+  AppRoutes.verifySuccess,
+  AppRoutes.forgotPassword,
+  AppRoutes.otp,
+  AppRoutes.resetPassword,
+};
+
+Future<String?> _guardDangNhap(_, GoRouterState state) async {
+  if (_manCongKhai.contains(state.matchedLocation)) return null;
+  final coToken = await TokenStorageService().hasToken();
+  return coToken ? null : AppRoutes.login;
+}
+
 final appRouter = GoRouter(
-  initialLocation: AppRoutes.splash,
+  initialLocation: AppRoutes.home,
+  redirect: _guardDangNhap,
   routes: [
-    GoRoute(
-      path: AppRoutes.splash,
-      builder: (context, state) => const SplashScreen(),
-    ),
-    GoRoute(
-      path: AppRoutes.language,
-      builder: (context, state) => const LanguageScreen(),
-    ),
-    GoRoute(
-      path: AppRoutes.onboarding,
-      builder: (context, state) => const OnboardingScreen(),
-    ),
-    GoRoute(
-      path: AppRoutes.login,
-      builder: (context, state) => const LoginScreen(),
-    ),
-    GoRoute(
-      path: AppRoutes.register,
-      builder: (context, state) => const RegisterScreen(),
-    ),
-    GoRoute(
-      path: AppRoutes.home,
-      builder: (context, state) => const HomeScreen(),
-    ),
-    GoRoute(
-      path: AppRoutes.verifyEmail,
-      builder: (context, state) {
-        final email = state.extra as String?;
-        return VerifyEmailScreen(email: email ?? '');
-      },
-    ),
-    GoRoute(
-      path: AppRoutes.verifySuccess,
-      builder: (context, state) => const VerifySuccessScreen(),
-    ),
-    GoRoute(
-      path: AppRoutes.forgotPassword,
-      builder: (context, state) => const ForgotPasswordScreen(),
-    ),
-    GoRoute(
-      path: AppRoutes.otp,
-      builder: (context, state) =>
-          OtpScreen(email: state.extra as String? ?? ''),
-    ),
-    GoRoute(
-      path: AppRoutes.resetPassword,
-      builder: (context, state) =>
-          ResetPasswordScreen(resetToken: state.extra as String? ?? ''),
-    ),
-    GoRoute(
-      path: AppRoutes.providerServices,
-      builder: (context, state) => const ServiceListScreen(),
-    ),
-    GoRoute(
-      path: AppRoutes.providerAddService,
-      builder: (context, state) => const AddServiceScreen(),
-    ),
-    GoRoute(
-      path: AppRoutes.providerPersonalInfo,
-      builder: (context, state) => const PersonalInfoScreen(),
-    ),
-    GoRoute(
-      path: AppRoutes.providerIdUpload,
-      builder: (context, state) => const IdUploadScreen(),
-    ),
-    GoRoute(
-      path: AppRoutes.providerCommitment,
-      builder: (context, state) => const CommitmentScreen(),
-    ),
-    GoRoute(
-      path: AppRoutes.providerSubmitted,
-      builder: (context, state) => const ProfileSubmittedScreen(),
-    ),
+    ...authRoutes,
+    ...homeRoutes,
+    ...addressRoutes,
+    ...providerProfileRoutes,
+    ...articleRoutes,
+    ...notificationRoutes,
+    ...searchRoutes,
+    ...serviceRoutes,
   ],
 );
