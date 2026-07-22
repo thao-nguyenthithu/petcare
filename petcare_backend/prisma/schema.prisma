@@ -30,19 +30,32 @@ model User {
 }
 
 model ServiceProvider {
-  id                String    @id @default(uuid())
-  userId            String    @unique
+  id                String         @id @default(uuid())
+  userId            String         @unique
   bio               String?
-  ratingAvg         Float     @default(0)
-  totalReviews      Int       @default(0)
-  backgroundChecked Boolean   @default(false)
+  ratingAvg         Float          @default(0)
+  totalReviews      Int            @default(0)
+  backgroundChecked Boolean        @default(false)
   lat               Float?
   lng               Float?
   serviceAreas      Json?
   certifications    Json?
-  createdAt         DateTime  @default(now())
-  bookings          Booking[] @relation("ProviderBookings")
-  user              User      @relation(fields: [userId], references: [id])
+  createdAt         DateTime       @default(now())
+  // Hồ sơ đăng ký NCC (bước xác minh danh tính)
+  status            ProviderStatus @default(PENDING)
+  legalName         String?
+  gender            Gender?
+  dateOfBirth       DateTime?
+  nationalId        String?        @unique
+  idIssuedPlace     String?
+  idIssuedDate      DateTime?
+  province          String?
+  addressDetail     String?
+  cccdFrontPath     String?
+  cccdBackPath      String?
+  submittedAt       DateTime?
+  bookings          Booking[]      @relation("ProviderBookings")
+  user              User           @relation(fields: [userId], references: [id])
 }
 
 model Pet {
@@ -196,6 +209,19 @@ enum UserRole {
   OWNER
   PROVIDER
   ADMIN
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+// Trạng thái duyệt hồ sơ NCC
+enum ProviderStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
 
 enum ServiceType {

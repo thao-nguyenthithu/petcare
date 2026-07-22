@@ -10,6 +10,7 @@ import { RedisModule } from './common/redis/redis.module';
 import { MailModule } from './modules/mail/mail.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MediaModule } from './modules/media/media.module';
+import { ProviderProfileModule } from './modules/provider-profile/provider-profile.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { MediaModule } from './modules/media/media.module';
     MailModule,
     AuthModule,
     MediaModule,
+    ProviderProfileModule,
   ],
   controllers: [AppController],
   providers: [AppService],
