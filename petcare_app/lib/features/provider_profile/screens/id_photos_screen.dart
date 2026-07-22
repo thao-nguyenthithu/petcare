@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
@@ -8,20 +9,21 @@ import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
+import 'package:petcare_app/features/provider_profile/providers/provider_profile_provider.dart';
 import 'package:petcare_app/features/provider_profile/widgets/id_card_frame.dart';
 import 'package:petcare_app/features/provider_profile/widgets/step_progress_bar.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 
 // Bước 2/3 đăng ký NCC chụp hai mặt CCCD
-class IdPhotosScreen extends StatefulWidget {
+class IdPhotosScreen extends ConsumerStatefulWidget {
   const IdPhotosScreen({super.key});
 
   @override
-  State<IdPhotosScreen> createState() => _IdPhotosScreenState();
+  ConsumerState<IdPhotosScreen> createState() => _IdPhotosScreenState();
 }
 
-class _IdPhotosScreenState extends State<IdPhotosScreen> {
+class _IdPhotosScreenState extends ConsumerState<IdPhotosScreen> {
   Uint8List? _anhMatTruoc;
   Uint8List? _anhMatSau;
 
@@ -48,6 +50,9 @@ class _IdPhotosScreenState extends State<IdPhotosScreen> {
       ).showSnackBar(SnackBar(content: Text(context.l10n.vuiLongTaiDuAnh)));
       return;
     }
+    ref
+        .read(providerProfileProvider.notifier)
+        .luuAnhCccd(matTruoc: _anhMatTruoc, matSau: _anhMatSau);
     context.push(AppRoutes.providerCommitment);
   }
 

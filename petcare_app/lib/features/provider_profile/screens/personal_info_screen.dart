@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/generated/app_localizations.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
@@ -7,8 +8,9 @@ import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/validators.dart';
-import 'package:petcare_app/features/provider_profile/data/gender.dart';
-import 'package:petcare_app/features/provider_profile/data/mock_provider_data.dart';
+import 'package:petcare_app/features/provider_profile/data/provider_profile_draft.dart';
+import 'package:petcare_app/features/provider_profile/data/vietnam_provinces.dart';
+import 'package:petcare_app/features/provider_profile/providers/provider_profile_provider.dart';
 import 'package:petcare_app/features/provider_profile/widgets/info_row.dart';
 import 'package:petcare_app/features/provider_profile/widgets/step_progress_bar.dart';
 import 'package:petcare_app/shared/utils/date_format.dart';
@@ -17,14 +19,14 @@ import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/choice_sheet.dart';
 
 // Bước 1/3 đăng ký NCC khai thông tin cá nhân theo giấy tờ tùy thân
-class PersonalInfoScreen extends StatefulWidget {
+class PersonalInfoScreen extends ConsumerStatefulWidget {
   const PersonalInfoScreen({super.key});
 
   @override
-  State<PersonalInfoScreen> createState() => _PersonalInfoScreenState();
+  ConsumerState<PersonalInfoScreen> createState() => _PersonalInfoScreenState();
 }
 
-class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
+class _PersonalInfoScreenState extends ConsumerState<PersonalInfoScreen> {
   final _formKey = GlobalKey<FormState>();
   final _hoTenController = TextEditingController();
   final _cccdController = TextEditingController();
@@ -34,6 +36,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
   DateTime? _ngaySinh;
   DateTime? _ngayCap;
   Gender? _gioiTinh;
+  String? _cccdTrung;
 
   static const _tuoiToiThieu = 18;
 
@@ -100,7 +103,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
   Future<void> _chonTinhThanh() async {
     final chon = await showChoiceSheet<String>(
       context: context,
-      items: MockProviderData.tinhThanh,
+      items: vietnamProvinces,
       labelOf: (tinh) => tinh,
       selected: _tinhThanh,
     );
@@ -138,8 +141,35 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
     );
   }
 
-  void _tiepTuc() {
+  Future<void> _tiepTuc() async {
     if (!_formKey.currentState!.validate()) return;
+    final cccd = _cccdController.text.trim();
+
+    bool dungDuoc = true;
+    try {
+      dungDuoc = await ref
+          .read(providerProfileProvider.notifier)
+          .kiemTraCccd(cccd);
+    } catch (_) {}
+    if (!mounted) return;
+    if (!dungDuoc) {
+      setState(() => _cccdTrung = cccd);
+      _formKey.currentState!.validate(); // hiện lỗi ngay dưới ô CCCD
+      return;
+    }
+
+    ref
+        .read(providerProfileProvider.notifier)
+        .luuThongTinCaNhan(
+          legalName: _hoTenController.text.trim(),
+          gender: _gioiTinh!,
+          dateOfBirth: _ngaySinh!,
+          nationalId: cccd,
+          idIssuedPlace: _noiCapController.text.trim(),
+          idIssuedDate: _ngayCap!,
+          province: _tinhThanh!,
+          addressDetail: _diaChiController.text.trim(),
+        );
     context.push(AppRoutes.providerIdUpload);
   }
 
@@ -205,7 +235,14 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                       FilteringTextInputFormatter.digitsOnly,
                       LengthLimitingTextInputFormatter(12),
                     ],
-                    validator: validators.citizenId,
+                    validator: (value) {
+                      final loi = validators.citizenId(value);
+                      if (loi != null) return loi;
+                      if (_cccdTrung != null && value?.trim() == _cccdTrung) {
+                        return l10n.loiCccdDaDangKy;
+                      }
+                      return null;
+                    },
                   ),
                   _hangChon<String>(
                     label: l10n.tinhThanhPho,
@@ -234,7 +271,11 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                     onChon: _chonNgayCap,
                   ),
                   const SizedBox(height: 28),
-                  AppButton(text: l10n.tiepTuc, height: 56, onTap: _tiepTuc),
+                  AppButton(
+                    text: l10n.tiepTuc,
+                    height: 56,
+                    onTapAsync: _tiepTuc,
+                  ),
                   const SizedBox(height: 24),
                 ],
               ),

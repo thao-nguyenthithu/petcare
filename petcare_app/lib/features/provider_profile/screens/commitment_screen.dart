@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
@@ -6,26 +7,34 @@ import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
+import 'package:petcare_app/features/provider_profile/providers/provider_profile_provider.dart';
+import 'package:petcare_app/features/provider_profile/services/provider_profile_error_mapper.dart';
 import 'package:petcare_app/features/provider_profile/widgets/step_progress_bar.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 
 // Bước 3/3 đăng ký NCC cam kết trách nhiệm
-class CommitmentScreen extends StatefulWidget {
+class CommitmentScreen extends ConsumerStatefulWidget {
   const CommitmentScreen({super.key});
 
   @override
-  State<CommitmentScreen> createState() => _CommitmentScreenState();
+  ConsumerState<CommitmentScreen> createState() => _CommitmentScreenState();
 }
 
-class _CommitmentScreenState extends State<CommitmentScreen> {
+class _CommitmentScreenState extends ConsumerState<CommitmentScreen> {
   bool _daDongY = false;
 
   Future<void> _guiHoSo() async {
-    // TODO (backend): gọi API gửi hồ sơ NCC
-    await Future.delayed(const Duration(seconds: 2));
-    if (!mounted) return;
-    context.go(AppRoutes.providerSubmitted);
+    try {
+      await ref.read(providerProfileProvider.notifier).guiHoSo();
+      if (!mounted) return;
+      context.go(AppRoutes.providerSubmitted);
+    } catch (loi) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(mapProviderProfileError(context.l10n, loi))),
+      );
+    }
   }
 
   @override
