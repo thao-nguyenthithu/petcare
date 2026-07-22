@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
+import 'package:petcare_app/features/address/widgets/location_permission_sheet.dart';
+import 'package:petcare_app/features/provider_profile/providers/provider_profile_provider.dart';
 import 'package:petcare_app/shared/utils/placeholder_action.dart';
+import 'package:petcare_app/shared/widgets/app_loading_overlay.dart';
 
 // Banner Kết nối với người chăm sóc
 class VerifiedBanner extends StatelessWidget {
@@ -70,6 +74,11 @@ class VerifiedBanner extends StatelessWidget {
 // Banner mời thêm địa chỉ
 class AddAddressBanner extends StatelessWidget {
   const AddAddressBanner({super.key});
+  Future<void> _dungViTriHienTai(BuildContext context) async {
+    await moSheetQuyenViTri(context);
+    if (!context.mounted) return;
+    context.push(AppRoutes.addAddress);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +99,7 @@ class AddAddressBanner extends StatelessWidget {
                 Row(
                   children: [
                     FilledButton(
-                      onPressed: () => baoDangPhatTrien(context),
+                      onPressed: () => context.push(AppRoutes.addAddress),
                       style: FilledButton.styleFrom(
                         backgroundColor: AppColors.accent,
                         minimumSize: const Size(0, 40),
@@ -101,7 +110,7 @@ class AddAddressBanner extends StatelessWidget {
                     const SizedBox(width: 8),
                     Flexible(
                       child: TextButton(
-                        onPressed: () => baoDangPhatTrien(context),
+                        onPressed: () => _dungViTriHienTai(context),
                         style: TextButton.styleFrom(
                           foregroundColor: AppColors.accent,
                           textStyle: AppTextStyles.label,
@@ -123,12 +132,29 @@ class AddAddressBanner extends StatelessWidget {
 }
 
 // Banner mời trở thành người cung cấp dịch vụ
-class BecomeProviderBanner extends StatelessWidget {
+class BecomeProviderBanner extends ConsumerWidget {
   const BecomeProviderBanner({super.key});
+  Future<void> _moDangKyNcc(BuildContext context, WidgetRef ref) async {
+    String? trangThai;
+    try {
+      trangThai = await showAppLoading(
+        context,
+        () => ref.read(providerStatusProvider.future),
+      );
+    } catch (_) {}
+    if (!context.mounted) return;
+    context.push(
+      trangThai == 'PENDING'
+          ? AppRoutes.providerSubmitted
+          : AppRoutes.providerIntro,
+    );
+  }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
+    final trangThai = ref.watch(providerStatusProvider).asData?.value;
+    if (trangThai == 'APPROVED') return const SizedBox.shrink();
     return Container(
       width: double.infinity,
       color: AppColors.primaryColor,
@@ -149,7 +175,7 @@ class BecomeProviderBanner extends StatelessWidget {
           Material(
             type: MaterialType.transparency,
             child: InkWell(
-              onTap: () => context.push(AppRoutes.providerServices),
+              onTap: () => _moDangKyNcc(context, ref),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
