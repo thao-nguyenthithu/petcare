@@ -5,6 +5,7 @@ import 'package:petcare_app/features/article/article_routes.dart';
 import 'package:petcare_app/features/auth/auth_routes.dart';
 import 'package:petcare_app/features/home/home_routes.dart';
 import 'package:petcare_app/features/notification/notification_routes.dart';
+import 'package:petcare_app/features/provider_home/provider_home_routes.dart';
 import 'package:petcare_app/features/provider_profile/provider_profile_routes.dart';
 import 'package:petcare_app/features/search/search_routes.dart';
 import 'package:petcare_app/features/service/service_routes.dart';
@@ -19,6 +20,7 @@ class AppRoutes {
   static const String login = '/login';
   static const String register = '/register';
   static const String home = '/home';
+  static const String providerHome = '/provider-home';
   static const String verifyEmail = '/verify-email';
   static const String verifySuccess = '/verify-success';
   static const String forgotPassword = '/forgot-password';
@@ -67,6 +69,7 @@ final appRouter = GoRouter(
   routes: [
     ...authRoutes,
     ...homeRoutes,
+    ...providerHomeRoutes,
     ...addressRoutes,
     ...providerProfileRoutes,
     ...articleRoutes,

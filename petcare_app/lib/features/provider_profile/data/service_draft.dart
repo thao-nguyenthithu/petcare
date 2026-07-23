@@ -10,6 +10,14 @@ const walkingDurations = [30, 60, 90];
 
 enum ServiceType { walking, boarding, grooming }
 
+extension ServiceTypeIcon on ServiceType {
+  String get iconAsset => switch (this) {
+    ServiceType.walking => 'assets/icons/icon_leash.svg',
+    ServiceType.boarding => 'assets/icons/paw.svg',
+    ServiceType.grooming => 'assets/icons/icon_grooming.svg',
+  };
+}
+
 enum PetKind { dog, cat, both }
 
 enum WeightTier { duoi5, tu5den10, tu10den20, tren20 }

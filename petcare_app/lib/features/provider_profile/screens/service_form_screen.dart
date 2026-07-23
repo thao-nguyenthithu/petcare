@@ -259,21 +259,21 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
                 Row(
                   children: [
                     _TypeTile(
-                      icon: 'assets/icons/icon_leash.svg',
+                      icon: ServiceType.walking.iconAsset,
                       label: l10n.datThuCung,
                       selected: _type == ServiceType.walking,
                       onTap: () => _doiLoai(ServiceType.walking),
                     ),
                     const SizedBox(width: 10),
                     _TypeTile(
-                      icon: 'assets/icons/paw.svg',
+                      icon: ServiceType.boarding.iconAsset,
                       label: l10n.trongGiu,
                       selected: _type == ServiceType.boarding,
                       onTap: () => _doiLoai(ServiceType.boarding),
                     ),
                     const SizedBox(width: 10),
                     _TypeTile(
-                      icon: 'assets/icons/icon_grooming.svg',
+                      icon: ServiceType.grooming.iconAsset,
                       label: l10n.tamVaTia,
                       selected: _type == ServiceType.grooming,
                       onTap: () => _doiLoai(ServiceType.grooming),

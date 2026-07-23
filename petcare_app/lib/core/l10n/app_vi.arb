@@ -509,5 +509,18 @@
   "datDichVuDauTien": "Đặt dịch vụ đầu tiên để chăm sóc bé cưng của bạn.",
   "timNguoiCham": "Tìm dịch vụ quanh bạn",
   "timDonHint": "Tìm theo tên bé, người chăm...",
-  "khongCoDonPhuHop": "Không có đơn phù hợp"
+  "khongCoDonPhuHop": "Không có đơn phù hợp",
+  "nguoiCungCapDaXacMinh": "Người cung cấp · Đã xác minh",
+  "dangOCheDoNguoiCungCap": "Đang ở chế độ Người cung cấp",
+  "chuyenSangCheDoChuNuoi": "Chuyển sang chế độ Chủ nuôi",
+  "moTaCheDoChuNuoi": "Đặt dịch vụ và chăm sóc thú cưng của bạn",
+  "hoSoNguoiCungCap": "Hồ sơ người cung cấp",
+  "dichVuCuaToi": "Dịch vụ của tôi",
+  "viVaThuNhap": "Ví & thu nhập",
+  "danhGiaTuKhach": "Đánh giá từ khách",
+  "lichSuDon": "Lịch sử đơn",
+  "trungTamNguoiCham": "Trung tâm người chăm",
+  "oLaiCheDoNguoiCungCap": "Ở lại chế độ Người cung cấp",
+  "vanNhanDonOCheDoNCC": "Vẫn nhận đơn ở chế độ Người cung cấp",
+  "chuyenCheDoKhongNgungNhanDon": "Chuyển chế độ không làm bạn ngừng nhận đơn mới."
 }

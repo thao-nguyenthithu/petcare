@@ -19,7 +19,7 @@ class AppBackButton extends StatelessWidget {
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),
       icon: const Icon(
-        Icons.arrow_back_rounded,
+        Icons.chevron_left,
         size: 20,
         color: AppColors.textPrimary,
       ),
