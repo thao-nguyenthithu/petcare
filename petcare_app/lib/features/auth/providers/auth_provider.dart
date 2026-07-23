@@ -1,9 +1,11 @@
 import 'package:petcare_app/core/storage/token_storage.dart';
 import 'package:petcare_app/features/auth/services/auth_api_service.dart';
 import 'package:petcare_app/features/auth/services/social_auth_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:petcare_app/features/auth/providers/current_user_provider.dart';
 import 'package:petcare_app/features/address/providers/saved_addresses_provider.dart';
+import 'package:petcare_app/features/auth/providers/current_user_provider.dart';
+import 'package:petcare_app/features/provider_profile/providers/provider_profile_provider.dart';
 
 part 'auth_provider.g.dart';
 
@@ -66,7 +68,7 @@ class AuthNotifier extends _$AuthNotifier {
   // Đăng xuất
   Future<void> logout() async {
     await _tokenStorage.clearTokens();
-    ref.invalidate(currentUserProvider);
+    _resetPhienNguoiDung();
     state = const AsyncData(false);
   }
 
@@ -75,9 +77,27 @@ class AuthNotifier extends _$AuthNotifier {
     final token = res['accessToken'] as String?;
     if (token != null) {
       await _tokenStorage.saveAccessToken(token);
-      ref.invalidate(currentUserProvider);
-      ref.invalidate(savedAddressesProvider);
+      _resetPhienNguoiDung();
       state = const AsyncData(true);
     }
+  }
+
+  void _resetPhienNguoiDung() => ref.refreshUserData();
+}
+
+// Làm mới dữ liệu gắn với người dùng đang đăng nhập
+extension UserDataRefreshRef on Ref {
+  void refreshUserData() {
+    invalidate(currentUserProvider);
+    invalidate(savedAddressesProvider);
+    invalidate(providerStatusProvider);
+  }
+}
+
+extension UserDataRefreshWidgetRef on WidgetRef {
+  void refreshUserData() {
+    invalidate(currentUserProvider);
+    invalidate(savedAddressesProvider);
+    invalidate(providerStatusProvider);
   }
 }

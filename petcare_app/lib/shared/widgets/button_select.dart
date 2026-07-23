@@ -10,9 +10,12 @@ class ButtonSelect extends StatelessWidget {
     super.key,
     required this.selected,
     required this.title,
+    this.titleColor,
+    this.titleMaxLines = 1,
     this.subtitle,
     this.subtitleMaxLines,
     this.subtitleColor,
+    this.borderColor,
     this.note,
     this.badge,
     this.leading,
@@ -24,9 +27,12 @@ class ButtonSelect extends StatelessWidget {
 
   final bool selected;
   final String title;
+  final Color? titleColor;
+  final int titleMaxLines;
   final String? subtitle;
   final int? subtitleMaxLines;
   final Color? subtitleColor;
+  final Color? borderColor;
   final String? note;
   final Widget? badge;
   final Widget? leading;
@@ -49,7 +55,9 @@ class ButtonSelect extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppRadius.radius14),
             border: Border.all(
-              color: selected ? AppColors.primaryColor : AppColors.neutralLight,
+              color:
+                  borderColor ??
+                  (selected ? AppColors.primaryColor : AppColors.neutralLight),
             ),
           ),
           child: Row(
@@ -68,8 +76,10 @@ class ButtonSelect extends StatelessWidget {
                         Flexible(
                           child: Text(
                             title,
-                            style: AppTextStyles.label,
-                            maxLines: 1,
+                            style: AppTextStyles.label.copyWith(
+                              color: titleColor,
+                            ),
+                            maxLines: titleMaxLines,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),

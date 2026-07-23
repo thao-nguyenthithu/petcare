@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
-import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/auth/providers/auth_provider.dart';
+import 'package:petcare_app/features/account/screens/account_screen.dart';
 import 'package:petcare_app/features/home/data/mock_home_data.dart';
 import 'package:petcare_app/features/home/screens/owner_home_tab.dart';
 import 'package:petcare_app/features/home/widgets/active_order_bar.dart';
-import 'package:petcare_app/shared/widgets/app_button.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -30,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
         0 => const _HomeTabWithLiveBar(),
         1 => _PlaceholderTab(title: l10n.donCuaToi),
         2 => _PlaceholderTab(title: l10n.tinNhan),
-        _ => const _AccountTab(),
+        _ => const AccountScreen(),
       },
       bottomNavigationBar: NavigationBar(
         selectedIndex: _tabIndex,
@@ -111,45 +107,6 @@ class _PlaceholderTab extends StatelessWidget {
             Text(
               context.l10n.chucNangDangPhatTrien,
               style: AppTextStyles.caption,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _AccountTab extends ConsumerWidget {
-  const _AccountTab();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = context.l10n;
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              l10n.taiKhoan,
-              textAlign: TextAlign.center,
-              style: AppTextStyles.h1,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              l10n.chucNangDangPhatTrien,
-              textAlign: TextAlign.center,
-              style: AppTextStyles.caption,
-            ),
-            const SizedBox(height: 32),
-            AppButton(
-              text: l10n.dangXuat,
-              onTapAsync: () async {
-                await ref.read(authProvider.notifier).logout();
-                if (context.mounted) context.go(AppRoutes.login);
-              },
             ),
           ],
         ),

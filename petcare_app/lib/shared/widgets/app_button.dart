@@ -5,20 +5,24 @@ class AppButton extends StatefulWidget {
   final String text;
   final IconData? icon;
   final bool outlined;
+  final bool flat;
   final VoidCallback? onTap;
   final Future<void> Function()? onTapAsync;
   final double height;
   final bool enabled;
+  final Color? color;
 
   const AppButton({
     super.key,
     required this.text,
     this.icon,
     this.outlined = false,
+    this.flat = false,
     this.onTap,
     this.onTapAsync,
     this.height = 54,
     this.enabled = true,
+    this.color,
   }) : assert(
          (onTap == null) != (onTapAsync == null),
          'Truyền đúng một trong hai: onTap hoặc onTapAsync',
@@ -46,20 +50,41 @@ class _AppButtonState extends State<AppButton> {
         ? null
         : (widget.onTapAsync != null ? _runAsyncTap : widget.onTap);
     final label = Text(widget.text);
+    final ButtonStyle? style = widget.color == null
+        ? null
+        : widget.flat
+        ? TextButton.styleFrom(foregroundColor: widget.color)
+        : widget.outlined
+        ? OutlinedButton.styleFrom(
+            foregroundColor: widget.color,
+            side: BorderSide(color: widget.color!),
+          )
+        : FilledButton.styleFrom(backgroundColor: widget.color);
     final Widget button;
-    if (widget.outlined) {
+    if (widget.flat) {
       button = widget.icon == null
-          ? OutlinedButton(onPressed: onPressed, child: label)
+          ? TextButton(onPressed: onPressed, style: style, child: label)
+          : TextButton.icon(
+              onPressed: onPressed,
+              style: style,
+              icon: Icon(widget.icon, size: 20),
+              label: label,
+            );
+    } else if (widget.outlined) {
+      button = widget.icon == null
+          ? OutlinedButton(onPressed: onPressed, style: style, child: label)
           : OutlinedButton.icon(
               onPressed: onPressed,
+              style: style,
               icon: Icon(widget.icon, size: 20),
               label: label,
             );
     } else {
       button = widget.icon == null
-          ? FilledButton(onPressed: onPressed, child: label)
+          ? FilledButton(onPressed: onPressed, style: style, child: label)
           : FilledButton.icon(
               onPressed: onPressed,
+              style: style,
               icon: Icon(widget.icon, size: 20),
               label: label,
             );

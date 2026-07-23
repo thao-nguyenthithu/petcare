@@ -64,6 +64,7 @@ class ProviderProfileNotifier extends _$ProviderProfileNotifier {
       cccdFrontPath: pathTruoc,
       cccdBackPath: pathSau,
     );
+    ref.invalidate(providerStatusProvider);
   }
 }
 

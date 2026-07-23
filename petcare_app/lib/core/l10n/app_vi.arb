@@ -244,6 +244,7 @@
   "loiEmailDaXacMinh": "Email đã được xác minh, vui lòng đăng nhập",
   "trangChu": "Trang chủ",
   "dangXuat": "Đăng xuất",
+  "dangXuatXacNhan": "Bạn có chắc muốn đăng xuất khỏi tài khoản này?",
   "loiThongTinDangNhap": "Email hoặc mật khẩu không đúng",
   "loiEmailChuaXacMinh": "Email chưa được xác minh",
   "loiEmailChuaDangKy": "Email chưa được đăng ký, vui lòng kiểm tra lại",
@@ -430,5 +431,29 @@
       "toaDo": {"type": "String"}
     }
   },
-  "moCaiDat": "Mở Cài đặt"
+  "moCaiDat": "Mở Cài đặt",
+  "dangOCheDoChuNuoi": "Đang ở chế độ Chủ nuôi",
+  "chuNuoiDaXacMinh": "Chủ nuôi · Đã xác minh",
+  "chuyenSangCheDoNguoiCungCap": "Chuyển sang chế độ Người cung cấp",
+  "xemDonCanXacNhanLichLamViec": "Xem đơn cần xác nhận và lịch làm việc",
+  "dangChoOCheDoNCC": "Đang chờ bạn ở chế độ Người cung cấp",
+  "tomTatDonCho": "2 đơn chờ xác nhận · 1 đơn bắt đầu lúc 14:00",
+  "chuyenCheDo": "Chuyển chế độ",
+  "oLaiCheDoChuNuoi": "Ở lại chế độ Chủ nuôi",
+  "soDonMoi": "{count} đơn mới",
+  "@soDonMoi": {
+    "placeholders": {
+      "count": {"type": "String"}
+    }
+  },
+  "hoSoCuaToi": "Hồ sơ của tôi",
+  "thuCungCuaToi": "Thú cưng của tôi",
+  "viVaThanhToan": "Ví & thanh toán",
+  "danhGiaCuaToi": "Đánh giá của tôi",
+  "caiDat": "Cài đặt",
+  "troGiupHoTro": "Trợ giúp & hỗ trợ",
+  "lichSuVaChiTieu": "Lịch sử chi tiêu",
+  "hoSoDangDuyet": "Hồ sơ đang được duyệt",
+  "hoSoDangDuyetMoTa": "Thường có kết quả trong vòng 24 giờ. Chạm để xem hồ sơ.",
+  "kiemThem": "Kiếm thêm"
 }
