@@ -11,6 +11,7 @@ import 'package:petcare_app/features/address/data/ket_qua_vi_tri.dart';
 import 'package:petcare_app/features/address/data/saved_address.dart';
 import 'package:petcare_app/features/address/providers/saved_addresses_provider.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
+import 'package:petcare_app/shared/widgets/app_refresh_indicator.dart';
 import 'package:petcare_app/shared/widgets/app_screen_header.dart';
 import 'package:petcare_app/shared/widgets/button_select.dart';
 
@@ -129,60 +130,64 @@ class _AddressListScreenState extends ConsumerState<AddressListScreen> {
                     : null,
               ),
               Expanded(
-                child: asyncDanhSach.when(
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator()),
-                  error: (_, _) => Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(
-                        AppSpacing.screenPaddingWide,
-                      ),
-                      child: Text(
-                        l10n.taiDiaChiThatBai,
-                        textAlign: TextAlign.center,
-                        style: AppTextStyles.captionSm,
+                child: AppRefreshIndicator(
+                  onRefresh: () => ref.read(savedAddressesProvider.future),
+                  child: asyncDanhSach.when(
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    error: (_, _) => Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(
+                          AppSpacing.screenPaddingWide,
+                        ),
+                        child: Text(
+                          l10n.taiDiaChiThatBai,
+                          textAlign: TextAlign.center,
+                          style: AppTextStyles.captionSm,
+                        ),
                       ),
                     ),
-                  ),
-                  data: (danhSach) => danhSach.isEmpty
-                      ? _TrongRong(onThem: _themMoi)
-                      : ListView(
-                          padding: const EdgeInsets.all(
-                            AppSpacing.screenPadding,
-                          ),
-                          children: [
-                            for (final diaChi in danhSach) ...[
-                              _AddressCard(
-                                diaChi: diaChi,
-                                dangChon: _dangChon,
-                                daChon: _daChon.contains(diaChi.id),
-                                onChonMacDinh: () => ref
-                                    .read(savedAddressesProvider.notifier)
-                                    .chonMacDinh(diaChi.id),
-                                onSua: () => context.push(
-                                  AppRoutes.addAddress,
-                                  extra: diaChi,
+                    data: (danhSach) => danhSach.isEmpty
+                        ? _TrongRong(onThem: _themMoi)
+                        : ListView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            padding: const EdgeInsets.all(
+                              AppSpacing.screenPadding,
+                            ),
+                            children: [
+                              for (final diaChi in danhSach) ...[
+                                _AddressCard(
+                                  diaChi: diaChi,
+                                  dangChon: _dangChon,
+                                  daChon: _daChon.contains(diaChi.id),
+                                  onChonMacDinh: () => ref
+                                      .read(savedAddressesProvider.notifier)
+                                      .chonMacDinh(diaChi.id),
+                                  onSua: () => context.push(
+                                    AppRoutes.addAddress,
+                                    extra: diaChi,
+                                  ),
+                                  onVaoChon: () => _vaoChon(diaChi.id),
+                                  onToggle: () => _toggle(diaChi.id),
                                 ),
-                                onVaoChon: () => _vaoChon(diaChi.id),
-                                onToggle: () => _toggle(diaChi.id),
-                              ),
-                              const SizedBox(height: AppSpacing.stackGap),
+                                const SizedBox(height: AppSpacing.stackGap),
+                              ],
+                              if (!_dangChon) ...[
+                                AppButton(
+                                  text: l10n.themDiaChiMoi,
+                                  icon: Icons.add,
+                                  outlined: true,
+                                  onTap: _themMoi,
+                                ),
+                                const SizedBox(height: AppSpacing.stackGap),
+                                Text(
+                                  l10n.ghiChuDiaChiMacDinh,
+                                  style: AppTextStyles.captionSm,
+                                ),
+                              ],
                             ],
-                            if (!_dangChon) ...[
-                              AppButton(
-                                text: l10n.themDiaChiMoi,
-                                icon: Icons.add,
-                                outlined: true,
-                                onTap: _themMoi,
-                              ),
-                              const SizedBox(height: AppSpacing.stackGap),
-                              Text(
-                                l10n.ghiChuDiaChiMacDinh,
-                                style: AppTextStyles.captionSm,
-                              ),
-                            ],
-                          ],
-                        ),
+                          ),
+                  ),
                 ),
               ),
             ],
