@@ -10,11 +10,17 @@ class AppEmptyState extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.message,
+    this.circleColor = AppColors.surface,
+    this.iconColor = AppColors.primaryColor,
+    this.action,
   });
 
   final IconData icon;
   final String title;
   final String message;
+  final Color circleColor;
+  final Color iconColor;
+  final Widget? action;
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +32,20 @@ class AppEmptyState extends StatelessWidget {
           Container(
             width: 120,
             height: 120,
-            decoration: const BoxDecoration(
-              color: AppColors.surface,
+            decoration: BoxDecoration(
+              color: circleColor,
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, size: 44, color: AppColors.primaryColor),
+            child: Icon(icon, size: 44, color: iconColor),
           ),
           const SizedBox(height: AppSpacing.groupGap),
           Text(title, style: AppTextStyles.h3, textAlign: TextAlign.center),
           const SizedBox(height: AppSpacing.labelGap),
           Text(message, style: AppTextStyles.body, textAlign: TextAlign.center),
+          if (action != null) ...[
+            const SizedBox(height: AppSpacing.groupGap),
+            action!,
+          ],
         ],
       ),
     );

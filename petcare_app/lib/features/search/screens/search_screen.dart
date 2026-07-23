@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
@@ -77,7 +76,7 @@ class _SearchScreenState extends State<SearchScreen> {
             SearchField(
               controller: _controller,
               onChanged: _khiGo,
-              onHuy: () => context.pop(),
+              onFilter: () => baoDangPhatTrien(context),
             ),
             Expanded(child: _noiDung()),
           ],

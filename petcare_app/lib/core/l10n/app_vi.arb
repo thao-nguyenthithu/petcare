@@ -100,7 +100,7 @@
   "canChuanBiCccd": "CCCD còn hạn và điện thoại chụp được ảnh rõ hai mặt. Cả quá trình mất khoảng 5 phút.",
   "khaiDichVuSauDuyet": "Dịch vụ, giá và khu vực phục vụ sẽ khai sau khi hồ sơ được duyệt.",
   "batDauDangKy": "Bắt đầu đăng ký",
-  "dichVuCuaBan": "Dịch vụ của bạn",
+  "tatCaDichVuCuaToi": "Tất cả dịch vụ của tôi",
   "themItNhatMotDichVu": "Thêm ít nhất một dịch vụ bạn cung cấp.",
   "themDichVuBanCungCap": "Thêm dịch vụ bạn cung cấp để chủ nuôi tìm thấy bạn.",
   "themDichVu": "Thêm dịch vụ",
@@ -455,5 +455,59 @@
   "lichSuVaChiTieu": "Lịch sử chi tiêu",
   "hoSoDangDuyet": "Hồ sơ đang được duyệt",
   "hoSoDangDuyetMoTa": "Thường có kết quả trong vòng 24 giờ. Chạm để xem hồ sơ.",
-  "kiemThem": "Kiếm thêm"
+  "kiemThem": "Kiếm thêm",
+  "congViec": "Công việc",
+  "lich": "Lịch",
+  "sanSangNhanDon": "Xin chào, bạn đã sẵn sàng nhận đơn chưa?",
+  "dangNhanDon": "Đang nhận đơn",
+  "dangTamNghi": "Đang tạm nghỉ",
+  "thuNhapHomNay": "Thu nhập hôm nay",
+  "thuNhapTuanNay": "Thu nhập tuần này",
+  "chiTiet": "Chi tiết",
+  "cachBan": "cách bạn {khoangCach}",
+  "@cachBan": {
+    "placeholders": {
+      "khoangCach": {"type": "String"}
+    }
+  },
+  "hieuSuatThangNay": "Hiệu suất tháng này",
+  "khongCoDonCho": "Chưa có đơn nào chờ xác nhận",
+  "chuaCoDichVu": "Bạn chưa có dịch vụ nào",
+  "chuaCoDichVuMoTa": "Thêm dịch vụ để bắt đầu nhận đơn từ chủ nuôi.",
+  "chuaCoLichHomNay": "Hôm nay chưa có lịch",
+  "chuaCoHieuSuat": "Chưa có dữ liệu hiệu suất tháng này",
+  "dichVuCuaToi": "Dịch vụ của tôi",
+  "donHoanThanhSo": "{count} đơn hoàn thành",
+  "@donHoanThanhSo": {
+    "placeholders": {
+      "count": {"type": "String"}
+    }
+  },
+  "thoiGianOnline": "{thoiGian} online",
+  "@thoiGianOnline": {
+    "placeholders": {
+      "thoiGian": {"type": "String"}
+    }
+  },
+  "donChoXacNhan": "Đơn chờ xác nhận",
+  "xemTatCa": "Xem tất cả",
+  "tuChoi": "Từ chối",
+  "chapNhan": "Chấp nhận",
+  "lichHomNay": "Lịch hôm nay",
+  "sapToi": "Sắp tới",
+  "daXacNhan": "Đã xác nhận",
+  "hieuSuatTuanNay": "Hiệu suất tuần này",
+  "diemDanhGia": "Điểm đánh giá",
+  "tyLeNhan": "Tỷ lệ nhận",
+  "hoanThanh": "Hoàn thành",
+  "meoTangDon": "Mẹo tăng đơn",
+  "meoTangDonMoTa": "Phản hồi trong 5 phút giúp bạn được ưu tiên hiển thị với chủ nuôi gần bạn.",
+  "dangDienRa": "Đang diễn ra",
+  "daXong": "Đã xong",
+  "daHuy": "Đã huỷ",
+  "chuaCoDonNao": "Chưa có đơn nào",
+  "datDichVuDauTien": "Đặt dịch vụ đầu tiên để chăm sóc bé cưng của bạn.",
+  "timNguoiCham": "Tìm dịch vụ quanh bạn",
+  "timDonHint": "Tìm theo tên bé, người chăm...",
+  "khongCoDonPhuHop": "Không có đơn phù hợp"
 }
