@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
-import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/account/screens/account_screen.dart';
 import 'package:petcare_app/features/booking/screens/my_bookings_screen.dart';
 import 'package:petcare_app/features/home/data/mock_home_data.dart';
 import 'package:petcare_app/features/home/screens/owner_home_tab.dart';
 import 'package:petcare_app/features/home/widgets/active_order_bar.dart';
+import 'package:petcare_app/features/messaging/screens/owner_messages_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: switch (_tabIndex) {
         0 => const _HomeTabWithLiveBar(),
         1 => const MyBookingsScreen(),
-        2 => _PlaceholderTab(title: l10n.tinNhan),
+        2 => const OwnerMessagesScreen(),
         _ => const AccountScreen(),
       },
       bottomNavigationBar: NavigationBar(
@@ -87,31 +87,6 @@ class _HomeTabWithLiveBar extends StatelessWidget {
             child: ActiveOrderBar(orders: orders),
           ),
       ],
-    );
-  }
-}
-
-class _PlaceholderTab extends StatelessWidget {
-  const _PlaceholderTab({required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(title, style: AppTextStyles.h2),
-            const SizedBox(height: 8),
-            Text(
-              context.l10n.chucNangDangPhatTrien,
-              style: AppTextStyles.caption,
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

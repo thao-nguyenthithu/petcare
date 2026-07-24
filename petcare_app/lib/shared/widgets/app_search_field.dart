@@ -13,7 +13,7 @@ class AppSearchField extends StatelessWidget {
     required this.onChanged,
     required this.hintText,
     this.autofocus = false,
-    this.height = 48,
+    this.height = 40,
     this.fillColor = AppColors.background,
     this.elevation = 0,
     this.filterOpen = false,

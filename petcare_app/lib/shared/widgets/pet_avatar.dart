@@ -1,19 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
+import 'package:petcare_app/core/theme/app_text_styles.dart';
 
-// Ảnh đại diện thú cưng hình tròn
 class PetAvatar extends StatelessWidget {
   const PetAvatar({
     super.key,
     this.imageUrl,
+    this.name,
     this.size = 44,
     this.ring = false,
   });
 
   final String? imageUrl;
+  final String? name;
   final double size;
-  final bool ring;
+  final bool ring; // viền trắng
 
   bool get _laMang => imageUrl != null && imageUrl!.startsWith('http');
   bool get _coAnh => imageUrl != null && imageUrl!.isNotEmpty;
@@ -47,7 +49,22 @@ class PetAvatar extends StatelessWidget {
     return Image.asset(imageUrl!, width: size, height: size, fit: BoxFit.cover);
   }
 
-  Widget _placeholder() => Center(
-    child: Icon(Icons.pets, size: size * 0.5, color: AppColors.primaryColor),
-  );
+  Widget _placeholder() {
+    final ten = name?.trim() ?? '';
+    if (ten.isNotEmpty) {
+      final chu = ten.split(RegExp(r'\s+')).last.characters.first.toUpperCase();
+      return Center(
+        child: Text(
+          chu,
+          style: AppTextStyles.h3.copyWith(
+            fontSize: size * 0.4,
+            color: AppColors.primaryColor,
+          ),
+        ),
+      );
+    }
+    return Center(
+      child: Icon(Icons.pets, size: size * 0.5, color: AppColors.primaryColor),
+    );
+  }
 }
