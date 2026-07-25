@@ -20,6 +20,19 @@ class Conversation {
     required this.fromMe,
   });
 
+  const Conversation.forOrder({
+    required this.id,
+    required this.partnerName,
+    required this.serviceContext,
+    required this.serviceType,
+    required this.bookingCode,
+    required this.state,
+    this.partnerAvatar = '',
+  }) : lastMessage = '',
+       timeLabel = '',
+       unreadCount = 0,
+       fromMe = false;
+
   final String id;
   final String partnerName;
   final String partnerAvatar;
@@ -35,6 +48,20 @@ class Conversation {
   bool get chuaDoc => unreadCount > 0;
 
   bool get daKetThuc => state == ConversationState.daKetThuc;
+
+  Conversation copyWith({int? unreadCount}) => Conversation(
+    id: id,
+    partnerName: partnerName,
+    partnerAvatar: partnerAvatar,
+    serviceContext: serviceContext,
+    serviceType: serviceType,
+    bookingCode: bookingCode,
+    state: state,
+    lastMessage: lastMessage,
+    timeLabel: timeLabel,
+    unreadCount: unreadCount ?? this.unreadCount,
+    fromMe: fromMe,
+  );
 
   bool matches(String keyword) {
     final kw = keyword.toLowerCase();

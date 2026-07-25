@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
+import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/messaging/data/conversation.dart';
+import 'package:petcare_app/features/messaging/screens/chat_detail_screen.dart';
 import 'package:petcare_app/features/messaging/widgets/conversation_tile.dart';
-import 'package:petcare_app/shared/utils/placeholder_action.dart';
 import 'package:petcare_app/shared/widgets/app_empty_state.dart';
 import 'package:petcare_app/shared/widgets/app_filter_chip.dart';
 import 'package:petcare_app/shared/widgets/app_refresh_indicator.dart';
 import 'package:petcare_app/shared/widgets/app_search_field.dart';
 import 'package:petcare_app/shared/widgets/green_title_header.dart';
 
-// Thân tab Tin nhắn
+// Nội dung tab Tin nhắn
 class MessagesTab extends StatefulWidget {
   const MessagesTab({
     super.key,
@@ -23,6 +25,7 @@ class MessagesTab extends StatefulWidget {
     required this.emptyTitle,
     required this.emptyMessage,
     this.lightHeader = false,
+    this.onOpen,
   });
 
   final List<Conversation> conversations;
@@ -32,6 +35,7 @@ class MessagesTab extends StatefulWidget {
   final String emptyTitle; // rỗng khi chưa có hội thoại nào
   final String emptyMessage;
   final bool lightHeader;
+  final ValueChanged<Conversation>? onOpen; // đánh dấu đã đọc khi mở
 
   @override
   State<MessagesTab> createState() => _MessagesTabState();
@@ -117,7 +121,16 @@ class _MessagesTabState extends State<MessagesTab> {
                       ),
                       itemBuilder: (context, i) => ConversationTile(
                         conversation: list[i],
-                        onTap: () => baoDangPhatTrien(context),
+                        onTap: () {
+                          widget.onOpen?.call(list[i]);
+                          context.push(
+                            AppRoutes.chatThread,
+                            extra: ChatArgs(
+                              conversation: list[i],
+                              isOwner: widget.lightHeader,
+                            ),
+                          );
+                        },
                       ),
                     ),
             ),
