@@ -7,7 +7,7 @@ import 'package:petcare_app/features/messaging/data/conversation.dart';
 import 'package:petcare_app/shared/utils/placeholder_action.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_status_badge.dart';
-import 'package:petcare_app/shared/widgets/pet_avatar.dart';
+import 'package:petcare_app/shared/widgets/user_avatar.dart';
 
 // Hành động trong menu 3 chấm của màn chat
 enum ChatMenuAction { xemHoSo, xemChiTietDon, canTroGiup }
@@ -43,7 +43,7 @@ class ChatAppBar extends StatelessWidget {
             children: [
               const AppBackButton(),
               const SizedBox(width: AppSpacing.itemGap),
-              PetAvatar(
+              UserAvatar(
                 name: c.partnerName,
                 imageUrl: c.partnerAvatar,
                 size: 40,

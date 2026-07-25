@@ -5,7 +5,7 @@ import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/messaging/data/conversation.dart';
 import 'package:petcare_app/shared/widgets/app_status_badge.dart';
-import 'package:petcare_app/shared/widgets/pet_avatar.dart';
+import 'package:petcare_app/shared/widgets/user_avatar.dart';
 
 // Thẻ một hội thoại trong danh sách Tin nhắn
 class ConversationTile extends StatelessWidget {
@@ -64,7 +64,7 @@ class ConversationTile extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PetAvatar(
+              UserAvatar(
                 name: c.partnerName,
                 imageUrl: c.partnerAvatar,
                 size: 48,
