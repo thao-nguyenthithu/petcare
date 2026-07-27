@@ -24,7 +24,7 @@ model User {
   bookingsAsOwner  Booking[]         @relation("OwnerBookings")
   pets             Pet[]
   reviews          Review[]
-  provider         ServiceProvider?
+  sitter          Sitter?
   violationReports ViolationReport[]
   messages         Message[]
   addresses        Address[]
@@ -55,7 +55,7 @@ enum AddressLabel {
   OTHER
 }
 
-model ServiceProvider {
+model Sitter {
   id                String         @id @default(uuid())
   userId            String         @unique
   bio               String?
@@ -64,11 +64,9 @@ model ServiceProvider {
   backgroundChecked Boolean        @default(false)
   lat               Float?
   lng               Float?
-  serviceAreas      Json?
-  certifications    Json?
   createdAt         DateTime       @default(now())
   // Hồ sơ đăng ký NCC (bước xác minh danh tính)
-  status            ProviderStatus @default(PENDING)
+  status            SitterStatus @default(PENDING)
   legalName         String?
   gender            Gender?
   dateOfBirth       DateTime?
@@ -80,8 +78,57 @@ model ServiceProvider {
   cccdFrontPath     String?
   cccdBackPath      String?
   submittedAt       DateTime?
-  bookings          Booking[]      @relation("ProviderBookings")
+  serviceAddress     String?
+  serviceAddressNote String?
+  serviceRadiusKm    Int?
+  onboardedAt        DateTime? 
+  services          SitterService[]
+  bookings          Booking[]      @relation("SitterBookings")
+  photos            SitterPhoto[]
+  daysOff           SitterDayOff[]
   user              User           @relation(fields: [userId], references: [id])
+}
+
+model SitterPhoto {
+  id        String   @id @default(uuid())
+  sitterId  String
+  url       String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  sitter    Sitter   @relation(fields: [sitterId], references: [id], onDelete: Cascade)
+
+  @@index([sitterId])
+}
+
+model SitterDayOff {
+  id       String   @id @default(uuid())
+  sitterId String
+  date     DateTime @db.Date
+  sitter   Sitter   @relation(fields: [sitterId], references: [id], onDelete: Cascade)
+
+  @@unique([sitterId, date])
+  @@index([sitterId])
+}
+
+model SitterService {
+  id         String          @id @default(uuid())
+  sitterId String
+  type       ServiceType
+  enabled    Boolean         @default(false)
+  petKind    PetKind         @default(BOTH)
+  pricing    Json
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+  sitter   Sitter @relation(fields: [sitterId], references: [id], onDelete: Cascade)
+
+  @@unique([sitterId, type])
+  @@index([sitterId])
+}
+
+enum PetKind {
+  DOG
+  CAT
+  BOTH
 }
 
 model Pet {
@@ -95,7 +142,7 @@ model Pet {
   notes     String?
   avatarUrl String?
   createdAt DateTime  @default(now())
-  bookings  Booking[]
+  bookings  BookingPet[]
   owner     User      @relation(fields: [ownerId], references: [id])
 }
 
@@ -112,8 +159,7 @@ model Service {
 model Booking {
   id                 String            @id @default(uuid())
   ownerId            String
-  providerId         String
-  petId              String
+  sitterId         String
   serviceId          String
   status             BookingStatus     @default(PENDING)
   scheduledAt        DateTime
@@ -127,8 +173,8 @@ model Booking {
   createdAt          DateTime          @default(now())
   updatedAt          DateTime          @updatedAt
   owner              User              @relation("OwnerBookings", fields: [ownerId], references: [id])
-  pet                Pet               @relation(fields: [petId], references: [id])
-  provider           ServiceProvider   @relation("ProviderBookings", fields: [providerId], references: [id])
+  pets               BookingPet[]
+  sitter           Sitter   @relation("SitterBookings", fields: [sitterId], references: [id])
   service            Service           @relation(fields: [serviceId], references: [id])
   gpsReport          BookingGpsReport?
   locationTracks     LocationTrack[]
@@ -136,6 +182,16 @@ model Booking {
   sessionPhotos      SessionPhoto[]
   reports            ViolationReport[]
   messages           Message[]
+}
+
+model BookingPet {
+  bookingId String
+  petId     String
+  booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  pet       Pet     @relation(fields: [petId], references: [id])
+
+  @@id([bookingId, petId])
+  @@index([petId])
 }
 
 model SessionPhoto {
@@ -244,7 +300,7 @@ enum Gender {
 }
 
 // Trạng thái duyệt hồ sơ NCC
-enum ProviderStatus {
+enum SitterStatus {
   PENDING
   APPROVED
   REJECTED

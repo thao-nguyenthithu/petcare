@@ -10,7 +10,8 @@ import { RedisModule } from './common/redis/redis.module';
 import { MailModule } from './modules/mail/mail.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MediaModule } from './modules/media/media.module';
-import { ProviderProfileModule } from './modules/provider-profile/provider-profile.module';
+import { SitterProfileModule } from './modules/sitter-profile/sitter-profile.module';
+import { SitterServicesModule } from './modules/sitter-services/sitter-services.module';
 import { AddressesModule } from './modules/addresses/addresses.module';
 
 @Module({
@@ -35,7 +36,8 @@ import { AddressesModule } from './modules/addresses/addresses.module';
     MailModule,
     AuthModule,
     MediaModule,
-    ProviderProfileModule,
+    SitterProfileModule,
+    SitterServicesModule,
     AddressesModule,
   ],
   controllers: [AppController],
