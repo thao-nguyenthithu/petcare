@@ -39,7 +39,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
       message = 'Internal server error';
     }
 
-
     if (status === HttpStatus.INTERNAL_SERVER_ERROR) {
       this.logger.error(exception);
     }
@@ -47,8 +46,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
     response.status(status).json({
       success: false,
       statusCode: status,
-      code, 
-      message, 
+      code,
+      message,
       meta, // tham số cho câu dịch
       path: request.url,
       timestamp: new Date().toISOString(),

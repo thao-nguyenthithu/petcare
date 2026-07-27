@@ -7,7 +7,7 @@ import { UpdateAddressDto } from './dto/update-address.dto';
 export class AddressesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  // Danh sách địa chỉ của tôi, giữ thứ tự theo thời gian tạo 
+  // Danh sách địa chỉ của tôi, giữ thứ tự theo thời gian tạo
   list(userId: string) {
     return this.prisma.address.findMany({
       where: { userId },
@@ -29,7 +29,7 @@ export class AddressesService {
     return this.prisma.address.update({ where: { id }, data: dto });
   }
 
-  // Đặt làm mặc định, bỏ mặc định các địa chỉ khác 
+  // Đặt làm mặc định, bỏ mặc định các địa chỉ khác
   async setDefault(userId: string, id: string) {
     await this.timCuaToi(userId, id);
     await this.prisma.$transaction([

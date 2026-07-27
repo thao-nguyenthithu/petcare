@@ -9,7 +9,7 @@ import {
 } from 'class-validator';
 import { Gender } from 'generated/prisma/client';
 
-export class CreateProviderProfileDto {
+export class CreateSitterProfileDto {
   @ApiProperty({ example: 'Nguyễn Văn An' })
   @IsString({ message: 'Họ tên không hợp lệ' })
   @IsNotEmpty({ message: 'Vui lòng nhập họ tên' })

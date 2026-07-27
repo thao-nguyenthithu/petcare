@@ -1,24 +1,44 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { CreateProviderProfileDto } from './dto/create-provider-profile.dto';
-import { ProviderProfileService } from './provider-profile.service';
+import { CreateSitterProfileDto } from './dto/create-sitter-profile.dto';
+import {
+  SitterProfileService,
+  type UploadedImage,
+} from './sitter-profile.service';
 
-@ApiTags('provider-profile')
+@ApiTags('sitter-profile')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@Controller('provider-profile')
-export class ProviderProfileController {
-  constructor(private readonly service: ProviderProfileService) {}
+@Controller('sitter-profile')
+export class SitterProfileController {
+  constructor(private readonly service: SitterProfileService) {}
 
   @Post()
   @ApiOperation({ summary: 'Gửi hồ sơ đăng ký nhà cung cấp, chờ duyệt 24h' })
   submit(
     @CurrentUser() user: { id: string },
-    @Body() dto: CreateProviderProfileDto,
+    @Body() dto: CreateSitterProfileDto,
   ) {
     return this.service.submit(user.id, dto);
+  }
+
+  @Post('cccd')
+  @ApiOperation({ summary: 'Tải ảnh CCCD lên kho lưu trữ (qua service key)' })
+  @UseInterceptors(FileInterceptor('file'))
+  uploadCccd(@UploadedFile() file: UploadedImage, @Body('mat') mat: string) {
+    return this.service.uploadCccd(file, mat);
   }
 
   @Get('check-cccd')

@@ -5,7 +5,7 @@ import { AI_VISION_SERVICE } from './interfaces/ai-vision.interface';
 @Module({
   providers: [
     {
-      provide:  AI_VISION_SERVICE,
+      provide: AI_VISION_SERVICE,
       useClass: AnthropicAdapter,
     },
   ],

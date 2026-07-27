@@ -11,20 +11,33 @@ export class SupabaseService {
     const supabaseKey = this.config.get<string>('SUPABASE_SERVICE_KEY');
 
     if (!supabaseUrl || !supabaseKey) {
-        throw new Error('Thiếu SUPABASE_URL hoặc SUPABASE_SERVICE_KEY trong file .env');
+      throw new Error(
+        'Thiếu SUPABASE_URL hoặc SUPABASE_SERVICE_KEY trong file .env',
+      );
     }
 
     this.client = createClient(supabaseUrl, supabaseKey);
-}
+  }
 
   getClient(): SupabaseClient {
     return this.client;
   }
 
-  async deleteFile(bucket: string, path: string): Promise<void> {
+  async uploadFile(
+    bucket: string,
+    path: string,
+    file: Buffer,
+    contentType: string,
+  ): Promise<string> {
     const { error } = await this.client.storage
       .from(bucket)
-      .remove([path]);
+      .upload(path, file, { contentType, upsert: false });
+    if (error) throw new Error(error.message);
+    return path;
+  }
+
+  async deleteFile(bucket: string, path: string): Promise<void> {
+    const { error } = await this.client.storage.from(bucket).remove([path]);
     if (error) throw new Error(error.message);
   }
 }

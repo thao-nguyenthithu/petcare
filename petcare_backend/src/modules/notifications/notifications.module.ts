@@ -7,4 +7,4 @@ export const NOTIFICATION_QUEUE = 'notification';
   imports: [BullModule.registerQueue({ name: NOTIFICATION_QUEUE })],
   exports: [BullModule],
 })
-export class NotificationModule {}
+export class NotificationsModule {}

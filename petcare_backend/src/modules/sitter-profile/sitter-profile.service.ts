@@ -1,18 +1,48 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { randomUUID } from 'crypto';
 import { PrismaService } from '../../prisma/prisma.service';
-import { CreateProviderProfileDto } from './dto/create-provider-profile.dto';
+import { SupabaseService } from '../media/supabase.service';
+import { CreateSitterProfileDto } from './dto/create-sitter-profile.dto';
+
+// Ảnh upload 
+export interface UploadedImage {
+  buffer?: Buffer;
+}
 
 @Injectable()
-export class ProviderProfileService {
-  constructor(private readonly prisma: PrismaService) {}
+export class SitterProfileService {
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly supabase: SupabaseService,
+  ) {}
+
+  // Tải ảnh CCCD lên bucket cccd-imgs
+  async uploadCccd(file: UploadedImage, mat: string) {
+    if (!file?.buffer) {
+      throw new BadRequestException({
+        code: 'THIEU_ANH_CCCD',
+        message: 'Thiếu ảnh CCCD',
+      });
+    }
+    const loai = mat === 'back' ? 'back' : 'front';
+    const path = `${randomUUID()}_${loai}.jpg`;
+    await this.supabase.uploadFile(
+      'cccd-imgs',
+      path,
+      file.buffer,
+      'image/jpeg',
+    );
+    return { path };
+  }
 
   // Gửi hồ sơ đăng ký NCC
-  async submit(userId: string, dto: CreateProviderProfileDto) {
-    const daCo = await this.prisma.serviceProvider.findUnique({
+  async submit(userId: string, dto: CreateSitterProfileDto) {
+    const daCo = await this.prisma.sitter.findUnique({
       where: { userId },
     });
     // Đã được duyệt rồi thì không cho gửi lại
@@ -23,7 +53,7 @@ export class ProviderProfileService {
       });
     }
     // CCCD đã có ở hồ sơ của người khác
-    const trungCccd = await this.prisma.serviceProvider.findUnique({
+    const trungCccd = await this.prisma.sitter.findUnique({
       where: { nationalId: dto.nationalId },
     });
     if (trungCccd && trungCccd.userId !== userId) {
@@ -48,7 +78,7 @@ export class ProviderProfileService {
       submittedAt: new Date(),
     };
 
-    const hoSo = await this.prisma.serviceProvider.upsert({
+    const hoSo = await this.prisma.sitter.upsert({
       where: { userId },
       create: { userId, ...duLieu },
       update: duLieu,
@@ -58,7 +88,7 @@ export class ProviderProfileService {
 
   // Kiểm tra CCCD đã có ở hồ sơ người khác chưa
   async checkCccd(userId: string, nationalId: string) {
-    const daCo = await this.prisma.serviceProvider.findUnique({
+    const daCo = await this.prisma.sitter.findUnique({
       where: { nationalId },
     });
     return { available: !daCo || daCo.userId === userId };
@@ -66,7 +96,7 @@ export class ProviderProfileService {
 
   // Xem trạng thái hồ sơ của người dùng hiện tại
   async getMine(userId: string) {
-    const hoSo = await this.prisma.serviceProvider.findUnique({
+    const hoSo = await this.prisma.sitter.findUnique({
       where: { userId },
       select: {
         status: true,

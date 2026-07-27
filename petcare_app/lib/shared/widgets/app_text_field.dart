@@ -18,6 +18,7 @@ class AppTextField extends StatefulWidget {
   final Color? fillColor;
   final String? suffixText;
   final List<TextInputFormatter>? inputFormatters;
+  final FocusNode? focusNode;
 
   // Ô chỉ đọc
   final bool readOnly;
@@ -38,6 +39,7 @@ class AppTextField extends StatefulWidget {
     this.fillColor,
     this.suffixText,
     this.inputFormatters,
+    this.focusNode,
     this.readOnly = false,
     this.onTap,
   });
@@ -76,6 +78,7 @@ class _AppTextFieldState extends State<AppTextField> {
         TextFormField(
           key: widget.fieldKey,
           controller: widget.controller,
+          focusNode: widget.focusNode,
           obscureText: _obscure,
           keyboardType: widget.keyboardType,
           inputFormatters: widget.inputFormatters,

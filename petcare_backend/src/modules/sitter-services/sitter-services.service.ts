@@ -54,7 +54,7 @@ export class SitterServicesService {
         ...(r.pricing as Record<string, unknown>),
       };
     }
-    return out; 
+    return out;
   }
 
   // PUT /sitter/services
@@ -112,7 +112,7 @@ export class SitterServicesService {
     return this.getServices(userId);
   }
 
-  // Validate luật giá phía server 
+  // Validate luật giá phía server
   private kiemTraCauHinh(dto: UpdateServicesDto) {
     const loi = (code: string, message: string): never => {
       throw new BadRequestException({ code, message });
@@ -196,7 +196,7 @@ export class SitterServicesService {
     return { onboardedAt: updated.onboardedAt };
   }
 
-  // GET /sitter/service-area 
+  // GET /sitter/service-area
   async getServiceArea(userId: string) {
     const ncc = await this.layNccDaDuyet(userId);
     return {

@@ -1,7 +1,7 @@
 ﻿export interface AiVerifyResult {
-  isSafe:      boolean;
-  confidence:  number;
-  reason:      string;
+  isSafe: boolean;
+  confidence: number;
+  reason: string;
   rawResponse: Record<string, unknown>;
 }
 
