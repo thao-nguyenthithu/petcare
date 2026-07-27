@@ -3,7 +3,7 @@ import 'dart:typed_data';
 enum Gender { male, female, other }
 
 // Hồ sơ NCC qua bước đăng ký
-class SitterProfileDraft {
+class DkSitterDraft {
   // Bước 1 thông tin cá nhân
   final String? legalName;
   final Gender? gender;
@@ -18,7 +18,7 @@ class SitterProfileDraft {
   final Uint8List? idCardFront;
   final Uint8List? idCardBack;
 
-  const SitterProfileDraft({
+  const DkSitterDraft({
     this.legalName,
     this.gender,
     this.dateOfBirth,
@@ -31,7 +31,7 @@ class SitterProfileDraft {
     this.idCardBack,
   });
 
-  SitterProfileDraft copyWith({
+  DkSitterDraft copyWith({
     String? legalName,
     Gender? gender,
     DateTime? dateOfBirth,
@@ -42,7 +42,7 @@ class SitterProfileDraft {
     String? addressDetail,
     Uint8List? idCardFront,
     Uint8List? idCardBack,
-  }) => SitterProfileDraft(
+  }) => DkSitterDraft(
     legalName: legalName ?? this.legalName,
     gender: gender ?? this.gender,
     dateOfBirth: dateOfBirth ?? this.dateOfBirth,

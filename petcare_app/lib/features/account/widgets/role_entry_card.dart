@@ -7,7 +7,7 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/account/widgets/sitter_switch_sheet.dart';
-import 'package:petcare_app/features/sitter_profile/providers/sitter_profile_provider.dart';
+import 'package:petcare_app/features/dksitter/providers/dksitter_provider.dart';
 import 'package:petcare_app/shared/widgets/app_menu_card.dart';
 import 'package:petcare_app/shared/widgets/button_select.dart';
 

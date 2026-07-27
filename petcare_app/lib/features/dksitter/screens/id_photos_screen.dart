@@ -9,9 +9,9 @@ import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/sitter_profile/providers/sitter_profile_provider.dart';
-import 'package:petcare_app/features/sitter_profile/widgets/id_card_frame.dart';
-import 'package:petcare_app/features/sitter_profile/widgets/step_progress_bar.dart';
+import 'package:petcare_app/features/dksitter/providers/dksitter_provider.dart';
+import 'package:petcare_app/features/dksitter/widgets/id_card_frame.dart';
+import 'package:petcare_app/features/dksitter/widgets/step_progress_bar.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 
@@ -51,7 +51,7 @@ class _IdPhotosScreenState extends ConsumerState<IdPhotosScreen> {
       return;
     }
     ref
-        .read(sitterProfileProvider.notifier)
+        .read(dkSitterProvider.notifier)
         .luuAnhCccd(matTruoc: _anhMatTruoc, matSau: _anhMatSau);
     context.push(AppRoutes.sitterCommitment);
   }

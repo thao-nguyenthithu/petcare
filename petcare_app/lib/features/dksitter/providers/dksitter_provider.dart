@@ -1,19 +1,19 @@
 import 'dart:typed_data';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:petcare_app/features/sitter_profile/data/sitter_profile_draft.dart';
-import 'package:petcare_app/features/sitter_profile/services/id_card_upload_service.dart';
-import 'package:petcare_app/features/sitter_profile/services/sitter_profile_api_service.dart';
+import 'package:petcare_app/features/dksitter/data/dksitter_draft.dart';
+import 'package:petcare_app/features/dksitter/services/id_card_upload_service.dart';
+import 'package:petcare_app/features/dksitter/services/dksitter_api_service.dart';
 
-part 'sitter_profile_provider.g.dart';
+part 'dksitter_provider.g.dart';
 
 // Gom dữ liệu hồ sơ NCC rồi gửi lên ở bước cam kết
 @Riverpod(keepAlive: true)
-class SitterProfileNotifier extends _$SitterProfileNotifier {
-  final _api = SitterProfileApiService();
+class DkSitterNotifier extends _$DkSitterNotifier {
+  final _api = DkSitterApiService();
   final _upload = IdCardUploadService();
 
   @override
-  SitterProfileDraft build() => const SitterProfileDraft();
+  DkSitterDraft build() => const DkSitterDraft();
 
   // Bước 1 lưu thông tin cá nhân
   void luuThongTinCaNhan({
@@ -70,5 +70,4 @@ class SitterProfileNotifier extends _$SitterProfileNotifier {
 
 // Trạng thái hồ sơ NCC của user hiện tại
 @Riverpod(keepAlive: true)
-Future<String?> sitterStatus(Ref ref) =>
-    SitterProfileApiService().profileStatus();
+Future<String?> sitterStatus(Ref ref) => DkSitterApiService().profileStatus();

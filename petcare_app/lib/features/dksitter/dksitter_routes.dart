@@ -1,13 +1,14 @@
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/router/app_router.dart';
-import 'package:petcare_app/features/sitter_profile/screens/commitment_screen.dart';
-import 'package:petcare_app/features/sitter_profile/screens/id_capture_screen.dart';
-import 'package:petcare_app/features/sitter_profile/screens/id_photos_screen.dart';
-import 'package:petcare_app/features/sitter_profile/screens/personal_info_screen.dart';
-import 'package:petcare_app/features/sitter_profile/screens/profile_submitted_screen.dart';
-import 'package:petcare_app/features/sitter_profile/screens/sitter_intro_screen.dart';
+import 'package:petcare_app/features/dksitter/screens/commitment_screen.dart';
+import 'package:petcare_app/features/dksitter/screens/id_capture_screen.dart';
+import 'package:petcare_app/features/dksitter/screens/id_photos_screen.dart';
+import 'package:petcare_app/features/dksitter/screens/personal_info_screen.dart';
+import 'package:petcare_app/features/dksitter/screens/profile_submitted_screen.dart';
+import 'package:petcare_app/features/dksitter/screens/sitter_intro_screen.dart';
 
-final sitterProfileRoutes = <RouteBase>[
+// Route đăng ký làm NCC
+final dkSitterRoutes = <RouteBase>[
   GoRoute(
     path: AppRoutes.sitterIntro,
     builder: (context, state) => const ProviderIntroScreen(),

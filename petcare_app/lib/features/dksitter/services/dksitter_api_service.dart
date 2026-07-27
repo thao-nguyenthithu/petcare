@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:petcare_app/core/network/api_client.dart';
-import 'package:petcare_app/features/sitter_profile/data/sitter_profile_draft.dart';
+import 'package:petcare_app/features/dksitter/data/dksitter_draft.dart';
 
 // Gọi API hồ sơ NCC
-class SitterProfileApiService {
+class DkSitterApiService {
   // Gửi hồ sơ đăng ký
   Future<void> submit({
     required String legalName,

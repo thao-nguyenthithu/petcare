@@ -7,7 +7,7 @@ import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/sitter_profile/widgets/id_card_frame.dart';
+import 'package:petcare_app/features/dksitter/widgets/id_card_frame.dart';
 
 // Màn chụp CCCD mở từ bước 2
 class IdCaptureScreen extends StatefulWidget {

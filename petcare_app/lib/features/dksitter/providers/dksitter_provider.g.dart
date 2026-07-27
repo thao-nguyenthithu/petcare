@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'sitter_profile_provider.dart';
+part of 'dksitter_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,52 +9,51 @@ part of 'sitter_profile_provider.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(SitterProfileNotifier)
-final sitterProfileProvider = SitterProfileNotifierProvider._();
+@ProviderFor(DkSitterNotifier)
+final dkSitterProvider = DkSitterNotifierProvider._();
 
-final class SitterProfileNotifierProvider
-    extends $NotifierProvider<SitterProfileNotifier, SitterProfileDraft> {
-  SitterProfileNotifierProvider._()
+final class DkSitterNotifierProvider
+    extends $NotifierProvider<DkSitterNotifier, DkSitterDraft> {
+  DkSitterNotifierProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'sitterProfileProvider',
+        name: r'dkSitterProvider',
         isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$sitterProfileNotifierHash();
+  String debugGetCreateSourceHash() => _$dkSitterNotifierHash();
 
   @$internal
   @override
-  SitterProfileNotifier create() => SitterProfileNotifier();
+  DkSitterNotifier create() => DkSitterNotifier();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(SitterProfileDraft value) {
+  Override overrideWithValue(DkSitterDraft value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<SitterProfileDraft>(value),
+      providerOverride: $SyncValueProvider<DkSitterDraft>(value),
     );
   }
 }
 
-String _$sitterProfileNotifierHash() =>
-    r'bd347080131a143b1555cf8a46cb09fcb9f6262c';
+String _$dkSitterNotifierHash() => r'a1daeb6023f4471689e1c1a137ecb13a79b979e5';
 
-abstract class _$SitterProfileNotifier extends $Notifier<SitterProfileDraft> {
-  SitterProfileDraft build();
+abstract class _$DkSitterNotifier extends $Notifier<DkSitterDraft> {
+  DkSitterDraft build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<SitterProfileDraft, SitterProfileDraft>;
+    final ref = this.ref as $Ref<DkSitterDraft, DkSitterDraft>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<SitterProfileDraft, SitterProfileDraft>,
-              SitterProfileDraft,
+              AnyNotifier<DkSitterDraft, DkSitterDraft>,
+              DkSitterDraft,
               Object?,
               Object?
             >;
@@ -93,4 +92,4 @@ final class SitterStatusProvider
   }
 }
 
-String _$sitterStatusHash() => r'9cd0f7b64e5ad81d05dc1bed622f0c6926421100';
+String _$sitterStatusHash() => r'a64c4a77080b7ac78b8f4228fac1cff348befd15';

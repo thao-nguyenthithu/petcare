@@ -8,11 +8,11 @@ import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/validators.dart';
-import 'package:petcare_app/features/sitter_profile/data/sitter_profile_draft.dart';
-import 'package:petcare_app/features/sitter_profile/data/vietnam_provinces.dart';
-import 'package:petcare_app/features/sitter_profile/providers/sitter_profile_provider.dart';
-import 'package:petcare_app/features/sitter_profile/widgets/info_row.dart';
-import 'package:petcare_app/features/sitter_profile/widgets/step_progress_bar.dart';
+import 'package:petcare_app/features/dksitter/data/dksitter_draft.dart';
+import 'package:petcare_app/features/dksitter/data/vietnam_provinces.dart';
+import 'package:petcare_app/features/dksitter/providers/dksitter_provider.dart';
+import 'package:petcare_app/features/dksitter/widgets/info_row.dart';
+import 'package:petcare_app/features/dksitter/widgets/step_progress_bar.dart';
 import 'package:petcare_app/shared/utils/date_format.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
@@ -147,9 +147,7 @@ class _PersonalInfoScreenState extends ConsumerState<PersonalInfoScreen> {
 
     bool dungDuoc = true;
     try {
-      dungDuoc = await ref
-          .read(sitterProfileProvider.notifier)
-          .kiemTraCccd(cccd);
+      dungDuoc = await ref.read(dkSitterProvider.notifier).kiemTraCccd(cccd);
     } catch (_) {}
     if (!mounted) return;
     if (!dungDuoc) {
@@ -159,7 +157,7 @@ class _PersonalInfoScreenState extends ConsumerState<PersonalInfoScreen> {
     }
 
     ref
-        .read(sitterProfileProvider.notifier)
+        .read(dkSitterProvider.notifier)
         .luuThongTinCaNhan(
           legalName: _hoTenController.text.trim(),
           gender: _gioiTinh!,

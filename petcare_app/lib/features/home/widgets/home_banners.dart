@@ -7,7 +7,7 @@ import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/address/widgets/location_permission_sheet.dart';
-import 'package:petcare_app/features/provider_profile/providers/provider_profile_provider.dart';
+import 'package:petcare_app/features/dksitter/providers/dksitter_provider.dart';
 import 'package:petcare_app/shared/utils/placeholder_action.dart';
 import 'package:petcare_app/shared/widgets/app_loading_overlay.dart';
 
@@ -139,21 +139,21 @@ class BecomeProviderBanner extends ConsumerWidget {
     try {
       trangThai = await showAppLoading(
         context,
-        () => ref.read(providerStatusProvider.future),
+        () => ref.read(sitterStatusProvider.future),
       );
     } catch (_) {}
     if (!context.mounted) return;
     context.push(
       trangThai == 'PENDING'
-          ? AppRoutes.providerSubmitted
-          : AppRoutes.providerIntro,
+          ? AppRoutes.sitterSubmitted
+          : AppRoutes.sitterIntro,
     );
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    final trangThai = ref.watch(providerStatusProvider).asData?.value;
+    final trangThai = ref.watch(sitterStatusProvider).asData?.value;
     if (trangThai == 'APPROVED') return const SizedBox.shrink();
     return Container(
       width: double.infinity,

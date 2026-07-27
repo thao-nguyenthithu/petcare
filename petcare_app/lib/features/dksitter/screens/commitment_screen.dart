@@ -7,9 +7,9 @@ import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/sitter_profile/providers/sitter_profile_provider.dart';
-import 'package:petcare_app/features/sitter_profile/services/sitter_profile_error_mapper.dart';
-import 'package:petcare_app/features/sitter_profile/widgets/step_progress_bar.dart';
+import 'package:petcare_app/features/dksitter/providers/dksitter_provider.dart';
+import 'package:petcare_app/features/dksitter/services/dksitter_error_mapper.dart';
+import 'package:petcare_app/features/dksitter/widgets/step_progress_bar.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 
@@ -26,7 +26,7 @@ class _CommitmentScreenState extends ConsumerState<CommitmentScreen> {
 
   Future<void> _guiHoSo() async {
     try {
-      await ref.read(sitterProfileProvider.notifier).guiHoSo();
+      await ref.read(dkSitterProvider.notifier).guiHoSo();
       if (!mounted) return;
       context.go(AppRoutes.sitterSubmitted);
     } catch (loi) {
