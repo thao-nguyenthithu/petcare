@@ -11,19 +11,18 @@ import 'package:petcare_app/features/account/widgets/account_profile_header.dart
 import 'package:petcare_app/features/account/widgets/role_entry_card.dart';
 import 'package:petcare_app/features/auth/providers/auth_provider.dart';
 import 'package:petcare_app/features/auth/providers/current_user_provider.dart';
-import 'package:petcare_app/features/sitter_profile/providers/sitter_profile_provider.dart';
+import 'package:petcare_app/features/sitter/providers/sitter_service_area_provider.dart';
 import 'package:petcare_app/shared/utils/placeholder_action.dart';
 import 'package:petcare_app/shared/widgets/app_menu_card.dart';
 import 'package:petcare_app/shared/widgets/app_refresh_indicator.dart';
 import 'package:petcare_app/shared/widgets/confirm_dialog.dart';
 
-// Màn Tài khoản
-class AccountScreen extends ConsumerWidget {
-  const AccountScreen({super.key});
+// Tab Tài khoản của Người cung cấp
+class SitterAccountScreen extends ConsumerWidget {
+  const SitterAccountScreen({super.key});
 
   Future<void> _dangXuat(BuildContext context, WidgetRef ref) async {
     final l10n = context.l10n;
-    // Hỏi xác nhận trước khi đăng xuất
     final xacNhan = await showConfirmDialog(
       context,
       icon: Icons.logout_rounded,
@@ -37,7 +36,14 @@ class AccountScreen extends ConsumerWidget {
     if (context.mounted) context.go(AppRoutes.login);
   }
 
-  // Danh sách dòng menu
+  // Địa điểm phục vụ đang lưu
+  String? _khuVucHienTai(BuildContext context, WidgetRef ref) {
+    final area = ref.watch(sitterServiceAreaProvider).value;
+    final diaChi = area?.address;
+    if (diaChi == null || diaChi.isEmpty) return null;
+    return '$diaChi · ${context.l10n.soKm('${area!.radiusKm}')}';
+  }
+
   List<AppMenuTile> _menuTiles(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     AppMenuTile tile(
@@ -45,37 +51,40 @@ class AccountScreen extends ConsumerWidget {
       String label,
       VoidCallback onTap, {
       bool danger = false,
-    }) => AppMenuTile(icon: icon, label: label, danger: danger, onTap: onTap);
+      String? subtitle,
+    }) => AppMenuTile(
+      icon: icon,
+      label: label,
+      danger: danger,
+      subtitle: subtitle,
+      onTap: onTap,
+    );
     return [
       tile(
         Icons.person_outline,
-        l10n.hoSoCuaToi,
-        () => baoDangPhatTrien(context),
+        l10n.trangCaNhan,
+        () => context.push(AppRoutes.sitterProfileView),
       ),
       tile(
-        Icons.pets_outlined,
-        l10n.thuCungCuaToi,
-        () => baoDangPhatTrien(context),
+        Icons.storefront_outlined,
+        l10n.dichVuCuaToi,
+        () => context.push(AppRoutes.sitterServices),
+        subtitle: _khuVucHienTai(context, ref),
       ),
       tile(
         Icons.account_balance_wallet_outlined,
-        l10n.viVaThanhToan,
-        () => baoDangPhatTrien(context),
-      ),
-      tile(
-        Icons.location_on_outlined,
-        l10n.diaChiDaLuu,
-        () => context.push(AppRoutes.addresses),
+        l10n.viVaThuNhap,
+        () => context.push(AppRoutes.sitterEarnings),
       ),
       tile(
         Icons.star_outline,
-        l10n.danhGiaCuaToi,
-        () => baoDangPhatTrien(context),
+        l10n.danhGiaTuKhach,
+        () => context.push(AppRoutes.sitterReviews),
       ),
       tile(
         Icons.receipt_long_outlined,
-        l10n.lichSuVaChiTieu,
-        () => baoDangPhatTrien(context),
+        l10n.lichSuDon,
+        () => context.push(AppRoutes.sitterBookings),
       ),
       tile(
         Icons.settings_outlined,
@@ -98,15 +107,13 @@ class AccountScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
     final tenNguoiDung = ref.watch(currentUserProvider).asData?.value.fullName;
 
     return ColoredBox(
       color: AppColors.background,
       child: AppRefreshIndicator(
-        onRefresh: () => Future.wait([
-          ref.read(currentUserProvider.future),
-          ref.read(sitterStatusProvider.future),
-        ]),
+        onRefresh: () => ref.read(currentUserProvider.future),
         child: CustomScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           slivers: [
@@ -121,8 +128,8 @@ class AccountScreen extends ConsumerWidget {
             SliverToBoxAdapter(
               child: AccountProfileHeader(
                 name: tenNguoiDung,
-                roleLabel: context.l10n.chuNuoiDaXacMinh,
-                statusText: context.l10n.dangOCheDoChuNuoi,
+                roleLabel: l10n.nguoiCungCapDaXacMinh,
+                statusText: l10n.dangOCheDoNguoiCungCap,
               ),
             ),
             SliverToBoxAdapter(
@@ -135,8 +142,8 @@ class AccountScreen extends ConsumerWidget {
                 ),
                 child: Column(
                   children: [
-                    // Thẻ trên cùng đổi theo trạng thái hồ sơ NCC
-                    const RoleEntryCard(),
+                    // Thẻ quay lại chế độ Chủ nuôi
+                    const RoleEntryCard(providerMode: true),
                     const SizedBox(height: AppSpacing.stackGap),
                     Material(
                       color: AppColors.surface,
