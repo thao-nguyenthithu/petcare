@@ -15,7 +15,6 @@ final addressRoutes = <RouteBase>[
   ),
   GoRoute(
     path: AppRoutes.addAddress,
-    // extra: SavedAddress khi sửa, KetQuaViTri khi thêm mới từ bản đồ
     builder: (context, state) {
       final extra = state.extra;
       return AddAddressScreen(
@@ -26,7 +25,6 @@ final addressRoutes = <RouteBase>[
   ),
   GoRoute(
     path: AppRoutes.locationPicker,
-    // extra: LatLng tâm ban đầu khi bấm chỉnh từ map xem trước
     builder: (context, state) =>
         LocationPickerScreen(initialCenter: state.extra as LatLng?),
   ),

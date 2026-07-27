@@ -11,19 +11,21 @@ class UserAvatar extends StatelessWidget {
     this.imageUrl,
     this.size = 44,
     this.bordered = false,
+    this.onTap,
   });
 
   final String? name;
   final String? imageUrl;
   final double size;
   final bool bordered;
+  final VoidCallback? onTap;
 
   bool get _laMang => imageUrl != null && imageUrl!.startsWith('http');
   bool get _coAnh => imageUrl != null && imageUrl!.isNotEmpty;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    final o = Container(
       width: size,
       height: size,
       decoration: BoxDecoration(
@@ -34,6 +36,18 @@ class UserAvatar extends StatelessWidget {
             : null,
       ),
       child: ClipOval(child: _anh()),
+    );
+    if (onTap == null) return o;
+    return Stack(
+      children: [
+        o,
+        Positioned.fill(
+          child: Material(
+            type: MaterialType.transparency,
+            child: InkWell(customBorder: const CircleBorder(), onTap: onTap),
+          ),
+        ),
+      ],
     );
   }
 

@@ -8,9 +8,9 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/address/widgets/map_tiles.dart';
 import 'package:petcare_app/features/messaging/data/chat_message.dart';
 import 'package:petcare_app/features/messaging/widgets/media_viewers.dart';
+import 'package:petcare_app/shared/widgets/map_tiles.dart';
 
 // Một bong bóng chat
 class MessageBubble extends StatelessWidget {

@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
-import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/address/data/ket_qua_vi_tri.dart';
 import 'package:petcare_app/features/address/data/saved_address.dart';
 import 'package:petcare_app/features/address/providers/saved_addresses_provider.dart';
-import 'package:petcare_app/features/address/widgets/map_tiles.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_screen_header.dart';
 import 'package:petcare_app/shared/widgets/app_text_field.dart';
+import 'package:petcare_app/shared/widgets/bottom_action_bar.dart';
 import 'package:petcare_app/shared/widgets/button_select.dart';
+import 'package:petcare_app/shared/widgets/locked_field.dart';
+import 'package:petcare_app/shared/widgets/map_preview.dart';
 
 class AddAddressScreen extends ConsumerStatefulWidget {
   const AddAddressScreen({super.key, this.diaChiSua, this.viTriMoi});
@@ -144,7 +144,7 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
                 ),
                 children: [
                   if (_viTri != null)
-                    _MapXemTruoc(viTri: _viTri!, onDoi: _doiViTri)
+                    MapPreview(viTri: _viTri!, onDoi: _doiViTri)
                   else
                     AppButton(
                       text: l10n.chonViTriTrenBanDo,
@@ -153,11 +153,11 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
                       onTap: _doiViTri,
                     ),
                   const SizedBox(height: AppSpacing.blockGap),
-                  _ODiaChiKhoa(label: l10n.tinhThanhPho, giaTri: _tinh),
+                  LockedField(label: l10n.tinhThanhPho, value: _tinh),
                   const SizedBox(height: AppSpacing.stackGap),
-                  _ODiaChiKhoa(label: l10n.phuongXa, giaTri: _phuong),
+                  LockedField(label: l10n.phuongXa, value: _phuong),
                   const SizedBox(height: AppSpacing.stackGap),
-                  _ODiaChiKhoa(label: l10n.soNhaTenDuong, giaTri: _soNha),
+                  LockedField(label: l10n.soNhaTenDuong, value: _soNha),
                   const SizedBox(height: AppSpacing.stackGap),
                   AppTextField(
                     label: l10n.ghiChuDiaChi,
@@ -184,161 +184,17 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
                 ],
               ),
             ),
-            Container(
-              color: AppColors.surface,
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.screenPadding,
-                vertical: AppSpacing.itemGap,
-              ),
+            BottomActionBar(
+              vien: false,
               child: AppButton(
                 text: l10n.luuDiaChi,
                 enabled: _duDieuKien && !_dangLuu,
-                onTap: () {
-                  _luu();
-                },
+                onTap: _luu,
               ),
             ),
           ],
         ),
       ),
-    );
-  }
-}
-
-class _MapXemTruoc extends StatelessWidget {
-  const _MapXemTruoc({required this.viTri, required this.onDoi});
-
-  final LatLng viTri;
-  final VoidCallback onDoi;
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(AppRadius.radius14),
-      child: SizedBox(
-        height: 160,
-        child: Stack(
-          children: [
-            FlutterMap(
-              key: ValueKey(viTri),
-              options: MapOptions(
-                initialCenter: viTri,
-                initialZoom: 16,
-                interactionOptions: const InteractionOptions(
-                  flags: InteractiveFlag.none,
-                ),
-              ),
-              children: [
-                voyagerTileLayer(),
-                MarkerLayer(
-                  markers: [
-                    Marker(
-                      point: viTri,
-                      width: 40,
-                      height: 40,
-                      alignment: Alignment.topCenter,
-                      child: const Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Icon(
-                          Icons.location_on,
-                          color: AppColors.primaryColor,
-                          size: 36,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Positioned.fill(
-              child: Material(
-                type: MaterialType.transparency,
-                child: InkWell(onTap: onDoi),
-              ),
-            ),
-            Positioned(
-              right: AppSpacing.itemGap,
-              bottom: AppSpacing.itemGap,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.circular(AppRadius.radius14),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(
-                      Icons.edit_location_alt_outlined,
-                      size: 16,
-                      color: AppColors.primaryColor,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      context.l10n.chamDeDoiViTri,
-                      style: AppTextStyles.captionSm.copyWith(
-                        color: AppColors.primaryColor,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// Ô nền xám nhạt, có icon khoá
-class _ODiaChiKhoa extends StatelessWidget {
-  const _ODiaChiKhoa({required this.label, required this.giaTri});
-
-  final String label;
-  final String? giaTri;
-
-  @override
-  Widget build(BuildContext context) {
-    final coGiaTri = giaTri != null && giaTri!.isNotEmpty;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: AppTextStyles.label),
-        const SizedBox(height: AppSpacing.labelGap),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          decoration: BoxDecoration(
-            // nền xám + chữ dịu để thấy rõ đây là ô khoá, không nhập được
-            color: AppColors.neutralLight,
-            borderRadius: BorderRadius.circular(AppRadius.radius14),
-            border: Border.all(color: AppColors.neutral),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  coGiaTri ? giaTri! : '—',
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTextStyles.body.copyWith(
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-              ),
-              const Icon(
-                Icons.lock_outline,
-                size: 18,
-                color: AppColors.textSecondary,
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }

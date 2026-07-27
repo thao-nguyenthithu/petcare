@@ -6,7 +6,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
-import 'package:petcare_app/features/address/widgets/map_tiles.dart';
+import 'package:petcare_app/shared/widgets/map_tiles.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // Mở trình xem ảnh toàn màn
