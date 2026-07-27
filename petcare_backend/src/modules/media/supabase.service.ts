@@ -36,6 +36,19 @@ export class SupabaseService {
     return path;
   }
 
+  getPublicUrl(bucket: string, path: string): string {
+    return this.client.storage.from(bucket).getPublicUrl(path).data.publicUrl;
+  }
+
+  async ensurePublicBucket(bucket: string): Promise<void> {
+    const { error } = await this.client.storage.createBucket(bucket, {
+      public: true,
+    });
+    if (error && !/exist|duplicate/i.test(error.message)) {
+      throw new Error(error.message);
+    }
+  }
+
   async deleteFile(bucket: string, path: string): Promise<void> {
     const { error } = await this.client.storage.from(bucket).remove([path]);
     if (error) throw new Error(error.message);
