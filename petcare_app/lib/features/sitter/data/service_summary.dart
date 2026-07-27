@@ -1,0 +1,46 @@
+import 'package:flutter/widgets.dart';
+import 'package:petcare_app/core/l10n/l10n_ext.dart';
+import 'package:petcare_app/features/sitter/data/sitter_services.dart';
+import 'package:petcare_app/shared/utils/money_format.dart';
+
+// Nhãn loài nhận
+String petKindLabel(BuildContext context, PetKind kind) => switch (kind) {
+  PetKind.dog => context.l10n.cho,
+  PetKind.cat => context.l10n.meo,
+  PetKind.both => context.l10n.caHai,
+};
+
+// Tên loại dịch vụ
+String serviceTypeName(BuildContext context, ServiceType type) =>
+    switch (type) {
+      ServiceType.walking => context.l10n.datThuCung,
+      ServiceType.boarding => context.l10n.trongGiu,
+      ServiceType.grooming => context.l10n.tamVaTia,
+    };
+
+// Tóm tắt dịch vụ (dùng trong danh sách dịch vụ của tôi)
+String? serviceTypeSummary(
+  BuildContext context,
+  SitterServices s,
+  ServiceType type,
+) {
+  final l10n = context.l10n;
+  switch (type) {
+    case ServiceType.walking:
+      if (!s.walking.configured) return null;
+      final loai = petKindLabel(context, s.walking.petKind);
+      return l10n.tomTatDatDv(
+        loai,
+        '${s.walking.durationMinutes}',
+        dinhDangTien(s.walking.price ?? 0),
+      );
+    case ServiceType.boarding:
+      if (!s.boarding.configured) return null;
+      final loai = petKindLabel(context, s.boarding.petKind);
+      return '$loai · ${l10n.giaNgayToiDa(dinhDangTien(s.boarding.pricePerDay ?? 0), '${s.boarding.capacity ?? 0}')}';
+    case ServiceType.grooming:
+      if (!s.grooming.configured) return null;
+      final loai = petKindLabel(context, s.grooming.petKind);
+      return '$loai · ${l10n.tuGiaBe(dinhDangTien(s.grooming.lowestPrice ?? 0))}';
+  }
+}

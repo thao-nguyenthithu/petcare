@@ -4,7 +4,7 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 
-// Card một dịch vụ cho màn Dịch vụ của tôi và Dịch vụ của tôi ở Home NCC
+// Card một dịch vụ cho màn home công việc và tất cả dịch vụ của tôi
 class ServiceListCard extends StatelessWidget {
   const ServiceListCard({
     super.key,
@@ -16,7 +16,7 @@ class ServiceListCard extends StatelessWidget {
     this.dimmed = false,
   });
 
-  final String iconAsset; // icon SVG theo loại dịch vụ (ServiceType.iconAsset)
+  final String iconAsset;
   final String title;
   final String subtitle;
   final Widget? trailing;
