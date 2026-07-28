@@ -14,6 +14,7 @@ import 'package:petcare_app/features/messaging/data/conversation.dart';
 import 'package:petcare_app/features/messaging/widgets/chat_app_bar.dart';
 import 'package:petcare_app/features/messaging/widgets/chat_input_bar.dart';
 import 'package:petcare_app/features/messaging/widgets/chat_locked.dart';
+import 'package:petcare_app/features/messaging/widgets/chat_pets_bar.dart';
 import 'package:petcare_app/features/messaging/widgets/chat_system_chip.dart';
 import 'package:petcare_app/features/messaging/widgets/message_bubble.dart';
 import 'package:petcare_app/features/messaging/widgets/quick_reply_bar.dart';
@@ -286,6 +287,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             conversation: widget.conversation,
             countdown: _dangDienRa ? widget.thread.countdown : null,
           ),
+          if (widget.conversation.nhieuBe)
+            ChatPetsBar(conversation: widget.conversation),
           Expanded(
             child: ListView.separated(
               controller: _scrollController,

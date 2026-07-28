@@ -4,7 +4,9 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/messaging/data/conversation.dart';
+import 'package:petcare_app/shared/utils/relative_time.dart';
 import 'package:petcare_app/shared/widgets/app_status_badge.dart';
+import 'package:petcare_app/shared/widgets/pet_avatar_stack.dart';
 import 'package:petcare_app/shared/widgets/user_avatar.dart';
 
 // Thẻ một hội thoại trong danh sách Tin nhắn
@@ -31,9 +33,9 @@ class ConversationTile extends StatelessWidget {
           background: AppColors.primaryColor,
           textColor: AppColors.textWhite,
         );
-      case ConversationState.daHoanTat:
+      case ConversationState.choXacNhan:
         return (
-          label: l10n.daHoanTat,
+          label: l10n.trangThaiChoXacNhan,
           background: AppColors.cardMint,
           textColor: AppColors.primaryColor,
         );
@@ -90,10 +92,20 @@ class ConversationTile extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(width: AppSpacing.labelGap),
+                              // Phiên đang chạy: đếm ngược thay nhãn trạng thái
                               AppStatusBadge(
-                                label: status.label,
+                                label: c.dangChay
+                                    ? thoiGianConLai(l10n, c.remainingMinutes!)
+                                    : status.label,
                                 background: status.background,
                                 textColor: status.textColor,
+                                leading: c.dangChay
+                                    ? Icon(
+                                        Icons.schedule,
+                                        size: 11,
+                                        color: status.textColor,
+                                      )
+                                    : null,
                               ),
                             ],
                           ),
@@ -118,7 +130,7 @@ class ConversationTile extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            '${c.serviceContext} · ${c.bookingCode}',
+                            '${c.serviceName} · ${c.bookingCode}',
                             style: AppTextStyles.captionSm.copyWith(
                               fontSize: 13,
                               color: ketThuc
@@ -133,6 +145,26 @@ class ConversationTile extends StatelessWidget {
                           const SizedBox(width: AppSpacing.labelGap),
                           const _UnreadDot(),
                         ],
+                      ],
+                    ),
+                    const SizedBox(height: AppSpacing.textGap),
+                    Row(
+                      children: [
+                        PetAvatarStack(pets: c.pets, size: 22),
+                        const SizedBox(width: AppSpacing.labelGap),
+                        Expanded(
+                          child: Text(
+                            c.nhieuBe
+                                ? l10n.soBeVaTen('${c.pets.length}', c.moTaBe)
+                                : c.moTaBe,
+                            style: AppTextStyles.captionSm.copyWith(
+                              fontSize: 12,
+                              color: AppColors.textPrimary,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: AppSpacing.textGap),

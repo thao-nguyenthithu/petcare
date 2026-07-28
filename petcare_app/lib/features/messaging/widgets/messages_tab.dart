@@ -7,9 +7,9 @@ import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/messaging/data/conversation.dart';
 import 'package:petcare_app/features/messaging/screens/chat_detail_screen.dart';
+import 'package:petcare_app/features/messaging/widgets/conversation_filter_panel.dart';
 import 'package:petcare_app/features/messaging/widgets/conversation_tile.dart';
 import 'package:petcare_app/shared/widgets/app_empty_state.dart';
-import 'package:petcare_app/shared/widgets/app_filter_chip.dart';
 import 'package:petcare_app/shared/widgets/app_refresh_indicator.dart';
 import 'package:petcare_app/shared/widgets/app_search_field.dart';
 import 'package:petcare_app/shared/widgets/green_title_header.dart';
@@ -67,6 +67,14 @@ class _MessagesTabState extends State<MessagesTab> {
     }).toList();
   }
 
+  void _openChat(Conversation conversation) {
+    widget.onOpen?.call(conversation);
+    context.push(
+      AppRoutes.chatThread,
+      extra: ChatArgs(conversation: conversation, isOwner: widget.lightHeader),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final list = _filtered;
@@ -82,7 +90,12 @@ class _MessagesTabState extends State<MessagesTab> {
             curve: Curves.easeInOut,
             alignment: Alignment.topCenter,
             child: _filterOpen
-                ? _buildFilterPanel(context)
+                ? ConversationFilterPanel(
+                    sessionFilter: _sessionFilter,
+                    serviceTypes: _serviceTypes,
+                    onSessionChanged: (v) => setState(() => _sessionFilter = v),
+                    onToggleServiceType: _toggleServiceType,
+                  )
                 : const SizedBox(width: double.infinity),
           ),
           if (widget.lightHeader)
@@ -121,16 +134,7 @@ class _MessagesTabState extends State<MessagesTab> {
                       ),
                       itemBuilder: (context, i) => ConversationTile(
                         conversation: list[i],
-                        onTap: () {
-                          widget.onOpen?.call(list[i]);
-                          context.push(
-                            AppRoutes.chatThread,
-                            extra: ChatArgs(
-                              conversation: list[i],
-                              isOwner: widget.lightHeader,
-                            ),
-                          );
-                        },
+                        onTap: () => _openChat(list[i]),
                       ),
                     ),
             ),
@@ -183,159 +187,10 @@ class _MessagesTabState extends State<MessagesTab> {
     );
   }
 
-  // Panel lọc mở dưới header
-  Widget _buildFilterPanel(BuildContext context) {
-    final l10n = context.l10n;
-    return Container(
-      width: double.infinity,
-      color: AppColors.background,
-      padding: const EdgeInsets.fromLTRB(
-        AppSpacing.screenPadding,
-        AppSpacing.itemGap,
-        AppSpacing.screenPadding,
-        AppSpacing.itemGap,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _FilterGroupLabel(l10n.trangThai),
-          Wrap(
-            spacing: AppSpacing.labelGap,
-            runSpacing: AppSpacing.labelGap,
-            children: [
-              AppFilterChip(
-                label: l10n.tatCa,
-                selected: _sessionFilter == null,
-                onTap: () => setState(() => _sessionFilter = null),
-              ),
-              AppFilterChip(
-                label: l10n.sapToi,
-                selected: _sessionFilter == ConversationState.sapToi,
-                onTap: () =>
-                    setState(() => _sessionFilter = ConversationState.sapToi),
-              ),
-              AppFilterChip(
-                label: l10n.dangDienRa,
-                selected: _sessionFilter == ConversationState.dangDienRa,
-                onTap: () => setState(
-                  () => _sessionFilter = ConversationState.dangDienRa,
-                ),
-              ),
-              AppFilterChip(
-                label: l10n.daHoanTat,
-                selected: _sessionFilter == ConversationState.daHoanTat,
-                onTap: () => setState(
-                  () => _sessionFilter = ConversationState.daHoanTat,
-                ),
-              ),
-              AppFilterChip(
-                label: l10n.daKetThuc,
-                selected: _sessionFilter == ConversationState.daKetThuc,
-                onTap: () => setState(
-                  () => _sessionFilter = ConversationState.daKetThuc,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.itemGap),
-          _FilterGroupLabel(l10n.loaiDichVu),
-          Wrap(
-            spacing: AppSpacing.blockGap,
-            runSpacing: AppSpacing.textGap,
-            children: [
-              _ServiceCheckbox(
-                label: l10n.datDiDao,
-                selected: _serviceTypes.contains(ServiceKind.datDiDao),
-                onTap: () => _toggleServiceType(ServiceKind.datDiDao),
-              ),
-              _ServiceCheckbox(
-                label: l10n.trongGiu,
-                selected: _serviceTypes.contains(ServiceKind.trongGiu),
-                onTap: () => _toggleServiceType(ServiceKind.trongGiu),
-              ),
-              _ServiceCheckbox(
-                label: l10n.tamVaTia,
-                selected: _serviceTypes.contains(ServiceKind.tamTia),
-                onTap: () => _toggleServiceType(ServiceKind.tamTia),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
   void _toggleServiceType(ServiceKind type) {
     setState(() {
       if (!_serviceTypes.remove(type)) _serviceTypes.add(type);
     });
-  }
-}
-
-// Nhãn nhóm trong panel lọc
-class _FilterGroupLabel extends StatelessWidget {
-  const _FilterGroupLabel(this.text);
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.labelGap),
-      child: Text(
-        text,
-        style: AppTextStyles.captionSm.copyWith(
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
-          color: AppColors.textPrimary,
-        ),
-      ),
-    );
-  }
-}
-
-// Ô checkbox
-class _ServiceCheckbox extends StatelessWidget {
-  const _ServiceCheckbox({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            width: 24,
-            height: 24,
-            child: Checkbox(
-              value: selected,
-              onChanged: (_) => onTap(),
-              activeColor: AppColors.primaryColor,
-              visualDensity: VisualDensity.compact,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              side: const BorderSide(color: AppColors.neutralLight, width: 1.5),
-            ),
-          ),
-          const SizedBox(width: AppSpacing.textGap),
-          Text(
-            label,
-            style: AppTextStyles.captionSm.copyWith(
-              fontSize: 13,
-              color: AppColors.textPrimary,
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }
 
