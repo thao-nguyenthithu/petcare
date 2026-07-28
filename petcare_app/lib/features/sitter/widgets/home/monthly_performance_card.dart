@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
+import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/sitter/data/mock_sitter_home.dart';
 import 'package:petcare_app/features/sitter/widgets/section_empty.dart';
@@ -19,7 +20,7 @@ class MonthlyPerformanceCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(l10n.hieuSuatThangNay, style: AppTextStyles.h3),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSpacing.itemGap),
         if (data.completedThisMonth == 0)
           SectionEmpty(
             icon: Icons.insights_outlined,

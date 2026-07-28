@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
+import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/sitter/widgets/icon_box.dart';
 
@@ -28,7 +29,7 @@ class SitterTipCard extends StatelessWidget {
             iconSize: 20,
             iconColor: AppColors.accent,
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: AppSpacing.itemGap),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,7 +38,7 @@ class SitterTipCard extends StatelessWidget {
                   l10n.meoTangDon,
                   style: AppTextStyles.label.copyWith(fontSize: 13),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: AppSpacing.textGap),
                 Text(l10n.meoTangDonMoTa, style: AppTextStyles.captionSm),
               ],
             ),

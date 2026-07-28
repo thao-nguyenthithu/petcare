@@ -39,7 +39,7 @@ class OnboardingChecklist extends StatelessWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 24),
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.groupGap),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -67,7 +67,7 @@ class OnboardingChecklist extends StatelessWidget {
             AppButton(text: l10n.batDauNhanDon, onTap: onHoanTat),
           ] else
             AppButton(text: l10n.thietLapNgay, onTap: onThietLap),
-          const SizedBox(height: 4),
+          const SizedBox(height: AppSpacing.textGap),
           TextButton(
             onPressed: onVeChuNuoi,
             child: Text(
@@ -115,10 +115,13 @@ class _BuocStep extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: AppSpacing.stackGap),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(top: 2, bottom: laCuoi ? 0 : 24),
+              padding: EdgeInsets.only(
+                top: 2,
+                bottom: laCuoi ? 0 : AppSpacing.groupGap,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

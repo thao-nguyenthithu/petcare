@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
+import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/sitter/data/service_summary.dart';
 import 'package:petcare_app/features/sitter/data/sitter_services.dart';
@@ -41,7 +42,7 @@ class MyServicesSection extends ConsumerWidget {
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSpacing.itemGap),
         for (final (i, type) in loaiDaCauHinh.indexed) ...[
           _ServiceToggleCard(
             type: type,

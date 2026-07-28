@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
+import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_system_ui.dart';
 import 'package:petcare_app/features/account/widgets/sitter_switch_sheet.dart';
 import 'package:petcare_app/features/sitter/data/mock_sitter_home.dart';
@@ -28,7 +29,7 @@ class SitterWorkTab extends ConsumerStatefulWidget {
 }
 
 class _SitterWorkTabState extends ConsumerState<SitterWorkTab> {
-  static const _data = MockSitterData.dashboard;
+  static final _data = MockSitterData.dashboard;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +59,8 @@ class _SitterWorkTabState extends ConsumerState<SitterWorkTab> {
                 ),
                 SliverToBoxAdapter(
                   child: Padding(
+                    // Lề riêng của tab Công việc: 20 ngang cho khớp header xanh
+                    // (22) phía trên, 18 trên để body không dính header
                     padding: EdgeInsets.fromLTRB(
                       20,
                       18,
@@ -114,16 +117,16 @@ class _SitterWorkTabState extends ConsumerState<SitterWorkTab> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const EarningsCard(data: _data),
-        const SizedBox(height: 20),
+        EarningsCard(data: _data),
+        const SizedBox(height: AppSpacing.blockGap),
         PendingOrdersSection(orders: _data.pendingOrders),
-        const SizedBox(height: 20),
+        const SizedBox(height: AppSpacing.blockGap),
         TodayScheduleSection(items: _data.schedule),
-        const SizedBox(height: 20),
+        const SizedBox(height: AppSpacing.blockGap),
         const MyServicesSection(),
-        const SizedBox(height: 20),
-        const MonthlyPerformanceCard(data: _data),
-        const SizedBox(height: 20),
+        const SizedBox(height: AppSpacing.blockGap),
+        MonthlyPerformanceCard(data: _data),
+        const SizedBox(height: AppSpacing.blockGap),
         const SitterTipCard(),
       ],
     );

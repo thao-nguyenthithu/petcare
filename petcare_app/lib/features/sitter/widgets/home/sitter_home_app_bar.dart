@@ -5,6 +5,7 @@ import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
+import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 
 // Header tab Công việc của NCC, tự co theo nội dung
@@ -41,7 +42,7 @@ class SitterHomeAppBar extends StatelessWidget {
               Row(
                 children: [
                   SvgPicture.asset('assets/icons/paw_white.svg', width: 24),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: AppSpacing.labelGap),
                   Expanded(
                     child: Text(
                       l10n.tenUngDung,
@@ -77,7 +78,7 @@ class SitterHomeAppBar extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.stackGap),
               Text(
                 l10n.congViec,
                 style: AppTextStyles.h1.copyWith(
@@ -87,7 +88,7 @@ class SitterHomeAppBar extends StatelessWidget {
               ),
               // Khi onboarding ẩn thanh nhận đơn, chỉ còn tiêu đề
               if (!khoa) ...[
-                const SizedBox(height: 16),
+                const SizedBox(height: AppSpacing.stackGap),
                 _AvailabilityBar(
                   location: location,
                   receiving: isReceiving,
