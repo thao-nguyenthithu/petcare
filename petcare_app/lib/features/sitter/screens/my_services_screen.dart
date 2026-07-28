@@ -7,16 +7,14 @@ import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/address/widgets/map_preview.dart';
 import 'package:petcare_app/features/sitter/data/service_summary.dart';
 import 'package:petcare_app/features/sitter/data/sitter_service_area.dart';
 import 'package:petcare_app/features/sitter/data/sitter_services.dart';
-import 'package:petcare_app/features/sitter/providers/sitter_onboarding_provider.dart';
-import 'package:petcare_app/features/sitter/providers/sitter_service_area_provider.dart';
 import 'package:petcare_app/features/sitter/providers/sitter_services_provider.dart';
-import 'package:petcare_app/features/sitter/widgets/service_list_card.dart';
+import 'package:petcare_app/features/sitter/widgets/services/service_list_card.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_screen_header.dart';
+import 'package:petcare_app/shared/widgets/map_preview.dart';
 
 // Trang tất cả dịch vụ của NCC
 class MyServicesScreen extends ConsumerWidget {

@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:petcare_app/features/sitter/data/sitter_service_area.dart';
 import 'package:petcare_app/features/sitter/data/sitter_services.dart';
 import 'package:petcare_app/features/sitter/services/sitter_services_api_service.dart';
 
@@ -80,4 +81,50 @@ class SitterServicesNotifier extends AsyncNotifier<SitterServices> {
 final sitterServicesProvider =
     AsyncNotifierProvider<SitterServicesNotifier, SitterServices>(
       SitterServicesNotifier.new,
+    );
+
+// Địa điểm khu vực phục vụ NCC
+class SitterServiceAreaNotifier extends AsyncNotifier<SitterServiceArea> {
+  final _api = SitterServicesApiService();
+
+  @override
+  Future<SitterServiceArea> build() => _api.getServiceArea();
+
+  // Cập nhật lỗi thì nạp lại từ server và ném ra cho màn báo
+  Future<void> capNhat(SitterServiceArea moi) async {
+    state = AsyncData(moi);
+    try {
+      await _api.updateServiceArea(moi);
+    } catch (_) {
+      ref.invalidateSelf();
+      rethrow;
+    }
+  }
+}
+
+final sitterServiceAreaProvider =
+    AsyncNotifierProvider<SitterServiceAreaNotifier, SitterServiceArea>(
+      SitterServiceAreaNotifier.new,
+    );
+
+// NCC đã bấm "Bắt đầu nhận đơn" hay chưa
+class SitterOnboardingNotifier extends AsyncNotifier<bool> {
+  final _api = SitterServicesApiService();
+
+  @override
+  Future<bool> build() => _api.getOnboarded();
+
+  Future<void> hoanTat() async {
+    state = const AsyncData(true);
+    try {
+      await _api.completeOnboarding();
+    } catch (_) {
+      ref.invalidateSelf();
+    }
+  }
+}
+
+final sitterOnboardingProvider =
+    AsyncNotifierProvider<SitterOnboardingNotifier, bool>(
+      SitterOnboardingNotifier.new,
     );
