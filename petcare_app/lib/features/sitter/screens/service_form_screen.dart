@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
+import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/sitter/data/service_summary.dart';
 import 'package:petcare_app/features/sitter/data/sitter_services.dart';
-import 'package:petcare_app/features/sitter/widgets/service_form_chip.dart';
-import 'package:petcare_app/features/sitter/widgets/weight_price_row.dart';
+import 'package:petcare_app/features/sitter/widgets/services/weight_price_row.dart';
 import 'package:petcare_app/shared/utils/money_format.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
@@ -333,22 +333,22 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
                     const SizedBox(height: 12),
                     Row(
                       children: [
-                        ServiceFormChip(
-                          label: l10n.cho,
-                          selected: _loai == PetKind.dog,
-                          onTap: () => _doiLoai(PetKind.dog),
+                        _chon(
+                          l10n.cho,
+                          _loai == PetKind.dog,
+                          () => _doiLoai(PetKind.dog),
                         ),
                         const SizedBox(width: 10),
-                        ServiceFormChip(
-                          label: l10n.meo,
-                          selected: _loai == PetKind.cat,
-                          onTap: () => _doiLoai(PetKind.cat),
+                        _chon(
+                          l10n.meo,
+                          _loai == PetKind.cat,
+                          () => _doiLoai(PetKind.cat),
                         ),
                         const SizedBox(width: 10),
-                        ServiceFormChip(
-                          label: l10n.caHai,
-                          selected: _loai == PetKind.both,
-                          onTap: () => _doiLoai(PetKind.both),
+                        _chon(
+                          l10n.caHai,
+                          _loai == PetKind.both,
+                          () => _doiLoai(PetKind.both),
                         ),
                       ],
                     ),
@@ -369,6 +369,17 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
     );
   }
 
+  // Nút chọn dạng viên thuốc
+  Widget _chon(String nhan, bool chon, VoidCallback onTap) => Expanded(
+    child: AppButton(
+      text: nhan,
+      height: 40,
+      radius: AppRadius.radius20,
+      outlined: !chon,
+      onTap: onTap,
+    ),
+  );
+
   List<Widget> _truongTheoLoai() {
     final l10n = context.l10n;
     switch (_type) {
@@ -380,10 +391,10 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
             children: [
               for (final phut in walkingDurations) ...[
                 if (phut != walkingDurations.first) const SizedBox(width: 10),
-                ServiceFormChip(
-                  label: l10n.soPhut('$phut'),
-                  selected: _phut == phut,
-                  onTap: () => setState(() {
+                _chon(
+                  l10n.soPhut('$phut'),
+                  _phut == phut,
+                  () => setState(() {
                     _phut = phut;
                     _dirty = true;
                   }),
@@ -456,16 +467,16 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
               children: [
                 Row(
                   children: [
-                    ServiceFormChip(
-                      label: l10n.chiTam,
-                      selected: _goiNhan.contains(GroomingPackage.bath),
-                      onTap: () => _doiGoi(GroomingPackage.bath),
+                    _chon(
+                      l10n.chiTam,
+                      _goiNhan.contains(GroomingPackage.bath),
+                      () => _doiGoi(GroomingPackage.bath),
                     ),
                     const SizedBox(width: 10),
-                    ServiceFormChip(
-                      label: l10n.tamVaCatTia,
-                      selected: _goiNhan.contains(GroomingPackage.bathAndTrim),
-                      onTap: () => _doiGoi(GroomingPackage.bathAndTrim),
+                    _chon(
+                      l10n.tamVaCatTia,
+                      _goiNhan.contains(GroomingPackage.bathAndTrim),
+                      () => _doiGoi(GroomingPackage.bathAndTrim),
                     ),
                   ],
                 ),

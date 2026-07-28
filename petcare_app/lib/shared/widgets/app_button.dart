@@ -11,6 +11,8 @@ class AppButton extends StatefulWidget {
   final double height;
   final bool enabled;
   final Color? color;
+  // Bỏ trống thì radius14
+  final double? radius;
 
   const AppButton({
     super.key,
@@ -23,6 +25,7 @@ class AppButton extends StatefulWidget {
     this.height = 54,
     this.enabled = true,
     this.color,
+    this.radius,
   }) : assert(
          (onTap == null) != (onTapAsync == null),
          'Truyền đúng một trong hai: onTap hoặc onTapAsync',
@@ -50,16 +53,24 @@ class _AppButtonState extends State<AppButton> {
         ? null
         : (widget.onTapAsync != null ? _runAsyncTap : widget.onTap);
     final label = Text(widget.text);
-    final ButtonStyle? style = widget.color == null
+    final shape = widget.radius == null
+        ? null
+        : RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(widget.radius!),
+          );
+    final ButtonStyle? style = (widget.color == null && shape == null)
         ? null
         : widget.flat
-        ? TextButton.styleFrom(foregroundColor: widget.color)
+        ? TextButton.styleFrom(foregroundColor: widget.color, shape: shape)
         : widget.outlined
         ? OutlinedButton.styleFrom(
             foregroundColor: widget.color,
-            side: BorderSide(color: widget.color!),
+            side: widget.color == null
+                ? null
+                : BorderSide(color: widget.color!),
+            shape: shape,
           )
-        : FilledButton.styleFrom(backgroundColor: widget.color);
+        : FilledButton.styleFrom(backgroundColor: widget.color, shape: shape);
     final Widget button;
     if (widget.flat) {
       button = widget.icon == null
