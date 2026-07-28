@@ -1,46 +1,95 @@
 import 'package:flutter/material.dart';
+import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 
-// Ô chỉ đọc nền xám có icon khoá
+// Trường chỉ đọc
 class LockedField extends StatelessWidget {
-  const LockedField({super.key, this.label, required this.value});
+  const LockedField({
+    super.key,
+    this.label,
+    required this.value,
+    this.nhanTrong = false,
+    this.verified = false,
+    this.khoa = true,
+  });
 
   final String? label;
   final String? value;
+  final bool nhanTrong;
+  final bool verified;
+  final bool khoa;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final chu = (value != null && value!.isNotEmpty) ? value! : '—';
     final o = Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      padding: nhanTrong
+          ? const EdgeInsets.symmetric(horizontal: 14, vertical: 12)
+          : const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
-        color: AppColors.neutralLight,
+        color: nhanTrong ? AppColors.background : AppColors.neutralLight,
         borderRadius: BorderRadius.circular(AppRadius.radius14),
-        border: Border.all(color: AppColors.neutral),
+        border: Border.all(
+          color: nhanTrong ? AppColors.neutralLight : AppColors.neutral,
+        ),
       ),
       child: Row(
         children: [
           Expanded(
-            child: Text(
-              (value != null && value!.isNotEmpty) ? value! : '—',
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: AppTextStyles.body.copyWith(
-                color: AppColors.textSecondary,
-              ),
+            child: nhanTrong
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        label ?? '',
+                        style: AppTextStyles.captionSm.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(chu, style: AppTextStyles.body),
+                    ],
+                  )
+                : Text(
+                    chu,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextStyles.body.copyWith(
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+          ),
+          if (verified)
+            Row(
+              children: [
+                const Icon(
+                  Icons.verified,
+                  size: 16,
+                  color: AppColors.primaryColor,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  l10n.daXacMinh,
+                  style: AppTextStyles.captionSm.copyWith(
+                    color: AppColors.primaryColor,
+                  ),
+                ),
+              ],
+            )
+          else if (khoa)
+            Icon(
+              Icons.lock_outline,
+              size: nhanTrong ? 16 : 18,
+              color: AppColors.textSecondary,
             ),
-          ),
-          const Icon(
-            Icons.lock_outline,
-            size: 18,
-            color: AppColors.textSecondary,
-          ),
         ],
       ),
     );
-    if (label == null) return o;
+    if (label == null || nhanTrong) return o;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

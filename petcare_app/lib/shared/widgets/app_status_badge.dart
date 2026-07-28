@@ -28,12 +28,17 @@ class AppStatusBadge extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (leading != null) ...[leading!, const SizedBox(width: 4)],
-          Text(
-            label,
-            style: AppTextStyles.captionSm.copyWith(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: textColor,
+          // Nhãn dài hơn chỗ trống thì cắt bớt, không đẩy tràn hàng chứa nó
+          Flexible(
+            child: Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.captionSm.copyWith(
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: textColor,
+              ),
             ),
           ),
         ],
