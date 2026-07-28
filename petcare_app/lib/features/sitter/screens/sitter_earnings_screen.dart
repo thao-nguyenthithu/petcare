@@ -4,9 +4,9 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/sitter/data/mock_sitter_earnings.dart';
-import 'package:petcare_app/features/sitter/widgets/earnings_bar_chart.dart';
-import 'package:petcare_app/features/sitter/widgets/earnings_summary_card.dart';
-import 'package:petcare_app/features/sitter/widgets/earnings_transaction_row.dart';
+import 'package:petcare_app/features/sitter/widgets/earnings/earnings_bar_chart.dart';
+import 'package:petcare_app/features/sitter/widgets/earnings/earnings_summary_card.dart';
+import 'package:petcare_app/features/sitter/widgets/earnings/earnings_transaction_row.dart';
 import 'package:petcare_app/shared/utils/money_format.dart';
 import 'package:petcare_app/shared/utils/placeholder_action.dart';
 import 'package:petcare_app/shared/widgets/app_screen_header.dart';
@@ -36,7 +36,7 @@ class _SitterEarningsScreenState extends State<SitterEarningsScreen> {
     final l10n = context.l10n;
     final period = MockSitterEarningsData.periods[_tab];
     final selBar = period.bars[_selectedBar];
-    // Xem trước 5 giao dịch gần nhất; đầy đủ ở màn Lịch sử thu nhập.
+    // Xem trước 5 giao dịch gần nhất
     const gioiHanXemTruoc = 5;
     final recent = period.transactions.take(gioiHanXemTruoc).toList();
     final conNua = period.transactions.length > gioiHanXemTruoc;
