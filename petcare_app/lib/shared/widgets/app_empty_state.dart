@@ -9,42 +9,49 @@ class AppEmptyState extends StatelessWidget {
     super.key,
     required this.icon,
     required this.title,
-    required this.message,
+    this.message,
     this.circleColor = AppColors.surface,
     this.iconColor = AppColors.primaryColor,
     this.action,
+    this.gon = false,
   });
 
   final IconData icon;
   final String title;
-  final String message;
+  final String? message;
   final Color circleColor;
   final Color iconColor;
   final Widget? action;
+  final bool gon;
 
   @override
   Widget build(BuildContext context) {
+    final canhVong = gon ? 56.0 : 120.0;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 40),
+      padding: EdgeInsets.symmetric(horizontal: gon ? 0 : 40),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: 120,
-            height: 120,
+            width: canhVong,
+            height: canhVong,
             decoration: BoxDecoration(
               color: circleColor,
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, size: 44, color: iconColor),
+            child: Icon(icon, size: gon ? 20 : 44, color: iconColor),
           ),
-          const SizedBox(height: AppSpacing.groupGap),
+          SizedBox(height: gon ? AppSpacing.cardPadding : AppSpacing.groupGap),
           Text(title, style: AppTextStyles.h3, textAlign: TextAlign.center),
-          const SizedBox(height: AppSpacing.labelGap),
-          Text(message, style: AppTextStyles.body, textAlign: TextAlign.center),
-          if (action != null) ...[
-            const SizedBox(height: AppSpacing.groupGap),
-            action!,
+          if (message case final mota?) ...[
+            const SizedBox(height: AppSpacing.labelGap),
+            Text(mota, style: AppTextStyles.body, textAlign: TextAlign.center),
+          ],
+          if (action case final nut?) ...[
+            SizedBox(
+              height: gon ? AppSpacing.cardPadding : AppSpacing.groupGap,
+            ),
+            nut,
           ],
         ],
       ),

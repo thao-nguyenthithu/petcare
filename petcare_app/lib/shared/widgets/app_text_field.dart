@@ -5,6 +5,8 @@ import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 
 class AppTextField extends StatefulWidget {
+  static const double caoGon = 46;
+
   final String label;
   final String hint;
   final TextEditingController controller;
@@ -19,6 +21,10 @@ class AppTextField extends StatefulWidget {
   final String? suffixText;
   final List<TextInputFormatter>? inputFormatters;
   final FocusNode? focusNode;
+  final IconData? suffixIcon;
+  final Widget? labelTrailing;
+  // Số dòng của ô nhập
+  final int maxLines;
 
   // Ô chỉ đọc
   final bool readOnly;
@@ -40,6 +46,9 @@ class AppTextField extends StatefulWidget {
     this.suffixText,
     this.inputFormatters,
     this.focusNode,
+    this.suffixIcon,
+    this.labelTrailing,
+    this.maxLines = 1,
     this.readOnly = false,
     this.onTap,
   });
@@ -53,25 +62,32 @@ class _AppTextFieldState extends State<AppTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final paddingDoc = (widget.height - 22) / 2;
+    final paddingDoc = widget.maxLines > 1 ? 14.0 : (widget.height - 22) / 2;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (widget.label.isNotEmpty) ...[
-          Text.rich(
-            TextSpan(
-              text: widget.label,
-              style: AppTextStyles.label.copyWith(
-                color: AppColors.textSecondary,
-              ),
-              children: [
-                if (widget.isRequired)
+          Row(
+            children: [
+              Expanded(
+                child: Text.rich(
                   TextSpan(
-                    text: ' *',
-                    style: AppTextStyles.label.copyWith(color: AppColors.error),
+                    text: widget.label,
+                    style: AppTextStyles.label,
+                    children: [
+                      if (widget.isRequired)
+                        TextSpan(
+                          text: ' *',
+                          style: AppTextStyles.label.copyWith(
+                            color: AppColors.error,
+                          ),
+                        ),
+                    ],
                   ),
-              ],
-            ),
+                ),
+              ),
+              ?widget.labelTrailing,
+            ],
           ),
           const SizedBox(height: 6),
         ],
@@ -82,6 +98,7 @@ class _AppTextFieldState extends State<AppTextField> {
           obscureText: _obscure,
           keyboardType: widget.keyboardType,
           inputFormatters: widget.inputFormatters,
+          maxLines: widget.maxLines,
           readOnly: widget.readOnly,
           onTap: widget.onTap,
           validator: widget.validator,
@@ -103,7 +120,16 @@ class _AppTextFieldState extends State<AppTextField> {
             focusedErrorBorder: _vien(AppColors.error),
             errorStyle: AppTextStyles.caption.copyWith(color: AppColors.error),
             errorMaxLines: 2,
-            suffixIcon: widget.isPassword
+            suffixIcon: widget.suffixIcon != null
+                ? Padding(
+                    padding: const EdgeInsets.only(right: 16, left: 8),
+                    child: Icon(
+                      widget.suffixIcon,
+                      size: 18,
+                      color: AppColors.textSecondary,
+                    ),
+                  )
+                : widget.isPassword
                 ? IconButton(
                     onPressed: () => setState(() => _obscure = !_obscure),
                     icon: Icon(
@@ -124,7 +150,8 @@ class _AppTextFieldState extends State<AppTextField> {
                     ),
                   ),
             suffixIconConstraints:
-                widget.isPassword || widget.suffixText == null
+                widget.isPassword ||
+                    (widget.suffixText == null && widget.suffixIcon == null)
                 ? null
                 : const BoxConstraints(minWidth: 0, minHeight: 0),
           ),

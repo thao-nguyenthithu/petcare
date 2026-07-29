@@ -8,11 +8,13 @@ class AppScreenHeader extends StatelessWidget {
   const AppScreenHeader({
     super.key,
     required this.title,
+    this.subtitle,
     this.action,
     this.onBack,
   });
 
   final String title;
+  final String? subtitle;
   final Widget? action;
   final VoidCallback? onBack;
 
@@ -28,11 +30,26 @@ class AppScreenHeader extends StatelessWidget {
           AppBackButton(onTap: onBack),
           const SizedBox(width: AppSpacing.itemGap),
           Expanded(
-            child: Text(
-              title,
-              style: AppTextStyles.h3,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title,
+                  style: AppTextStyles.h3,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                if (subtitle != null) ...[
+                  const SizedBox(height: AppSpacing.textGap),
+                  Text(
+                    subtitle!,
+                    style: AppTextStyles.captionSm,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ],
             ),
           ),
           ?action,

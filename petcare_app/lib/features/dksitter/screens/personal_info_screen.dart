@@ -12,7 +12,7 @@ import 'package:petcare_app/features/dksitter/data/dksitter_draft.dart';
 import 'package:petcare_app/features/dksitter/data/vietnam_provinces.dart';
 import 'package:petcare_app/features/dksitter/providers/dksitter_provider.dart';
 import 'package:petcare_app/features/dksitter/widgets/info_row.dart';
-import 'package:petcare_app/features/dksitter/widgets/step_progress_bar.dart';
+import 'package:petcare_app/shared/widgets/step_progress_bar.dart';
 import 'package:petcare_app/shared/utils/date_format.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
@@ -191,7 +191,13 @@ class _PersonalInfoScreenState extends ConsumerState<PersonalInfoScreen> {
                     child: AppBackButton(),
                   ),
                   const SizedBox(height: 20),
-                  const StepProgressBar(currentStep: 1),
+                  const StepProgressBar(
+                    buoc: 1,
+                    tong: 3,
+                    dayVach: 6,
+                    khe: 8,
+                    mauChuaQua: AppColors.neutral,
+                  ),
                   const SizedBox(height: 20),
                   Text(
                     l10n.buocTrenTong('1', '3'),

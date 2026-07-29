@@ -8,10 +8,13 @@ import 'package:petcare_app/core/storage/locale_storage.dart';
 import 'package:petcare_app/core/theme/app_system_ui.dart';
 import 'package:petcare_app/core/theme/app_theme.dart';
 import 'package:petcare_app/core/router/app_router.dart';
+import 'package:petcare_app/shared/utils/chon_anh.dart';
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Bảng chọn ảnh chặn đúng số ảnh cho phép
+  batPhotoPickerAndroid();
   try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,

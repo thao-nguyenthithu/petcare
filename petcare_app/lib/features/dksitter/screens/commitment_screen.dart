@@ -9,7 +9,7 @@ import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/dksitter/providers/dksitter_provider.dart';
 import 'package:petcare_app/features/dksitter/services/dksitter_error_mapper.dart';
-import 'package:petcare_app/features/dksitter/widgets/step_progress_bar.dart';
+import 'package:petcare_app/shared/widgets/step_progress_bar.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 
@@ -54,7 +54,13 @@ class _CommitmentScreenState extends ConsumerState<CommitmentScreen> {
                   child: AppBackButton(),
                 ),
                 const SizedBox(height: 20),
-                const StepProgressBar(currentStep: 3),
+                const StepProgressBar(
+                  buoc: 3,
+                  tong: 3,
+                  dayVach: 6,
+                  khe: 8,
+                  mauChuaQua: AppColors.neutral,
+                ),
                 const SizedBox(height: 16),
                 Center(
                   child: Container(

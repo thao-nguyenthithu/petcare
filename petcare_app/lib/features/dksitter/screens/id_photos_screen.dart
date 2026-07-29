@@ -11,7 +11,7 @@ import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/dksitter/providers/dksitter_provider.dart';
 import 'package:petcare_app/features/dksitter/widgets/id_card_frame.dart';
-import 'package:petcare_app/features/dksitter/widgets/step_progress_bar.dart';
+import 'package:petcare_app/shared/widgets/step_progress_bar.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 
@@ -73,7 +73,13 @@ class _IdPhotosScreenState extends ConsumerState<IdPhotosScreen> {
                   child: AppBackButton(),
                 ),
                 const SizedBox(height: 20),
-                const StepProgressBar(currentStep: 2),
+                const StepProgressBar(
+                  buoc: 2,
+                  tong: 3,
+                  dayVach: 6,
+                  khe: 8,
+                  mauChuaQua: AppColors.neutral,
+                ),
                 const SizedBox(height: 16),
                 Center(
                   child: Container(

@@ -8,6 +8,7 @@ class AppColors {
   static const Color background = Color(0xFFFAFAF8);
   static const Color cardMint = Color(0xFFE9F4EF);
   static const Color accent = Color(0xFFE8744F);
+  static const Color honey = Color(0xFFF0A93E);
   static const Color error = Color(0xFFE8744F);
   static const Color neutral = Color(0xFFE0E0E0);
   static const Color neutralLight = Color(0xFFE6E9E8);
