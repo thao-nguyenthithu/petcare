@@ -20,6 +20,7 @@ import 'package:petcare_app/shared/widgets/app_loading_overlay.dart';
 import 'package:petcare_app/shared/widgets/app_screen_header.dart';
 import 'package:petcare_app/shared/widgets/bottom_action_bar.dart';
 import 'package:petcare_app/shared/widgets/confirm_dialog.dart';
+import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 
 // Màn Sửa trang cá nhân NCC
 class SitterProfileEditScreen extends ConsumerStatefulWidget {
@@ -162,7 +163,7 @@ class _SitterProfileEditScreenState
           child: Column(
             children: [
               AppScreenHeader(title: l10n.suaTrangCaNhan, onBack: _thoat),
-              const Divider(height: 1, color: AppColors.neutralLight),
+              const AppDongKe(),
               Expanded(
                 child: p == null
                     ? Center(

@@ -8,11 +8,15 @@ const maxSitterPhotos = 50;
 class SitterPhotoItem {
   final String id;
   final String url;
+  final DateTime? ngayThem;
 
-  const SitterPhotoItem({required this.id, required this.url});
+  const SitterPhotoItem({required this.id, required this.url, this.ngayThem});
 
-  factory SitterPhotoItem.fromJson(Map<String, dynamic> j) =>
-      SitterPhotoItem(id: j['id'] as String, url: j['url'] as String);
+  factory SitterPhotoItem.fromJson(Map<String, dynamic> j) => SitterPhotoItem(
+    id: j['id'] as String,
+    url: j['url'] as String,
+    ngayThem: DateTime.tryParse(j['createdAt'] as String? ?? ''),
+  );
 }
 
 // Hồ sơ NCC

@@ -6,7 +6,7 @@ import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/vn_date.dart';
 import 'package:petcare_app/features/sitter/data/mock_sitter_schedule.dart';
-import 'package:petcare_app/features/sitter/widgets/schedule/schedule_note_box.dart';
+import 'package:petcare_app/shared/widgets/app_note_box.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_filter_chip.dart';
 
@@ -122,18 +122,24 @@ class _BlockDaysOffSheetState extends State<_BlockDaysOffSheet> {
           const SizedBox(height: AppSpacing.stackGap),
           // Có đơn trong khoảng thì nói rõ bao nhiêu đơn, ngày nào
           if (ngayConDon.isEmpty)
-            ScheduleNoteBox(noiDung: l10n.donDaNhanVanGiu)
+            AppNoteBox(
+              coNen: true,
+              kieu: NoteKind.nhac,
+              text: l10n.donDaNhanVanGiu,
+            )
           else if (ngayDangChay.isNotEmpty)
-            ScheduleNoteBox(
-              canhBao: true,
-              noiDung: l10n.khoangCoDonDangDienRa(
+            AppNoteBox(
+              coNen: true,
+              kieu: NoteKind.canhBao,
+              text: l10n.khoangCoDonDangDienRa(
                 ngayDangChay.map(ngayThang).join(', '),
               ),
             )
           else
-            ScheduleNoteBox(
-              canhBao: true,
-              noiDung: l10n.phaiHuyDonKhoangMoiNghi(
+            AppNoteBox(
+              coNen: true,
+              kieu: NoteKind.canhBao,
+              text: l10n.phaiHuyDonKhoangMoiNghi(
                 soDonCon.toString(),
                 ngayConDon.map(ngayThang).join(', '),
               ),

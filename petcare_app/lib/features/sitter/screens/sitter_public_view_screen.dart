@@ -17,6 +17,7 @@ import 'package:petcare_app/features/sitter/widgets/profile/sitter_profile_ident
 import 'package:petcare_app/features/sitter/widgets/profile/sitter_profile_services.dart';
 import 'package:petcare_app/features/sitter/widgets/profile/sitter_profile_stats.dart';
 import 'package:petcare_app/shared/widgets/app_refresh_indicator.dart';
+import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 
 // Trang XEM hồ sơ NCC
 class SitterPublicViewScreen extends ConsumerWidget {
@@ -165,6 +166,6 @@ class _Ngan extends StatelessWidget {
   @override
   Widget build(BuildContext context) => const Padding(
     padding: EdgeInsets.symmetric(vertical: 16),
-    child: Divider(height: 1, color: AppColors.neutralLight),
+    child: AppDongKe(),
   );
 }

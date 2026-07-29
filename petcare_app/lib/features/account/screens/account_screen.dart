@@ -55,7 +55,7 @@ class AccountScreen extends ConsumerWidget {
       tile(
         Icons.pets_outlined,
         l10n.thuCungCuaToi,
-        () => baoDangPhatTrien(context),
+        () => context.push(AppRoutes.myPets),
       ),
       tile(
         Icons.account_balance_wallet_outlined,

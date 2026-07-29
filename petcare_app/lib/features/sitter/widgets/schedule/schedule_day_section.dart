@@ -12,6 +12,7 @@ import 'package:petcare_app/features/sitter/widgets/schedule/schedule_filter_she
 import 'package:petcare_app/features/sitter/widgets/schedule/schedule_text_link.dart';
 import 'package:petcare_app/features/sitter/widgets/schedule_appointment_row.dart';
 import 'package:petcare_app/shared/widgets/app_empty_state.dart';
+import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 
 // Nội dung của ngày đang chọn của Lịch Đơn
 class ScheduleDaySection extends StatelessWidget {
@@ -91,12 +92,7 @@ class ScheduleDaySection extends StatelessWidget {
         else
           for (final appt in hienThi) ...[
             ScheduleAppointmentRow(appt: appt),
-            if (appt != hienThi.last)
-              const Divider(
-                height: 1,
-                thickness: 1,
-                color: AppColors.neutralLight,
-              ),
+            if (appt != hienThi.last) const AppDongKe(),
           ],
       ],
     );

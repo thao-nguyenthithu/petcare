@@ -3,6 +3,7 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/features/article/data/mock_article_data.dart';
 import 'package:petcare_app/features/article/widgets/article_row.dart';
+import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 
 // Danh sách bài viết xem trước ở màn Home
 class ArticleList extends StatelessWidget {
@@ -32,10 +33,9 @@ class ArticleDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Divider(
-      color: AppColors.neutral,
-      height: AppSpacing.groupGap,
-      indent: ArticleRow.imageWidth + AppSpacing.itemGap,
+    return const AppDongKe(
+      mau: AppColors.neutral,
+      thut: ArticleRow.imageWidth + AppSpacing.itemGap,
     );
   }
 }

@@ -5,7 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:petcare_app/features/address/providers/saved_addresses_provider.dart';
 import 'package:petcare_app/features/auth/providers/current_user_provider.dart';
-import 'package:petcare_app/features/provider_profile/providers/provider_profile_provider.dart';
+import 'package:petcare_app/features/sitter/providers/sitter_profile_provider.dart';
+import 'package:petcare_app/features/sitter/providers/sitter_services_provider.dart';
+import 'package:petcare_app/features/dksitter/providers/dksitter_provider.dart';
+import 'package:petcare_app/features/messaging/providers/conversations_provider.dart';
 
 part 'auth_provider.g.dart';
 
@@ -90,7 +93,12 @@ extension UserDataRefreshRef on Ref {
   void refreshUserData() {
     invalidate(currentUserProvider);
     invalidate(savedAddressesProvider);
-    invalidate(providerStatusProvider);
+    invalidate(sitterStatusProvider);
+    invalidate(sitterMeProvider);
+    invalidate(sitterServicesProvider);
+    invalidate(sitterServiceAreaProvider);
+    invalidate(ownerConversationsProvider);
+    invalidate(sitterConversationsProvider);
   }
 }
 
@@ -98,6 +106,11 @@ extension UserDataRefreshWidgetRef on WidgetRef {
   void refreshUserData() {
     invalidate(currentUserProvider);
     invalidate(savedAddressesProvider);
-    invalidate(providerStatusProvider);
+    invalidate(sitterStatusProvider);
+    invalidate(sitterMeProvider);
+    invalidate(sitterServicesProvider);
+    invalidate(sitterServiceAreaProvider);
+    invalidate(ownerConversationsProvider);
+    invalidate(sitterConversationsProvider);
   }
 }

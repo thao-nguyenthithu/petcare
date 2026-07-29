@@ -7,12 +7,13 @@ import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/features/sitter/data/sitter_profile.dart';
 import 'package:petcare_app/features/sitter/providers/sitter_profile_provider.dart';
-import 'package:petcare_app/features/sitter/screens/sitter_photo_viewer.dart';
+import 'package:petcare_app/shared/widgets/photo_viewer.dart';
 import 'package:petcare_app/features/sitter/widgets/profile/photo_add_tile.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_loading_overlay.dart';
 import 'package:petcare_app/shared/widgets/app_screen_header.dart';
 import 'package:petcare_app/shared/widgets/bottom_action_bar.dart';
+import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 
 // Màn Tất cả ảnh của NCC
 class SitterAllPhotosScreen extends ConsumerStatefulWidget {
@@ -79,7 +80,10 @@ class _SitterAllPhotosScreenState extends ConsumerState<SitterAllPhotosScreen> {
     final l10n = context.l10n;
     final async = ref.watch(sitterMeProvider);
     final anh = async.value?.photos ?? const <SitterPhotoItem>[];
-    final urls = [for (final a in anh) a.url];
+    // Ảnh cho trình xem, kèm ngày đăng để hiện dưới tiêu đề
+    final anhXem = [
+      for (final a in anh) PhotoItem.mang(a.url, ngayThem: a.ngayThem),
+    ];
     return Scaffold(
       backgroundColor: AppColors.surface,
       body: SafeArea(
@@ -98,7 +102,7 @@ class _SitterAllPhotosScreenState extends ConsumerState<SitterAllPhotosScreen> {
                       child: Text(_chonMode ? l10n.xong : l10n.chon),
                     ),
             ),
-            const Divider(height: 1, color: AppColors.neutralLight),
+            const AppDongKe(),
             Expanded(
               child: async.when(
                 loading: () => const Center(child: CircularProgressIndicator()),
@@ -120,8 +124,9 @@ class _SitterAllPhotosScreenState extends ConsumerState<SitterAllPhotosScreen> {
                         url: item.url,
                         chonMode: _chonMode,
                         daChon: _daChon.contains(i),
-                        onTap: () =>
-                            _chonMode ? _toggle(i) : moXemAnh(context, urls, i),
+                        onTap: () => _chonMode
+                            ? _toggle(i)
+                            : showPhotoViewer(context, anh: anhXem, viTri: i),
                         onLongPress: () {
                           if (!_chonMode) {
                             setState(() {

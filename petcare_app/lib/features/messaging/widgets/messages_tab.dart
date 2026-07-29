@@ -13,6 +13,7 @@ import 'package:petcare_app/shared/widgets/app_empty_state.dart';
 import 'package:petcare_app/shared/widgets/app_refresh_indicator.dart';
 import 'package:petcare_app/shared/widgets/app_search_field.dart';
 import 'package:petcare_app/shared/widgets/green_title_header.dart';
+import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 
 // Nội dung tab Tin nhắn
 class MessagesTab extends StatefulWidget {
@@ -98,12 +99,7 @@ class _MessagesTabState extends State<MessagesTab> {
                   )
                 : const SizedBox(width: double.infinity),
           ),
-          if (widget.lightHeader)
-            const Divider(
-              height: 1,
-              thickness: 1,
-              color: AppColors.neutralLight,
-            ),
+          if (widget.lightHeader) const AppDongKe(),
           Expanded(
             child: AppRefreshIndicator(
               child: list.isEmpty
@@ -127,11 +123,7 @@ class _MessagesTabState extends State<MessagesTab> {
                         AppSpacing.screenEdgeGap,
                       ),
                       itemCount: list.length,
-                      separatorBuilder: (_, _) => const Divider(
-                        height: 1,
-                        thickness: 1,
-                        color: AppColors.neutralLight,
-                      ),
+                      separatorBuilder: (_, _) => const AppDongKe(),
                       itemBuilder: (context, i) => ConversationTile(
                         conversation: list[i],
                         onTap: () => _openChat(list[i]),

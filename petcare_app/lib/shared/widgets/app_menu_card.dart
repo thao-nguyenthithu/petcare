@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
+import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 
 // Chip icon tròn nền nhạt, dùng cho đầu dòng menu và các thẻ tương tự.
 class AppIconChip extends StatelessWidget {
@@ -120,12 +121,9 @@ class AppMenuCard extends StatelessWidget {
       children: [
         for (var i = 0; i < tiles.length; i++) ...[
           if (i > 0)
-            const Divider(
-              height: 1,
-              thickness: 1,
-              indent: AppSpacing.cardPadding,
-              endIndent: AppSpacing.cardPadding,
-              color: AppColors.neutralLight,
+            const AppDongKe(
+              thut: AppSpacing.cardPadding,
+              thutCuoi: AppSpacing.cardPadding,
             ),
           tiles[i],
         ],

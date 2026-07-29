@@ -11,7 +11,7 @@ import 'package:petcare_app/features/account/widgets/account_profile_header.dart
 import 'package:petcare_app/features/account/widgets/role_entry_card.dart';
 import 'package:petcare_app/features/auth/providers/auth_provider.dart';
 import 'package:petcare_app/features/auth/providers/current_user_provider.dart';
-import 'package:petcare_app/features/sitter/providers/sitter_service_area_provider.dart';
+import 'package:petcare_app/features/sitter/providers/sitter_services_provider.dart';
 import 'package:petcare_app/shared/utils/placeholder_action.dart';
 import 'package:petcare_app/shared/widgets/app_menu_card.dart';
 import 'package:petcare_app/shared/widgets/app_refresh_indicator.dart';

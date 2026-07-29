@@ -5,6 +5,7 @@ import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/booking/widgets/cancel_booking_sheet.dart';
 import 'package:petcare_app/features/sitter/data/mock_sitter_schedule.dart';
 import 'package:petcare_app/features/sitter/widgets/schedule_appointment_row.dart';
+import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 
 // Danh sách đơn đã nhận của một ngày, hiện trong sheet chỉnh giờ rảnh
 class DayBookingsList extends StatelessWidget {
@@ -51,12 +52,7 @@ class DayBookingsList extends StatelessWidget {
                 ? null
                 : _NutHuy(ngay: ngay, don: don, onHuy: () => onHuyDon(don)),
           ),
-          if (don != donList.last)
-            const Divider(
-              height: 1,
-              thickness: 1,
-              color: AppColors.neutralLight,
-            ),
+          if (don != donList.last) const AppDongKe(),
         ],
       ],
     );

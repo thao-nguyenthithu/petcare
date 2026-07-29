@@ -4,6 +4,7 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/home/data/mock_home_data.dart';
 import 'package:petcare_app/shared/utils/placeholder_action.dart';
+import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 
 // Section thú cưng
 class PetsSection extends StatelessWidget {
@@ -138,7 +139,7 @@ class _AddPetCta extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 15),
-          const Divider(color: AppColors.neutral, height: 1),
+          const AppDongKe(mau: AppColors.neutral),
         ],
       ),
     );

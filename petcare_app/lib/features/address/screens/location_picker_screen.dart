@@ -16,6 +16,7 @@ import 'package:petcare_app/features/address/widgets/location_permission_sheet.d
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_screen_header.dart';
 import 'package:petcare_app/shared/widgets/map_tiles.dart';
+import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 
 // Màn chọn vị trí pin cố định giữa màn, kéo bản đồ để đặt điểm, có ô tìm kiếm.
 class LocationPickerScreen extends StatefulWidget {
@@ -311,8 +312,7 @@ class _OTimKiem extends StatelessWidget {
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
                 itemCount: goiY.length,
-                separatorBuilder: (_, _) =>
-                    const Divider(height: 1, color: AppColors.neutralLight),
+                separatorBuilder: (_, _) => const AppDongKe(),
                 itemBuilder: (_, i) => ListTile(
                   dense: true,
                   leading: const Icon(

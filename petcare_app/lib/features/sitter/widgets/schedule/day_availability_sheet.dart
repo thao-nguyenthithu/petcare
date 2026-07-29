@@ -10,7 +10,7 @@ import 'package:petcare_app/features/sitter/data/mock_sitter_schedule.dart';
 import 'package:petcare_app/features/sitter/widgets/schedule/availability_fields.dart';
 import 'package:petcare_app/features/sitter/widgets/schedule/day_bookings_list.dart';
 import 'package:petcare_app/features/sitter/widgets/schedule/day_mode_option.dart';
-import 'package:petcare_app/features/sitter/widgets/schedule/schedule_note_box.dart';
+import 'package:petcare_app/shared/widgets/app_note_box.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 
 // Sheet chỉnh giờ nhận đơn của 1 ngày
@@ -130,7 +130,11 @@ class _DayAvailabilitySheetState extends State<_DayAvailabilitySheet> {
               ),
               const SizedBox(height: AppSpacing.stackGap),
             ] else if (_chiXem) ...[
-              ScheduleNoteBox(noiDung: l10n.ngayDaQuaKhongCoDon),
+              AppNoteBox(
+                coNen: true,
+                kieu: NoteKind.nhac,
+                text: l10n.ngayDaQuaKhongCoDon,
+              ),
               const SizedBox(height: AppSpacing.stackGap),
             ],
             // Ngày đã qua thì dừng ở phần xem
@@ -206,9 +210,10 @@ class _DayAvailabilitySheetState extends State<_DayAvailabilitySheet> {
               // Giờ riêng chỉ chặn đơn MỚI
               if (_mode == DayMode.gioRieng && _donTrongNgay.isNotEmpty) ...[
                 const SizedBox(height: AppSpacing.itemGap),
-                ScheduleNoteBox(
-                  canhBao: _soDonNgoaiKhung > 0,
-                  noiDung: _soDonNgoaiKhung > 0
+                AppNoteBox(
+                  coNen: true,
+                  kieu: _soDonNgoaiKhung > 0 ? NoteKind.canhBao : NoteKind.nhac,
+                  text: _soDonNgoaiKhung > 0
                       ? l10n.donNgoaiKhungGio(
                           _soDonNgoaiKhung.toString(),
                           l10n.khungGio(_batDau, _ketThuc),

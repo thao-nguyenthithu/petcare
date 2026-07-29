@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
-import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/vn_date.dart';
@@ -11,6 +10,7 @@ import 'package:petcare_app/features/sitter/widgets/schedule/schedule_filter_she
 import 'package:petcare_app/features/sitter/widgets/schedule/schedule_text_link.dart';
 import 'package:petcare_app/features/sitter/widgets/schedule/schedule_week_strip.dart';
 import 'package:petcare_app/shared/widgets/app_refresh_indicator.dart';
+import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 
 // Trang giữa của PageView
 const int _trangTuanHienTai = 5000;
@@ -109,7 +109,7 @@ class _ScheduleOrdersViewState extends State<ScheduleOrdersView> {
             ),
           ),
         ),
-        const Divider(height: 1, thickness: 1, color: AppColors.neutralLight),
+        const AppDongKe(),
         Expanded(
           child: AppRefreshIndicator(
             child: CustomScrollView(

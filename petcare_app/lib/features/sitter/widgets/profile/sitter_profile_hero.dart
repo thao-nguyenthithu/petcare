@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/sitter/data/sitter_profile.dart';
-import 'package:petcare_app/features/sitter/screens/sitter_photo_viewer.dart';
+import 'package:petcare_app/shared/widgets/photo_viewer.dart';
 import 'package:petcare_app/features/sitter/widgets/profile/circle_icon_button.dart';
 import 'package:petcare_app/shared/utils/placeholder_action.dart';
 
@@ -33,7 +33,10 @@ class _SitterProfileHeroState extends State<SitterProfileHero> {
   @override
   Widget build(BuildContext context) {
     final photos = widget.photos;
-    final urls = [for (final p in photos) p.url];
+    // Ảnh cho trình xem, kèm ngày đăng để hiện dưới tiêu đề
+    final anhXem = [
+      for (final p in photos) PhotoItem.mang(p.url, ngayThem: p.ngayThem),
+    ];
     return SizedBox(
       height: 220,
       child: Stack(
@@ -57,7 +60,7 @@ class _SitterProfileHeroState extends State<SitterProfileHero> {
                 itemCount: photos.length,
                 onPageChanged: (i) => setState(() => _idx = i),
                 itemBuilder: (_, i) => GestureDetector(
-                  onTap: () => moXemAnh(context, urls, i),
+                  onTap: () => showPhotoViewer(context, anh: anhXem, viTri: i),
                   child: CachedNetworkImage(
                     imageUrl: photos[i].url,
                     fit: BoxFit.cover,

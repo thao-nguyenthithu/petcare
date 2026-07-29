@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
@@ -75,17 +74,13 @@ class SitterProfileIdentity extends ConsumerWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 2),
-                      child: SvgPicture.asset(
-                        'assets/icons/icon_location.svg',
-                        width: 14,
-                        height: 14,
-                        colorFilter: const ColorFilter.mode(
-                          AppColors.primaryColor,
-                          BlendMode.srcIn,
-                        ),
+                      child: Icon(
+                        Icons.location_on_outlined,
+                        size: 15,
+                        color: AppColors.textSecondary,
                       ),
                     ),
-                    const SizedBox(width: 6),
+                    const SizedBox(width: 4),
                     // Phường, tỉnh
                     Expanded(child: Text(diaChi, style: AppTextStyles.caption)),
                   ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
+import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 
 // Khung chung một hàng form nhập thông tin
 class InfoRow extends StatelessWidget {
@@ -48,11 +49,7 @@ class InfoRow extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (onTap == null) hang else InkWell(onTap: onTap, child: hang),
-        Divider(
-          height: 1,
-          thickness: 1,
-          color: error == null ? AppColors.neutral : AppColors.error,
-        ),
+        AppDongKe(mau: error == null ? AppColors.neutral : AppColors.error),
         if (error != null)
           Padding(
             padding: const EdgeInsets.only(top: 6),

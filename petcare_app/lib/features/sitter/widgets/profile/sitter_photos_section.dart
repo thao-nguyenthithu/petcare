@@ -8,7 +8,7 @@ import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/sitter/data/sitter_profile.dart';
-import 'package:petcare_app/features/sitter/screens/sitter_photo_viewer.dart';
+import 'package:petcare_app/shared/widgets/photo_viewer.dart';
 import 'package:petcare_app/features/sitter/widgets/profile/photo_add_tile.dart';
 
 // Mục Ảnh trong màn sửa hồ sơ tối đa 2 hàng
@@ -30,7 +30,10 @@ class SitterPhotosSection extends StatelessWidget {
     final l10n = context.l10n;
     final hienThi = anh.take(_soHien).toList();
     final conCho = anh.length < _soHien;
-    final urls = [for (final a in anh) a.url];
+    // Ảnh cho trình xem, kèm ngày đăng để hiện dưới tiêu đề
+    final anhXem = [
+      for (final a in anh) PhotoItem.mang(a.url, ngayThem: a.ngayThem),
+    ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -61,7 +64,8 @@ class SitterPhotosSection extends StatelessWidget {
               children: [
                 for (final (i, item) in hienThi.indexed)
                   GestureDetector(
-                    onTap: () => moXemAnh(context, urls, i),
+                    onTap: () =>
+                        showPhotoViewer(context, anh: anhXem, viTri: i),
                     child: SizedBox(
                       width: canh,
                       height: canh,

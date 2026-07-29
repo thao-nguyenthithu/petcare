@@ -8,6 +8,7 @@ import 'package:petcare_app/features/sitter/widgets/icon_box.dart';
 import 'package:petcare_app/shared/utils/money_format.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/router/app_router.dart';
+import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 
 // Thu nhập tuần này, thống kê nhanh
 class EarningsCard extends StatelessWidget {
@@ -101,11 +102,7 @@ class EarningsCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 12),
-              const Divider(
-                height: 1,
-                thickness: 1,
-                color: AppColors.neutralLight,
-              ),
+              const AppDongKe(),
               const SizedBox(height: 12),
               Row(
                 children: [

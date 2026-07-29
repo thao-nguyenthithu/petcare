@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
-import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/sitter/data/mock_sitter_schedule.dart';
 import 'package:petcare_app/features/sitter/widgets/schedule_appointment_row.dart';
 import 'package:petcare_app/features/sitter/widgets/section_empty.dart';
+import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 
 // Lịch hôm nay dùng chung với tab Lịch
 class TodayScheduleSection extends StatelessWidget {
@@ -26,12 +26,7 @@ class TodayScheduleSection extends StatelessWidget {
         else
           for (final appt in items) ...[
             ScheduleAppointmentRow(appt: appt),
-            if (appt != items.last)
-              const Divider(
-                height: 1,
-                thickness: 1,
-                color: AppColors.neutralLight,
-              ),
+            if (appt != items.last) const AppDongKe(),
           ],
       ],
     );

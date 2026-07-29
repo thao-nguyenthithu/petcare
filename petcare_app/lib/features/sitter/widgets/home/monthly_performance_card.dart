@@ -6,6 +6,7 @@ import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/sitter/data/mock_sitter_home.dart';
 import 'package:petcare_app/features/sitter/widgets/section_empty.dart';
+import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 
 // Hiệu suất tháng này 3 chỉ số
 class MonthlyPerformanceCard extends StatelessWidget {
@@ -44,7 +45,7 @@ class MonthlyPerformanceCard extends StatelessWidget {
                     label: l10n.diemDanhGia,
                   ),
                 ),
-                const _PerfDivider(),
+                const AppDongKeDoc(cao: 44),
                 Expanded(
                   child: _PerfStat(
                     icon: Icons.check,
@@ -53,7 +54,7 @@ class MonthlyPerformanceCard extends StatelessWidget {
                     label: l10n.tyLeNhan,
                   ),
                 ),
-                const _PerfDivider(),
+                const AppDongKeDoc(cao: 44),
                 Expanded(
                   child: _PerfStat(
                     icon: Icons.work_outline,
@@ -67,15 +68,6 @@ class MonthlyPerformanceCard extends StatelessWidget {
           ),
       ],
     );
-  }
-}
-
-class _PerfDivider extends StatelessWidget {
-  const _PerfDivider();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(width: 1, height: 44, color: AppColors.neutralLight);
   }
 }
 

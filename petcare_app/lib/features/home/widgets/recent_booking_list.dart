@@ -3,6 +3,7 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/home/data/mock_home_data.dart';
 import 'package:petcare_app/shared/utils/placeholder_action.dart';
+import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 
 // Danh sách Đặt lại lần nữa
 class RecentBookingList extends StatelessWidget {
@@ -17,8 +18,7 @@ class RecentBookingList extends StatelessWidget {
       child: Column(
         children: [
           for (var i = 0; i < bookings.length; i++) ...[
-            if (i > 0)
-              const Divider(color: AppColors.neutral, height: 1, indent: 56),
+            if (i > 0) const AppDongKe(mau: AppColors.neutral, thut: 56),
             _RecentBookingRow(booking: bookings[i]),
           ],
         ],

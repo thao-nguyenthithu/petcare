@@ -9,6 +9,7 @@ import 'package:petcare_app/features/booking/data/mock_booking_data.dart';
 import 'package:petcare_app/features/booking/widgets/booking_card.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_empty_state.dart';
+import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 
 // Danh sách đơn của một tab
 class BookingTabView extends StatelessWidget {
@@ -40,8 +41,7 @@ class BookingTabView extends StatelessWidget {
         horizontal: AppSpacing.screenPaddingWide,
       ),
       itemCount: bookings.length,
-      separatorBuilder: (_, _) =>
-          const Divider(height: 1, indent: 64, color: AppColors.neutralLight),
+      separatorBuilder: (_, _) => const AppDongKe(thut: 56),
       itemBuilder: (context, i) => BookingCard(booking: bookings[i]),
     );
   }

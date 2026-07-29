@@ -11,6 +11,7 @@ import 'package:petcare_app/shared/utils/money_format.dart';
 import 'package:petcare_app/shared/utils/placeholder_action.dart';
 import 'package:petcare_app/shared/widgets/app_screen_header.dart';
 import 'package:petcare_app/shared/widgets/app_segmented_tabs.dart';
+import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 
 // Màn Thu nhập NCC
 class SitterEarningsScreen extends StatefulWidget {
@@ -47,7 +48,7 @@ class _SitterEarningsScreenState extends State<SitterEarningsScreen> {
         child: Column(
           children: [
             AppScreenHeader(title: l10n.thuNhap),
-            const Divider(height: 1, color: AppColors.neutralLight),
+            const AppDongKe(),
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.fromLTRB(
@@ -120,8 +121,7 @@ class _SitterEarningsScreenState extends State<SitterEarningsScreen> {
                       tx: tx,
                       onTap: () => baoDangPhatTrien(context),
                     ),
-                    if (tx != recent.last)
-                      const Divider(height: 1, color: AppColors.neutralLight),
+                    if (tx != recent.last) const AppDongKe(),
                   ],
                 ],
               ),
