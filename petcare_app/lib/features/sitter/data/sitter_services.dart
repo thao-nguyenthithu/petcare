@@ -16,8 +16,8 @@ enum WeightTier { duoi5, tu5den10, tu10den20, tren20 }
 // Gói grooming: chỉ tắm / tắm và cắt tỉa
 enum GroomingPackage { bath, bathAndTrim }
 
-// Thời lượng cho phép của một lượt dắt
-const walkingDurations = [30, 60, 90];
+// Thời lượng của một lượt dắt NCC bắt buộc báo giá đủ cả hai mức
+const walkingDurations = [30, 60];
 
 PetKind _petKind(Object? s) =>
     PetKind.values.firstWhere((e) => e.name == s, orElse: () => PetKind.both);
@@ -26,16 +26,14 @@ int? _toInt(Object? v) => (v as num?)?.toInt();
 class WalkingConfig {
   final bool enabled;
   final PetKind petKind;
-  final int durationMinutes;
-  final int? price;
+  final Map<int, int> priceByDuration;
   final int? additionalPetFee;
   final int? maxPets;
 
   const WalkingConfig({
     this.enabled = false,
     this.petKind = PetKind.dog,
-    this.durationMinutes = 30,
-    this.price,
+    this.priceByDuration = const {},
     this.additionalPetFee,
     this.maxPets,
   });
@@ -43,15 +41,13 @@ class WalkingConfig {
   WalkingConfig copyWith({
     bool? enabled,
     PetKind? petKind,
-    int? durationMinutes,
-    int? price,
+    Map<int, int>? priceByDuration,
     int? additionalPetFee,
     int? maxPets,
   }) => WalkingConfig(
     enabled: enabled ?? this.enabled,
     petKind: petKind ?? this.petKind,
-    durationMinutes: durationMinutes ?? this.durationMinutes,
-    price: price ?? this.price,
+    priceByDuration: priceByDuration ?? this.priceByDuration,
     additionalPetFee: additionalPetFee ?? this.additionalPetFee,
     maxPets: maxPets ?? this.maxPets,
   );
@@ -59,22 +55,37 @@ class WalkingConfig {
   Map<String, dynamic> toJson() => {
     'enabled': enabled,
     'petKind': petKind.name,
-    'durationMinutes': durationMinutes,
-    'price': price,
+    'priceByDuration': {
+      for (final e in priceByDuration.entries) '${e.key}': e.value,
+    },
     'additionalPetFee': additionalPetFee,
     'maxPets': maxPets,
   };
 
-  factory WalkingConfig.fromJson(Map<String, dynamic> j) => WalkingConfig(
-    enabled: j['enabled'] as bool? ?? false,
-    petKind: _petKind(j['petKind']),
-    durationMinutes: _toInt(j['durationMinutes']) ?? 30,
-    price: _toInt(j['price']),
-    additionalPetFee: _toInt(j['additionalPetFee']),
-    maxPets: _toInt(j['maxPets']),
-  );
+  factory WalkingConfig.fromJson(Map<String, dynamic> j) {
+    final raw = (j['priceByDuration'] as Map?) ?? const {};
+    final bang = <int, int>{};
+    for (final phut in walkingDurations) {
+      final gia = _toInt(raw['$phut']);
+      if (gia != null) bang[phut] = gia;
+    }
+    return WalkingConfig(
+      enabled: j['enabled'] as bool? ?? false,
+      petKind: _petKind(j['petKind']),
+      priceByDuration: bang,
+      additionalPetFee: _toInt(j['additionalPetFee']),
+      maxPets: _toInt(j['maxPets']),
+    );
+  }
 
-  bool get configured => price != null;
+  // Đủ giá cho mọi mức thời lượng
+  bool get configured =>
+      walkingDurations.every((phut) => priceByDuration[phut] != null);
+
+  int? get lowestPrice {
+    if (priceByDuration.isEmpty) return null;
+    return priceByDuration.values.reduce((a, b) => a < b ? a : b);
+  }
 }
 
 // Trông giữ tại cơ sở

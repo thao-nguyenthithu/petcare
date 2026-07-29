@@ -25,6 +25,6 @@ export class UpdateServiceAreaDto {
 
   @IsInt()
   @Min(1)
-  @Max(15)
+  @Max(20)
   radiusKm!: number;
 }

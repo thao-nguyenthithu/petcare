@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
+import 'package:petcare_app/core/network/api_error.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
@@ -98,12 +99,15 @@ class _SitterServiceAreaScreenState
         context,
       ).showSnackBar(SnackBar(content: Text(l10n.daLuuKhuVuc)));
       context.pop();
-    } catch (_) {
+    } catch (e) {
       if (!mounted) return;
       setState(() => _dangLuu = false);
+      final thongBao = codeFromError(e) != null
+          ? (messageFromError(e) ?? l10n.luuThatBai)
+          : l10n.luuThatBai;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text(l10n.luuThatBai)));
+      ).showSnackBar(SnackBar(content: Text(thongBao)));
     }
   }
 

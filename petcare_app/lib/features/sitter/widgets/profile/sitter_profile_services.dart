@@ -74,8 +74,8 @@ _TTDichVu _thongTinDichVu(BuildContext c, SitterServices s, ServiceType t) {
       return (
         ten: serviceTypeName(c, t),
         loai: _loaiThu(c, w.petKind),
-        phu: l10n.phutMoiLuot('${w.durationMinutes}'),
-        gia: '${dinhDangTien(w.price ?? 0)}đ',
+        phu: l10n.phutMoiLuot(walkingDurations.join('/')),
+        gia: l10n.tuGiaTien(dinhDangTien(w.lowestPrice ?? 0)),
         donVi: l10n.moiLuot,
       );
     case ServiceType.boarding:

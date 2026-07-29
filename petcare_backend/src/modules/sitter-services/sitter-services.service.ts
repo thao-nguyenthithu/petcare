@@ -10,6 +10,9 @@ import { UpdateServicesDto } from './dto/update-services.dto';
 type PetKindDb = 'DOG' | 'CAT' | 'BOTH';
 type ServiceTypeDb = 'WALKING' | 'BOARDING' | 'GROOMING';
 
+// Mức thời lượng một lượt dắt
+const WALKING_DURATIONS = [30, 60];
+
 function toDbPetKind(s?: string): PetKindDb {
   switch (s) {
     case 'cat':
@@ -70,8 +73,7 @@ export class SitterServicesService {
           dto.walking.enabled,
           dto.walking.petKind,
           {
-            durationMinutes: dto.walking.durationMinutes,
-            price: dto.walking.price ?? null,
+            priceByDuration: dto.walking.priceByDuration ?? {},
             additionalPetFee: dto.walking.additionalPetFee ?? null,
             maxPets: dto.walking.maxPets ?? null,
           },
@@ -144,7 +146,13 @@ export class SitterServicesService {
       }
     };
     if (dto.walking?.enabled) {
-      if (dto.walking.price == null) loi('THIEU_GIA', 'Chưa nhập giá dịch vụ');
+      const bangGia = dto.walking.priceByDuration ?? {};
+      const thieu = WALKING_DURATIONS.filter(
+        (phut) => typeof bangGia[phut] !== 'number',
+      );
+      if (thieu.length > 0) {
+        loi('THIEU_GIA', `Chưa nhập giá cho lượt ${thieu.join(' và ')} phút`);
+      }
       kiemTraMaxPets(dto.walking.maxPets);
       kiemTraPhuPhi(dto.walking.additionalPetFee, dto.walking.maxPets);
     }

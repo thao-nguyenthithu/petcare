@@ -19,13 +19,10 @@ class WalkingConfigDto {
   @IsIn(PET_KINDS)
   petKind!: string;
 
-  @IsInt()
-  durationMinutes!: number;
-
+  // Giá mỗi lượt theo số phút
   @IsOptional()
-  @IsInt()
-  @Min(0)
-  price?: number;
+  @IsObject()
+  priceByDuration?: Record<string, number>;
 
   // Phụ phí mỗi bé thêm
   @IsOptional()

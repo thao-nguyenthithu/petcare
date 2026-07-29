@@ -20,7 +20,7 @@ const _banPhimSo = TextInputType.numberWithOptions(
   decimal: false,
 );
 
-const _hintGiaLuot = '50.000';
+const _hintGiaLuot = {30: '50.000', 60: '80.000'};
 const _hintGiaNgay = '200.000';
 const _hintGiaTheoCan = {
   WeightTier.duoi5: '150.000',
@@ -54,8 +54,13 @@ class ServiceFormScreen extends StatefulWidget {
 class _ServiceFormScreenState extends State<ServiceFormScreen> {
   late PetKind _loai;
 
-  int _phut = walkingDurations.first;
-  final _giaController = TextEditingController();
+  // Mỗi mức thời lượng một ô giá, tất cả đều bắt buộc
+  final _giaLuot = {
+    for (final phut in walkingDurations) phut: TextEditingController(),
+  };
+  final _giaLuotFocus = {
+    for (final phut in walkingDurations) phut: FocusNode(),
+  };
 
   final _giaNgayController = TextEditingController();
   final _sucChuaController = TextEditingController();
@@ -63,7 +68,6 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
   final _maxPetsController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-  final _giaFocus = FocusNode();
   final _giaNgayFocus = FocusNode();
   final _sucChuaFocus = FocusNode();
   final _phuPhiFocus = FocusNode();
@@ -97,8 +101,9 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
       case ServiceType.walking:
         final c = widget.services.walking;
         _loai = c.petKind;
-        _phut = c.durationMinutes;
-        if (c.price != null) _giaController.text = dinhDangTien(c.price!);
+        for (final e in c.priceByDuration.entries) {
+          _giaLuot[e.key]?.text = dinhDangTien(e.value);
+        }
         if (c.additionalPetFee != null) {
           _phuPhiController.text = dinhDangTien(c.additionalPetFee!);
         }
@@ -134,7 +139,7 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
         ? _mucNhan
         : {for (final g in GroomingPackage.values) g: <WeightTier>{}};
     for (final c in [
-      _giaController,
+      ..._giaLuot.values,
       _giaNgayController,
       _sucChuaController,
       _phuPhiController,
@@ -147,12 +152,16 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
 
   @override
   void dispose() {
-    _giaController.dispose();
+    for (final c in _giaLuot.values) {
+      c.dispose();
+    }
+    for (final f in _giaLuotFocus.values) {
+      f.dispose();
+    }
     _giaNgayController.dispose();
     _sucChuaController.dispose();
     _phuPhiController.dispose();
     _maxPetsController.dispose();
-    _giaFocus.dispose();
     _giaNgayFocus.dispose();
     _sucChuaFocus.dispose();
     _phuPhiFocus.dispose();
@@ -196,7 +205,8 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
   void _focusDauLoi() {
     final List<(String?, FocusNode)> ds = switch (_type) {
       ServiceType.walking => [
-        (_vBatBuoc(_giaController.text), _giaFocus),
+        for (final phut in walkingDurations)
+          (_vBatBuoc(_giaLuot[phut]!.text), _giaLuotFocus[phut]!),
         (_vPhuPhi(_phuPhiController.text), _phuPhiFocus),
         (_vMaxPets(_maxPetsController.text), _maxPetsFocus),
       ],
@@ -250,8 +260,10 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
           walking: WalkingConfig(
             enabled: true,
             petKind: _loai,
-            durationMinutes: _phut,
-            price: docSoTien(_giaController.text),
+            priceByDuration: {
+              for (final phut in walkingDurations)
+                phut: ?docSoTien(_giaLuot[phut]!.text),
+            },
             additionalPetFee: docSoTien(_phuPhiController.text),
             maxPets: int.tryParse(_maxPetsController.text),
           ),
@@ -385,36 +397,24 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
     switch (_type) {
       case ServiceType.walking:
         return [
-          _nhan(l10n.thoiLuongMoiLuot),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              for (final phut in walkingDurations) ...[
-                if (phut != walkingDurations.first) const SizedBox(width: 10),
-                _chon(
-                  l10n.soPhut('$phut'),
-                  _phut == phut,
-                  () => setState(() {
-                    _phut = phut;
-                    _dirty = true;
-                  }),
-                ),
-              ],
-            ],
-          ),
-          const SizedBox(height: 20),
-          AppTextField(
-            label: l10n.giaDichVu,
-            hint: _hintGiaLuot,
-            controller: _giaController,
-            focusNode: _giaFocus,
-            isRequired: true,
-            validator: _vBatBuoc,
-            height: 46,
-            keyboardType: _banPhimSo,
-            inputFormatters: const [DinhDangTienFormatter()],
-            suffixText: l10n.donGiaLuot,
-          ),
+          _nhan(l10n.bangGiaThoiLuong),
+          for (final phut in walkingDurations) ...[
+            const SizedBox(height: 12),
+            AppTextField(
+              label: l10n.soPhut('$phut'),
+              hint: _hintGiaLuot[phut]!,
+              controller: _giaLuot[phut]!,
+              focusNode: _giaLuotFocus[phut]!,
+              isRequired: true,
+              validator: _vBatBuoc,
+              height: 46,
+              keyboardType: _banPhimSo,
+              inputFormatters: const [DinhDangTienFormatter()],
+              suffixText: l10n.donGiaLuot,
+            ),
+          ],
+          const SizedBox(height: 8),
+          Text(l10n.nhapGiaDuHaiThoiLuong, style: AppTextStyles.captionSm),
           const SizedBox(height: 20),
           _phuPhiField(),
           const SizedBox(height: 20),

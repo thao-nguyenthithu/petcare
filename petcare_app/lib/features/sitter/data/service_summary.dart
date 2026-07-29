@@ -31,8 +31,8 @@ String? serviceTypeSummary(
       final loai = petKindLabel(context, s.walking.petKind);
       return l10n.tomTatDatDv(
         loai,
-        '${s.walking.durationMinutes}',
-        dinhDangTien(s.walking.price ?? 0),
+        walkingDurations.join('/'),
+        dinhDangTien(s.walking.lowestPrice ?? 0),
       );
     case ServiceType.boarding:
       if (!s.boarding.configured) return null;
