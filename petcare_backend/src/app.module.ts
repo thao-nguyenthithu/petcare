@@ -12,7 +12,10 @@ import { AuthModule } from './modules/auth/auth.module';
 import { MediaModule } from './modules/media/media.module';
 import { SitterProfileModule } from './modules/sitter-profile/sitter-profile.module';
 import { SitterServicesModule } from './modules/sitter-services/sitter-services.module';
+import { SitterMeModule } from './modules/sitter-me/sitter-me.module';
+import { SittersModule } from './modules/sitters/sitters.module';
 import { AddressesModule } from './modules/addresses/addresses.module';
+import { PetsModule } from './modules/pets/pets.module';
 
 @Module({
   imports: [
@@ -38,7 +41,10 @@ import { AddressesModule } from './modules/addresses/addresses.module';
     MediaModule,
     SitterProfileModule,
     SitterServicesModule,
+    SitterMeModule,
+    SittersModule,
     AddressesModule,
+    PetsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

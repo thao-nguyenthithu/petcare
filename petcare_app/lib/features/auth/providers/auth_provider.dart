@@ -4,6 +4,7 @@ import 'package:petcare_app/features/auth/services/social_auth_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:petcare_app/features/address/providers/saved_addresses_provider.dart';
+import 'package:petcare_app/features/pets/providers/my_pets_provider.dart';
 import 'package:petcare_app/features/auth/providers/current_user_provider.dart';
 import 'package:petcare_app/features/sitter/providers/sitter_profile_provider.dart';
 import 'package:petcare_app/features/sitter/providers/sitter_services_provider.dart';
@@ -93,6 +94,7 @@ extension UserDataRefreshRef on Ref {
   void refreshUserData() {
     invalidate(currentUserProvider);
     invalidate(savedAddressesProvider);
+    invalidate(myPetsProvider);
     invalidate(sitterStatusProvider);
     invalidate(sitterMeProvider);
     invalidate(sitterServicesProvider);
@@ -106,6 +108,7 @@ extension UserDataRefreshWidgetRef on WidgetRef {
   void refreshUserData() {
     invalidate(currentUserProvider);
     invalidate(savedAddressesProvider);
+    invalidate(myPetsProvider);
     invalidate(sitterStatusProvider);
     invalidate(sitterMeProvider);
     invalidate(sitterServicesProvider);

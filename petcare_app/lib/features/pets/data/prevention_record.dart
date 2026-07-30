@@ -16,6 +16,18 @@ class PreventionCycle {
   final int so;
   final CycleUnit donVi;
 
+  static CycleUnit donViTuJson(String ma) => switch (ma) {
+    'DAY' => CycleUnit.ngay,
+    'WEEK' => CycleUnit.tuan,
+    _ => CycleUnit.thang,
+  };
+
+  String get donViJson => switch (donVi) {
+    CycleUnit.ngay => 'DAY',
+    CycleUnit.tuan => 'WEEK',
+    CycleUnit.thang => 'MONTH',
+  };
+
   // Hạn kế tiếp tính từ ngày vừa thực hiện
   DateTime apDung(DateTime tu) => switch (donVi) {
     CycleUnit.ngay => tu.add(Duration(days: so)),
@@ -41,6 +53,7 @@ DateTime congThang(DateTime tu, int soThang) {
 
 // Hệ thống bắt đầu nhắc trước hạn
 const int nguongSapToiHanNgay = 7;
+const String idTamHangMuc = 'tam-';
 
 // Trạng thái nhắc lại của một hạng mục
 enum PreventionStatus { conHan, sapToiHan, quaHan, khongNhac, chuaGhi }
@@ -59,6 +72,37 @@ class PreventionDose {
   final PreventionCycle? chuKy;
   final String? noiThucHien;
   final List<PhotoItem> anh;
+
+  factory PreventionDose.fromJson(Map<String, dynamic> j) {
+    final so = j['cycleValue'] as int?;
+    final donVi = j['cycleUnit'] as String?;
+    return PreventionDose(
+      id: j['id'] as String,
+      ngay: docNgayJson(j['doneAt'] as String)!,
+      chuKy: so == null || donVi == null
+          ? null
+          : PreventionCycle(so, PreventionCycle.donViTuJson(donVi)),
+      noiThucHien: j['place'] as String?,
+      anh: [
+        for (final a in (j['photos'] as List? ?? []))
+          PhotoItem.mang(
+            (a as Map)['url'] as String,
+            id: a['id'] as String?,
+            ngayThem: DateTime.tryParse(
+              a['createdAt'] as String? ?? '',
+            )?.toLocal(),
+          ),
+      ],
+    );
+  }
+
+  // Thân request khi ghi hoặc sửa một lần
+  Map<String, dynamic> toJson() => {
+    'doneAt': ngayJson(ngay),
+    'cycleValue': chuKy?.so,
+    'cycleUnit': chuKy?.donViJson,
+    'place': noiThucHien,
+  };
 
   DateTime? get ngayNhacLai => chuKy?.apDung(ngay);
 
@@ -97,8 +141,51 @@ class PreventionRecord {
   final PreventionCycle? chuKyDeXuat;
   final bool dinhKy;
 
-  int get soLan => lanThucHien.length;
+  factory PreventionRecord.fromJson(Map<String, dynamic> j) {
+    final so = j['suggestedCycleValue'] as int?;
+    final donVi = j['suggestedCycleUnit'] as String?;
+    return PreventionRecord(
+      id: j['id'] as String,
+      ma: j['code'] as String,
+      tenTuNhap: j['customName'] as String?,
+      hinhThuc: hinhThucTuJson(j['form'] as String),
+      dinhKy: j['isPeriodic'] as bool? ?? false,
+      chuKyDeXuat: so == null || donVi == null
+          ? null
+          : PreventionCycle(so, PreventionCycle.donViTuJson(donVi)),
+      lanThucHien: [
+        for (final d in (j['doses'] as List? ?? []))
+          PreventionDose.fromJson(Map<String, dynamic>.from(d as Map)),
+      ],
+    );
+  }
 
+  // Thân request khi tạo hạng mục mới
+  Map<String, dynamic> toJson() => {
+    'code': ma,
+    'customName': tenTuNhap,
+    'form': hinhThucJson,
+    'isPeriodic': dinhKy,
+    'suggestedCycleValue': chuKyDeXuat?.so,
+    'suggestedCycleUnit': chuKyDeXuat?.donViJson,
+  };
+
+  String get hinhThucJson => switch (hinhThuc) {
+    PreventionForm.vacXin => 'VACCINE',
+    PreventionForm.uong => 'ORAL',
+    PreventionForm.nhoGay => 'SPOT_ON',
+    PreventionForm.khac => 'OTHER',
+  };
+
+  static PreventionForm hinhThucTuJson(String ma) => switch (ma) {
+    'VACCINE' => PreventionForm.vacXin,
+    'ORAL' => PreventionForm.uong,
+    'SPOT_ON' => PreventionForm.nhoGay,
+    _ => PreventionForm.khac,
+  };
+
+  bool get daLuuTrenServer => !id.startsWith(idTamHangMuc);
+  int get soLan => lanThucHien.length;
   bool get chuaCoLan => lanThucHien.isEmpty;
 
   // Lần mới nhất, cũng là mốc để tính hạn kế tiếp

@@ -5,6 +5,7 @@ import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/pets/data/pet.dart';
+import 'package:petcare_app/shared/widgets/photo_item.dart';
 import 'package:petcare_app/features/pets/widgets/dashed_border.dart';
 
 const double _canhO = 84;
@@ -45,12 +46,7 @@ class PetPhotoStrip extends StatelessWidget {
                   child: InkWell(
                     onTap: () => onXemAnh(i),
                     onLongPress: () => onXemAnh(i),
-                    child: Image.memory(
-                      item.bytes,
-                      width: _canhO,
-                      height: _canhO,
-                      fit: BoxFit.cover,
-                    ),
+                    child: PhotoThumb(anh: item.item, canh: _canhO),
                   ),
                 ),
                 if (i == 0) ...[

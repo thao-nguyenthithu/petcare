@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:petcare_app/core/utils/vn_date.dart';
 import 'package:petcare_app/features/pets/data/prevention_record.dart';
 import 'package:petcare_app/shared/widgets/photo_viewer.dart';
 
@@ -64,14 +65,72 @@ class Pet {
 
   // Có đơn thì chưa cho xoá hồ sơ bé
   final PetActiveBooking? donDangChay;
+
+  factory Pet.fromJson(Map<String, dynamic> j) => Pet(
+    id: j['id'] as String,
+    name: j['name'] as String,
+    species: (j['species'] as String) == 'CAT'
+        ? PetSpecies.cat
+        : PetSpecies.dog,
+    breed: j['breed'] as String,
+    weightKg: (j['weightKg'] as num).toDouble(),
+    gender: (j['gender'] as String) == 'FEMALE'
+        ? PetGender.female
+        : PetGender.male,
+    birthDate: docNgayJson(j['birthDate'] as String?),
+    avatar: j['avatarUrl'] as String?,
+    anh: [
+      for (final a in (j['photos'] as List? ?? []))
+        PhotoItem.mang(
+          (a as Map)['url'] as String,
+          id: a['id'] as String?,
+          ngayThem: DateTime.tryParse(
+            a['createdAt'] as String? ?? '',
+          )?.toLocal(),
+        ),
+    ],
+    daTrietSan: j['isNeutered'] as bool? ?? false,
+    dangDieuTri: j['underTreatment'] as bool? ?? false,
+    benhNen: j['chronicDisease'] as String?,
+    thuocDangDung: j['medication'] as String?,
+    luuYChamSoc: j['careNote'] as String?,
+    phongBenh: [
+      for (final p in (j['preventions'] as List? ?? []))
+        PreventionRecord.fromJson(Map<String, dynamic>.from(p as Map)),
+    ],
+  );
+
+  // Thân request khi tạo hoặc sửa hồ sơ
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'species': species == PetSpecies.cat ? 'CAT' : 'DOG',
+    'breed': breed,
+    'gender': gender == PetGender.female ? 'FEMALE' : 'MALE',
+    'birthDate': birthDate == null ? null : ngayJson(birthDate!),
+    'weightKg': weightKg,
+    'isNeutered': daTrietSan,
+    'underTreatment': dangDieuTri,
+    'chronicDisease': benhNen,
+    'medication': thuocDangDung,
+    'careNote': luuYChamSoc,
+  };
 }
 
-// Một ảnh của bé
+// Một ảnh của bé trong form
 class PetPhoto {
-  const PetPhoto({required this.bytes, required this.addedAt});
+  const PetPhoto({required this.addedAt, this.id, this.url, this.bytes})
+    : assert(url != null || bytes != null, 'Ảnh phải có url hoặc bytes');
 
-  final Uint8List bytes;
+  final String? id;
+  final String? url;
+  final Uint8List? bytes;
   final DateTime addedAt;
+
+  bool get daTaiLen => id != null;
+
+  PhotoItem get item => bytes != null
+      ? PhotoItem.bytes(bytes!, ngayThem: addedAt)
+      : PhotoItem.mang(url!, id: id, ngayThem: addedAt);
 }
 
 // Số ảnh tối đa một bé

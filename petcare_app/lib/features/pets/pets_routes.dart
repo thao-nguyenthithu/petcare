@@ -25,14 +25,8 @@ final petsRoutes = <RouteBase>[
   ),
   GoRoute(
     path: AppRoutes.addPetHealth,
-    builder: (context, state) {
-      final args = state.extra as PetHealthArgs;
-      return PetHealthScreen(
-        tenBe: args.tenBe,
-        loaiBe: args.loaiBe,
-        petSua: args.petSua,
-      );
-    },
+    builder: (context, state) =>
+        PetHealthScreen(args: state.extra as PetHealthArgs),
   ),
   GoRoute(
     path: AppRoutes.preventionDetail,

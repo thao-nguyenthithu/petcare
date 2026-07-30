@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/router/app_router.dart';
@@ -7,6 +8,8 @@ import 'package:petcare_app/core/utils/vn_date.dart';
 import 'package:petcare_app/features/pets/data/pet.dart';
 import 'package:petcare_app/features/pets/data/pet_breeds.dart';
 import 'package:petcare_app/features/pets/data/pet_summary.dart';
+import 'package:petcare_app/features/pets/providers/my_pets_provider.dart';
+import 'package:petcare_app/features/pets/services/pet_error_mapper.dart';
 import 'package:petcare_app/features/pets/screens/pet_health_screen.dart';
 import 'package:petcare_app/features/pets/widgets/delete_photo_sheet.dart';
 import 'package:petcare_app/features/pets/widgets/pet_basic_info_section.dart';
@@ -25,16 +28,16 @@ import 'package:petcare_app/shared/widgets/photo_viewer.dart';
 const _tuoiToiDa = 30;
 
 // Form thông tin bé, bước 1 trong 2
-class AddPetScreen extends StatefulWidget {
+class AddPetScreen extends ConsumerStatefulWidget {
   const AddPetScreen({super.key, this.petSua});
 
   final Pet? petSua;
 
   @override
-  State<AddPetScreen> createState() => _AddPetScreenState();
+  ConsumerState<AddPetScreen> createState() => _AddPetScreenState();
 }
 
-class _AddPetScreenState extends State<AddPetScreen> {
+class _AddPetScreenState extends ConsumerState<AddPetScreen> {
   final _formKey = GlobalKey<FormState>();
   final _tenController = TextEditingController();
   final _giongController = TextEditingController();
@@ -67,6 +70,10 @@ class _AddPetScreenState extends State<AddPetScreen> {
         _ngaySinhController.text = ngayThangNam(ngay);
       }
       _luuYController.text = pet.luuYChamSoc ?? '';
+      _anh.addAll([
+        for (final a in pet.anh)
+          PetPhoto(id: a.id, url: a.url, addedAt: a.ngayThem ?? nowVn()),
+      ]);
     }
     for (final c in [
       _tenController,
@@ -95,6 +102,20 @@ class _AddPetScreenState extends State<AddPetScreen> {
     super.dispose();
   }
 
+  // Gọi API kèm bắt lỗi
+  Future<T?> _goi<T>(Future<T> Function() viec) async {
+    try {
+      return await viec();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(moTaLoiThuCung(context, e))));
+      }
+      return null;
+    }
+  }
+
   void _markDirty() {
     if (!_dirty) setState(() => _dirty = true);
   }
@@ -103,7 +124,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
     final conCho = maxPetPhotos - _anh.length;
     final chon = await chonNhieuAnh(conCho);
     if (!mounted || chon.anh.isEmpty) return;
-    final bayGio = DateTime.now();
+    final bayGio = nowVn();
     setState(() {
       _dirty = true;
       _anh.addAll(
@@ -122,9 +143,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
     final ten = _tenController.text.trim();
     await showPhotoViewer(
       context,
-      anh: [
-        for (final a in _anh) PhotoItem.bytes(a.bytes, ngayThem: a.addedAt),
-      ],
+      anh: [for (final a in _anh) a.item],
       viTri: viTri,
       phuDe: ten.isEmpty ? l10n.anhCuaBe : l10n.anhCuaBeTen(ten),
       hanhDong: [
@@ -134,6 +153,15 @@ class _AddPetScreenState extends State<AddPetScreen> {
           // Ảnh đầu là đại diện
           tatKhi: (i) => i == 0,
           onTap: (i) async {
+            final anh = _anh[i];
+            if (widget.petSua case final pet? when anh.daTaiLen) {
+              final ok = await _goi(
+                () => ref
+                    .read(myPetsProvider.notifier)
+                    .datAnhDaiDien(pet.id, anh.id!),
+              );
+              if (ok == null) return false;
+            }
             setState(() {
               _dirty = true;
               _anh.insert(0, _anh.removeAt(i));
@@ -154,6 +182,14 @@ class _AddPetScreenState extends State<AddPetScreen> {
               laDaiDien: i == 0,
             );
             if (!dongY) return false;
+            final anh = _anh[i];
+            if (widget.petSua case final pet? when anh.daTaiLen) {
+              final ok = await _goi(
+                () =>
+                    ref.read(myPetsProvider.notifier).xoaAnh(pet.id, [anh.id!]),
+              );
+              if (ok == null) return false;
+            }
             setState(() {
               _dirty = true;
               _anh.removeAt(i);
@@ -182,7 +218,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
   }
 
   Future<void> _chonNgaySinh() async {
-    final homNay = DateTime.now();
+    final homNay = nowVn();
     final chon = await showDatePicker(
       context: context,
       initialDate: _ngaySinh ?? homNay,
@@ -223,8 +259,23 @@ class _AddPetScreenState extends State<AddPetScreen> {
     context.push(
       AppRoutes.addPetHealth,
       extra: PetHealthArgs(
-        tenBe: _tenController.text.trim(),
-        loaiBe: _loai,
+        buoc1: Pet(
+          id: widget.petSua?.id ?? '',
+          name: _tenController.text.trim(),
+          species: _loai,
+          breed: _maGiong ?? maGiongKhac,
+          weightKg:
+              double.tryParse(
+                _canNangController.text.trim().replaceAll(',', '.'),
+              ) ??
+              0,
+          gender: _gioiTinh,
+          birthDate: _ngaySinh,
+          luuYChamSoc: _luuYController.text.trim().isEmpty
+              ? null
+              : _luuYController.text.trim(),
+        ),
+        anhMoi: [for (final a in _anh) ?a.bytes],
         petSua: widget.petSua,
       ),
     );

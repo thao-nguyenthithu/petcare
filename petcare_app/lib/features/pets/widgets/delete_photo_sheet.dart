@@ -6,6 +6,7 @@ import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/vn_date.dart';
 import 'package:petcare_app/features/pets/data/pet.dart';
+import 'package:petcare_app/shared/widgets/photo_item.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 
 // Hỏi trước khi xoá một ảnh của bé
@@ -66,12 +67,7 @@ class _NoiDung extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(AppRadius.radius14),
-                child: Image.memory(
-                  anh.bytes,
-                  width: 64,
-                  height: 64,
-                  fit: BoxFit.cover,
-                ),
+                child: PhotoThumb(anh: anh.item, canh: 64),
               ),
               const SizedBox(width: AppSpacing.itemGap),
               Expanded(

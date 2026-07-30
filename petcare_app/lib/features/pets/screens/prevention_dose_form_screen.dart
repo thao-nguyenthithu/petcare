@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,6 +10,8 @@ import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/vn_date.dart';
 import 'package:petcare_app/features/pets/data/prevention_record.dart';
 import 'package:petcare_app/features/pets/data/prevention_summary.dart';
+import 'package:petcare_app/features/pets/providers/my_pets_provider.dart';
+import 'package:petcare_app/features/pets/services/pet_error_mapper.dart';
 import 'package:petcare_app/shared/widgets/app_text_field.dart';
 import 'package:petcare_app/features/pets/widgets/prevention_photo_row.dart';
 import 'package:petcare_app/features/pets/widgets/prevention_reminder_field.dart';
@@ -27,7 +30,9 @@ class PreventionDoseFormArgs {
     required this.tenBe,
     required this.hangMuc,
     this.lanSua,
+    this.petId,
   });
+  final String? petId;
 
   final String tenBe;
   final PreventionRecord hangMuc;
@@ -37,17 +42,18 @@ class PreventionDoseFormArgs {
 const int _soNamLuiToiDa = 30;
 
 // Form ghi lần thực hiện mới hoặc sửa lần đã có
-class PreventionDoseFormScreen extends StatefulWidget {
+class PreventionDoseFormScreen extends ConsumerStatefulWidget {
   const PreventionDoseFormScreen({super.key, required this.args});
 
   final PreventionDoseFormArgs args;
 
   @override
-  State<PreventionDoseFormScreen> createState() =>
+  ConsumerState<PreventionDoseFormScreen> createState() =>
       _PreventionDoseFormScreenState();
 }
 
-class _PreventionDoseFormScreenState extends State<PreventionDoseFormScreen> {
+class _PreventionDoseFormScreenState
+    extends ConsumerState<PreventionDoseFormScreen> {
   final _formKey = GlobalKey<FormState>();
   final _ngayThucHienController = TextEditingController();
   final _noiThucHienController = TextEditingController();
@@ -62,8 +68,10 @@ class _PreventionDoseFormScreenState extends State<PreventionDoseFormScreen> {
 
   bool _dirty = false;
   bool _autoValidate = false;
+  bool _dangLuu = false;
 
   PreventionRecord get _hangMuc => widget.args.hangMuc;
+  String? get _petId => widget.args.petId;
   PreventionDose? get _lanSua => widget.args.lanSua;
   bool get _dangSua => _lanSua != null;
 
@@ -123,7 +131,7 @@ class _PreventionDoseFormScreenState extends State<PreventionDoseFormScreen> {
   }
 
   Future<void> _chonNgayThucHien() async {
-    final homNay = DateTime.now();
+    final homNay = nowVn();
     final chon = await showDatePicker(
       context: context,
       initialDate: _ngayThucHien ?? homNay,
@@ -154,7 +162,7 @@ class _PreventionDoseFormScreenState extends State<PreventionDoseFormScreen> {
       du = chon.du;
     }
     if (!mounted || them.isEmpty) return;
-    final bayGio = DateTime.now();
+    final bayGio = nowVn();
     setState(() {
       _dirty = true;
       _anh.addAll(them.map((b) => PhotoItem.bytes(b, ngayThem: bayGio)));
@@ -195,17 +203,31 @@ class _PreventionDoseFormScreenState extends State<PreventionDoseFormScreen> {
   String? _vBatBuoc(String? v) =>
       (v == null || v.trim().isEmpty) ? context.l10n.khongDuocDeTrong : null;
 
-  void _luu() {
+  Future<void> _luu() async {
+    if (_dangLuu) return;
     if (!_autoValidate) setState(() => _autoValidate = true);
     if (!(_formKey.currentState?.validate() ?? true)) return;
     final noi = _noiThucHienController.text.trim();
     final lan = PreventionDose(
-      id: _lanSua?.id ?? 'd${DateTime.now().microsecondsSinceEpoch}',
+      id:
+          _lanSua?.id ??
+          '$idTamHangMuc${DateTime.now().microsecondsSinceEpoch}',
       ngay: _ngayThucHien!,
       chuKy: _chuKy,
       noiThucHien: noi.isEmpty ? null : noi,
       anh: [..._anh],
     );
+    // Bé đã có trên server thì ghi thẳng lên
+    if (_petId case final id?) {
+      final anhMoi = [for (final a in _anh) ?a.bytes];
+      setState(() => _dangLuu = true);
+      final ket = await _goiApi(id, lan, anhMoi);
+      if (!mounted) return;
+      setState(() => _dangLuu = false);
+      if (ket == null) return;
+      context.pop(ket);
+      return;
+    }
     context.pop(
       _hangMuc.copyWith(
         lanThucHien: _dangSua
@@ -216,6 +238,32 @@ class _PreventionDoseFormScreenState extends State<PreventionDoseFormScreen> {
             : [..._hangMuc.lanThucHien, lan],
       ),
     );
+  }
+
+  // Ghi hoặc sửa lần trên server
+  Future<PreventionRecord?> _goiApi(
+    String petId,
+    PreventionDose lan,
+    List<Uint8List> anhMoi,
+  ) async {
+    try {
+      return await ref
+          .read(myPetsProvider.notifier)
+          .ghiLanKemAnh(
+            petId: petId,
+            idHangMuc: _hangMuc.id,
+            lan: lan,
+            anhMoi: anhMoi,
+            dangSua: _dangSua,
+          );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(moTaLoiThuCung(context, e))));
+      }
+      return null;
+    }
   }
 
   // Xoá riêng lần đang sửa, hạng mục vẫn còn
@@ -230,6 +278,16 @@ class _PreventionDoseFormScreenState extends State<PreventionDoseFormScreen> {
       danger: true,
     );
     if (!dongY || !mounted) return;
+    if (_petId case final id?) {
+      final be = await _goi(
+        () => ref
+            .read(myPetsProvider.notifier)
+            .xoaLan(id, _hangMuc.id, _lanSua!.id),
+      );
+      if (be == null || !mounted) return;
+      context.pop(be.phongBenh.firstWhere((e) => e.id == _hangMuc.id));
+      return;
+    }
     context.pop(
       _hangMuc.copyWith(
         lanThucHien: [
@@ -238,6 +296,20 @@ class _PreventionDoseFormScreenState extends State<PreventionDoseFormScreen> {
         ],
       ),
     );
+  }
+
+  // Gọi API kèm bắt lỗi, trả null nếu hỏng
+  Future<T?> _goi<T>(Future<T> Function() viec) async {
+    try {
+      return await viec();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(moTaLoiThuCung(context, e))));
+      }
+      return null;
+    }
   }
 
   Future<void> _onBack() async {
@@ -352,7 +424,11 @@ class _PreventionDoseFormScreenState extends State<PreventionDoseFormScreen> {
                         onXem: _xemAnh,
                       ),
                       const SizedBox(height: AppSpacing.groupGap),
-                      AppButton(text: l10n.luu, onTap: _luu),
+                      AppButton(
+                        text: l10n.luu,
+                        enabled: !_dangLuu,
+                        onTap: _luu,
+                      ),
                       if (_dangSua) ...[
                         const SizedBox(height: AppSpacing.itemGap),
                         AppButton(

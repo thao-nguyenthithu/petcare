@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/router/app_router.dart';
@@ -9,6 +10,8 @@ import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/vn_date.dart';
 import 'package:petcare_app/features/pets/data/prevention_record.dart';
 import 'package:petcare_app/features/pets/data/prevention_summary.dart';
+import 'package:petcare_app/features/pets/providers/my_pets_provider.dart';
+import 'package:petcare_app/features/pets/services/pet_error_mapper.dart';
 import 'package:petcare_app/features/pets/screens/prevention_dose_form_screen.dart';
 import 'package:petcare_app/features/pets/widgets/prevention_timeline.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
@@ -20,10 +23,15 @@ import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 
 // Tham số vào màn chi tiết một hạng mục phòng bệnh
 class PreventionDetailArgs {
-  const PreventionDetailArgs({required this.hangMuc, required this.tenBe});
+  const PreventionDetailArgs({
+    required this.hangMuc,
+    required this.tenBe,
+    this.petId,
+  });
 
   final PreventionRecord hangMuc;
   final String tenBe;
+  final String? petId;
 }
 
 enum PreventionDetailAction { luu, xoa }
@@ -34,19 +42,22 @@ typedef PreventionDetailResult = ({
 });
 
 // Chi tiết một hạng mục theo dòng thời gian
-class PreventionDetailScreen extends StatefulWidget {
+class PreventionDetailScreen extends ConsumerStatefulWidget {
   const PreventionDetailScreen({super.key, required this.args});
 
   final PreventionDetailArgs args;
 
   @override
-  State<PreventionDetailScreen> createState() => _PreventionDetailScreenState();
+  ConsumerState<PreventionDetailScreen> createState() =>
+      _PreventionDetailScreenState();
 }
 
-class _PreventionDetailScreenState extends State<PreventionDetailScreen> {
+class _PreventionDetailScreenState
+    extends ConsumerState<PreventionDetailScreen> {
   late PreventionRecord _hangMuc = widget.args.hangMuc;
 
   String? _idVuaGhi;
+  String? get _petId => widget.args.petId;
 
   bool get _trongRong => _hangMuc.lanThucHien.isEmpty;
 
@@ -62,6 +73,7 @@ class _PreventionDetailScreenState extends State<PreventionDetailScreen> {
         tenBe: widget.args.tenBe,
         hangMuc: _hangMuc,
         lanSua: lan,
+        petId: _petId,
       ),
     );
     if (ketQua == null || !mounted) return;
@@ -94,6 +106,18 @@ class _PreventionDetailScreenState extends State<PreventionDetailScreen> {
       danger: true,
     );
     if (!dongY || !mounted) return;
+    if (_petId case final id?) {
+      try {
+        await ref.read(myPetsProvider.notifier).xoaHangMuc(id, _hangMuc.id);
+      } catch (e) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(moTaLoiThuCung(context, e))));
+        return;
+      }
+      if (!mounted) return;
+    }
     context.pop((hanhDong: PreventionDetailAction.xoa, hangMuc: _hangMuc));
   }
 

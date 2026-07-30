@@ -19,12 +19,12 @@ model User {
   avatarUrl        String?
   isVerified       Boolean           @default(false)
   isActive         Boolean           @default(true)
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
+  createdAt        DateTime          @default(now()) @db.Timestamptz(3)
+  updatedAt        DateTime          @updatedAt @db.Timestamptz(3)
   bookingsAsOwner  Booking[]         @relation("OwnerBookings")
   pets             Pet[]
   reviews          Review[]
-  sitter          Sitter?
+  sitter           Sitter?
   violationReports ViolationReport[]
   messages         Message[]
   addresses        Address[]
@@ -34,16 +34,16 @@ model Address {
   id          String       @id @default(uuid())
   userId      String
   label       AddressLabel @default(HOME)
-  customLabel String? 
-  province    String 
-  ward        String 
-  street      String 
-  note        String? 
+  customLabel String?
+  province    String
+  ward        String
+  street      String
+  note        String?
   lat         Float
   lng         Float
   isDefault   Boolean      @default(false)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  createdAt   DateTime     @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime     @updatedAt @db.Timestamptz(3)
   user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
@@ -56,37 +56,37 @@ enum AddressLabel {
 }
 
 model Sitter {
-  id                String         @id @default(uuid())
-  userId            String         @unique
-  bio               String?
-  ratingAvg         Float          @default(0)
-  totalReviews      Int            @default(0)
-  backgroundChecked Boolean        @default(false)
-  lat               Float?
-  lng               Float?
-  createdAt         DateTime       @default(now())
+  id                 String          @id @default(uuid())
+  userId             String          @unique
+  bio                String?
+  ratingAvg          Float           @default(0)
+  totalReviews       Int             @default(0)
+  backgroundChecked  Boolean         @default(false)
+  lat                Float?
+  lng                Float?
+  createdAt          DateTime        @default(now()) @db.Timestamptz(3)
   // Hồ sơ đăng ký NCC (bước xác minh danh tính)
-  status            SitterStatus @default(PENDING)
-  legalName         String?
-  gender            Gender?
-  dateOfBirth       DateTime?
-  nationalId        String?        @unique
-  idIssuedPlace     String?
-  idIssuedDate      DateTime?
-  province          String?
-  addressDetail     String?
-  cccdFrontPath     String?
-  cccdBackPath      String?
-  submittedAt       DateTime?
+  status             SitterStatus    @default(PENDING)
+  legalName          String?
+  gender             Gender?
+  dateOfBirth        DateTime?       @db.Date
+  nationalId         String?         @unique
+  idIssuedPlace      String?
+  idIssuedDate       DateTime?       @db.Date
+  province           String?
+  addressDetail      String?
+  cccdFrontPath      String?
+  cccdBackPath       String?
+  submittedAt        DateTime?       @db.Timestamptz(3)
   serviceAddress     String?
   serviceAddressNote String?
   serviceRadiusKm    Int?
-  onboardedAt        DateTime? 
-  services          SitterService[]
-  bookings          Booking[]      @relation("SitterBookings")
-  photos            SitterPhoto[]
-  daysOff           SitterDayOff[]
-  user              User           @relation(fields: [userId], references: [id])
+  onboardedAt        DateTime?       @db.Timestamptz(3)
+  services           SitterService[]
+  bookings           Booking[]       @relation("SitterBookings")
+  photos             SitterPhoto[]
+  daysOff            SitterDayOff[]
+  user               User            @relation(fields: [userId], references: [id])
 }
 
 model SitterPhoto {
@@ -94,7 +94,7 @@ model SitterPhoto {
   sitterId  String
   url       String
   sortOrder Int      @default(0)
-  createdAt DateTime @default(now())
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
   sitter    Sitter   @relation(fields: [sitterId], references: [id], onDelete: Cascade)
 
   @@index([sitterId])
@@ -111,18 +111,43 @@ model SitterDayOff {
 }
 
 model SitterService {
-  id         String          @id @default(uuid())
-  sitterId String
-  type       ServiceType
-  enabled    Boolean         @default(false)
-  petKind    PetKind         @default(BOTH)
-  pricing    Json
-  createdAt  DateTime        @default(now())
-  updatedAt  DateTime        @updatedAt
-  sitter   Sitter @relation(fields: [sitterId], references: [id], onDelete: Cascade)
+  id        String      @id @default(uuid())
+  sitterId  String
+  type      ServiceType
+  enabled   Boolean     @default(false)
+  petKind   PetKind     @default(BOTH)
+  pricing   Json
+  createdAt DateTime    @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime    @updatedAt @db.Timestamptz(3)
+  sitter    Sitter      @relation(fields: [sitterId], references: [id], onDelete: Cascade)
 
   @@unique([sitterId, type])
   @@index([sitterId])
+}
+
+enum PetSpecies {
+  DOG
+  CAT
+}
+
+enum PetGender {
+  MALE
+  FEMALE
+}
+
+// Cách thực hiện hạng mục phòng bệnh
+enum PreventionForm {
+  VACCINE
+  ORAL
+  SPOT_ON
+  OTHER
+}
+
+// Đơn vị chu kỳ nhắc lại
+enum CycleUnit {
+  DAY
+  WEEK
+  MONTH
 }
 
 enum PetKind {
@@ -132,18 +157,83 @@ enum PetKind {
 }
 
 model Pet {
-  id        String    @id @default(uuid())
-  ownerId   String
-  name      String
-  species   String
-  breed     String?
-  ageMonths Int?
-  weight    Float?
-  notes     String?
-  avatarUrl String?
-  createdAt DateTime  @default(now())
-  bookings  BookingPet[]
-  owner     User      @relation(fields: [ownerId], references: [id])
+  id             String             @id @default(uuid())
+  ownerId        String
+  name           String
+  species        PetSpecies
+  breed          String
+  gender         PetGender
+  birthDate      DateTime?          @db.Date
+  weightKg       Float
+  isNeutered     Boolean            @default(false)
+  underTreatment Boolean            @default(false)
+  chronicDisease String?
+  medication     String?
+  careNote       String?
+  avatarUrl      String?
+  isActive       Boolean            @default(true)
+  createdAt      DateTime           @default(now()) @db.Timestamptz(3)
+  updatedAt      DateTime           @updatedAt @db.Timestamptz(3)
+  bookings       BookingPet[]
+  photos         PetPhoto[]
+  preventions    PreventionRecord[]
+  owner          User               @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  @@index([ownerId])
+}
+
+model PetPhoto {
+  id        String   @id @default(uuid())
+  petId     String
+  url       String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  pet       Pet      @relation(fields: [petId], references: [id], onDelete: Cascade)
+
+  @@index([petId])
+}
+
+// Một hạng mục phòng bệnh
+model PreventionRecord {
+  id                  String           @id @default(uuid())
+  petId               String
+  code                String
+  customName          String?
+  form                PreventionForm
+  isPeriodic          Boolean          @default(false)
+  suggestedCycleValue Int?
+  suggestedCycleUnit  CycleUnit?
+  createdAt           DateTime         @default(now()) @db.Timestamptz(3)
+  updatedAt           DateTime         @updatedAt @db.Timestamptz(3)
+  doses               PreventionDose[]
+  pet                 Pet              @relation(fields: [petId], references: [id], onDelete: Cascade)
+
+  @@index([petId])
+}
+
+model PreventionDose {
+  id         String                @id @default(uuid())
+  recordId   String
+  doneAt     DateTime              @db.Date
+  cycleValue Int?
+  cycleUnit  CycleUnit?
+  place      String?
+  createdAt  DateTime              @default(now()) @db.Timestamptz(3)
+  photos     PreventionDosePhoto[]
+  record     PreventionRecord      @relation(fields: [recordId], references: [id], onDelete: Cascade)
+
+  @@index([recordId])
+}
+
+// Ảnh phiếu hoặc hoá đơn của một lần thực hiện
+model PreventionDosePhoto {
+  id        String         @id @default(uuid())
+  doseId    String
+  url       String
+  createdAt DateTime       @default(now()) @db.Timestamptz(3)
+  dose      PreventionDose @relation(fields: [doseId], references: [id], onDelete: Cascade)
+
+  @@index([doseId])
 }
 
 model Service {
@@ -159,22 +249,22 @@ model Service {
 model Booking {
   id                 String            @id @default(uuid())
   ownerId            String
-  sitterId         String
+  sitterId           String
   serviceId          String
   status             BookingStatus     @default(PENDING)
-  scheduledAt        DateTime
-  startedAt          DateTime?
-  endedAt            DateTime?
+  scheduledAt        DateTime          @db.Timestamptz(3)
+  startedAt          DateTime?         @db.Timestamptz(3)
+  endedAt            DateTime?         @db.Timestamptz(3)
   totalPrice         Float?
   specialNotes       String?
   cancellationFee    Float?
   cancelledBy        String?
   cancellationReason String?
-  createdAt          DateTime          @default(now())
-  updatedAt          DateTime          @updatedAt
+  createdAt          DateTime          @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime          @updatedAt @db.Timestamptz(3)
   owner              User              @relation("OwnerBookings", fields: [ownerId], references: [id])
   pets               BookingPet[]
-  sitter           Sitter   @relation("SitterBookings", fields: [sitterId], references: [id])
+  sitter             Sitter            @relation("SitterBookings", fields: [sitterId], references: [id])
   service            Service           @relation(fields: [serviceId], references: [id])
   gpsReport          BookingGpsReport?
   locationTracks     LocationTrack[]
@@ -206,11 +296,11 @@ model SessionPhoto {
   aiConfidenceScore Float?
   aiPassed          Boolean?
   aiFailCount       Int?
-  ownerOverrideAt   DateTime?
+  ownerOverrideAt   DateTime?  @db.Timestamptz(3)
   ownerOverrideNote String?
-  ownerRejectedAt   DateTime?
-  overrideTimeoutAt DateTime?
-  takenAt           DateTime   @default(now())
+  ownerRejectedAt   DateTime?  @db.Timestamptz(3)
+  overrideTimeoutAt DateTime?  @db.Timestamptz(3)
+  takenAt           DateTime   @default(now()) @db.Timestamptz(3)
   booking           Booking    @relation(fields: [bookingId], references: [id])
 }
 
@@ -219,12 +309,12 @@ model LocationTrack {
   bookingId  String
   latitude   Float
   longitude  Float
-  clientTs   DateTime
-  serverTs   DateTime
+  clientTs   DateTime @db.Timestamptz(3)
+  serverTs   DateTime @db.Timestamptz(3)
   driftMs    Int?
   batchSeq   Int?
   isNoise    Boolean  @default(false)
-  recordedAt DateTime @default(now())
+  recordedAt DateTime @default(now()) @db.Timestamptz(3)
   booking    Booking  @relation(fields: [bookingId], references: [id])
 
   @@index([bookingId, clientTs])
@@ -242,7 +332,7 @@ model BookingGpsReport {
   suspicionScore   Float    @default(0)
   flaggedForReview Boolean  @default(false)
   suspicionNote    String?
-  createdAt        DateTime @default(now())
+  createdAt        DateTime @default(now()) @db.Timestamptz(3)
   booking          Booking  @relation(fields: [bookingId], references: [id])
 
   @@index([flaggedForReview])
@@ -255,7 +345,7 @@ model Review {
   reviewerId String
   rating     Int
   comment    String?
-  createdAt  DateTime @default(now())
+  createdAt  DateTime @default(now()) @db.Timestamptz(3)
   booking    Booking  @relation(fields: [bookingId], references: [id])
   reviewer   User     @relation(fields: [reviewerId], references: [id])
 }
@@ -268,7 +358,7 @@ model ViolationReport {
   evidenceUrls Json?
   status       ReportStatus @default(OPEN)
   adminNote    String?
-  createdAt    DateTime     @default(now())
+  createdAt    DateTime     @default(now()) @db.Timestamptz(3)
   booking      Booking      @relation(fields: [bookingId], references: [id])
   reporter     User         @relation(fields: [reporterId], references: [id])
 }
@@ -280,7 +370,7 @@ model Message {
   role      String // OWNER | PROVIDER
   text      String
   isRead    Boolean  @default(false)
-  createdAt DateTime @default(now())
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
   booking   Booking  @relation(fields: [bookingId], references: [id])
   sender    User     @relation(fields: [senderId], references: [id])
 
