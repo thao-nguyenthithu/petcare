@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { PrismaService } from '../../prisma/prisma.service';
+import { kiemTraAnh } from '../media/image-upload';
 import { SupabaseService } from '../media/supabase.service';
 import { UpdateSitterMeDto } from './dto/update-sitter-me.dto';
 
@@ -43,7 +44,7 @@ export class SitterMeService {
     return this.prisma.sitterPhoto.findMany({
       where: { sitterId },
       orderBy: [{ sortOrder: 'asc' }, { createdAt: 'asc' }],
-      select: { id: true, url: true, sortOrder: true },
+      select: { id: true, url: true, sortOrder: true, createdAt: true },
     });
   }
 
@@ -121,13 +122,9 @@ export class SitterMeService {
       });
     }
     await this.supabase.ensurePublicBucket(BUCKET);
-    const path = `avatars/${randomUUID()}.jpg`;
-    await this.supabase.uploadFile(
-      BUCKET,
-      path,
-      file.buffer,
-      file.mimetype || 'image/jpeg',
-    );
+    const kieu = kiemTraAnh(file);
+    const path = `avatars/${randomUUID()}.${kieu.duoi}`;
+    await this.supabase.uploadFile(BUCKET, path, file.buffer, kieu.contentType);
     const url = this.supabase.getPublicUrl(BUCKET, path);
     await this.prisma.user.update({
       where: { id: userId },
@@ -159,13 +156,9 @@ export class SitterMeService {
     const taoMoi: { sitterId: string; url: string; sortOrder: number }[] = [];
     for (const f of files) {
       if (!f?.buffer) continue;
-      const path = `photos/${randomUUID()}.jpg`;
-      await this.supabase.uploadFile(
-        BUCKET,
-        path,
-        f.buffer,
-        f.mimetype || 'image/jpeg',
-      );
+      const kieu = kiemTraAnh(f);
+      const path = `photos/${randomUUID()}.${kieu.duoi}`;
+      await this.supabase.uploadFile(BUCKET, path, f.buffer, kieu.contentType);
       const url = this.supabase.getPublicUrl(BUCKET, path);
       taoMoi.push({ sitterId: ncc.id, url, sortOrder: thuTu++ });
     }
@@ -175,7 +168,7 @@ export class SitterMeService {
     return this.layAnh(ncc.id);
   }
 
-  // DELETE /sitter/profile/photos xoá 1 hoặc nhiều ảnh 
+  // DELETE /sitter/profile/photos xoá 1 hoặc nhiều ảnh
   async deletePhotos(userId: string, ids: string[]) {
     const ncc = await this.layNcc(userId);
     // Chỉ xoá ảnh thuộc về NCC hiện tại
@@ -188,8 +181,7 @@ export class SitterMeService {
       if (path) {
         try {
           await this.supabase.deleteFile(BUCKET, path);
-        } catch {
-        }
+        } catch {}
       }
     }
     await this.prisma.sitterPhoto.deleteMany({
