@@ -14,9 +14,10 @@ class SitterServicesNotifier extends AsyncNotifier<SitterServices> {
   Future<SitterServices> build() => _api.getServices();
 
   Future<void> _luu(SitterServices moi) async {
-    state = AsyncData(moi);
+    final chuan = moi.chuanHoa;
+    state = AsyncData(chuan);
     try {
-      await _api.updateServices(moi);
+      await _api.updateServices(chuan);
     } catch (_) {
       ref.invalidateSelf();
     }

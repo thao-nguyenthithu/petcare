@@ -16,6 +16,26 @@ enum WeightTier { duoi5, tu5den10, tu10den20, tren20 }
 // Gói grooming: chỉ tắm / tắm và cắt tỉa
 enum GroomingPackage { bath, bathAndTrim }
 
+const groomingPhutToiThieu = 30;
+const groomingPhutToiDa = 240;
+const groomingPhutBuoc = 15;
+
+// Thời lượng gợi ý
+const groomingPhutGoiY = {
+  GroomingPackage.bath: {
+    WeightTier.duoi5: 60,
+    WeightTier.tu5den10: 75,
+    WeightTier.tu10den20: 90,
+    WeightTier.tren20: 120,
+  },
+  GroomingPackage.bathAndTrim: {
+    WeightTier.duoi5: 90,
+    WeightTier.tu5den10: 120,
+    WeightTier.tu10den20: 150,
+    WeightTier.tren20: 180,
+  },
+};
+
 // Thời lượng của một lượt dắt NCC bắt buộc báo giá đủ cả hai mức
 const walkingDurations = [30, 60];
 
@@ -143,17 +163,45 @@ class BoardingConfig {
   bool get configured => pricePerDay != null && capacity != null;
 }
 
-// Grooming tại nhà
+// Bảng số theo gói và mức cân
+Map<GroomingPackage, Map<WeightTier, int>> _bangTheoGoi(Object? raw) {
+  final nguon = (raw as Map?) ?? const {};
+  final bang = <GroomingPackage, Map<WeightTier, int>>{};
+  for (final goi in GroomingPackage.values) {
+    final tiers = nguon[goi.name] as Map?;
+    if (tiers == null) continue;
+    final m = <WeightTier, int>{};
+    for (final muc in WeightTier.values) {
+      final so = _toInt(tiers[muc.name]);
+      if (so != null) m[muc] = so;
+    }
+    if (m.isNotEmpty) bang[goi] = m;
+  }
+  return bang;
+}
+
+Map<String, dynamic> _bangRaJson(Map<GroomingPackage, Map<WeightTier, int>> b) {
+  return {
+    for (final goi in b.entries)
+      goi.key.name: {
+        for (final muc in goi.value.entries) muc.key.name: muc.value,
+      },
+  };
+}
+
+// Grooming tại nhà. Giá và thời lượng đi cặp
 class GroomingConfig {
   final bool enabled;
   final PetKind petKind;
   final Map<GroomingPackage, Map<WeightTier, int>> priceByPackage;
+  final Map<GroomingPackage, Map<WeightTier, int>> durationByPackage;
   final int? maxPets;
 
   const GroomingConfig({
     this.enabled = false,
     this.petKind = PetKind.both,
     this.priceByPackage = const {},
+    this.durationByPackage = const {},
     this.maxPets,
   });
 
@@ -161,48 +209,45 @@ class GroomingConfig {
     bool? enabled,
     PetKind? petKind,
     Map<GroomingPackage, Map<WeightTier, int>>? priceByPackage,
+    Map<GroomingPackage, Map<WeightTier, int>>? durationByPackage,
     int? maxPets,
   }) => GroomingConfig(
     enabled: enabled ?? this.enabled,
     petKind: petKind ?? this.petKind,
     priceByPackage: priceByPackage ?? this.priceByPackage,
+    durationByPackage: durationByPackage ?? this.durationByPackage,
     maxPets: maxPets ?? this.maxPets,
   );
 
   Map<String, dynamic> toJson() => {
     'enabled': enabled,
     'petKind': petKind.name,
-    'priceByPackage': {
-      for (final goi in priceByPackage.entries)
-        goi.key.name: {
-          for (final muc in goi.value.entries) muc.key.name: muc.value,
-        },
-    },
+    'priceByPackage': _bangRaJson(priceByPackage),
+    'durationByPackage': _bangRaJson(durationByPackage),
     'maxPets': maxPets,
   };
 
-  factory GroomingConfig.fromJson(Map<String, dynamic> j) {
-    final raw = (j['priceByPackage'] as Map?) ?? const {};
-    final bang = <GroomingPackage, Map<WeightTier, int>>{};
-    for (final goi in GroomingPackage.values) {
-      final tiers = raw[goi.name] as Map?;
-      if (tiers == null) continue;
-      final m = <WeightTier, int>{};
-      for (final muc in WeightTier.values) {
-        final p = _toInt(tiers[muc.name]);
-        if (p != null) m[muc] = p;
-      }
-      if (m.isNotEmpty) bang[goi] = m;
-    }
-    return GroomingConfig(
-      enabled: j['enabled'] as bool? ?? false,
-      petKind: _petKind(j['petKind']),
-      priceByPackage: bang,
-      maxPets: _toInt(j['maxPets']),
-    );
-  }
+  factory GroomingConfig.fromJson(Map<String, dynamic> j) => GroomingConfig(
+    enabled: j['enabled'] as bool? ?? false,
+    petKind: _petKind(j['petKind']),
+    priceByPackage: _bangTheoGoi(j['priceByPackage']),
+    durationByPackage: _bangTheoGoi(j['durationByPackage']),
+    maxPets: _toInt(j['maxPets']),
+  );
 
-  bool get configured => priceByPackage.isNotEmpty;
+  int? phutCua(GroomingPackage goi, WeightTier muc) =>
+      durationByPackage[goi]?[muc];
+
+  bool get configured {
+    if (priceByPackage.isEmpty) return false;
+    for (final e in priceByPackage.entries) {
+      if (e.value.isEmpty) return false;
+      for (final muc in e.value.keys) {
+        if (phutCua(e.key, muc) == null) return false;
+      }
+    }
+    return true;
+  }
 
   int? get lowestPrice {
     final all = priceByPackage.values.expand((b) => b.values);
@@ -242,6 +287,16 @@ class SitterServices {
 
   // Có ít nhất một loại đang bật nhận đơn
   bool get anyEnabled => ServiceType.values.any(isEnabled);
+
+  SitterServices get chuanHoa => SitterServices(
+    walking: walking.copyWith(enabled: walking.enabled && walking.configured),
+    boarding: boarding.copyWith(
+      enabled: boarding.enabled && boarding.configured,
+    ),
+    grooming: grooming.copyWith(
+      enabled: grooming.enabled && grooming.configured,
+    ),
+  );
 
   SitterServices copyWith({
     WalkingConfig? walking,

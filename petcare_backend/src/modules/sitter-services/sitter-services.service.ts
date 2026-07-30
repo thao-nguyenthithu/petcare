@@ -5,13 +5,28 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { UpdateServiceAreaDto } from './dto/update-service-area.dto';
-import { UpdateServicesDto } from './dto/update-services.dto';
+import {
+  GroomingConfigDto,
+  UpdateServicesDto,
+} from './dto/update-services.dto';
 
 type PetKindDb = 'DOG' | 'CAT' | 'BOTH';
 type ServiceTypeDb = 'WALKING' | 'BOARDING' | 'GROOMING';
+type BangSo = Record<string, Record<string, number>>;
 
 // Mức thời lượng một lượt dắt
 const WALKING_DURATIONS = [30, 60];
+
+// Khoá hợp lệ của bảng giá grooming
+const GROOMING_PACKAGES = ['bath', 'bathAndTrim'];
+const WEIGHT_TIERS = ['duoi5', 'tu5den10', 'tu10den20', 'tren20'];
+const GROOMING_PHUT_TOI_THIEU = 30;
+const GROOMING_PHUT_TOI_DA = 240;
+const GROOMING_PHUT_BUOC = 15;
+
+function loi(code: string, message: string): never {
+  throw new BadRequestException({ code, message });
+}
 
 function toDbPetKind(s?: string): PetKindDb {
   switch (s) {
@@ -97,16 +112,20 @@ export class SitterServicesService {
       );
     }
     if (dto.grooming) {
+      const bang = this.chuanHoaGrooming(dto.grooming);
+      if (
+        dto.grooming.enabled &&
+        Object.keys(bang.priceByPackage).length === 0
+      ) {
+        loi('THIEU_BANG_GIA', 'Chưa cấu hình bảng giá cho grooming');
+      }
       jobs.push(
         this.upsertLoai(
           ncc.id,
           'GROOMING',
           dto.grooming.enabled,
           dto.grooming.petKind,
-          {
-            priceByPackage: dto.grooming.priceByPackage ?? {},
-            maxPets: dto.grooming.maxPets ?? null,
-          },
+          { ...bang, maxPets: dto.grooming.maxPets ?? null },
         ),
       );
     }
@@ -114,11 +133,53 @@ export class SitterServicesService {
     return this.getServices(userId);
   }
 
+  private chuanHoaGrooming(dto: GroomingConfigDto) {
+    const gia = dto.priceByPackage ?? {};
+    const phut = dto.durationByPackage ?? {};
+    const priceByPackage: BangSo = {};
+    const durationByPackage: BangSo = {};
+    for (const goi of GROOMING_PACKAGES) {
+      const giaGoi = gia[goi];
+      if (!giaGoi || typeof giaGoi !== 'object') continue;
+      const phutGoi = phut[goi] ?? {};
+      const mucGia: Record<string, number> = {};
+      const mucPhut: Record<string, number> = {};
+      for (const muc of WEIGHT_TIERS) {
+        const tien = giaGoi[muc];
+        if (tien === undefined || tien === null) continue;
+        if (!Number.isInteger(tien) || tien <= 0) {
+          loi('GIA_KHONG_HOP_LE', `Giá của mức ${muc} phải là số nguyên dương`);
+        }
+        mucGia[muc] = tien;
+        const so = phutGoi[muc];
+        if (so === undefined || so === null) {
+          if (dto.enabled) {
+            loi('THIEU_THOI_LUONG', `Chưa nhập thời lượng cho mức ${muc}`);
+          }
+          continue;
+        }
+        if (
+          !Number.isInteger(so) ||
+          so < GROOMING_PHUT_TOI_THIEU ||
+          so > GROOMING_PHUT_TOI_DA ||
+          so % GROOMING_PHUT_BUOC !== 0
+        ) {
+          loi(
+            'THOI_LUONG_KHONG_HOP_LE',
+            `Thời lượng phải từ ${GROOMING_PHUT_TOI_THIEU} đến ${GROOMING_PHUT_TOI_DA} phút, bước ${GROOMING_PHUT_BUOC} phút`,
+          );
+        }
+        mucPhut[muc] = so;
+      }
+      if (Object.keys(mucGia).length === 0) continue;
+      priceByPackage[goi] = mucGia;
+      durationByPackage[goi] = mucPhut;
+    }
+    return { priceByPackage, durationByPackage };
+  }
+
   // Validate luật giá phía server
   private kiemTraCauHinh(dto: UpdateServicesDto) {
-    const loi = (code: string, message: string): never => {
-      throw new BadRequestException({ code, message });
-    };
     const kiemTraMaxPets = (maxPets?: number, capacity?: number | null) => {
       if (maxPets == null || maxPets < 1) {
         loi(
@@ -164,10 +225,6 @@ export class SitterServicesService {
       kiemTraPhuPhi(dto.boarding.additionalPetFee, dto.boarding.maxPets);
     }
     if (dto.grooming?.enabled) {
-      const goi = dto.grooming.priceByPackage ?? {};
-      if (Object.keys(goi).length === 0) {
-        loi('THIEU_BANG_GIA', 'Chưa cấu hình bảng giá cho grooming');
-      }
       kiemTraMaxPets(dto.grooming.maxPets);
     }
   }

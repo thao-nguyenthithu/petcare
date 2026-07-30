@@ -69,16 +69,21 @@ class BoardingConfigDto {
 }
 
 // Cấu hình grooming
-class GroomingConfigDto {
+export class GroomingConfigDto {
   @IsBoolean()
   enabled!: boolean;
 
   @IsIn(PET_KINDS)
   petKind!: string;
 
+  // Gói -> mức cân -> giá mỗi bé
   @IsOptional()
   @IsObject()
   priceByPackage?: Record<string, Record<string, number>>;
+
+  @IsOptional()
+  @IsObject()
+  durationByPackage?: Record<string, Record<string, number>>;
 
   // Grooming tính theo từng bé
   @IsOptional()

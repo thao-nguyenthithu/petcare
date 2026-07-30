@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
-import 'package:petcare_app/core/theme/app_colors.dart';
-import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
+import 'package:petcare_app/features/sitter/data/grooming_form.dart';
 import 'package:petcare_app/features/sitter/data/service_summary.dart';
 import 'package:petcare_app/features/sitter/data/sitter_services.dart';
-import 'package:petcare_app/features/sitter/widgets/services/weight_price_row.dart';
+import 'package:petcare_app/features/sitter/widgets/services/choice_pill_row.dart';
+import 'package:petcare_app/features/sitter/widgets/services/grooming_fields.dart';
 import 'package:petcare_app/shared/utils/money_format.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
@@ -22,19 +22,6 @@ const _banPhimSo = TextInputType.numberWithOptions(
 
 const _hintGiaLuot = {30: '50.000', 60: '80.000'};
 const _hintGiaNgay = '200.000';
-const _hintGiaTheoCan = {
-  WeightTier.duoi5: '150.000',
-  WeightTier.tu5den10: '220.000',
-  WeightTier.tu10den20: '300.000',
-  WeightTier.tren20: '400.000',
-};
-
-String _nhanMucCan(BuildContext context, WeightTier muc) => switch (muc) {
-  WeightTier.duoi5 => context.l10n.duoi5kg,
-  WeightTier.tu5den10 => context.l10n.tu5den10kg,
-  WeightTier.tu10den20 => context.l10n.tu10den20kg,
-  WeightTier.tren20 => context.l10n.tren20kg,
-};
 
 // Màn cấu hình 1 loại dịch vụ
 class ServiceFormScreen extends StatefulWidget {
@@ -72,21 +59,18 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
   final _sucChuaFocus = FocusNode();
   final _phuPhiFocus = FocusNode();
   final _maxPetsFocus = FocusNode();
-
-  late Set<GroomingPackage> _goiNhan;
-  final _giaGoi = {
-    for (final goi in GroomingPackage.values)
-      goi: {for (final m in WeightTier.values) m: TextEditingController()},
-  };
-  late Map<GroomingPackage, Set<WeightTier>> _mucNhan;
+  late final GroomingForm _grooming;
 
   bool _dirty = false;
   bool _autoValidate = false;
 
   ServiceType get _type => widget.type;
 
+  bool get _laGrooming => _type == ServiceType.grooming;
+
   void _markDirty() {
-    if (!_dirty) setState(() => _dirty = true);
+    if (_dirty && !_autoValidate) return;
+    setState(() => _dirty = true);
   }
 
   void _doiLoai(PetKind loai) => setState(() {
@@ -122,29 +106,16 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
       case ServiceType.grooming:
         final c = widget.services.grooming;
         _loai = c.petKind;
-        _goiNhan = c.priceByPackage.keys.toSet();
-        _mucNhan = {
-          for (final goi in GroomingPackage.values)
-            goi: c.priceByPackage[goi]?.keys.toSet() ?? {},
-        };
-        for (final goi in c.priceByPackage.keys) {
-          for (final e in c.priceByPackage[goi]!.entries) {
-            _giaGoi[goi]?[e.key]?.text = dinhDangTien(e.value);
-          }
-        }
+        _grooming = GroomingForm.from(c);
+        _grooming.addListener(_markDirty);
         if (c.maxPets != null) _maxPetsController.text = '${c.maxPets}';
     }
-    _goiNhan = _type == ServiceType.grooming ? _goiNhan : <GroomingPackage>{};
-    _mucNhan = _type == ServiceType.grooming
-        ? _mucNhan
-        : {for (final g in GroomingPackage.values) g: <WeightTier>{}};
     for (final c in [
       ..._giaLuot.values,
       _giaNgayController,
       _sucChuaController,
       _phuPhiController,
       _maxPetsController,
-      for (final bang in _giaGoi.values) ...bang.values,
     ]) {
       c.addListener(_markDirty);
     }
@@ -166,11 +137,7 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
     _sucChuaFocus.dispose();
     _phuPhiFocus.dispose();
     _maxPetsFocus.dispose();
-    for (final bang in _giaGoi.values) {
-      for (final c in bang.values) {
-        c.dispose();
-      }
-    }
+    if (_laGrooming) _grooming.dispose();
     super.dispose();
   }
 
@@ -188,21 +155,46 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
     PricingError.phuPhiThuaBe => context.l10n.loiPhuPhiCanNhieuBe,
   };
 
-  String? _vMaxPets(String? v) => _thongBao(
-    loiSoBeToiDa(
-      int.tryParse(v ?? ''),
-      capacity: _type == ServiceType.boarding
-          ? int.tryParse(_sucChuaController.text)
-          : null,
-    ),
-  );
+  int? get _sucChua => _type == ServiceType.boarding
+      ? int.tryParse(_sucChuaController.text)
+      : null;
+
+  String? _vMaxPets(String? v) =>
+      _thongBao(loiSoBeToiDa(int.tryParse(v ?? ''), capacity: _sucChua));
 
   String? _vPhuPhi(String? v) => _thongBao(
     loiPhuPhiBeThem(docSoTien(v ?? ''), int.tryParse(_maxPetsController.text)),
   );
 
+  bool get _hopLe {
+    final maxPets = int.tryParse(_maxPetsController.text);
+    final phuPhi = docSoTien(_phuPhiController.text);
+    switch (_type) {
+      case ServiceType.walking:
+        return walkingDurations.every(
+              (phut) => docSoTien(_giaLuot[phut]!.text) != null,
+            ) &&
+            loiPhuPhiBeThem(phuPhi, maxPets) == null &&
+            loiSoBeToiDa(maxPets) == null;
+      case ServiceType.boarding:
+        return docSoTien(_giaNgayController.text) != null &&
+            _sucChua != null &&
+            loiPhuPhiBeThem(phuPhi, maxPets) == null &&
+            loiSoBeToiDa(maxPets, capacity: _sucChua) == null;
+      case ServiceType.grooming:
+        return _grooming.hopLe && loiSoBeToiDa(maxPets) == null;
+    }
+  }
+
   // Focus vào ô lỗi đầu tiên theo thứ tự hiển thị
   void _focusDauLoi() {
+    if (_laGrooming) {
+      final o = _grooming.oLoiDauTien;
+      if (o != null) {
+        o.requestFocus();
+        return;
+      }
+    }
     final List<(String?, FocusNode)> ds = switch (_type) {
       ServiceType.walking => [
         for (final phut in walkingDurations)
@@ -247,57 +239,40 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
   }
 
   void _luu() {
-    if (!_autoValidate) setState(() => _autoValidate = true);
-    // Toàn bộ validation inline qua Form lỗi thì focus ô lỗi đầu tiên
-    if (!(_formKey.currentState?.validate() ?? true)) {
+    setState(() => _autoValidate = true);
+    final formOk = _formKey.currentState?.validate() ?? true;
+    if (!formOk || !_hopLe) {
       _focusDauLoi();
       return;
     }
-    final SitterServices ketQua;
-    switch (_type) {
-      case ServiceType.walking:
-        ketQua = widget.services.copyWith(
-          walking: WalkingConfig(
-            enabled: true,
-            petKind: _loai,
-            priceByDuration: {
-              for (final phut in walkingDurations)
-                phut: ?docSoTien(_giaLuot[phut]!.text),
-            },
-            additionalPetFee: docSoTien(_phuPhiController.text),
-            maxPets: int.tryParse(_maxPetsController.text),
-          ),
-        );
-      case ServiceType.boarding:
-        ketQua = widget.services.copyWith(
-          boarding: BoardingConfig(
-            enabled: true,
-            petKind: _loai,
-            pricePerDay: docSoTien(_giaNgayController.text),
-            capacity: docSoTien(_sucChuaController.text),
-            additionalPetFee: docSoTien(_phuPhiController.text),
-            maxPets: int.tryParse(_maxPetsController.text),
-          ),
-        );
-      case ServiceType.grooming:
-        final bangGoi = <GroomingPackage, Map<WeightTier, int>>{};
-        for (final goi in _goiNhan) {
-          final bang = <WeightTier, int>{};
-          for (final muc in _mucNhan[goi] ?? <WeightTier>{}) {
-            final gia = docSoTien(_giaGoi[goi]![muc]!.text);
-            if (gia != null) bang[muc] = gia;
-          }
-          bangGoi[goi] = bang;
-        }
-        ketQua = widget.services.copyWith(
-          grooming: GroomingConfig(
-            enabled: true,
-            petKind: _loai,
-            priceByPackage: bangGoi,
-            maxPets: int.tryParse(_maxPetsController.text),
-          ),
-        );
-    }
+    final maxPets = int.tryParse(_maxPetsController.text);
+    final SitterServices ketQua = switch (_type) {
+      ServiceType.walking => widget.services.copyWith(
+        walking: WalkingConfig(
+          enabled: true,
+          petKind: _loai,
+          priceByDuration: {
+            for (final phut in walkingDurations)
+              phut: ?docSoTien(_giaLuot[phut]!.text),
+          },
+          additionalPetFee: docSoTien(_phuPhiController.text),
+          maxPets: maxPets,
+        ),
+      ),
+      ServiceType.boarding => widget.services.copyWith(
+        boarding: BoardingConfig(
+          enabled: true,
+          petKind: _loai,
+          pricePerDay: docSoTien(_giaNgayController.text),
+          capacity: _sucChua,
+          additionalPetFee: docSoTien(_phuPhiController.text),
+          maxPets: maxPets,
+        ),
+      ),
+      ServiceType.grooming => widget.services.copyWith(
+        grooming: _grooming.toConfig(petKind: _loai, maxPets: maxPets),
+      ),
+    };
     context.pop(ketQua);
   }
 
@@ -341,27 +316,16 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
                     const SizedBox(height: 8),
                     Text(_moTa(), style: AppTextStyles.caption),
                     const SizedBox(height: 20),
-                    _nhan(l10n.nhanLoai),
+                    Text(l10n.nhanLoai, style: AppTextStyles.label),
                     const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        _chon(
-                          l10n.cho,
-                          _loai == PetKind.dog,
-                          () => _doiLoai(PetKind.dog),
-                        ),
-                        const SizedBox(width: 10),
-                        _chon(
-                          l10n.meo,
-                          _loai == PetKind.cat,
-                          () => _doiLoai(PetKind.cat),
-                        ),
-                        const SizedBox(width: 10),
-                        _chon(
-                          l10n.caHai,
-                          _loai == PetKind.both,
-                          () => _doiLoai(PetKind.both),
-                        ),
+                    ChoicePillRow(
+                      items: [
+                        for (final kind in PetKind.values)
+                          (
+                            nhan: petKindLabel(context, kind),
+                            chon: _loai == kind,
+                            onTap: () => _doiLoai(kind),
+                          ),
                       ],
                     ),
                     const SizedBox(height: 8),
@@ -369,7 +333,12 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
                     const SizedBox(height: 20),
                     ..._truongTheoLoai(),
                     const SizedBox(height: 28),
-                    AppButton(text: l10n.luuDichVu, height: 56, onTap: _luu),
+                    AppButton(
+                      text: l10n.luuDichVu,
+                      height: 56,
+                      enabled: !_autoValidate || _hopLe,
+                      onTap: _luu,
+                    ),
                     const SizedBox(height: 24),
                   ],
                 ),
@@ -381,23 +350,12 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
     );
   }
 
-  // Nút chọn dạng viên thuốc
-  Widget _chon(String nhan, bool chon, VoidCallback onTap) => Expanded(
-    child: AppButton(
-      text: nhan,
-      height: 40,
-      radius: AppRadius.radius20,
-      outlined: !chon,
-      onTap: onTap,
-    ),
-  );
-
   List<Widget> _truongTheoLoai() {
     final l10n = context.l10n;
     switch (_type) {
       case ServiceType.walking:
         return [
-          _nhan(l10n.bangGiaThoiLuong),
+          Text(l10n.bangGiaThoiLuong, style: AppTextStyles.label),
           for (final phut in walkingDurations) ...[
             const SizedBox(height: 12),
             AppTextField(
@@ -458,117 +416,15 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
         ];
       case ServiceType.grooming:
         return [
-          _nhan(l10n.goiNayGom),
-          const SizedBox(height: 12),
-          FormField<bool>(
-            validator: (_) => _goiNhan.isEmpty ? l10n.chonItNhatMotGoi : null,
-            builder: (state) => Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  children: [
-                    _chon(
-                      l10n.chiTam,
-                      _goiNhan.contains(GroomingPackage.bath),
-                      () => _doiGoi(GroomingPackage.bath),
-                    ),
-                    const SizedBox(width: 10),
-                    _chon(
-                      l10n.tamVaCatTia,
-                      _goiNhan.contains(GroomingPackage.bathAndTrim),
-                      () => _doiGoi(GroomingPackage.bathAndTrim),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  state.hasError ? state.errorText! : l10n.chonGoiBanCungCap,
-                  style: AppTextStyles.captionSm.copyWith(
-                    color: state.hasError ? AppColors.error : null,
-                  ),
-                ),
-              ],
-            ),
+          GroomingFields(
+            form: _grooming,
+            hienLoi: _autoValidate,
+            onChanged: () => setState(() => _dirty = true),
           ),
-          for (final goi in GroomingPackage.values)
-            if (_goiNhan.contains(goi)) ..._bangGiaGoi(goi),
-          const SizedBox(height: 20),
+          const SizedBox(height: 30),
           _maxPetsField(),
         ];
     }
-  }
-
-  void _doiGoi(GroomingPackage goi) {
-    setState(() {
-      _dirty = true;
-      if (_goiNhan.contains(goi)) {
-        _goiNhan.remove(goi);
-      } else {
-        _goiNhan.add(goi);
-        // Gói mới bật thì mặc định nhận đủ 4 mức cân
-        _mucNhan[goi] = WeightTier.values.toSet();
-      }
-    });
-  }
-
-  List<Widget> _bangGiaGoi(GroomingPackage goi) {
-    final l10n = context.l10n;
-    final tenGoi = goi == GroomingPackage.bath ? l10n.chiTam : l10n.tamVaCatTia;
-    final mucs = _mucNhan[goi] ?? {};
-    return [
-      const SizedBox(height: 20),
-      FormField<void>(
-        validator: (_) {
-          final ms = _mucNhan[goi] ?? {};
-          if (ms.isEmpty) return l10n.chonItNhatMotMucCan;
-          for (final muc in ms) {
-            if (docSoTien(_giaGoi[goi]![muc]!.text) == null) {
-              return l10n.khongDuocDeTrong;
-            }
-          }
-          return null;
-        },
-        builder: (state) => Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              children: [
-                _nhan('${l10n.bangGiaCanNang} · $tenGoi'),
-                const Spacer(),
-                Text(l10n.donGiaBe, style: AppTextStyles.captionSm),
-              ],
-            ),
-            const SizedBox(height: 12),
-            for (final muc in WeightTier.values) ...[
-              if (muc != WeightTier.values.first) const SizedBox(height: 8),
-              WeightPriceRow(
-                label: _nhanMucCan(context, muc),
-                hint: _hintGiaTheoCan[muc]!,
-                controller: _giaGoi[goi]![muc]!,
-                selected: mucs.contains(muc),
-                onToggle: (bat) => setState(() {
-                  _dirty = true;
-                  if (bat) {
-                    mucs.add(muc);
-                  } else {
-                    mucs.remove(muc);
-                    _giaGoi[goi]![muc]!.clear();
-                  }
-                  _mucNhan[goi] = mucs;
-                }),
-              ),
-            ],
-            if (state.hasError) ...[
-              const SizedBox(height: 8),
-              Text(
-                state.errorText!,
-                style: AppTextStyles.captionSm.copyWith(color: AppColors.error),
-              ),
-            ],
-          ],
-        ),
-      ),
-    ];
   }
 
   // Ô nhập phụ phí mỗi bé thêm
@@ -612,9 +468,4 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
       ],
     );
   }
-
-  Widget _nhan(String text) => Text(
-    text,
-    style: AppTextStyles.label.copyWith(color: AppColors.textPrimary),
-  );
 }
