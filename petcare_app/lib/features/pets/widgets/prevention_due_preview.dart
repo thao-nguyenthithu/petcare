@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
-import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/vn_date.dart';
+import 'package:petcare_app/shared/widgets/app_card.dart';
 
 // Ô chỉ đọc hiện ngày tới hạn mũi kế tiếp
 class PreventionDuePreview extends StatelessWidget {
@@ -23,13 +23,10 @@ class PreventionDuePreview extends StatelessWidget {
           style: AppTextStyles.label.copyWith(color: AppColors.textSecondary),
         ),
         const SizedBox(height: AppSpacing.labelGap),
-        Container(
+        AppCard(
           width: double.infinity,
-          padding: const EdgeInsets.all(AppSpacing.cardPadding),
-          decoration: BoxDecoration(
-            color: AppColors.cardMint,
-            borderRadius: BorderRadius.circular(AppRadius.radius14),
-          ),
+          nen: AppColors.cardMint,
+          vien: false,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

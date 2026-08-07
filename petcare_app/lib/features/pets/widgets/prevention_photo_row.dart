@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
-import 'package:petcare_app/features/pets/widgets/dashed_border.dart';
+import 'package:petcare_app/shared/widgets/dashed_border.dart';
 import 'package:petcare_app/shared/widgets/photo_viewer.dart';
 
 const int maxPreventionPhotos = 5;

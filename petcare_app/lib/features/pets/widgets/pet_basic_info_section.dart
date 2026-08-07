@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/pets/data/pet.dart';
+import 'package:petcare_app/shared/data/pet.dart';
 import 'package:petcare_app/features/pets/widgets/icon_option_row.dart';
 import 'package:petcare_app/shared/widgets/app_text_field.dart';
 import 'package:petcare_app/shared/widgets/app_note_box.dart';

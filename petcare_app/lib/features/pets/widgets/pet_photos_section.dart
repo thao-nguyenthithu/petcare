@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/pets/data/pet.dart';
+import 'package:petcare_app/shared/data/pet.dart';
 import 'package:petcare_app/features/pets/widgets/pet_photo_strip.dart';
 import 'package:petcare_app/shared/widgets/app_note_box.dart';
 
@@ -30,9 +30,7 @@ class PetPhotosSection extends StatelessWidget {
             Expanded(child: Text(l10n.anhCuaBe, style: AppTextStyles.h3)),
             Text(
               l10n.soAnhTrenToiDa('${anh.length}', '$maxPetPhotos'),
-              style: AppTextStyles.captionSm.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+              style: AppTextStyles.label,
             ),
           ],
         ),

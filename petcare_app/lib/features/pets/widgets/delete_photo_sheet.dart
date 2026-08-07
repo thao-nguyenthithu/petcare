@@ -5,7 +5,7 @@ import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/vn_date.dart';
-import 'package:petcare_app/features/pets/data/pet.dart';
+import 'package:petcare_app/shared/data/pet.dart';
 import 'package:petcare_app/shared/widgets/photo_item.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 

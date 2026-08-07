@@ -4,12 +4,11 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/pets/data/pet.dart';
-import 'package:petcare_app/features/pets/data/pet_summary.dart';
+import 'package:petcare_app/shared/data/pet.dart';
+import 'package:petcare_app/shared/data/pet_summary.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
+import 'package:petcare_app/shared/widgets/app_note_box.dart';
 import 'package:petcare_app/shared/widgets/pet_avatar.dart';
-
-const _nenCanhBao = Color(0xFFFCECE3);
 
 // Hỏi trước khi xoá hồ sơ một bé
 Future<bool> showDeletePetSheet(BuildContext context, Pet pet) async {
@@ -106,7 +105,7 @@ class _KhoiMatDuLieu extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.cardPadding),
       decoration: BoxDecoration(
-        color: _nenCanhBao,
+        color: nenCanhBao,
         borderRadius: BorderRadius.circular(AppRadius.radius14),
       ),
       child: Column(

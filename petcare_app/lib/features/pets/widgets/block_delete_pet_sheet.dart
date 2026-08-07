@@ -4,10 +4,11 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/pets/data/pet.dart';
+import 'package:petcare_app/shared/data/pet.dart';
 import 'package:petcare_app/features/pets/widgets/delete_pet_sheet.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/user_avatar.dart';
+import 'package:petcare_app/shared/widgets/app_card.dart';
 
 // Chủ nuôi bấm xoá nhưng bé còn đơn chưa kết thúc
 Future<bool> showBlockDeletePetSheet(
@@ -86,12 +87,9 @@ class _TheDon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(AppSpacing.cardPadding),
-      decoration: BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.circular(AppRadius.radius14),
-      ),
+    return AppCard(
+      nen: AppColors.background,
+      vien: false,
       child: Row(
         children: [
           Expanded(

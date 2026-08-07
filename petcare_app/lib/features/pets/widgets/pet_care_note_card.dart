@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
-import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
+import 'package:petcare_app/shared/widgets/app_card.dart';
 
 // Khối Lưu ý chăm sóc ở màn hồ sơ bé
 class PetCareNoteCard extends StatelessWidget {
@@ -19,13 +19,10 @@ class PetCareNoteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AppCard(
       width: double.infinity,
-      padding: const EdgeInsets.all(AppSpacing.cardPadding),
-      decoration: BoxDecoration(
-        color: AppColors.cardMint,
-        borderRadius: BorderRadius.circular(AppRadius.radius14),
-      ),
+      nen: AppColors.cardMint,
+      vien: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

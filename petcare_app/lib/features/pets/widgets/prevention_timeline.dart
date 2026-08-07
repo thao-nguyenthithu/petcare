@@ -5,9 +5,9 @@ import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/vn_date.dart';
-import 'package:petcare_app/features/pets/data/prevention_record.dart';
-import 'package:petcare_app/features/pets/data/prevention_summary.dart';
-import 'package:petcare_app/features/pets/widgets/dashed_border.dart';
+import 'package:petcare_app/shared/data/prevention_record.dart';
+import 'package:petcare_app/shared/data/prevention_summary.dart';
+import 'package:petcare_app/shared/widgets/dashed_border.dart';
 import 'package:petcare_app/shared/widgets/app_note_box.dart';
 import 'package:petcare_app/shared/widgets/app_status_badge.dart';
 
@@ -17,8 +17,7 @@ const _mauDuong = Color(0xFFC9DBD3);
 // Đường nối khi mốc đã quá hạn, ăn theo tông cam của khối cảnh báo
 const _duongQuaHan = Color(0xFFE2CCC0);
 
-// Dòng thời gian của một hạng mục: mốc hẹn kế tiếp ở trên cùng, rồi tới các
-// lần đã làm xếp từ mới đến cũ
+// Mốc hẹn kế tiếp ở trên cùng, rồi các lần đã làm xếp từ mới đến cũ
 class PreventionTimeline extends StatelessWidget {
   const PreventionTimeline({
     super.key,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/pets/data/prevention_record.dart';
-import 'package:petcare_app/features/pets/data/prevention_summary.dart';
+import 'package:petcare_app/shared/data/prevention_record.dart';
+import 'package:petcare_app/shared/data/prevention_summary.dart';
 
 // Chú thích ý nghĩa 4 màu trạng thái
 class PreventionLegend extends StatelessWidget {

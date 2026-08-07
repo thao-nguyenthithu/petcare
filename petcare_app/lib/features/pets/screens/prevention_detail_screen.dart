@@ -8,8 +8,8 @@ import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/vn_date.dart';
-import 'package:petcare_app/features/pets/data/prevention_record.dart';
-import 'package:petcare_app/features/pets/data/prevention_summary.dart';
+import 'package:petcare_app/shared/data/prevention_record.dart';
+import 'package:petcare_app/shared/data/prevention_summary.dart';
 import 'package:petcare_app/features/pets/providers/my_pets_provider.dart';
 import 'package:petcare_app/features/pets/services/pet_error_mapper.dart';
 import 'package:petcare_app/features/pets/screens/prevention_dose_form_screen.dart';
@@ -20,6 +20,7 @@ import 'package:petcare_app/shared/widgets/app_screen_header.dart';
 import 'package:petcare_app/shared/widgets/confirm_dialog.dart';
 import 'package:petcare_app/shared/widgets/app_note_box.dart';
 import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
+import 'package:petcare_app/shared/widgets/app_screen.dart';
 
 // Tham số vào màn chi tiết một hạng mục phòng bệnh
 class PreventionDetailArgs {
@@ -129,28 +130,24 @@ class _PreventionDetailScreenState
       onPopInvokedWithResult: (didPop, _) {
         if (!didPop) _thoat();
       },
-      child: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: [
-              AppScreenHeader(
-                title: preventionTitle(context, _hangMuc),
-                subtitle: _trongRong
-                    ? l10n.beChuaGhiLanNao(widget.args.tenBe)
-                    : l10n.beVaSoLan(widget.args.tenBe, '${_hangMuc.soLan}'),
-                onBack: _thoat,
-              ),
-              const AppDongKe(),
-              Expanded(
-                child: _trongRong ? _ThanRong(onThem: _moForm) : _thanCoLan(),
-              ),
-              _ThanhXoa(
-                nhan: _trongRong ? l10n.xoaHangMucNay : l10n.xoaCaHangMucNay,
-                ghiChu: _ghiChuXoa,
-                onXoa: _xoaHangMuc,
-              ),
-            ],
-          ),
+      child: AppScreen(
+        header: Column(
+          children: [
+            AppScreenHeader(
+              title: preventionTitle(context, _hangMuc),
+              subtitle: _trongRong
+                  ? l10n.beChuaGhiLanNao(widget.args.tenBe)
+                  : l10n.beVaSoLan(widget.args.tenBe, '${_hangMuc.soLan}'),
+              onBack: _thoat,
+            ),
+            const AppDongKe(),
+          ],
+        ),
+        body: _trongRong ? _ThanRong(onThem: _moForm) : _thanCoLan(),
+        bottomBar: _ThanhXoa(
+          nhan: _trongRong ? l10n.xoaHangMucNay : l10n.xoaCaHangMucNay,
+          ghiChu: _ghiChuXoa,
+          onXoa: _xoaHangMuc,
         ),
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/router/app_router.dart';
-import 'package:petcare_app/features/pets/data/pet.dart';
+import 'package:petcare_app/shared/data/pet.dart';
 import 'package:petcare_app/features/pets/screens/add_pet_screen.dart';
 import 'package:petcare_app/features/pets/screens/my_pets_screen.dart';
 import 'package:petcare_app/features/pets/screens/pet_detail_screen.dart';

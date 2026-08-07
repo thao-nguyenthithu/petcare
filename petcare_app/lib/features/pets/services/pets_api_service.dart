@@ -2,8 +2,8 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:petcare_app/core/network/api_client.dart';
-import 'package:petcare_app/features/pets/data/pet.dart';
-import 'package:petcare_app/features/pets/data/prevention_record.dart';
+import 'package:petcare_app/shared/data/pet.dart';
+import 'package:petcare_app/shared/data/prevention_record.dart';
 
 // Gọi API hồ sơ thú cưng và sổ phòng bệnh
 class PetsApiService {

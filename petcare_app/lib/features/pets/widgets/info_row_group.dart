@@ -5,7 +5,7 @@ import 'package:petcare_app/core/theme/app_text_styles.dart';
 
 typedef InfoRow = ({String nhan, String giaTri});
 
-// Bảng thông tin dạng dòng dùng cho khối Thông tin cơ bản và Sức khoẻ ở màn hồ sơ bé
+// Bảng thông tin dạng dòng của màn hồ sơ bé
 class InfoRowGroup extends StatelessWidget {
   const InfoRowGroup({super.key, required this.dong});
 
@@ -20,13 +20,20 @@ class InfoRowGroup extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: AppSpacing.itemGap),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(child: Text(muc.nhan, style: AppTextStyles.captionSm)),
+                Expanded(
+                  flex: 2,
+                  child: Text(muc.nhan, style: AppTextStyles.captionSm),
+                ),
                 const SizedBox(width: AppSpacing.itemGap),
-                Text(
-                  muc.giaTri,
-                  textAlign: TextAlign.right,
-                  style: AppTextStyles.label,
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    muc.giaTri,
+                    textAlign: TextAlign.right,
+                    style: AppTextStyles.label,
+                  ),
                 ),
               ],
             ),

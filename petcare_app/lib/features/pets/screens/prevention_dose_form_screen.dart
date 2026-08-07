@@ -8,8 +8,8 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/vn_date.dart';
-import 'package:petcare_app/features/pets/data/prevention_record.dart';
-import 'package:petcare_app/features/pets/data/prevention_summary.dart';
+import 'package:petcare_app/shared/data/prevention_record.dart';
+import 'package:petcare_app/shared/data/prevention_summary.dart';
 import 'package:petcare_app/features/pets/providers/my_pets_provider.dart';
 import 'package:petcare_app/features/pets/services/pet_error_mapper.dart';
 import 'package:petcare_app/shared/widgets/app_text_field.dart';
@@ -23,6 +23,7 @@ import 'package:petcare_app/shared/widgets/confirm_dialog.dart';
 import 'package:petcare_app/shared/widgets/locked_field.dart';
 import 'package:petcare_app/shared/widgets/photo_source_sheet.dart';
 import 'package:petcare_app/shared/widgets/photo_viewer.dart';
+import 'package:petcare_app/shared/widgets/app_screen.dart';
 
 // Tham số vào form: hạng mục đang khai
 class PreventionDoseFormArgs {
@@ -153,15 +154,28 @@ class _PreventionDoseFormScreenState
     if (nguon == null || !mounted) return;
     final them = <Uint8List>[];
     var du = false;
+    var quaNang = 0;
     if (nguon == ImageSource.camera) {
-      final anh = await chupMotAnh();
-      if (anh != null) them.add(anh);
+      final mot = await chupMotAnh();
+      if (mot.anh != null) them.add(mot.anh!);
+      quaNang = mot.quaNang ? 1 : 0;
     } else {
       final chon = await chonNhieuAnh(conCho);
       them.addAll(chon.anh);
       du = chon.du;
+      quaNang = chon.quaNang;
     }
-    if (!mounted || them.isEmpty) return;
+    if (!mounted) return;
+    if (quaNang > 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            context.l10n.loiNhieuAnhQuaNang('$quaNang', '$mbAnhToiDa'),
+          ),
+        ),
+      );
+    }
+    if (them.isEmpty) return;
     final bayGio = nowVn();
     setState(() {
       _dirty = true;
@@ -207,6 +221,14 @@ class _PreventionDoseFormScreenState
     if (_dangLuu) return;
     if (!_autoValidate) setState(() => _autoValidate = true);
     if (!(_formKey.currentState?.validate() ?? true)) return;
+    if (_chuKy case final ck? when ck.soNgay > soNgayChuKyToiDa) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(context.l10n.loiChuKyVuotTran('$soNgayChuKyToiDa')),
+        ),
+      );
+      return;
+    }
     final noi = _noiThucHienController.text.trim();
     final lan = PreventionDose(
       id:
@@ -337,111 +359,91 @@ class _PreventionDoseFormScreenState
       onPopInvokedWithResult: (didPop, _) {
         if (!didPop) _onBack();
       },
-      child: Scaffold(
-        body: SafeArea(
-          child: Column(
+      child: AppScreen(
+        header: Column(
+          children: [
+            AppScreenHeader(
+              title: _dangSua ? l10n.suaLanGhi : l10n.themLanGhiMoi,
+              subtitle: l10n.hangMucVaBe(
+                preventionTitle(context, _hangMuc),
+                widget.args.tenBe,
+              ),
+              onBack: _onBack,
+            ),
+            const AppDongKe(),
+          ],
+        ),
+        body: Form(
+          key: _formKey,
+          autovalidateMode: _autoValidate
+              ? AutovalidateMode.always
+              : AutovalidateMode.disabled,
+          child: ListView(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.screenPadding,
+              vertical: AppSpacing.blockGap,
+            ),
             children: [
-              AppScreenHeader(
-                title: _dangSua ? l10n.suaLanGhi : l10n.themLanGhiMoi,
-                subtitle: l10n.hangMucVaBe(
-                  preventionTitle(context, _hangMuc),
-                  widget.args.tenBe,
-                ),
-                onBack: _onBack,
+              LockedField(
+                label: l10n.hangMuc,
+                value: tenCuaHangMuc(context, _hangMuc),
               ),
-              const AppDongKe(),
-              Expanded(
-                child: Form(
-                  key: _formKey,
-                  autovalidateMode: _autoValidate
-                      ? AutovalidateMode.always
-                      : AutovalidateMode.disabled,
-                  child: ListView(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.screenPadding,
-                      vertical: AppSpacing.blockGap,
-                    ),
-                    children: [
-                      LockedField(
-                        label: l10n.hangMuc,
-                        value: tenCuaHangMuc(context, _hangMuc),
-                      ),
-                      const SizedBox(height: AppSpacing.labelGap),
-                      Text(
-                        l10n.ghiChuHangMucKhoa,
-                        style: AppTextStyles.captionSm,
-                      ),
-                      const SizedBox(height: AppSpacing.stackGap),
-                      AppTextField(
-                        label: l10n.ngayThucHien,
-                        hint: l10n.chonNgay,
-                        controller: _ngayThucHienController,
-                        isRequired: true,
-                        readOnly: true,
-                        onTap: _chonNgayThucHien,
-                        validator: _vBatBuoc,
-                        suffixIcon: Icons.chevron_right,
-                        labelTrailing: _NutDatHomNay(
-                          onTap: () => _datNgay(homNayVn()),
-                        ),
-                        height: AppTextField.caoGon,
-                      ),
-                      const SizedBox(height: AppSpacing.stackGap),
-                      PreventionReminderField(
-                        coNhacLai: _coNhacLai,
-                        soChuKyController: _soChuKyController,
-                        donVi: _donViChuKy,
-                        chuKy: _chuKy,
-                        ngayToiHan: _ngayToiHan,
-                        onDoiCheDo: (bat) => setState(() {
-                          _dirty = true;
-                          _coNhacLai = bat;
-                        }),
-                        onDoiDonVi: (donVi) => setState(() {
-                          _dirty = true;
-                          _donViChuKy = donVi;
-                        }),
-                        onDoiSo: () => setState(() => _dirty = true),
-                      ),
-                      const AppDongKe(dem: true),
-                      AppTextField(
-                        label: l10n.noiThucHien,
-                        hint: l10n.hintNoiTiem,
-                        controller: _noiThucHienController,
-                        height: AppTextField.caoGon,
-                      ),
-                      const SizedBox(height: AppSpacing.labelGap),
-                      Text(
-                        l10n.ghiChuNoiThucHien,
-                        style: AppTextStyles.captionSm,
-                      ),
-                      const SizedBox(height: AppSpacing.stackGap),
-                      Text(l10n.anhPhieuHoacHoaDon, style: AppTextStyles.label),
-                      const SizedBox(height: AppSpacing.labelGap),
-                      PreventionPhotoRow(
-                        anh: _anh,
-                        onThem: _themAnh,
-                        onXem: _xemAnh,
-                      ),
-                      const SizedBox(height: AppSpacing.groupGap),
-                      AppButton(
-                        text: l10n.luu,
-                        enabled: !_dangLuu,
-                        onTap: _luu,
-                      ),
-                      if (_dangSua) ...[
-                        const SizedBox(height: AppSpacing.itemGap),
-                        AppButton(
-                          text: l10n.xoaLanNay,
-                          outlined: true,
-                          color: AppColors.accent,
-                          onTap: _xoaLan,
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
+              const SizedBox(height: AppSpacing.labelGap),
+              Text(l10n.ghiChuHangMucKhoa, style: AppTextStyles.captionSm),
+              const SizedBox(height: AppSpacing.stackGap),
+              AppTextField(
+                label: l10n.ngayThucHien,
+                hint: l10n.chonNgay,
+                controller: _ngayThucHienController,
+                isRequired: true,
+                readOnly: true,
+                onTap: _chonNgayThucHien,
+                validator: _vBatBuoc,
+                suffixIcon: Icons.chevron_right,
+                labelTrailing: _NutDatHomNay(onTap: () => _datNgay(homNayVn())),
+                height: AppTextField.caoGon,
               ),
+              const SizedBox(height: AppSpacing.stackGap),
+              PreventionReminderField(
+                coNhacLai: _coNhacLai,
+                soChuKyController: _soChuKyController,
+                donVi: _donViChuKy,
+                chuKy: _chuKy,
+                ngayToiHan: _ngayToiHan,
+                onDoiCheDo: (bat) => setState(() {
+                  _dirty = true;
+                  _coNhacLai = bat;
+                }),
+                onDoiDonVi: (donVi) => setState(() {
+                  _dirty = true;
+                  _donViChuKy = donVi;
+                }),
+                onDoiSo: () => setState(() => _dirty = true),
+              ),
+              const AppDongKe(dem: true),
+              AppTextField(
+                label: l10n.noiThucHien,
+                hint: l10n.hintNoiTiem,
+                controller: _noiThucHienController,
+                height: AppTextField.caoGon,
+              ),
+              const SizedBox(height: AppSpacing.labelGap),
+              Text(l10n.ghiChuNoiThucHien, style: AppTextStyles.captionSm),
+              const SizedBox(height: AppSpacing.stackGap),
+              Text(l10n.anhPhieuHoacHoaDon, style: AppTextStyles.label),
+              const SizedBox(height: AppSpacing.labelGap),
+              PreventionPhotoRow(anh: _anh, onThem: _themAnh, onXem: _xemAnh),
+              const SizedBox(height: AppSpacing.groupGap),
+              AppButton(text: l10n.luu, enabled: !_dangLuu, onTap: _luu),
+              if (_dangSua) ...[
+                const SizedBox(height: AppSpacing.itemGap),
+                AppButton(
+                  text: l10n.xoaLanNay,
+                  outlined: true,
+                  color: AppColors.accent,
+                  onTap: _xoaLan,
+                ),
+              ],
             ],
           ),
         ),

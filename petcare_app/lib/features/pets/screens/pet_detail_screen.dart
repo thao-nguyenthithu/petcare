@@ -7,13 +7,14 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/pets/data/pet.dart';
-import 'package:petcare_app/features/pets/data/pet_breeds.dart';
-import 'package:petcare_app/features/pets/data/pet_summary.dart';
+import 'package:petcare_app/shared/data/pet.dart';
+import 'package:petcare_app/shared/data/pet_breeds.dart';
+import 'package:petcare_app/shared/data/pet_brief.dart';
+import 'package:petcare_app/shared/data/pet_summary.dart';
 import 'package:petcare_app/features/pets/providers/my_pets_provider.dart';
 import 'package:petcare_app/features/pets/services/pet_error_mapper.dart';
-import 'package:petcare_app/features/pets/data/prevention_record.dart';
-import 'package:petcare_app/features/pets/data/prevention_summary.dart';
+import 'package:petcare_app/shared/data/prevention_record.dart';
+import 'package:petcare_app/shared/data/prevention_summary.dart';
 import 'package:petcare_app/features/pets/widgets/info_row_group.dart';
 import 'package:petcare_app/features/pets/widgets/pet_care_note_card.dart';
 import 'package:petcare_app/features/pets/widgets/pet_detail_hero.dart';
@@ -28,13 +29,23 @@ import 'package:petcare_app/shared/widgets/app_screen_header.dart';
 import 'package:petcare_app/shared/widgets/bottom_action_bar.dart';
 import 'package:petcare_app/shared/widgets/photo_viewer.dart';
 import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
+import 'package:petcare_app/shared/widgets/app_skeleton.dart';
+
+// Ai đang mở hồ sơ bé
+enum VaiXemHoSoBe { chuNuoi, nguoiCham }
 
 class PetDetailArgs {
-  const PetDetailArgs({required this.petId, this.maDon, this.pet});
+  const PetDetailArgs({
+    required this.petId,
+    this.maDon,
+    this.pet,
+    this.vai = VaiXemHoSoBe.chuNuoi,
+  });
 
   final String petId;
   final String? maDon;
   final Pet? pet;
+  final VaiXemHoSoBe vai;
 }
 
 // Hồ sơ chi tiết một bé, dùng chung cho chủ nuôi và người cung cấp
@@ -43,7 +54,8 @@ class PetDetailScreen extends ConsumerWidget {
 
   final PetDetailArgs args;
 
-  bool get _laNcc => args.maDon != null;
+  bool get _laNcc => args.vai == VaiXemHoSoBe.nguoiCham;
+  bool get _chiXem => args.maDon != null;
 
   // Hạng mục quá hạn lâu nhất
   PreventionRecord? _mucQuaHan(Pet pet) {
@@ -94,9 +106,11 @@ class PetDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    final pet = args.pet ?? ref.watch(petTheoIdProvider(args.petId));
+    final pet = ref.watch(petTheoIdProvider(args.petId)) ?? args.pet;
     if (pet == null) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      return const Scaffold(
+        body: SafeArea(child: AppSkeletonList(soThe: 4, caoThe: 96)),
+      );
     }
     final quaHan = _mucQuaHan(pet);
     final giayTo = _giayTo(pet);
@@ -106,11 +120,13 @@ class PetDetailScreen extends ConsumerWidget {
           children: [
             AppScreenHeader(
               title: _laNcc ? l10n.hoSoCuaBe(pet.name) : pet.name,
-              subtitle: _laNcc
-                  ? l10n.donMaBanDaNhan(args.maDon!)
-                  : l10n.hoSoThuCungCuaBan,
-              // Chỉ chủ nuôi mới sửa được hồ sơ bé của mình
-              action: _laNcc
+              subtitle: switch ((_laNcc, args.maDon)) {
+                (true, final ma?) => l10n.donMaBanDaNhan(ma),
+                (true, _) => l10n.hoSoCuaBe(pet.name),
+                (false, final ma?) => l10n.trongDonMa(ma),
+                (false, _) => l10n.hoSoThuCungCuaBan,
+              },
+              action: _laNcc || _chiXem
                   ? null
                   : IconButton(
                       onPressed: () => _suaHoSo(context, pet),
@@ -198,22 +214,25 @@ class PetDetailScreen extends ConsumerWidget {
                 ],
               ),
             ),
-            BottomActionBar(
-              child: _laNcc
-                  ? AppButton(
-                      text: l10n.nhanChoChuNuoi,
-                      outlined: true,
-                      color: AppColors.primaryColor,
-                      onTap: () => baoDangPhatTrien(context),
-                    )
-                  : AppButton(
-                      text: l10n.xoaHoSoCuaBe(pet.name),
-                      icon: Icons.delete_outline,
-                      outlined: true,
-                      color: AppColors.accent,
-                      onTap: () => _xoaHoSo(context, ref, pet),
-                    ),
-            ),
+            if (_laNcc)
+              BottomActionBar(
+                child: AppButton(
+                  text: l10n.nhanChoChuNuoi,
+                  outlined: true,
+                  color: AppColors.primaryColor,
+                  onTap: () => baoDangPhatTrien(context),
+                ),
+              )
+            else if (!_chiXem)
+              BottomActionBar(
+                child: AppButton(
+                  text: l10n.xoaHoSoCuaBe(pet.name),
+                  icon: Icons.delete_outline,
+                  outlined: true,
+                  color: AppColors.accent,
+                  onTap: () => _xoaHoSo(context, ref, pet),
+                ),
+              ),
           ],
         ),
       ),
@@ -222,7 +241,7 @@ class PetDetailScreen extends ConsumerWidget {
 
   List<InfoRow> _thongTinCoBan(BuildContext context, Pet pet) {
     final l10n = context.l10n;
-    final loai = pet.species == PetSpecies.dog ? l10n.cho : l10n.meo;
+    final loai = tenLoai(l10n, pet.species);
     final gioiTinh = pet.gender == PetGender.male ? l10n.duc : l10n.cai;
     return [
       (nhan: l10n.loaiVaGiong, giaTri: '$loai ${tenGiong(context, pet.breed)}'),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
-import 'package:petcare_app/features/pets/data/prevention_record.dart';
-import 'package:petcare_app/features/pets/data/prevention_summary.dart';
+import 'package:petcare_app/shared/data/prevention_record.dart';
+import 'package:petcare_app/shared/data/prevention_summary.dart';
 import 'package:petcare_app/shared/widgets/app_note_box.dart';
 
 // Băng nhắc chủ nuôi khi có hạng mục phòng bệnh quá hạn

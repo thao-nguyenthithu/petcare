@@ -4,11 +4,12 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/pets/data/pet.dart';
+import 'package:petcare_app/shared/data/pet.dart';
 import 'package:petcare_app/shared/widgets/photo_item.dart';
-import 'package:petcare_app/features/pets/widgets/dashed_border.dart';
+import 'package:petcare_app/shared/widgets/dashed_border.dart';
 
 const double _canhO = 84;
+const double _caoNhanAnh = 20;
 
 // Dải ảnh của bé ở form
 class PetPhotoStrip extends StatelessWidget {
@@ -28,7 +29,7 @@ class PetPhotoStrip extends StatelessWidget {
     final l10n = context.l10n;
     final conCho = anh.length < maxPetPhotos;
     return SizedBox(
-      height: _canhO + AppSpacing.blockGap,
+      height: _canhO + AppSpacing.textGap + _caoNhanAnh,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
@@ -53,9 +54,8 @@ class PetPhotoStrip extends StatelessWidget {
                   const SizedBox(height: AppSpacing.textGap),
                   Text(
                     l10n.anhDaiDien,
-                    style: AppTextStyles.captionSm.copyWith(
+                    style: AppTextStyles.label.copyWith(
                       color: AppColors.primaryColor,
-                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
@@ -101,9 +101,8 @@ class _NutThemAnh extends StatelessWidget {
                 const SizedBox(height: AppSpacing.textGap),
                 Text(
                   l10n.themAnh,
-                  style: AppTextStyles.captionSm.copyWith(
+                  style: AppTextStyles.label.copyWith(
                     color: AppColors.primaryColor,
-                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ],

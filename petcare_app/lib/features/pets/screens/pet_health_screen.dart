@@ -6,9 +6,9 @@ import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
-import 'package:petcare_app/features/pets/data/pet.dart';
-import 'package:petcare_app/features/pets/data/prevention_record.dart';
-import 'package:petcare_app/features/pets/data/prevention_summary.dart';
+import 'package:petcare_app/shared/data/pet.dart';
+import 'package:petcare_app/shared/data/prevention_record.dart';
+import 'package:petcare_app/shared/data/prevention_summary.dart';
 import 'package:petcare_app/features/pets/providers/my_pets_provider.dart';
 import 'package:petcare_app/features/pets/services/pet_error_mapper.dart';
 import 'package:petcare_app/features/pets/screens/prevention_detail_screen.dart';
@@ -23,6 +23,7 @@ import 'package:petcare_app/shared/widgets/app_screen_header.dart';
 import 'package:petcare_app/shared/widgets/bottom_action_bar.dart';
 import 'package:petcare_app/shared/widgets/photo_viewer.dart';
 import 'package:petcare_app/shared/widgets/app_note_box.dart';
+import 'package:petcare_app/shared/widgets/app_screen.dart';
 
 // Tham số từ bước 1 sang bước 2
 class PetHealthArgs {
@@ -229,61 +230,57 @@ class _PetHealthScreenState extends ConsumerState<PetHealthScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            AppScreenHeader(
-              title: l10n.sucKhoeCuaBe(widget.tenBe),
-              subtitle: l10n.buocTrenTong('2', '2'),
+    return AppScreen(
+      header: Column(
+        children: [
+          AppScreenHeader(
+            title: l10n.sucKhoeCuaBe(widget.tenBe),
+            subtitle: l10n.buocTrenTong('2', '2'),
+          ),
+          const StepProgressBar(
+            buoc: 2,
+            tong: 2,
+            padding: EdgeInsets.fromLTRB(
+              AppSpacing.screenPadding,
+              0,
+              AppSpacing.screenPadding,
+              AppSpacing.itemGap,
             ),
-            const StepProgressBar(
-              buoc: 2,
-              tong: 2,
-              padding: EdgeInsets.fromLTRB(
-                AppSpacing.screenPadding,
-                0,
-                AppSpacing.screenPadding,
-                AppSpacing.itemGap,
-              ),
-            ),
-            const AppDongKe(),
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.screenPadding,
-                  vertical: AppSpacing.blockGap,
-                ),
-                children: [
-                  AppNoteBox(text: l10n.ghiChuHoSoTiemChung),
-                  const SizedBox(height: AppSpacing.blockGap),
-                  PetGeneralHealthSection(
-                    daTrietSan: _daTrietSan,
-                    dangDieuTri: _dangDieuTri,
-                    onDoiTrietSan: (v) => setState(() => _daTrietSan = v),
-                    onDoiSucKhoe: (v) => setState(() => _dangDieuTri = v),
-                    benhNenController: _benhNenController,
-                    thuocController: _thuocController,
-                  ),
-                  const AppDongKe(dem: true),
-                  PreventionSection(
-                    phongBenh: _phongBenh,
-                    onChonMui: _moChiTiet,
-                    onThemMui: _themHangMuc,
-                  ),
-                  const AppDongKe(dem: true),
-                  PetDocumentsSection(giayTo: _giayTo, onXemNhom: _xemGiayTo),
-                ],
-              ),
-            ),
-            BottomActionBar(
-              child: AppButton(
-                text: l10n.luuHoSoCuaBe(widget.tenBe),
-                dangTai: _dangLuu,
-                onTap: _luuHoSo,
-              ),
-            ),
-          ],
+          ),
+          const AppDongKe(),
+        ],
+      ),
+      body: ListView(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.screenPadding,
+          vertical: AppSpacing.blockGap,
+        ),
+        children: [
+          AppNoteBox(text: l10n.ghiChuHoSoTiemChung),
+          const SizedBox(height: AppSpacing.blockGap),
+          PetGeneralHealthSection(
+            daTrietSan: _daTrietSan,
+            dangDieuTri: _dangDieuTri,
+            onDoiTrietSan: (v) => setState(() => _daTrietSan = v),
+            onDoiSucKhoe: (v) => setState(() => _dangDieuTri = v),
+            benhNenController: _benhNenController,
+            thuocController: _thuocController,
+          ),
+          const AppDongKe(dem: true),
+          PreventionSection(
+            phongBenh: _phongBenh,
+            onChonMui: _moChiTiet,
+            onThemMui: _themHangMuc,
+          ),
+          const AppDongKe(dem: true),
+          PetDocumentsSection(giayTo: _giayTo, onXemNhom: _xemGiayTo),
+        ],
+      ),
+      bottomBar: BottomActionBar(
+        child: AppButton(
+          text: l10n.luuHoSoCuaBe(widget.tenBe),
+          dangTai: _dangLuu,
+          onTap: _luuHoSo,
         ),
       ),
     );

@@ -32,7 +32,7 @@ final class MyPetsProvider extends $AsyncNotifierProvider<MyPets, List<Pet>> {
   MyPets create() => MyPets();
 }
 
-String _$myPetsHash() => r'8b41e745551c28f381e19e2fa0ddf425391ff923';
+String _$myPetsHash() => r'56fdd448b1104fef752b1faeab967d7f4d834d82';
 
 abstract class _$MyPets extends $AsyncNotifier<List<Pet>> {
   FutureOr<List<Pet>> build();

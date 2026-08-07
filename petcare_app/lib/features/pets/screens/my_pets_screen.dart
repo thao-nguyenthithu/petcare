@@ -7,8 +7,8 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/pets/data/pet.dart';
-import 'package:petcare_app/features/pets/data/pet_summary.dart';
+import 'package:petcare_app/shared/data/pet.dart';
+import 'package:petcare_app/shared/data/pet_summary.dart';
 import 'package:petcare_app/features/pets/providers/my_pets_provider.dart';
 import 'package:petcare_app/features/pets/screens/pet_detail_screen.dart';
 import 'package:petcare_app/features/pets/widgets/dashed_add_button.dart';
@@ -17,8 +17,12 @@ import 'package:petcare_app/shared/widgets/app_network_error.dart';
 import 'package:petcare_app/shared/widgets/app_note_box.dart';
 import 'package:petcare_app/shared/widgets/app_refresh_indicator.dart';
 import 'package:petcare_app/shared/widgets/app_screen_header.dart';
+import 'package:petcare_app/shared/widgets/app_skeleton.dart';
 import 'package:petcare_app/shared/widgets/pet_avatar.dart';
 import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
+import 'package:petcare_app/shared/widgets/app_screen.dart';
+
+const double _caoThe = 80;
 
 // Màn Thú cưng của tôi trong tab Tài khoản của chủ nuôi
 class MyPetsScreen extends ConsumerWidget {
@@ -29,51 +33,47 @@ class MyPetsScreen extends ConsumerWidget {
     final l10n = context.l10n;
     final danhSach = ref.watch(myPetsProvider);
     final so = danhSach.value?.length ?? 0;
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            AppScreenHeader(
-              title: l10n.thuCungCuaToi,
-              subtitle: so == 0
-                  ? l10n.chuaCoThuCungNao
-                  : l10n.soBeDangCoHoSo('$so'),
-            ),
-            const AppDongKe(),
-            Expanded(
-              child: danhSach.when(
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (_, _) => AppNetworkError(
-                  onRetry: () => ref.read(myPetsProvider.notifier).taiLai(),
-                ),
-                data: (ds) => AppRefreshIndicator(
-                  onRefresh: () => ref.read(myPetsProvider.notifier).taiLai(),
-                  child: ListView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    padding: const EdgeInsets.all(AppSpacing.screenPadding),
-                    children: [
-                      for (final pet in ds) ...[
-                        _PetCard(
-                          pet: pet,
-                          onTap: () => context.push(
-                            AppRoutes.petDetail,
-                            extra: PetDetailArgs(petId: pet.id),
-                          ),
-                        ),
-                        const SizedBox(height: AppSpacing.itemGap),
-                      ],
-                      DashedAddButton(
-                        text: l10n.themThuCung,
-                        onTap: () => context.push(AppRoutes.addPet),
-                      ),
-                      const SizedBox(height: AppSpacing.itemGap),
-                      AppNoteBox(text: l10n.ghiChuHoSoThuCung),
-                    ],
+    return AppScreen(
+      header: Column(
+        children: [
+          AppScreenHeader(
+            title: l10n.thuCungCuaToi,
+            subtitle: so == 0
+                ? l10n.chuaCoThuCungNao
+                : l10n.soBeDangCoHoSo('$so'),
+          ),
+          const AppDongKe(),
+        ],
+      ),
+      body: danhSach.when(
+        loading: () => const AppSkeletonList(caoThe: _caoThe),
+        error: (_, _) => AppNetworkError(
+          onRetry: () => ref.read(myPetsProvider.notifier).taiLai(),
+        ),
+        data: (ds) => AppRefreshIndicator(
+          onRefresh: () => ref.read(myPetsProvider.notifier).taiLai(),
+          child: ListView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.all(AppSpacing.screenPadding),
+            children: [
+              for (final pet in ds) ...[
+                _PetCard(
+                  pet: pet,
+                  onTap: () => context.push(
+                    AppRoutes.petDetail,
+                    extra: PetDetailArgs(petId: pet.id),
                   ),
                 ),
+                const SizedBox(height: AppSpacing.itemGap),
+              ],
+              DashedAddButton(
+                text: l10n.themThuCung,
+                onTap: () => context.push(AppRoutes.addPet),
               ),
-            ),
-          ],
+              const SizedBox(height: AppSpacing.itemGap),
+              AppNoteBox(text: l10n.ghiChuHoSoThuCung),
+            ],
+          ),
         ),
       ),
     );

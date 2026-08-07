@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/pets/data/pet.dart';
-import 'package:petcare_app/features/pets/data/prevention_summary.dart';
+import 'package:petcare_app/shared/data/pet.dart';
+import 'package:petcare_app/shared/data/prevention_summary.dart';
 
 // Nhãn tình trạng tiêm chủng đứng cạnh tên bé trên thẻ danh sách
 class PetPreventionTag extends StatelessWidget {
@@ -22,10 +22,7 @@ class PetPreventionTag extends StatelessWidget {
         ],
         Text(
           petPreventionLabel(context, pet),
-          style: AppTextStyles.captionSm.copyWith(
-            color: kieu.mau,
-            fontWeight: FontWeight.w600,
-          ),
+          style: AppTextStyles.label.copyWith(color: kieu.mau),
         ),
       ],
     );

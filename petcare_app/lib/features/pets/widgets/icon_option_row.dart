@@ -90,10 +90,12 @@ class _Option<T> extends StatelessWidget {
             const SizedBox(height: AppSpacing.labelGap),
             Text(
               option.label,
-              style: AppTextStyles.captionSm.copyWith(
-                color: chon ? AppColors.primaryColor : AppColors.textSecondary,
-                fontWeight: chon ? FontWeight.w600 : FontWeight.w400,
-              ),
+              style: (chon ? AppTextStyles.labelSm : AppTextStyles.captionSm)
+                  .copyWith(
+                    color: chon
+                        ? AppColors.primaryColor
+                        : AppColors.textSecondary,
+                  ),
             ),
             const SizedBox(height: AppSpacing.textGap),
             Container(

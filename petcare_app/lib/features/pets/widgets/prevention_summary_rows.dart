@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/pets/data/prevention_record.dart';
-import 'package:petcare_app/features/pets/data/prevention_summary.dart';
+import 'package:petcare_app/shared/data/prevention_record.dart';
+import 'package:petcare_app/shared/data/prevention_summary.dart';
 import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 
 // Danh sách phòng bệnh ở màn hồ sơ bé
@@ -60,9 +60,8 @@ class _Dong extends StatelessWidget {
           const SizedBox(width: AppSpacing.labelGap),
           Text(
             preventionRemainLabel(context, muc),
-            style: AppTextStyles.captionSm.copyWith(
+            style: AppTextStyles.label.copyWith(
               color: preventionRemainColor(trangThai),
-              fontWeight: FontWeight.w600,
             ),
           ),
         ],

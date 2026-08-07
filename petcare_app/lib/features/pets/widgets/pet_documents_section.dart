@@ -4,8 +4,8 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/pets/data/pet.dart';
-import 'package:petcare_app/features/pets/data/prevention_summary.dart';
+import 'package:petcare_app/shared/data/pet.dart';
+import 'package:petcare_app/shared/data/prevention_summary.dart';
 import 'package:petcare_app/shared/widgets/photo_viewer.dart';
 
 // Số ảnh trên một dòng
@@ -119,10 +119,7 @@ class _ChongAnh extends StatelessWidget {
             preventionPhotoLabel(context, nhom.hangMuc),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: AppTextStyles.captionSm.copyWith(
-              color: AppColors.primaryColor,
-              fontWeight: FontWeight.w600,
-            ),
+            style: AppTextStyles.label.copyWith(color: AppColors.primaryColor),
           ),
         ],
       ),
@@ -187,9 +184,8 @@ class _NhanSoAnh extends StatelessWidget {
       ),
       child: Text(
         '$so',
-        style: AppTextStyles.captionSm.copyWith(
+        style: AppTextStyles.label.copyWith(
           color: AppColors.textWhite.withValues(alpha: .8),
-          fontWeight: FontWeight.w600,
         ),
       ),
     );

@@ -4,8 +4,8 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/pets/data/prevention_record.dart';
-import 'package:petcare_app/features/pets/data/prevention_summary.dart';
+import 'package:petcare_app/shared/data/prevention_record.dart';
+import 'package:petcare_app/shared/data/prevention_summary.dart';
 
 // Thẻ một hạng mục phòng bệnh
 class PreventionCard extends StatelessWidget {
@@ -87,10 +87,11 @@ class PreventionCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         preventionDueLabel(context, mui),
-                        style: AppTextStyles.captionSm.copyWith(
-                          color: mauHan,
-                          fontWeight: nhanManh ? FontWeight.w600 : null,
-                        ),
+                        style:
+                            (nhanManh
+                                    ? AppTextStyles.labelSm
+                                    : AppTextStyles.captionSm)
+                                .copyWith(color: mauHan),
                       ),
                     ),
                     if (mui.anh.isNotEmpty) ...[

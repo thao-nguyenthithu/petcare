@@ -5,9 +5,9 @@ import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/utils/vn_date.dart';
-import 'package:petcare_app/features/pets/data/pet.dart';
-import 'package:petcare_app/features/pets/data/pet_breeds.dart';
-import 'package:petcare_app/features/pets/data/pet_summary.dart';
+import 'package:petcare_app/shared/data/pet.dart';
+import 'package:petcare_app/shared/data/pet_breeds.dart';
+import 'package:petcare_app/shared/data/pet_summary.dart';
 import 'package:petcare_app/features/pets/providers/my_pets_provider.dart';
 import 'package:petcare_app/features/pets/services/pet_error_mapper.dart';
 import 'package:petcare_app/features/pets/screens/pet_health_screen.dart';
@@ -24,8 +24,10 @@ import 'package:petcare_app/shared/widgets/bottom_action_bar.dart';
 import 'package:petcare_app/shared/widgets/choice_sheet.dart';
 import 'package:petcare_app/shared/widgets/confirm_dialog.dart';
 import 'package:petcare_app/shared/widgets/photo_viewer.dart';
+import 'package:petcare_app/shared/widgets/app_screen.dart';
 
 const _tuoiToiDa = 30;
+const _canNangToiDa = 100;
 
 // Form thông tin bé, bước 1 trong 2
 class AddPetScreen extends ConsumerStatefulWidget {
@@ -123,7 +125,17 @@ class _AddPetScreenState extends ConsumerState<AddPetScreen> {
   Future<void> _themAnh() async {
     final conCho = maxPetPhotos - _anh.length;
     final chon = await chonNhieuAnh(conCho);
-    if (!mounted || chon.anh.isEmpty) return;
+    if (!mounted) return;
+    if (chon.quaNang > 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            context.l10n.loiNhieuAnhQuaNang('${chon.quaNang}', '$mbAnhToiDa'),
+          ),
+        ),
+      );
+    }
+    if (chon.anh.isEmpty) return;
     final bayGio = nowVn();
     setState(() {
       _dirty = true;
@@ -250,6 +262,9 @@ class _AddPetScreenState extends ConsumerState<AddPetScreen> {
   String? _vCanNang(String? v) {
     final so = double.tryParse((v ?? '').trim().replaceAll(',', '.'));
     if (so == null || so <= 0) return context.l10n.khongDuocDeTrong;
+    if (so > _canNangToiDa) {
+      return context.l10n.loiCanNangVuotTran('$_canNangToiDa');
+    }
     return null;
   }
 
@@ -306,72 +321,64 @@ class _AddPetScreenState extends ConsumerState<AddPetScreen> {
       onPopInvokedWithResult: (didPop, _) {
         if (!didPop) _onBack();
       },
-      child: Scaffold(
-        body: SafeArea(
-          child: Column(
+      child: AppScreen(
+        header: Column(
+          children: [
+            AppScreenHeader(
+              title: _dangSua ? l10n.suaHoSoBe : l10n.themThuCung,
+              subtitle: l10n.buocTrenTong('1', '2'),
+              onBack: _onBack,
+            ),
+            const StepProgressBar(
+              buoc: 1,
+              tong: 2,
+              padding: EdgeInsets.fromLTRB(
+                AppSpacing.screenPadding,
+                0,
+                AppSpacing.screenPadding,
+                AppSpacing.itemGap,
+              ),
+            ),
+            const AppDongKe(),
+          ],
+        ),
+        body: Form(
+          key: _formKey,
+          autovalidateMode: _autoValidate
+              ? AutovalidateMode.always
+              : AutovalidateMode.disabled,
+          child: ListView(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.screenPadding,
+              vertical: AppSpacing.blockGap,
+            ),
             children: [
-              AppScreenHeader(
-                title: _dangSua ? l10n.suaHoSoBe : l10n.themThuCung,
-                subtitle: l10n.buocTrenTong('1', '2'),
-                onBack: _onBack,
+              PetPhotosSection(anh: _anh, onThem: _themAnh, onXemAnh: _xemAnh),
+              const AppDongKe(dem: true),
+              PetBasicInfoSection(
+                tenController: _tenController,
+                giongController: _giongController,
+                ngaySinhController: _ngaySinhController,
+                canNangController: _canNangController,
+                loai: _loai,
+                gioiTinh: _gioiTinh,
+                onDoiLoai: _doiLoai,
+                onDoiGioiTinh: (gioi) => setState(() {
+                  _dirty = true;
+                  _gioiTinh = gioi;
+                }),
+                onChonGiong: _chonGiong,
+                onChonNgaySinh: _chonNgaySinh,
+                validatorTen: _vBatBuoc,
+                validatorCanNang: _vCanNang,
               ),
-              const StepProgressBar(
-                buoc: 1,
-                tong: 2,
-                padding: EdgeInsets.fromLTRB(
-                  AppSpacing.screenPadding,
-                  0,
-                  AppSpacing.screenPadding,
-                  AppSpacing.itemGap,
-                ),
-              ),
-              const AppDongKe(),
-              Expanded(
-                child: Form(
-                  key: _formKey,
-                  autovalidateMode: _autoValidate
-                      ? AutovalidateMode.always
-                      : AutovalidateMode.disabled,
-                  child: ListView(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.screenPadding,
-                      vertical: AppSpacing.blockGap,
-                    ),
-                    children: [
-                      PetPhotosSection(
-                        anh: _anh,
-                        onThem: _themAnh,
-                        onXemAnh: _xemAnh,
-                      ),
-                      const AppDongKe(dem: true),
-                      PetBasicInfoSection(
-                        tenController: _tenController,
-                        giongController: _giongController,
-                        ngaySinhController: _ngaySinhController,
-                        canNangController: _canNangController,
-                        loai: _loai,
-                        gioiTinh: _gioiTinh,
-                        onDoiLoai: _doiLoai,
-                        onDoiGioiTinh: (gioi) => setState(() {
-                          _dirty = true;
-                          _gioiTinh = gioi;
-                        }),
-                        onChonGiong: _chonGiong,
-                        onChonNgaySinh: _chonNgaySinh,
-                        validatorTen: _vBatBuoc,
-                        validatorCanNang: _vCanNang,
-                      ),
-                      const AppDongKe(dem: true),
-                      PetCareNoteSection(controller: _luuYController),
-                    ],
-                  ),
-                ),
-              ),
-              BottomActionBar(
-                child: AppButton(text: l10n.tiepTuc, onTap: _tiepTuc),
-              ),
+              const AppDongKe(dem: true),
+              PetCareNoteSection(controller: _luuYController),
             ],
           ),
+        ),
+        bottomBar: BottomActionBar(
+          child: AppButton(text: l10n.tiepTuc, onTap: _tiepTuc),
         ),
       ),
     );

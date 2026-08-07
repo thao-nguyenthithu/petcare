@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
-import 'package:petcare_app/features/pets/data/pet.dart';
-import 'package:petcare_app/features/pets/data/prevention_record.dart';
+import 'package:petcare_app/shared/data/pet.dart';
+import 'package:petcare_app/shared/data/prevention_record.dart';
 import 'package:petcare_app/features/pets/services/pets_api_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

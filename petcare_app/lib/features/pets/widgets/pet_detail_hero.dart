@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/pets/data/pet.dart';
-import 'package:petcare_app/features/pets/data/pet_summary.dart';
+import 'package:petcare_app/shared/data/pet.dart';
+import 'package:petcare_app/shared/data/pet_summary.dart';
 import 'package:petcare_app/features/pets/widgets/pet_prevention_tag.dart';
 import 'package:petcare_app/shared/widgets/pet_avatar.dart';
 
