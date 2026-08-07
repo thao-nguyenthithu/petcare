@@ -11,7 +11,6 @@ import 'package:petcare_app/features/auth/screens/splash_screen.dart';
 import 'package:petcare_app/features/auth/screens/verify_email_screen.dart';
 import 'package:petcare_app/features/auth/screens/verify_success_screen.dart';
 
-// Route cụm auth: splash, chọn ngôn ngữ, onboarding, đăng nhập/ký, OTP, quên mật khẩu
 final authRoutes = <RouteBase>[
   GoRoute(
     path: AppRoutes.splash,

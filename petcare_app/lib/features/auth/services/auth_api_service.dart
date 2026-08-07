@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:petcare_app/core/network/api_client.dart';
 
@@ -67,6 +68,30 @@ class AuthApiService {
     return Map<String, dynamic>.from(res.data as Map);
   }
 
+  Future<Map<String, dynamic>> capNhatHoSo({
+    String? fullName,
+    String? phone,
+    String? dateOfBirth,
+  }) async {
+    final res = await apiClient.patch(
+      '/auth/me',
+      data: {
+        'fullName': ?fullName,
+        'phone': ?phone,
+        'dateOfBirth': ?dateOfBirth,
+      },
+    );
+    return Map<String, dynamic>.from(res.data as Map);
+  }
+
+  Future<String> uploadAvatar(Uint8List bytes) async {
+    final form = FormData.fromMap({
+      'file': MultipartFile.fromBytes(bytes, filename: 'avatar.jpg'),
+    });
+    final res = await apiClient.post('/auth/me/avatar', data: form);
+    return Map<String, dynamic>.from(res.data as Map)['avatarUrl'] as String;
+  }
+
   // Đăng nhập Google bằng Firebase ID Token
   Future<Map<String, dynamic>> loginGoogle(String idToken) async {
     final res = await apiClient.post(
@@ -95,7 +120,6 @@ class AuthApiService {
     return null;
   }
 
-  // Mã lỗi ổn định để client tự dịch (i18n), null nếu backend không trả code
   static String? codeFromError(Object error) {
     final code = _dataFromError(error)?['code'];
     return code is String ? code : null;
