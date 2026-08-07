@@ -6,6 +6,8 @@ import 'package:petcare_app/features/notification/screens/notification_screen.da
 final notificationRoutes = <RouteBase>[
   GoRoute(
     path: AppRoutes.notifications,
-    builder: (context, state) => const NotificationScreen(),
+    builder: (context, state) => NotificationScreen(
+      dangCheDoNcc: state.uri.queryParameters['che-do'] == 'ncc',
+    ),
   ),
 ];
