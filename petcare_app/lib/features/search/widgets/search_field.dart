@@ -12,13 +12,19 @@ class SearchField extends StatelessWidget {
     required this.controller,
     required this.onChanged,
     required this.onFilter,
+    this.onSubmitted,
+    this.autofocus = true,
     this.filterOpen = false,
+    this.filterActive = false,
   });
 
   final TextEditingController controller;
   final ValueChanged<String> onChanged;
   final VoidCallback onFilter;
+  final ValueChanged<String>? onSubmitted;
+  final bool autofocus;
   final bool filterOpen;
+  final bool filterActive;
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +41,14 @@ class SearchField extends StatelessWidget {
             child: AppSearchField(
               controller: controller,
               onChanged: onChanged,
+              onSubmitted: onSubmitted,
               hintText: context.l10n.timDichVuNguoiCham,
-              autofocus: true,
+              autofocus: autofocus,
               height: 52,
               fillColor: AppColors.surface,
               elevation: 2,
               filterOpen: filterOpen,
+              filterActive: filterActive,
               onToggleFilter: onFilter,
             ),
           ),
