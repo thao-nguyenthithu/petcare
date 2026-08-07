@@ -41,7 +41,7 @@ final class DkSitterNotifierProvider
   }
 }
 
-String _$dkSitterNotifierHash() => r'a1daeb6023f4471689e1c1a137ecb13a79b979e5';
+String _$dkSitterNotifierHash() => r'b78d1746974803a0a00c6c2fbf994d97462dece3';
 
 abstract class _$DkSitterNotifier extends $Notifier<DkSitterDraft> {
   DkSitterDraft build();
@@ -92,4 +92,4 @@ final class SitterStatusProvider
   }
 }
 
-String _$sitterStatusHash() => r'a64c4a77080b7ac78b8f4228fac1cff348befd15';
+String _$sitterStatusHash() => r'9838fa308a459abe9595b4aaaaada545107a41ec';

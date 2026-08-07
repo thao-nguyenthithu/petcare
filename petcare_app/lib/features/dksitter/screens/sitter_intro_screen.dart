@@ -4,11 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
-import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
+import 'package:petcare_app/shared/widgets/app_card.dart';
 
 // Bước 0 đăng ký NCC giới thiệu
 class ProviderIntroScreen extends StatelessWidget {
@@ -62,12 +62,7 @@ class ProviderIntroScreen extends StatelessWidget {
                   style: AppTextStyles.caption,
                 ),
                 const SizedBox(height: AppSpacing.sectionGap),
-                Text(
-                  l10n.quyTrinhDangKy,
-                  style: AppTextStyles.label.copyWith(
-                    color: AppColors.textPrimary,
-                  ),
-                ),
+                Text(l10n.quyTrinhDangKy, style: AppTextStyles.label),
                 const SizedBox(height: AppSpacing.titleGap),
                 _Buoc(
                   so: '1',
@@ -88,21 +83,13 @@ class ProviderIntroScreen extends StatelessWidget {
                 const SizedBox(height: AppSpacing.labelGap),
                 Text(l10n.khaiDichVuSauDuyet, style: AppTextStyles.captionSm),
                 const SizedBox(height: AppSpacing.blockGap),
-                Container(
-                  padding: const EdgeInsets.all(AppSpacing.cardPadding),
-                  decoration: BoxDecoration(
-                    color: AppColors.cardMint,
-                    borderRadius: BorderRadius.circular(AppRadius.radius14),
-                  ),
+                AppCard(
+                  nen: AppColors.cardMint,
+                  vien: false,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        l10n.canChuanBi,
-                        style: AppTextStyles.label.copyWith(
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
+                      Text(l10n.canChuanBi, style: AppTextStyles.label),
                       const SizedBox(height: AppSpacing.labelGap),
                       Text(
                         l10n.canChuanBiCccd,
@@ -166,9 +153,8 @@ class _Buoc extends StatelessWidget {
                 child: Center(
                   child: Text(
                     so,
-                    style: AppTextStyles.captionSm.copyWith(
+                    style: AppTextStyles.label.copyWith(
                       color: AppColors.textWhite,
-                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
@@ -186,12 +172,7 @@ class _Buoc extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: AppTextStyles.label.copyWith(
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
+                  Text(title, style: AppTextStyles.label),
                   const SizedBox(height: AppSpacing.textGap),
                   Text(desc, style: AppTextStyles.captionSm),
                 ],

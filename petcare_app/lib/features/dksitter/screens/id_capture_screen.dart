@@ -123,12 +123,7 @@ class _IdCaptureScreenState extends State<IdCaptureScreen> {
                     const SizedBox(height: 16),
                     TextButton(
                       onPressed: _moCamera,
-                      child: Text(
-                        l10n.thuLai,
-                        style: AppTextStyles.button.copyWith(
-                          color: AppColors.textWhite,
-                        ),
-                      ),
+                      child: Text(l10n.thuLai, style: AppTextStyles.button),
                     ),
                   ],
                 ),

@@ -1,8 +1,10 @@
 import 'dart:typed_data';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:petcare_app/features/dksitter/data/dksitter_draft.dart';
+import 'package:petcare_app/features/auth/providers/current_user_provider.dart';
 import 'package:petcare_app/features/dksitter/services/id_card_upload_service.dart';
 import 'package:petcare_app/features/dksitter/services/dksitter_api_service.dart';
+import 'package:petcare_app/features/auth/providers/profile_refresh.dart';
 
 part 'dksitter_provider.g.dart';
 
@@ -50,8 +52,10 @@ class DkSitterNotifier extends _$DkSitterNotifier {
   // Bước 3 upload ảnh rồi gửi hồ sơ
   Future<void> guiHoSo() async {
     final d = state;
-    final pathTruoc = await _upload.upload(d.idCardFront!, mat: 'front');
-    final pathSau = await _upload.upload(d.idCardBack!, mat: 'back');
+    final [pathTruoc, pathSau] = await Future.wait([
+      _upload.upload(d.idCardFront!, mat: 'front'),
+      _upload.upload(d.idCardBack!, mat: 'back'),
+    ]);
     await _api.submit(
       legalName: d.legalName!,
       gender: d.gender!,
@@ -64,10 +68,11 @@ class DkSitterNotifier extends _$DkSitterNotifier {
       cccdFrontPath: pathTruoc,
       cccdBackPath: pathSau,
     );
-    ref.invalidate(sitterStatusProvider);
+    state = const DkSitterDraft();
+    ref.refreshProfileData();
   }
 }
 
-// Trạng thái hồ sơ NCC của user hiện tại
 @Riverpod(keepAlive: true)
-Future<String?> sitterStatus(Ref ref) => DkSitterApiService().profileStatus();
+Future<String?> sitterStatus(Ref ref) async =>
+    (await ref.watch(currentUserProvider.future)).sitterStatus;

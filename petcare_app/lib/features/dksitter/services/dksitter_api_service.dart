@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:petcare_app/core/network/api_client.dart';
 import 'package:petcare_app/features/dksitter/data/dksitter_draft.dart';
 
@@ -42,19 +41,7 @@ class DkSitterApiService {
     return data['available'] == true;
   }
 
-  // Trạng thái hồ sơ NCC: null nếu chưa có hồ sơ
-  Future<String?> profileStatus() async {
-    try {
-      final res = await apiClient.get('/sitter-profile/me');
-      final data = Map<String, dynamic>.from(res.data as Map);
-      return data['status'] as String?;
-    } on DioException catch (e) {
-      if (e.response?.statusCode == 404) return null;
-      rethrow;
-    }
-  }
-
-  // Trạng thái hồ sơ hiện tại
+  // Hồ sơ đầy đủ kèm ảnh giấy tờ; chỉ cần trạng thái thì lấy ở GET /auth/me
   Future<Map<String, dynamic>> getMine() async {
     final res = await apiClient.get('/sitter-profile/me');
     return Map<String, dynamic>.from(res.data as Map);

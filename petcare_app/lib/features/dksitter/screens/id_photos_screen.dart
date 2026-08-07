@@ -14,6 +14,7 @@ import 'package:petcare_app/features/dksitter/widgets/id_card_frame.dart';
 import 'package:petcare_app/shared/widgets/step_progress_bar.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
+import 'package:petcare_app/shared/widgets/app_card.dart';
 
 // Bước 2/3 đăng ký NCC chụp hai mặt CCCD
 class IdPhotosScreen extends ConsumerStatefulWidget {
@@ -171,11 +172,9 @@ class _OAnh extends StatelessWidget {
     final l10n = context.l10n;
     return IdCardFrame(
       color: AppColors.primaryColor,
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(AppRadius.radius14),
-        ),
+      child: AppCard(
+        vien: false,
+        padding: EdgeInsets.zero,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -193,10 +192,7 @@ class _OAnh extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            Text(
-              label,
-              style: AppTextStyles.label.copyWith(color: AppColors.textPrimary),
-            ),
+            Text(label, style: AppTextStyles.label),
             const SizedBox(height: 4),
             Text(l10n.datTheVaoKhung, style: AppTextStyles.captionSm),
           ],
@@ -219,7 +215,7 @@ class _OAnh extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
             decoration: BoxDecoration(
-              color: const Color.fromARGB(110, 77, 119, 100),
+              color: AppColors.primaryColor.withValues(alpha: 0.43),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -232,9 +228,8 @@ class _OAnh extends StatelessWidget {
                 const SizedBox(width: 6),
                 Text(
                   context.l10n.chupLai,
-                  style: AppTextStyles.captionSm.copyWith(
+                  style: AppTextStyles.label.copyWith(
                     color: AppColors.textWhite,
-                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ],

@@ -13,10 +13,10 @@ import 'package:petcare_app/features/dksitter/data/vietnam_provinces.dart';
 import 'package:petcare_app/features/dksitter/providers/dksitter_provider.dart';
 import 'package:petcare_app/features/dksitter/widgets/info_row.dart';
 import 'package:petcare_app/shared/widgets/step_progress_bar.dart';
-import 'package:petcare_app/shared/utils/date_format.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/choice_sheet.dart';
+import 'package:petcare_app/core/utils/vn_date.dart';
 
 // Bước 1/3 đăng ký NCC khai thông tin cá nhân theo giấy tờ tùy thân
 class PersonalInfoScreen extends ConsumerStatefulWidget {
@@ -50,7 +50,7 @@ class _PersonalInfoScreenState extends ConsumerState<PersonalInfoScreen> {
   }
 
   Future<void> _chonNgaySinh() async {
-    final homNay = DateTime.now();
+    final homNay = nowVn();
     await _chonNgay(
       dangCo: _ngaySinh,
       macDinh: DateTime(homNay.year - 25),
@@ -61,7 +61,7 @@ class _PersonalInfoScreenState extends ConsumerState<PersonalInfoScreen> {
   }
 
   Future<void> _chonNgayCap() async {
-    final homNay = DateTime.now();
+    final homNay = nowVn();
     await _chonNgay(
       dangCo: _ngayCap,
       macDinh: homNay,
@@ -219,7 +219,7 @@ class _PersonalInfoScreenState extends ConsumerState<PersonalInfoScreen> {
                   _hangChon<DateTime>(
                     label: l10n.ngaySinh,
                     docGiaTri: () => _ngaySinh,
-                    hienThi: dinhDangNgay,
+                    hienThi: ngayThangNam,
                     goiY: l10n.hintNgayCap,
                     onChon: _chonNgaySinh,
                   ),
@@ -270,7 +270,7 @@ class _PersonalInfoScreenState extends ConsumerState<PersonalInfoScreen> {
                   _hangChon<DateTime>(
                     label: l10n.ngayCap,
                     docGiaTri: () => _ngayCap,
-                    hienThi: dinhDangNgay,
+                    hienThi: ngayThangNam,
                     goiY: l10n.hintNgayCap,
                     onChon: _chonNgayCap,
                   ),

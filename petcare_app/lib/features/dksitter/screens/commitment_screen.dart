@@ -119,9 +119,7 @@ class _CommitmentScreenState extends ConsumerState<CommitmentScreen> {
                           Expanded(
                             child: Text(
                               l10n.camKetTrachNhiemNcc,
-                              style: AppTextStyles.label.copyWith(
-                                color: AppColors.textPrimary,
-                              ),
+                              style: AppTextStyles.label,
                             ),
                           ),
                         ],
