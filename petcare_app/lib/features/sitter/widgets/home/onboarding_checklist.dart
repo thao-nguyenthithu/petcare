@@ -125,21 +125,14 @@ class _BuocStep extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    l10n.buocSo('$so'),
-                    style: AppTextStyles.captionSm.copyWith(
-                      color: AppColors.textSecondary,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
+                  Text(l10n.buocSo('$so'), style: AppTextStyles.captionSm),
                   const SizedBox(height: 2),
                   Text(
                     tieuDe,
-                    style: AppTextStyles.label.copyWith(
+                    style: AppTextStyles.button.copyWith(
                       color: trangThai == _TrangThaiBuoc.chuaToi
                           ? AppColors.textSecondary
                           : AppColors.textPrimary,
-                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ],

@@ -3,8 +3,8 @@ import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/sitter/data/grooming_form.dart';
-import 'package:petcare_app/features/sitter/data/service_summary.dart';
-import 'package:petcare_app/features/sitter/data/sitter_services.dart';
+import 'package:petcare_app/shared/data/service_summary.dart';
+import 'package:petcare_app/shared/data/sitter_services.dart';
 import 'package:petcare_app/features/sitter/widgets/services/grooming_tier_card.dart';
 
 const double _khoangHo = 10;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/sitter/data/mock_sitter_schedule.dart';
+import 'package:petcare_app/features/sitter/data/sitter_schedule.dart';
 import 'package:petcare_app/features/sitter/widgets/schedule_appointment_row.dart';
 import 'package:petcare_app/features/sitter/widgets/section_empty.dart';
 import 'package:petcare_app/shared/widgets/app_dong_ke.dart';

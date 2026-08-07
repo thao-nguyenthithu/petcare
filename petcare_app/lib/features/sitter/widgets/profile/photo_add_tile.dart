@@ -27,10 +27,7 @@ class PhotoAddTile extends StatelessWidget {
           children: [
             const Icon(Icons.add, color: AppColors.primaryColor),
             const SizedBox(height: 4),
-            Text(
-              context.l10n.themAnh,
-              style: AppTextStyles.captionSm.copyWith(fontSize: 11),
-            ),
+            Text(context.l10n.themAnh, style: AppTextStyles.captionSm),
           ],
         ),
       ),

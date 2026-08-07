@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:petcare_app/core/network/api_client.dart';
-import 'package:petcare_app/features/sitter/data/sitter_profile.dart';
+import 'package:petcare_app/shared/data/sitter_profile.dart';
 
 // Gọi API trang cá nhân NCC
 class SitterProfileApiService {

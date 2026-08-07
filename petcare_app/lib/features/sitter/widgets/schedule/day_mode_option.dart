@@ -3,7 +3,7 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/sitter/data/mock_sitter_availability.dart';
+import 'package:petcare_app/features/sitter/data/sitter_availability.dart';
 
 // Một lựa chọn cách nhận đơn trong ngày
 class DayModeOption extends StatelessWidget {
@@ -55,7 +55,6 @@ class DayModeOption extends StatelessWidget {
                         Text(
                           tieuDe,
                           style: AppTextStyles.label.copyWith(
-                            fontSize: 14,
                             color: khoa
                                 ? AppColors.textSecondary
                                 : AppColors.textPrimary,

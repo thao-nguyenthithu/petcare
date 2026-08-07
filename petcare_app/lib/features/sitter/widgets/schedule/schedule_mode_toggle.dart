@@ -70,7 +70,6 @@ class _Segment extends StatelessWidget {
           child: Text(
             label,
             style: AppTextStyles.label.copyWith(
-              fontSize: 14,
               color: selected ? AppColors.primaryColor : AppColors.textWhite,
             ),
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/shared/widgets/user_avatar.dart';
@@ -45,7 +46,9 @@ class SitterAvatarPicker extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   child: const Center(
-                    child: CircularProgressIndicator(color: Colors.white),
+                    child: CircularProgressIndicator(
+                      color: AppColors.textWhite,
+                    ),
                   ),
                 ),
             ],

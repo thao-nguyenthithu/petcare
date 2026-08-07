@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/sitter/data/grooming_form.dart';
-import 'package:petcare_app/features/sitter/data/service_summary.dart';
-import 'package:petcare_app/features/sitter/data/sitter_services.dart';
+import 'package:petcare_app/shared/data/service_summary.dart';
+import 'package:petcare_app/shared/data/sitter_services.dart';
 import 'package:petcare_app/features/sitter/widgets/services/choice_pill_row.dart';
 import 'package:petcare_app/features/sitter/widgets/services/grooming_fields.dart';
 import 'package:petcare_app/shared/utils/money_format.dart';
@@ -84,7 +84,7 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
     switch (_type) {
       case ServiceType.walking:
         final c = widget.services.walking;
-        _loai = c.petKind;
+        _loai = PetKind.dog;
         for (final e in c.priceByDuration.entries) {
           _giaLuot[e.key]?.text = dinhDangTien(e.value);
         }
@@ -316,21 +316,23 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
                     const SizedBox(height: 8),
                     Text(_moTa(), style: AppTextStyles.caption),
                     const SizedBox(height: 20),
-                    Text(l10n.nhanLoai, style: AppTextStyles.label),
-                    const SizedBox(height: 12),
-                    ChoicePillRow(
-                      items: [
-                        for (final kind in PetKind.values)
-                          (
-                            nhan: petKindLabel(context, kind),
-                            chon: _loai == kind,
-                            onTap: () => _doiLoai(kind),
-                          ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Text(l10n.chiHoTroChoMeo, style: AppTextStyles.captionSm),
-                    const SizedBox(height: 20),
+                    if (_type != ServiceType.walking) ...[
+                      Text(l10n.nhanLoai, style: AppTextStyles.label),
+                      const SizedBox(height: 12),
+                      ChoicePillRow(
+                        items: [
+                          for (final kind in PetKind.values)
+                            (
+                              nhan: petKindLabel(context, kind),
+                              chon: _loai == kind,
+                              onTap: () => _doiLoai(kind),
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Text(l10n.chiHoTroChoMeo, style: AppTextStyles.captionSm),
+                      const SizedBox(height: 20),
+                    ],
                     ..._truongTheoLoai(),
                     const SizedBox(height: 28),
                     AppButton(

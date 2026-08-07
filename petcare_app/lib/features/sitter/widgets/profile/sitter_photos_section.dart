@@ -7,9 +7,10 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/sitter/data/sitter_profile.dart';
+import 'package:petcare_app/shared/data/sitter_profile.dart';
 import 'package:petcare_app/shared/widgets/photo_viewer.dart';
 import 'package:petcare_app/features/sitter/widgets/profile/photo_add_tile.dart';
+import 'package:petcare_app/shared/utils/anh_cache.dart';
 
 // Mục Ảnh trong màn sửa hồ sơ tối đa 2 hàng
 class SitterPhotosSection extends StatelessWidget {
@@ -46,9 +47,8 @@ class SitterPhotosSection extends StatelessWidget {
                 onTap: () => context.push(AppRoutes.sitterAllPhotos),
                 child: Text(
                   '${l10n.xemThem} (${anh.length})',
-                  style: AppTextStyles.captionSm.copyWith(
+                  style: AppTextStyles.labelSm.copyWith(
                     color: AppColors.accent,
-                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
@@ -74,6 +74,7 @@ class SitterPhotosSection extends StatelessWidget {
                         child: CachedNetworkImage(
                           imageUrl: item.url,
                           fit: BoxFit.cover,
+                          memCacheWidth: beRongCache(context, canh),
                           placeholder: (_, _) =>
                               const ColoredBox(color: AppColors.cardMint),
                           errorWidget: (_, _, _) =>

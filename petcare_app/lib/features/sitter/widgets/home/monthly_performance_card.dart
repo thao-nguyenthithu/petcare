@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
-import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/sitter/data/mock_sitter_home.dart';
+import 'package:petcare_app/features/sitter/data/sitter_dashboard.dart';
 import 'package:petcare_app/features/sitter/widgets/section_empty.dart';
 import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
+import 'package:petcare_app/shared/widgets/app_card.dart';
 
 // Hiệu suất tháng này 3 chỉ số
 class MonthlyPerformanceCard extends StatelessWidget {
   const MonthlyPerformanceCard({super.key, required this.data});
 
-  final MockSitterDashboard data;
+  final SitterDashboard data;
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +28,11 @@ class MonthlyPerformanceCard extends StatelessWidget {
             message: l10n.chuaCoHieuSuat,
           )
         else
-          Container(
+          AppCard(
             width: double.infinity,
+            nen: AppColors.cardMint,
+            vien: false,
             padding: const EdgeInsets.symmetric(vertical: 14),
-            decoration: BoxDecoration(
-              color: AppColors.cardMint,
-              borderRadius: BorderRadius.circular(AppRadius.radius14),
-            ),
             child: Row(
               children: [
                 Expanded(
@@ -92,7 +90,7 @@ class _PerfStat extends StatelessWidget {
         const SizedBox(height: 6),
         Text(value, style: AppTextStyles.h2),
         const SizedBox(height: 6),
-        Text(label, style: AppTextStyles.captionSm.copyWith(fontSize: 11)),
+        Text(label, style: AppTextStyles.captionSm),
       ],
     );
   }

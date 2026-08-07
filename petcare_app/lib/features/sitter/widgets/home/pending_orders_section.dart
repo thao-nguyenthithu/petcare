@@ -1,49 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:petcare_app/features/sitter_order/services/sitter_order_actions.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/sitter/data/mock_sitter_home.dart';
-import 'package:petcare_app/features/sitter/screens/sitter_pending_order_screen.dart';
-import 'package:petcare_app/shared/widgets/pet_avatar_stack.dart';
+import 'package:petcare_app/core/utils/vn_date.dart';
+import 'package:petcare_app/features/sitter/data/sitter_dashboard.dart';
+import 'package:petcare_app/shared/data/pet_brief.dart';
+import 'package:petcare_app/shared/data/service_catalog.dart';
+import 'package:petcare_app/shared/data/sitter_booking.dart';
+import 'package:petcare_app/shared/utils/relative_time.dart';
 import 'package:petcare_app/features/sitter/widgets/section_empty.dart';
 import 'package:petcare_app/shared/utils/money_format.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_status_badge.dart';
+import 'package:petcare_app/shared/widgets/user_avatar.dart';
 
-// Đơn chờ xác nhận
-class PendingOrdersSection extends StatefulWidget {
-  const PendingOrdersSection({super.key, required this.orders});
+// Đọc THẲNG danh sách truyền vào, chép sang state riêng là chốt rỗng mãi
+class PendingOrdersSection extends ConsumerWidget {
+  const PendingOrdersSection({
+    super.key,
+    required this.orders,
+    this.tongDonCho = 0,
+  });
 
-  final List<MockPendingOrder> orders;
+  final List<DonChoTraLoi> orders;
+  final int tongDonCho;
+  List<DonChoTraLoi> get _orders =>
+      List.of(orders)..sort((a, b) => a.hanTraLoi.compareTo(b.hanTraLoi));
 
-  @override
-  State<PendingOrdersSection> createState() => _PendingOrdersSectionState();
-}
+  Future<void> _moChiTiet(BuildContext context, DonChoTraLoi order) =>
+      context.push(AppRoutes.sitterOrderDetailPath(order.id));
 
-class _PendingOrdersSectionState extends State<PendingOrdersSection> {
-  // Đơn đến trước nằm trên cùng chồng thẻ
-  late final List<MockPendingOrder> _orders = List.of(widget.orders)
-    ..sort((a, b) => a.responseCountdown.compareTo(b.responseCountdown));
-
-  void _boDon(String id) {
-    setState(() => _orders.removeWhere((o) => o.id == id));
-  }
-
-  // Mở chi tiết yêu cầu
-  Future<void> _moChiTiet(MockPendingOrder order) async {
-    final ketQua = await Navigator.push<PendingOrderResult>(
+  Future<void> _nhanDon(
+    BuildContext context,
+    WidgetRef ref,
+    DonChoTraLoi order,
+  ) async {
+    if (order.serviceType == LoaiDichVu.datDiDao) {
+      await _moChiTiet(context, order);
+      return;
+    }
+    final l10n = context.l10n;
+    await chayHanhDongDon(
       context,
-      MaterialPageRoute(builder: (_) => SitterPendingOrderScreen(order: order)),
+      ref,
+      order.id,
+      (s) => s.nhanDon(order.id),
+      nhanBaoXong: l10n.daChapNhanDon,
     );
-    if (ketQua != null) _boDon(order.id);
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +67,9 @@ class _PendingOrdersSectionState extends State<PendingOrdersSection> {
             if (_orders.isNotEmpty) ...[
               const SizedBox(width: AppSpacing.labelGap),
               AppStatusBadge(
-                label: l10n.soMoi('${_orders.length}'),
+                label: l10n.soMoi(
+                  '${tongDonCho > _orders.length ? tongDonCho : _orders.length}',
+                ),
                 background: AppColors.accent,
                 textColor: AppColors.textWhite,
               ),
@@ -62,13 +77,12 @@ class _PendingOrdersSectionState extends State<PendingOrdersSection> {
             const Spacer(),
             if (_orders.isNotEmpty)
               InkWell(
-                onTap: () => context.push(AppRoutes.sitterBookings),
-                child: Text(
-                  l10n.xemTatCa,
-                  style: AppTextStyles.captionSm.copyWith(
-                    fontWeight: FontWeight.w600,
+                onTap: () => context.push(
+                  AppRoutes.sitterBookingsPath(
+                    trangThai: maChipDon(SitterBookingStatus.choXacNhan),
                   ),
                 ),
+                child: Text(l10n.xemTatCa, style: AppTextStyles.label),
               ),
           ],
         ),
@@ -86,9 +100,9 @@ class _PendingOrdersSectionState extends State<PendingOrdersSection> {
                   soDonSau: (_orders.length - 1).clamp(0, 2),
                   child: _PendingOrderCard(
                     order: _orders.first,
-                    onOpen: () => _moChiTiet(_orders.first),
-                    onAccept: () => _boDon(_orders.first.id),
-                    onReject: () => _boDon(_orders.first.id),
+                    onOpen: () => _moChiTiet(context, _orders.first),
+                    onAccept: () => _nhanDon(context, ref, _orders.first),
+                    onReject: () => _moChiTiet(context, _orders.first),
                   ),
                 ),
         ),
@@ -149,7 +163,7 @@ class _PendingOrderCard extends StatelessWidget {
     required this.onReject,
   });
 
-  final MockPendingOrder order;
+  final DonChoTraLoi order;
   final VoidCallback onOpen;
   final VoidCallback onAccept;
   final VoidCallback onReject;
@@ -177,26 +191,25 @@ class _PendingOrderCard extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  PetAvatarStack(pets: order.pets, size: 52, ring: true),
+                  UserAvatar(
+                    name: order.ownerName,
+                    imageUrl: order.ownerAvatar,
+                    size: 52,
+                  ),
                   const SizedBox(width: AppSpacing.itemGap),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          order.nhieuBe
-                              ? l10n.soBeVaTen(
-                                  '${order.pets.length}',
-                                  order.moTaBe,
-                                )
-                              : order.moTaBe,
+                          order.ownerName,
                           style: AppTextStyles.label,
-                          maxLines: 2,
+                          maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 5),
                         AppStatusBadge(
-                          label: order.serviceLabel,
+                          label: _nhanDichVu(context, order),
                           background: AppColors.cardMint,
                           textColor: AppColors.primaryColor,
                         ),
@@ -205,7 +218,7 @@ class _PendingOrderCard extends StatelessWidget {
                   ),
                   const SizedBox(width: AppSpacing.labelGap),
                   AppStatusBadge(
-                    label: order.responseCountdown,
+                    label: _conLaiTraLoi(context, order),
                     background: AppColors.accent.withValues(alpha: 0.12),
                     textColor: AppColors.accent,
                     leading: const Icon(
@@ -225,14 +238,18 @@ class _PendingOrderCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${order.ownerName} · ${l10n.cachBan(order.distance)}',
-                          style: AppTextStyles.captionSm.copyWith(fontSize: 11),
+                          '${nhanThoiDiemNgan(l10n, order.startAt)}'
+                          '${order.distanceKm == null ? '' : ' · ${l10n.cachBan(kmGon(order.distanceKm!))}'}',
+                          style: AppTextStyles.captionSm,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
-                          order.scheduleTime,
-                          style: AppTextStyles.captionSm.copyWith(fontSize: 11),
+                          l10n.soBeVaTen(
+                            '${order.pets.length}',
+                            PetBrief.moTa(order.pets),
+                          ),
+                          style: AppTextStyles.captionSm,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -243,7 +260,6 @@ class _PendingOrderCard extends StatelessWidget {
                   Text(
                     '${dinhDangTien(order.price)}đ',
                     style: AppTextStyles.label.copyWith(
-                      fontSize: 16,
                       color: AppColors.accent,
                     ),
                   ),
@@ -280,3 +296,18 @@ class _PendingOrderCard extends StatelessWidget {
     );
   }
 }
+
+String _nhanDichVu(BuildContext context, DonChoTraLoi don) {
+  final l10n = context.l10n;
+  final ten = don.serviceType.ten(l10n);
+  return don.durationMinutes == null
+      ? ten
+      : '$ten · ${l10n.nPhutNhan('${don.durationMinutes}')}';
+}
+
+String _conLaiTraLoi(BuildContext context, DonChoTraLoi don) {
+  final con = don.hanTraLoi.difference(nowVn()).inMinutes;
+  return dongHoConLai(context.l10n, con);
+}
+
+String kmGon(double km) => km.toStringAsFixed(1).replaceAll('.', ',');

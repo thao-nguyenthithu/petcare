@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:petcare_app/features/sitter/data/sitter_services.dart';
+import 'package:petcare_app/shared/data/sitter_services.dart';
 import 'package:petcare_app/shared/utils/money_format.dart';
 
 const groomingHintGia = {

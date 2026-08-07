@@ -3,8 +3,9 @@ import 'package:petcare_app/core/l10n/generated/app_localizations.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/sitter/data/mock_sitter_schedule.dart';
-import 'package:petcare_app/features/sitter/data/sitter_services.dart';
+import 'package:petcare_app/features/sitter/data/sitter_schedule.dart';
+import 'package:petcare_app/shared/data/service_summary.dart';
+import 'package:petcare_app/shared/data/sitter_services.dart';
 import 'package:petcare_app/features/sitter/widgets/schedule/schedule_text_link.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_filter_chip.dart';
@@ -29,13 +30,6 @@ String nhanTrangThai(AppLocalizations l10n, ScheduleApptStatus tt) =>
       ScheduleApptStatus.dangDienRa => l10n.dangDienRa,
       ScheduleApptStatus.choXacNhan => l10n.trangThaiChoXacNhan,
       ScheduleApptStatus.hoanThanh => l10n.hoanThanh,
-    };
-
-String nhanLoaiDichVu(AppLocalizations l10n, ServiceType loai) =>
-    switch (loai) {
-      ServiceType.walking => l10n.datDiDao,
-      ServiceType.boarding => l10n.trongGiu,
-      ServiceType.grooming => l10n.tamVaTia,
     };
 
 Future<ScheduleFilter?> showScheduleFilterSheet(
@@ -118,7 +112,7 @@ class _ScheduleFilterSheetState extends State<_ScheduleFilterSheet> {
             chips: [
               for (final loai in ServiceType.values)
                 (
-                  nhanLoaiDichVu(l10n, loai),
+                  serviceTypeNameDai(context, loai),
                   _loai.contains(loai),
                   () => _doiChon(_loai, loai),
                 ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
-import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
+import 'package:petcare_app/shared/widgets/app_card.dart';
 
 // Trạng thái rỗng gọn cho một section
 class SectionEmpty extends StatelessWidget {
@@ -12,13 +12,11 @@ class SectionEmpty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AppCard(
       width: double.infinity,
+      nen: AppColors.cardMint,
+      vien: false,
       padding: const EdgeInsets.symmetric(vertical: 22),
-      decoration: BoxDecoration(
-        color: AppColors.cardMint,
-        borderRadius: BorderRadius.circular(AppRadius.radius14),
-      ),
       child: Column(
         children: [
           Icon(icon, color: AppColors.textSecondary, size: 28),

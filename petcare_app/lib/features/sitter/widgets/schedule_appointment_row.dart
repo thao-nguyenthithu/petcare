@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
+import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/sitter/data/mock_sitter_schedule.dart';
-import 'package:petcare_app/shared/utils/placeholder_action.dart';
+import 'package:petcare_app/features/sitter/data/sitter_schedule.dart';
+import 'package:petcare_app/shared/data/pet_brief.dart';
 import 'package:petcare_app/shared/widgets/app_status_badge.dart';
 import 'package:petcare_app/shared/widgets/pet_avatar_stack.dart';
 
@@ -47,6 +49,15 @@ class ScheduleAppointmentRow extends StatelessWidget {
       ),
     };
 
+    final quanCuaDon = appt.district;
+
+    final (gioChinh, dongDuoi) = switch (appt.phanNgay) {
+      PhanNgayTrongGiu.nhan => (appt.startTime, l10n.nhanBeNgan),
+      PhanNgayTrongGiu.tra => (appt.endTime, l10n.traBeNgan),
+      PhanNgayTrongGiu.troc => (l10n.caNgay, ''),
+      null => (appt.startTime, appt.endTime),
+    };
+
     // Đơn trải nhiều ngày
     final tenDichVu = appt.nhieuNgay
         ? '${appt.serviceName} · '
@@ -57,7 +68,10 @@ class ScheduleAppointmentRow extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: onTap ?? () => baoDangPhatTrien(context),
+        // Chạm một dòng lịch là mở đúng đơn đó; màn chi tiết tự tải đơn theo id
+        onTap:
+            onTap ??
+            () => context.push(AppRoutes.sitterOrderDetailPath(appt.id)),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: AppSpacing.itemGap),
           child: Column(
@@ -67,24 +81,22 @@ class ScheduleAppointmentRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: 46,
+                    width: 56,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          appt.startTime,
+                          gioChinh,
                           style: AppTextStyles.label.copyWith(
-                            fontSize: 15,
                             color: AppColors.primaryColor,
                           ),
                           maxLines: 1,
                           softWrap: false,
                         ),
                         const SizedBox(height: 2),
-                        // Giờ kết thúc
                         Text(
-                          appt.endTime,
-                          style: AppTextStyles.captionSm.copyWith(fontSize: 11),
+                          dongDuoi,
+                          style: AppTextStyles.captionSm,
                           maxLines: 1,
                           softWrap: false,
                         ),
@@ -107,15 +119,11 @@ class ScheduleAppointmentRow extends StatelessWidget {
                                   children: [
                                     TextSpan(
                                       text: tenDichVu,
-                                      style: AppTextStyles.label.copyWith(
-                                        fontSize: 13,
-                                      ),
+                                      style: AppTextStyles.label,
                                     ),
                                     TextSpan(
-                                      text: ' · #${appt.id}',
-                                      style: AppTextStyles.captionSm.copyWith(
-                                        fontSize: 12,
-                                      ),
+                                      text: ' · #${appt.code}',
+                                      style: AppTextStyles.captionSm,
                                     ),
                                   ],
                                 ),
@@ -125,13 +133,12 @@ class ScheduleAppointmentRow extends StatelessWidget {
                               const SizedBox(height: 3),
                               Text(
                                 appt.pets.length == 1
-                                    ? appt.tenThuCung
+                                    ? moTaCacBe(l10n, appt.pets)
                                     : l10n.soBeVaTen(
                                         appt.pets.length.toString(),
-                                        appt.tenThuCung,
+                                        moTaCacBe(l10n, appt.pets),
                                       ),
                                 style: AppTextStyles.captionSm.copyWith(
-                                  fontSize: 12,
                                   color: AppColors.textPrimary,
                                 ),
                                 maxLines: 2,
@@ -143,10 +150,10 @@ class ScheduleAppointmentRow extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      '${appt.ownerName} · ${appt.district}',
-                                      style: AppTextStyles.captionSm.copyWith(
-                                        fontSize: 11,
-                                      ),
+                                      quanCuaDon == null
+                                          ? appt.ownerName
+                                          : '${appt.ownerName} · $quanCuaDon',
+                                      style: AppTextStyles.captionSm,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),

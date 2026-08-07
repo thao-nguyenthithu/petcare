@@ -1,6 +1,6 @@
 import 'package:petcare_app/core/network/api_client.dart';
-import 'package:petcare_app/features/sitter/data/sitter_service_area.dart';
-import 'package:petcare_app/features/sitter/data/sitter_services.dart';
+import 'package:petcare_app/shared/data/sitter_service_area.dart';
+import 'package:petcare_app/shared/data/sitter_services.dart';
 
 // Gọi API dịch vụ, khu vực phục vụ của NCC
 class SitterServicesApiService {

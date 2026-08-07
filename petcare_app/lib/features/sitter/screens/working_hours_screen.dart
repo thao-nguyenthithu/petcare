@@ -1,26 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/vn_date.dart';
-import 'package:petcare_app/features/sitter/data/mock_sitter_availability.dart';
+import 'package:petcare_app/features/sitter/providers/sitter_schedule_provider.dart';
 import 'package:petcare_app/features/sitter/widgets/schedule/availability_fields.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/green_title_header.dart';
 
 // Màn đặt khung giờ làm việc mặc định của NCC
-class WorkingHoursScreen extends StatefulWidget {
+class WorkingHoursScreen extends ConsumerStatefulWidget {
   const WorkingHoursScreen({super.key});
 
   @override
-  State<WorkingHoursScreen> createState() => _WorkingHoursScreenState();
+  ConsumerState<WorkingHoursScreen> createState() => _WorkingHoursScreenState();
 }
 
-class _WorkingHoursScreenState extends State<WorkingHoursScreen> {
-  String _batDau = MockSitterAvailability.gioBatDau;
-  String _ketThuc = MockSitterAvailability.gioKetThuc;
-  late final Set<int> _ngay = {...MockSitterAvailability.ngayLamViec};
+class _WorkingHoursScreenState extends ConsumerState<WorkingHoursScreen> {
+  late String _batDau;
+  late String _ketThuc;
+  late Set<int> _ngay;
+  bool _dangLuu = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final lich = ref.read(sitterScheduleProvider).value;
+    _batDau = lich?.gioBatDau ?? '08:00';
+    _ketThuc = lich?.gioKetThuc ?? '20:00';
+    _ngay = {...?lich?.ngayLamViec};
+  }
 
   // Phải chọn ít nhất một ngày
   String? get _loi {
@@ -33,14 +44,26 @@ class _WorkingHoursScreenState extends State<WorkingHoursScreen> {
     return sauHon ? null : l10n.gioKetThucPhaiSauGioBatDau;
   }
 
-  void _luu() {
-    MockSitterAvailability.gioBatDau = _batDau;
-    MockSitterAvailability.gioKetThuc = _ketThuc;
-    MockSitterAvailability.ngayLamViec = {..._ngay};
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(context.l10n.daLuu)));
-    Navigator.pop(context);
+  Future<void> _luu() async {
+    setState(() => _dangLuu = true);
+    try {
+      await ref.read(sitterScheduleProvider.notifier).luuGioLamViec((
+        batDau: _batDau,
+        ketThuc: _ketThuc,
+        ngayLamViec: _ngay,
+      ));
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(context.l10n.daLuu)));
+      Navigator.pop(context);
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _dangLuu = false);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(context.l10n.luuThatBai)));
+    }
   }
 
   @override
@@ -105,7 +128,11 @@ class _WorkingHoursScreenState extends State<WorkingHoursScreen> {
                   ),
                 ],
                 const SizedBox(height: AppSpacing.groupGap),
-                AppButton(text: l10n.luu, enabled: loi == null, onTap: _luu),
+                AppButton(
+                  text: l10n.luu,
+                  enabled: loi == null && !_dangLuu,
+                  onTap: _luu,
+                ),
               ],
             ),
           ),
@@ -177,7 +204,6 @@ class _ONgayTuan extends StatelessWidget {
           child: Text(
             nhan,
             style: AppTextStyles.label.copyWith(
-              fontSize: 13,
               color: chon ? AppColors.textWhite : AppColors.textSecondary,
             ),
           ),

@@ -5,7 +5,7 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/sitter/data/grooming_form.dart';
-import 'package:petcare_app/features/sitter/data/sitter_services.dart';
+import 'package:petcare_app/shared/data/sitter_services.dart';
 import 'package:petcare_app/shared/utils/money_format.dart';
 
 const _banPhimSo = TextInputType.numberWithOptions(

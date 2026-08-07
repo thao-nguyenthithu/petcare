@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:petcare_app/core/config/cau_hinh_nghiep_vu_provider.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/network/api_error.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/address/data/ket_qua_vi_tri.dart';
-import 'package:petcare_app/features/sitter/data/sitter_service_area.dart';
+import 'package:petcare_app/shared/data/ket_qua_vi_tri.dart';
+import 'package:petcare_app/shared/data/sitter_service_area.dart';
 import 'package:petcare_app/features/sitter/providers/sitter_services_provider.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_screen_header.dart';
@@ -18,6 +19,7 @@ import 'package:petcare_app/shared/widgets/bottom_action_bar.dart';
 import 'package:petcare_app/shared/widgets/confirm_dialog.dart';
 import 'package:petcare_app/shared/widgets/locked_field.dart';
 import 'package:petcare_app/shared/widgets/map_preview.dart';
+import 'package:petcare_app/shared/widgets/app_screen.dart';
 
 // Màn con sửa Khu vực phục vụ
 class SitterServiceAreaScreen extends ConsumerStatefulWidget {
@@ -131,88 +133,77 @@ class _SitterServiceAreaScreenState
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final banKinhToiDa = ref.watch(cauHinhNghiepVuProvider).banKinhTimToiDaKm;
     return PopScope(
       canPop: !_dirty,
       onPopInvokedWithResult: (didPop, _) {
         if (!didPop) _onBack();
       },
-      child: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: [
-              AppScreenHeader(title: l10n.khuVucPhucVu, onBack: _onBack),
-              Expanded(
-                child: ListView(
-                  padding: const EdgeInsets.fromLTRB(
-                    AppSpacing.screenPadding,
-                    AppSpacing.textGap,
-                    AppSpacing.screenPadding,
-                    AppSpacing.groupGap,
+      child: AppScreen(
+        header: AppScreenHeader(title: l10n.khuVucPhucVu, onBack: _onBack),
+        body: ListView(
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.screenPadding,
+            AppSpacing.textGap,
+            AppSpacing.screenPadding,
+            AppSpacing.groupGap,
+          ),
+          children: [
+            Text(l10n.moTaKhuVucPhucVu, style: AppTextStyles.captionSm),
+            const SizedBox(height: AppSpacing.blockGap),
+            if (_viTri != null)
+              MapPreview(viTri: _viTri!, onDoi: _doiViTri)
+            else
+              AppButton(
+                text: l10n.chonViTriTrenBanDo,
+                icon: Icons.map_outlined,
+                outlined: true,
+                onTap: _doiViTri,
+              ),
+            const SizedBox(height: AppSpacing.stackGap),
+            Text(l10n.diaChiPhucVu, style: AppTextStyles.label),
+            const SizedBox(height: AppSpacing.labelGap),
+            LockedField(value: _diaChi),
+            const SizedBox(height: AppSpacing.stackGap),
+            AppTextField(
+              label: l10n.ghiChuDiaChi,
+              hint: l10n.hintGhiChuDiaChi,
+              controller: _ghiChuController,
+              height: 46,
+            ),
+            const SizedBox(height: AppSpacing.blockGap),
+            Row(
+              children: [
+                Text(l10n.banKinhPhucVu, style: AppTextStyles.label),
+                const Spacer(),
+                Text(
+                  l10n.soKm('$_banKinh'),
+                  style: AppTextStyles.label.copyWith(
+                    color: AppColors.primaryColor,
                   ),
-                  children: [
-                    Text(l10n.moTaKhuVucPhucVu, style: AppTextStyles.captionSm),
-                    const SizedBox(height: AppSpacing.blockGap),
-                    if (_viTri != null)
-                      MapPreview(viTri: _viTri!, onDoi: _doiViTri)
-                    else
-                      AppButton(
-                        text: l10n.chonViTriTrenBanDo,
-                        icon: Icons.map_outlined,
-                        outlined: true,
-                        onTap: _doiViTri,
-                      ),
-                    const SizedBox(height: AppSpacing.stackGap),
-                    Text(l10n.diaChiPhucVu, style: AppTextStyles.label),
-                    const SizedBox(height: AppSpacing.labelGap),
-                    LockedField(value: _diaChi),
-                    const SizedBox(height: AppSpacing.stackGap),
-                    AppTextField(
-                      label: l10n.ghiChuDiaChi,
-                      hint: l10n.hintGhiChuDiaChi,
-                      controller: _ghiChuController,
-                      height: 46,
-                    ),
-                    const SizedBox(height: AppSpacing.blockGap),
-                    Row(
-                      children: [
-                        Text(l10n.banKinhPhucVu, style: AppTextStyles.label),
-                        const Spacer(),
-                        Text(
-                          l10n.soKm('$_banKinh'),
-                          style: AppTextStyles.label.copyWith(
-                            color: AppColors.primaryColor,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Slider(
-                      value: _banKinh.toDouble(),
-                      min: minServiceRadiusKm.toDouble(),
-                      max: maxServiceRadiusKm.toDouble(),
-                      divisions: maxServiceRadiusKm - minServiceRadiusKm,
-                      label: l10n.soKm('$_banKinh'),
-                      onChanged: (v) => setState(() {
-                        _dirty = true;
-                        _banKinh = v.round();
-                      }),
-                    ),
-                    Text(
-                      l10n.ghiChuKhuVucPhucVu,
-                      style: AppTextStyles.captionSm,
-                    ),
-                  ],
                 ),
-              ),
-              BottomActionBar(
-                vien: false,
-                child: AppButton(
-                  text: l10n.luuKhuVucPhucVu,
-                  enabled: _viTri != null && !_dangLuu,
-                  onTap: _luu,
-                ),
-              ),
-            ],
+              ],
+            ),
+            Slider(
+              value: _banKinh.toDouble(),
+              min: minServiceRadiusKm.toDouble(),
+              max: banKinhToiDa.toDouble(),
+              divisions: banKinhToiDa - minServiceRadiusKm,
+              label: l10n.soKm('$_banKinh'),
+              onChanged: (v) => setState(() {
+                _dirty = true;
+                _banKinh = v.round();
+              }),
+            ),
+            Text(l10n.ghiChuKhuVucPhucVu, style: AppTextStyles.captionSm),
+          ],
+        ),
+        bottomBar: BottomActionBar(
+          vien: false,
+          child: AppButton(
+            text: l10n.luuKhuVucPhucVu,
+            enabled: _viTri != null && !_dangLuu,
+            onTap: _luu,
           ),
         ),
       ),

@@ -6,8 +6,8 @@ import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/sitter/data/service_summary.dart';
-import 'package:petcare_app/features/sitter/data/sitter_services.dart';
+import 'package:petcare_app/shared/data/service_summary.dart';
+import 'package:petcare_app/shared/data/sitter_services.dart';
 import 'package:petcare_app/features/sitter/providers/sitter_services_provider.dart';
 import 'package:petcare_app/features/sitter/widgets/services/service_list_card.dart';
 

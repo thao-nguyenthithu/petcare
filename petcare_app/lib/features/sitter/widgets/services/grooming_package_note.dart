@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
-import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
+import 'package:petcare_app/shared/widgets/app_card.dart';
 
 const double _dem = 14;
 
@@ -13,13 +13,9 @@ class GroomingPackageNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return Container(
+    return AppCard(
+      nen: AppColors.background,
       padding: const EdgeInsets.all(_dem),
-      decoration: BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.circular(AppRadius.radius14),
-        border: Border.all(color: AppColors.neutralLight),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

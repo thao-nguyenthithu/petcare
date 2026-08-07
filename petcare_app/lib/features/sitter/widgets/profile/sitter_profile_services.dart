@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
-import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/sitter/data/service_summary.dart';
-import 'package:petcare_app/features/sitter/data/sitter_services.dart';
+import 'package:petcare_app/shared/data/service_summary.dart';
+import 'package:petcare_app/shared/data/sitter_services.dart';
 import 'package:petcare_app/shared/utils/money_format.dart';
 import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
+import 'package:petcare_app/shared/widgets/app_card.dart';
 
 // Mục Dịch vụ và giá
 class SitterProfileServices extends StatefulWidget {
@@ -268,12 +268,10 @@ class _KhoiChiTiet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final soNhanManh = dong.where((d) => d.nhanManh).length;
-    return Container(
+    return AppCard(
+      nen: AppColors.cardMint,
+      vien: false,
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-      decoration: BoxDecoration(
-        color: AppColors.cardMint,
-        borderRadius: BorderRadius.circular(AppRadius.radius14),
-      ),
       child: Column(
         children: [
           for (final (i, d) in dong.indexed) ...[

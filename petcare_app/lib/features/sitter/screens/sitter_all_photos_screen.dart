@@ -5,7 +5,8 @@ import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
-import 'package:petcare_app/features/sitter/data/sitter_profile.dart';
+import 'package:petcare_app/shared/data/sitter_profile.dart';
+import 'package:petcare_app/features/auth/providers/profile_refresh.dart';
 import 'package:petcare_app/features/sitter/providers/sitter_profile_provider.dart';
 import 'package:petcare_app/shared/widgets/photo_viewer.dart';
 import 'package:petcare_app/features/sitter/widgets/profile/photo_add_tile.dart';
@@ -14,6 +15,10 @@ import 'package:petcare_app/shared/widgets/app_loading_overlay.dart';
 import 'package:petcare_app/shared/widgets/app_screen_header.dart';
 import 'package:petcare_app/shared/widgets/bottom_action_bar.dart';
 import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
+import 'package:petcare_app/shared/widgets/app_skeleton.dart';
+import 'package:petcare_app/shared/utils/anh_cache.dart';
+import 'package:petcare_app/shared/utils/chon_anh.dart';
+import 'package:petcare_app/shared/widgets/app_screen.dart';
 
 // Màn Tất cả ảnh của NCC
 class SitterAllPhotosScreen extends ConsumerStatefulWidget {
@@ -41,15 +46,27 @@ class _SitterAllPhotosScreenState extends ConsumerState<SitterAllPhotosScreen> {
       context,
       ref.read(sitterMeProvider.notifier).chonVaThemAnh,
     );
+    // `dayAnh` là chưa tải tấm nào, các nhánh còn lại đều có thể đã tải
     switch (kq) {
-      case KetQuaThemAnh.dayAnh || KetQuaThemAnh.motPhan:
+      case KetQuaThemAnh.dayAnh:
         _thongBao(l10n.daDatToiDaAnh('$maxSitterPhotos'));
+      case KetQuaThemAnh.motPhan:
+        _lamMoiTrangCongKhai();
+        _thongBao(l10n.daDatToiDaAnh('$maxSitterPhotos'));
+      case KetQuaThemAnh.quaNang:
+        _lamMoiTrangCongKhai();
+        _thongBao(l10n.loiAnhQuaNang('$mbAnhToiDa'));
       case KetQuaThemAnh.loi:
         _thongBao(l10n.luuThatBai);
-      case KetQuaThemAnh.thanhCong || KetQuaThemAnh.huy:
+      case KetQuaThemAnh.thanhCong:
+        _lamMoiTrangCongKhai();
+      case KetQuaThemAnh.huy:
         break;
     }
   }
+
+  void _lamMoiTrangCongKhai() =>
+      ref.refreshProfileData(boQua: [sitterMeProvider]);
 
   void _thoatChon() => setState(() {
     _chonMode = false;
@@ -69,6 +86,7 @@ class _SitterAllPhotosScreenState extends ConsumerState<SitterAllPhotosScreen> {
     if (ids.isEmpty) return;
     try {
       await ref.read(sitterMeProvider.notifier).xoaAnh(ids);
+      _lamMoiTrangCongKhai();
       _thoatChon();
     } catch (_) {
       _thongBao(l10n.luuThatBai);
@@ -84,76 +102,75 @@ class _SitterAllPhotosScreenState extends ConsumerState<SitterAllPhotosScreen> {
     final anhXem = [
       for (final a in anh) PhotoItem.mang(a.url, ngayThem: a.ngayThem),
     ];
-    return Scaffold(
+    return AppScreen(
       backgroundColor: AppColors.surface,
-      body: SafeArea(
-        bottom: false,
-        child: Column(
-          children: [
-            AppScreenHeader(
-              title: l10n.tatCaAnh,
-              onBack: _chonMode ? _thoatChon : null,
-              action: anh.isEmpty
-                  ? null
-                  : TextButton(
-                      onPressed: () => _chonMode
-                          ? _thoatChon()
-                          : setState(() => _chonMode = true),
-                      child: Text(_chonMode ? l10n.xong : l10n.chon),
-                    ),
-            ),
-            const AppDongKe(),
-            Expanded(
-              child: async.when(
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (_, _) => Center(child: Text(l10n.khongTaiDuocDuLieu)),
-                data: (_) => GridView.count(
-                  padding: EdgeInsets.fromLTRB(
-                    AppSpacing.screenPadding,
-                    AppSpacing.screenPadding,
-                    AppSpacing.screenPadding,
-                    AppSpacing.screenPadding +
-                        MediaQuery.of(context).padding.bottom,
+      header: Column(
+        children: [
+          AppScreenHeader(
+            title: l10n.tatCaAnh,
+            onBack: _chonMode ? _thoatChon : null,
+            action: anh.isEmpty
+                ? null
+                : TextButton(
+                    onPressed: () => _chonMode
+                        ? _thoatChon()
+                        : setState(() => _chonMode = true),
+                    child: Text(_chonMode ? l10n.xong : l10n.chon),
                   ),
-                  crossAxisCount: 3,
-                  mainAxisSpacing: AppSpacing.itemGap,
-                  crossAxisSpacing: AppSpacing.itemGap,
-                  children: [
-                    for (final (i, item) in anh.indexed)
-                      _Tile(
-                        url: item.url,
-                        chonMode: _chonMode,
-                        daChon: _daChon.contains(i),
-                        onTap: () => _chonMode
-                            ? _toggle(i)
-                            : showPhotoViewer(context, anh: anhXem, viTri: i),
-                        onLongPress: () {
-                          if (!_chonMode) {
-                            setState(() {
-                              _chonMode = true;
-                              _daChon.add(i);
-                            });
-                          }
-                        },
-                      ),
-                    if (!_chonMode) PhotoAddTile(onTap: _themAnh),
-                  ],
-                ),
-              ),
-            ),
-            if (_chonMode && _daChon.isNotEmpty)
-              BottomActionBar(
-                child: AppButton(
-                  text: l10n.xoaNAnh('${_daChon.length}'),
-                  icon: Icons.delete_outline,
-                  color: AppColors.error,
-                  height: 52,
-                  onTapAsync: () => _xoa(anh),
-                ),
-              ),
-          ],
+          ),
+          const AppDongKe(),
+        ],
+      ),
+      body: async.when(
+        loading: () => const AppSkeletonList(soThe: 3, caoThe: 120),
+        error: (_, _) => Center(child: Text(l10n.khongTaiDuocDuLieu)),
+        data: (_) => GridView.builder(
+          padding: EdgeInsets.fromLTRB(
+            AppSpacing.screenPadding,
+            AppSpacing.screenPadding,
+            AppSpacing.screenPadding,
+            AppSpacing.screenPadding + MediaQuery.of(context).padding.bottom,
+          ),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            mainAxisSpacing: AppSpacing.itemGap,
+            crossAxisSpacing: AppSpacing.itemGap,
+          ),
+          itemCount: anh.length + (_chonMode ? 0 : 1),
+          itemBuilder: (_, i) {
+            if (i >= anh.length) {
+              return PhotoAddTile(onTap: _themAnh);
+            }
+            return _Tile(
+              url: anh[i].url,
+              chonMode: _chonMode,
+              daChon: _daChon.contains(i),
+              onTap: () => _chonMode
+                  ? _toggle(i)
+                  : showPhotoViewer(context, anh: anhXem, viTri: i),
+              onLongPress: () {
+                if (!_chonMode) {
+                  setState(() {
+                    _chonMode = true;
+                    _daChon.add(i);
+                  });
+                }
+              },
+            );
+          },
         ),
       ),
+      bottomBar: _chonMode && _daChon.isNotEmpty
+          ? BottomActionBar(
+              child: AppButton(
+                text: l10n.xoaNAnh('${_daChon.length}'),
+                icon: Icons.delete_outline,
+                color: AppColors.error,
+                height: 52,
+                onTapAsync: () => _xoa(anh),
+              ),
+            )
+          : null,
     );
   }
 }
@@ -186,6 +203,13 @@ class _Tile extends StatelessWidget {
             child: CachedNetworkImage(
               imageUrl: url,
               fit: BoxFit.cover,
+              memCacheWidth: beRongCache(
+                context,
+                (MediaQuery.sizeOf(context).width -
+                        2 * AppSpacing.screenPadding -
+                        2 * AppSpacing.itemGap) /
+                    3,
+              ),
               placeholder: (_, _) =>
                   const ColoredBox(color: AppColors.cardMint),
               errorWidget: (_, _, _) =>
@@ -207,12 +231,18 @@ class _Tile extends StatelessWidget {
                 width: 22,
                 height: 22,
                 decoration: BoxDecoration(
-                  color: daChon ? AppColors.primaryColor : Colors.white54,
+                  color: daChon
+                      ? AppColors.primaryColor
+                      : AppColors.textWhite.withValues(alpha: 0.54),
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 1.5),
+                  border: Border.all(color: AppColors.textWhite, width: 1.5),
                 ),
                 child: daChon
-                    ? const Icon(Icons.check, size: 14, color: Colors.white)
+                    ? const Icon(
+                        Icons.check,
+                        size: 14,
+                        color: AppColors.textWhite,
+                      )
                     : null,
               ),
             ),

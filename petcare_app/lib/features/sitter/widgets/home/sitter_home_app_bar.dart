@@ -44,21 +44,20 @@ class SitterHomeAppBar extends StatelessWidget {
                   SvgPicture.asset('assets/icons/paw_white.svg', width: 24),
                   const SizedBox(width: AppSpacing.labelGap),
                   Expanded(
-                    child: Text(
-                      l10n.tenUngDung,
-                      style: AppTextStyles.h3.copyWith(
-                        fontSize: 16,
-                        color: AppColors.textWhite,
-                      ),
-                    ),
+                    child: Text(l10n.tenUngDung, style: AppTextStyles.button),
                   ),
                   Material(
-                    color: const Color(0xFF23705A),
+                    color: Color.alphaBlend(
+                      Colors.black.withValues(alpha: 0.18),
+                      AppColors.primaryColor,
+                    ),
                     shape: const CircleBorder(),
                     child: IconButton(
                       onPressed: khoa
                           ? null
-                          : () => context.push(AppRoutes.notifications),
+                          : () => context.push(
+                              AppRoutes.notificationsPath(laNcc: true),
+                            ),
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints.tightFor(
                         width: 40,
@@ -81,10 +80,7 @@ class SitterHomeAppBar extends StatelessWidget {
               const SizedBox(height: AppSpacing.stackGap),
               Text(
                 l10n.congViec,
-                style: AppTextStyles.h1.copyWith(
-                  fontSize: 26,
-                  color: AppColors.textWhite,
-                ),
+                style: AppTextStyles.h1.copyWith(color: AppColors.textWhite),
               ),
               // Khi onboarding ẩn thanh nhận đơn, chỉ còn tiêu đề
               if (!khoa) ...[
@@ -110,8 +106,6 @@ class SitterHomeAppBar extends StatelessWidget {
                         child: Text(
                           l10n.tatNhanDonMoTa,
                           style: AppTextStyles.captionSm.copyWith(
-                            fontSize: 11,
-                            height: 1.35,
                             color: AppColors.textWhite.withValues(alpha: 0.85),
                           ),
                         ),
@@ -162,7 +156,7 @@ class _AvailabilityBar extends StatelessWidget {
           Expanded(
             child: Text(
               trangThai,
-              style: AppTextStyles.label.copyWith(fontSize: 16, color: mauChu),
+              style: AppTextStyles.label.copyWith(color: mauChu),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),

@@ -4,13 +4,13 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/sitter/data/grooming_form.dart';
-import 'package:petcare_app/features/sitter/data/service_summary.dart';
-import 'package:petcare_app/features/sitter/data/sitter_services.dart';
+import 'package:petcare_app/shared/data/service_summary.dart';
+import 'package:petcare_app/shared/data/sitter_services.dart';
 import 'package:petcare_app/features/sitter/widgets/services/choice_pill_row.dart';
 import 'package:petcare_app/features/sitter/widgets/services/grooming_package_note.dart';
 import 'package:petcare_app/features/sitter/widgets/services/grooming_price_table.dart';
 
-// Tắm và cắt tỉa chọn gói rồi khai bảng giá kèm thời lượng cho từng mức cân của gói đó.
+// Ô nào có giá thì bắt buộc có thời lượng kèm
 class GroomingFields extends StatelessWidget {
   const GroomingFields({
     super.key,

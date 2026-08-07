@@ -57,9 +57,7 @@ class ServiceListCard extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: AppTextStyles.label.copyWith(
-                        color: AppColors.textPrimary,
-                      ),
+                      style: AppTextStyles.label,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

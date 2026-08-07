@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/sitter/data/sitter_service_area.dart';
+import 'package:petcare_app/shared/data/sitter_service_area.dart';
 import 'package:petcare_app/features/sitter/widgets/profile/service_area_map.dart';
 import 'package:petcare_app/shared/widgets/map_preview.dart';
 
 // Mục Khu vực phục vụ, chạm để mở bản đồ toàn màn hình
 class SitterProfileArea extends StatelessWidget {
-  const SitterProfileArea({super.key, required this.area});
+  const SitterProfileArea({
+    super.key,
+    required this.area,
+    this.chinhChu = true,
+  });
 
   final SitterServiceArea? area;
+  final bool chinhChu;
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +40,15 @@ class SitterProfileArea extends StatelessWidget {
             viTri: area.viTri!,
             zoom: zoomTheoBanKinh(area.radiusKm),
             banKinhKm: area.radiusKm,
+            hienGhim: chinhChu,
             icon: Icons.zoom_out_map,
             nhan: l10n.chamDeXemBanDo,
-            onDoi: () => moXemBanDo(context, area.viTri!, area.radiusKm),
+            onDoi: () => moXemBanDo(
+              context,
+              area.viTri!,
+              area.radiusKm,
+              chinhChu: chinhChu,
+            ),
           ),
           const SizedBox(height: 12),
           // Bán kính nhận dịch vụ

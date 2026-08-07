@@ -7,14 +7,15 @@ import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/sitter/data/service_summary.dart';
-import 'package:petcare_app/features/sitter/data/sitter_service_area.dart';
-import 'package:petcare_app/features/sitter/data/sitter_services.dart';
+import 'package:petcare_app/shared/data/service_summary.dart';
+import 'package:petcare_app/shared/data/sitter_service_area.dart';
+import 'package:petcare_app/shared/data/sitter_services.dart';
 import 'package:petcare_app/features/sitter/providers/sitter_services_provider.dart';
 import 'package:petcare_app/features/sitter/widgets/services/service_list_card.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_screen_header.dart';
 import 'package:petcare_app/shared/widgets/map_preview.dart';
+import 'package:petcare_app/shared/widgets/app_screen.dart';
 
 // Trang tất cả dịch vụ của NCC
 class MyServicesScreen extends ConsumerWidget {
@@ -48,70 +49,56 @@ class MyServicesScreen extends ConsumerWidget {
         ? l10n.tatCaDichVuCuaToi
         : l10n.hoanTatDeNhanDon;
 
-    return Scaffold(
+    return AppScreen(
       backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Column(
-          children: [
-            DecoratedBox(
-              decoration: const BoxDecoration(
-                color: AppColors.surface,
-                border: Border(
-                  bottom: BorderSide(color: AppColors.neutralLight),
-                ),
-              ),
-              child: AppScreenHeader(title: tieuDe),
-            ),
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
-                children: [
-                  if (thieu != null) ...[
-                    _BannerThieu(text: thieu),
-                    const SizedBox(height: 20),
-                  ],
-
-                  // Khu vực phục vụ
-                  Text(l10n.khuVucPhucVu, style: AppTextStyles.h3),
-                  const SizedBox(height: 6),
-                  Text(l10n.moTaKhuVucPhucVu, style: AppTextStyles.captionSm),
-                  const SizedBox(height: 14),
-                  if (area.daDat)
-                    _KhuVucDaDat(
-                      area: area,
-                      onSua: () => context.push(AppRoutes.sitterServiceArea),
-                    )
-                  else
-                    _KhuVucTrong(
-                      onDat: () => context.push(AppRoutes.sitterServiceArea),
-                    ),
-                  const SizedBox(height: 28),
-
-                  // Loại dịch vụ cung cấp
-                  Text(l10n.loaiDichVu, style: AppTextStyles.h3),
-                  const SizedBox(height: 6),
-                  Text(
-                    l10n.batLoaiDichVuBanCungCap,
-                    style: AppTextStyles.captionSm,
-                  ),
-                  const SizedBox(height: 14),
-                  for (final type in ServiceType.values)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
-                      child: _TypeCard(
-                        type: type,
-                        services: services,
-                        onTap: () => _cauHinh(context, ref, type),
-                        onToggle: (v) => ref
-                            .read(sitterServicesProvider.notifier)
-                            .batTat(type, v),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-          ],
+      header: DecoratedBox(
+        decoration: const BoxDecoration(
+          color: AppColors.surface,
+          border: Border(bottom: BorderSide(color: AppColors.neutralLight)),
         ),
+        child: AppScreenHeader(title: tieuDe),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
+        children: [
+          if (thieu != null) ...[
+            _BannerThieu(text: thieu),
+            const SizedBox(height: 20),
+          ],
+
+          // Khu vực phục vụ
+          Text(l10n.khuVucPhucVu, style: AppTextStyles.h3),
+          const SizedBox(height: 6),
+          Text(l10n.moTaKhuVucPhucVu, style: AppTextStyles.captionSm),
+          const SizedBox(height: 14),
+          if (area.daDat)
+            _KhuVucDaDat(
+              area: area,
+              onSua: () => context.push(AppRoutes.sitterServiceArea),
+            )
+          else
+            _KhuVucTrong(
+              onDat: () => context.push(AppRoutes.sitterServiceArea),
+            ),
+          const SizedBox(height: 28),
+
+          // Loại dịch vụ cung cấp
+          Text(l10n.loaiDichVu, style: AppTextStyles.h3),
+          const SizedBox(height: 6),
+          Text(l10n.batLoaiDichVuBanCungCap, style: AppTextStyles.captionSm),
+          const SizedBox(height: 14),
+          for (final type in ServiceType.values)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: _TypeCard(
+                type: type,
+                services: services,
+                onTap: () => _cauHinh(context, ref, type),
+                onToggle: (v) =>
+                    ref.read(sitterServicesProvider.notifier).batTat(type, v),
+              ),
+            ),
+        ],
       ),
     );
   }
@@ -189,16 +176,10 @@ class _KhuVucDaDat extends StatelessWidget {
         const SizedBox(height: 16),
         Text(
           l10n.banKinhPhucVu,
-          style: AppTextStyles.label.copyWith(
-            color: AppColors.textPrimary,
-            fontWeight: FontWeight.w700,
-          ),
+          style: AppTextStyles.button.copyWith(color: AppColors.textPrimary),
         ),
         const SizedBox(height: 2),
-        Text(
-          l10n.soKm('${area.radiusKm}'),
-          style: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
-        ),
+        Text(l10n.soKm('${area.radiusKm}'), style: AppTextStyles.body),
         const SizedBox(height: 16),
         AppButton(
           text: l10n.suaKhuVuc,

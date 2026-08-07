@@ -55,14 +55,11 @@ class TimePickField extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Text(nhan, style: AppTextStyles.captionSm.copyWith(fontSize: 11)),
+              Text(nhan, style: AppTextStyles.captionSm),
               const SizedBox(height: 2),
               Text(
                 gio,
-                style: AppTextStyles.h3.copyWith(
-                  fontSize: 20,
-                  color: AppColors.primaryColor,
-                ),
+                style: AppTextStyles.h2.copyWith(color: AppColors.primaryColor),
               ),
             ],
           ),
@@ -104,12 +101,7 @@ class SlotStepperField extends StatelessWidget {
         children: [
           Row(
             children: [
-              Expanded(
-                child: Text(
-                  nhan,
-                  style: AppTextStyles.label.copyWith(fontSize: 14),
-                ),
-              ),
+              Expanded(child: Text(nhan, style: AppTextStyles.label)),
               IconButton(
                 onPressed: (!chiXem && soCho > 0)
                     ? () => onDoi(soCho - 1)
@@ -118,10 +110,7 @@ class SlotStepperField extends StatelessWidget {
                 color: AppColors.primaryColor,
                 visualDensity: VisualDensity.compact,
               ),
-              Text(
-                soCho.toString(),
-                style: AppTextStyles.h3.copyWith(fontSize: 18),
-              ),
+              Text(soCho.toString(), style: AppTextStyles.h3),
               IconButton(
                 onPressed: (!chiXem && soCho < toiDa)
                     ? () => onDoi(soCho + 1)
@@ -134,7 +123,7 @@ class SlotStepperField extends StatelessWidget {
           ),
           if (moTa != null) ...[
             const SizedBox(height: AppSpacing.textGap),
-            Text(moTa!, style: AppTextStyles.captionSm.copyWith(fontSize: 11)),
+            Text(moTa!, style: AppTextStyles.captionSm),
           ],
         ],
       ),

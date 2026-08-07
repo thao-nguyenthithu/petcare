@@ -14,8 +14,11 @@ double zoomTheoBanKinh(int km) {
   return 10.2;
 }
 
-// Các lớp bản đồ khu vực phục vụ trang cá nhân NCC
-List<Widget> lopBanDoKhuVuc(LatLng viTri, int radiusKm) => [
+List<Widget> lopBanDoKhuVuc(
+  LatLng viTri,
+  int radiusKm, {
+  bool chinhChu = true,
+}) => [
   voyagerTileLayer(),
   CircleLayer(
     circles: [
@@ -29,38 +32,50 @@ List<Widget> lopBanDoKhuVuc(LatLng viTri, int radiusKm) => [
       ),
     ],
   ),
-  MarkerLayer(
-    markers: [
-      Marker(
-        point: viTri,
-        width: 40,
-        height: 40,
-        alignment: Alignment.topCenter,
-        child: const Icon(
-          Icons.location_on,
-          color: AppColors.primaryColor,
-          size: 32,
+  if (chinhChu)
+    MarkerLayer(
+      markers: [
+        Marker(
+          point: viTri,
+          width: 40,
+          height: 40,
+          alignment: Alignment.topCenter,
+          child: const Icon(
+            Icons.location_on,
+            color: AppColors.primaryColor,
+            size: 32,
+          ),
         ),
-      ),
-    ],
-  ),
+      ],
+    ),
 ];
 
 // Mở bản đồ toàn màn hình, tương tác phóng to/thu nhỏ
-Future<void> moXemBanDo(BuildContext context, LatLng viTri, int radiusKm) {
+Future<void> moXemBanDo(
+  BuildContext context,
+  LatLng viTri,
+  int radiusKm, {
+  bool chinhChu = true,
+}) {
   return Navigator.of(context).push(
     MaterialPageRoute(
       fullscreenDialog: true,
-      builder: (_) => _BanDoScreen(viTri: viTri, radiusKm: radiusKm),
+      builder: (_) =>
+          _BanDoScreen(viTri: viTri, radiusKm: radiusKm, chinhChu: chinhChu),
     ),
   );
 }
 
 class _BanDoScreen extends StatelessWidget {
-  const _BanDoScreen({required this.viTri, required this.radiusKm});
+  const _BanDoScreen({
+    required this.viTri,
+    required this.radiusKm,
+    required this.chinhChu,
+  });
 
   final LatLng viTri;
   final int radiusKm;
+  final bool chinhChu;
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +90,7 @@ class _BanDoScreen extends StatelessWidget {
                 flags: InteractiveFlag.all,
               ),
             ),
-            children: lopBanDoKhuVuc(viTri, radiusKm),
+            children: lopBanDoKhuVuc(viTri, radiusKm, chinhChu: chinhChu),
           ),
           SafeArea(
             child: Padding(

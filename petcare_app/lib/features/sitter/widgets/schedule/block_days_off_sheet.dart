@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/vn_date.dart';
-import 'package:petcare_app/features/sitter/data/mock_sitter_schedule.dart';
+import 'package:petcare_app/features/sitter/providers/sitter_schedule_provider.dart';
 import 'package:petcare_app/shared/widgets/app_note_box.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_filter_chip.dart';
@@ -27,17 +28,24 @@ Future<KhoangNghi?> showBlockDaysOffSheet(BuildContext context) {
   );
 }
 
-class _BlockDaysOffSheet extends StatefulWidget {
+class _BlockDaysOffSheet extends ConsumerStatefulWidget {
   const _BlockDaysOffSheet();
 
   @override
-  State<_BlockDaysOffSheet> createState() => _BlockDaysOffSheetState();
+  ConsumerState<_BlockDaysOffSheet> createState() => _BlockDaysOffSheetState();
 }
 
-class _BlockDaysOffSheetState extends State<_BlockDaysOffSheet> {
+class _BlockDaysOffSheetState extends ConsumerState<_BlockDaysOffSheet> {
   DateTime _tu = homNayVn();
   DateTime _den = homNayVn().add(const Duration(days: 1));
   String? _lyDo;
+
+  void _taiKhoangDangChon() {
+    final cuoi = _den.difference(_tu).inDays > 59
+        ? _tu.add(const Duration(days: 59))
+        : _den;
+    ref.read(sitterScheduleProvider.notifier).damBaoKhoang(_tu, cuoi);
+  }
 
   Future<void> _chonNgay({required bool laTuNgay}) async {
     final homNay = homNayVn();
@@ -57,19 +65,20 @@ class _BlockDaysOffSheetState extends State<_BlockDaysOffSheet> {
         _den = chon.isBefore(_tu) ? _tu : chon;
       }
     });
+    _taiKhoangDangChon();
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final dayHeThong = MediaQuery.viewPaddingOf(context).bottom;
+    final lich = ref.watch(sitterScheduleProvider).value;
     // Chỉ đơn CHƯA XONG mới chặn đặt nghỉ
-    final ngayDangChay = MockSitterScheduleData.ngayDangDienRaTrongKhoang(
-      _tu,
-      _den,
-    );
-    final ngayConDon = MockSitterScheduleData.ngayConDonTrongKhoang(_tu, _den);
-    final soDonCon = MockSitterScheduleData.soDonConTrongKhoang(_tu, _den);
+    final ngayDangChay =
+        lich?.ngayDangDienRaTrongKhoang(_tu, _den) ?? const <DateTime>[];
+    final ngayConDon =
+        lich?.ngayConDonTrongKhoang(_tu, _den) ?? const <DateTime>[];
+    final soDonCon = lich?.soDonConTrongKhoang(_tu, _den) ?? 0;
     return Padding(
       padding: EdgeInsets.fromLTRB(
         AppSpacing.screenPaddingWide,
@@ -97,10 +106,7 @@ class _BlockDaysOffSheetState extends State<_BlockDaysOffSheet> {
             onTap: () => _chonNgay(laTuNgay: false),
           ),
           const SizedBox(height: AppSpacing.stackGap),
-          Text(
-            l10n.lyDoTuyChon,
-            style: AppTextStyles.label.copyWith(fontSize: 13),
-          ),
+          Text(l10n.lyDoTuyChon, style: AppTextStyles.label),
           const SizedBox(height: AppSpacing.labelGap),
           Wrap(
             spacing: AppSpacing.labelGap,
@@ -186,7 +192,7 @@ class _ONgay extends StatelessWidget {
           child: Row(
             children: [
               Expanded(child: Text(nhan, style: AppTextStyles.captionSm)),
-              Text(giaTri, style: AppTextStyles.label.copyWith(fontSize: 14)),
+              Text(giaTri, style: AppTextStyles.label),
               const SizedBox(width: AppSpacing.labelGap),
               const Icon(
                 Icons.calendar_today_outlined,

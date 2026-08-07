@@ -5,28 +5,31 @@ import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/vn_date.dart';
-import 'package:petcare_app/features/sitter/data/mock_sitter_schedule.dart';
+import 'package:petcare_app/features/sitter/data/sitter_schedule.dart';
 
-// Dải chọn ngày trong tuần
+const double _caoDongNhanThu = 20;
+
+// Dải chọn ngày trong tuần, nhận ngày đang chọn chứ không nhận thứ
 class ScheduleWeekStrip extends StatelessWidget {
   const ScheduleWeekStrip({
     super.key,
     required this.days,
-    required this.selectedIndex,
+    required this.ngayChon,
     required this.onSelect,
   });
 
   final List<ScheduleDay> days;
-  final int selectedIndex;
-  final ValueChanged<int> onSelect;
+  final DateTime? ngayChon;
+  final ValueChanged<DateTime> onSelect;
 
   static double chieuCao(BuildContext context) {
-    final caoNhanThu = MediaQuery.textScalerOf(context).scale(16);
+    final caoNhanThu = MediaQuery.textScalerOf(context).scale(_caoDongNhanThu);
     return AppSpacing.itemGap * 2 + 12 + caoNhanThu + 6 + 40 + 5 + 5;
   }
 
   @override
   Widget build(BuildContext context) {
+    final chon = ngayChon;
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.screenPadding,
@@ -34,12 +37,12 @@ class ScheduleWeekStrip extends StatelessWidget {
       ),
       child: Row(
         children: [
-          for (var i = 0; i < days.length; i++)
+          for (final d in days)
             Expanded(
               child: _DayCell(
-                day: days[i],
-                selected: i == selectedIndex,
-                onTap: () => onSelect(i),
+                day: d,
+                selected: chon != null && cungNgay(d.date, chon),
+                onTap: () => onSelect(d.date),
               ),
             ),
         ],
@@ -62,13 +65,18 @@ class _DayCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final daQua = day.date.isBefore(homNayVn());
+    final vienHomNay = day.isToday && !selected;
+    final kinDon = day.kinCho;
     final Color soColor = selected
         ? AppColors.textWhite
-        : (day.isToday
-              ? AppColors.primaryColor
-              : (day.ngayNghi
-                    ? AppColors.textSecondary
-                    : AppColors.textPrimary));
+        : vienHomNay
+        ? AppColors.primaryColor
+        : kinDon
+        ? AppColors.textSecondary
+        : (day.ngayNghi || daQua)
+        ? AppColors.neutral
+        : AppColors.textPrimary;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(AppRadius.radius14),
@@ -78,11 +86,10 @@ class _DayCell extends StatelessWidget {
           children: [
             Text(
               thuNgan(l10n, day.date),
-              style: AppTextStyles.captionSm.copyWith(
+              style: AppTextStyles.label.copyWith(
                 color: selected
                     ? AppColors.primaryColor
                     : AppColors.textSecondary,
-                fontWeight: FontWeight.w600,
               ),
             ),
             const SizedBox(height: 6),
@@ -91,34 +98,27 @@ class _DayCell extends StatelessWidget {
               height: 40,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                // Ngày đã đặt nghỉ tô nền xám nhạt
                 color: selected
                     ? AppColors.primaryColor
-                    : (day.ngayNghi
-                          ? AppColors.neutralLight
-                          : Colors.transparent),
+                    : kinDon
+                    ? AppColors.neutral
+                    : Colors.transparent,
                 shape: BoxShape.circle,
-                border: (!selected && day.isToday)
-                    ? Border.all(color: AppColors.primaryColor, width: 1.5)
+                border: vienHomNay
+                    ? Border.all(color: AppColors.primaryColor, width: 1.6)
                     : null,
               ),
               child: Text(
                 day.date.day.toString(),
-                style: AppTextStyles.label.copyWith(
-                  fontSize: 15,
-                  color: soColor,
-                ),
+                style: AppTextStyles.label.copyWith(color: soColor),
               ),
             ),
             const SizedBox(height: 5),
-            // Chấm báo có lịch hẹn
             Container(
               width: 5,
               height: 5,
               decoration: BoxDecoration(
-                color: day.coLichHen
-                    ? (selected ? AppColors.primaryColor : AppColors.accent)
-                    : Colors.transparent,
+                color: day.coLichHen ? AppColors.accent : Colors.transparent,
                 shape: BoxShape.circle,
               ),
             ),

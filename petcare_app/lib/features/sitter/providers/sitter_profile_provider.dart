@@ -1,12 +1,14 @@
+import 'package:petcare_app/features/booking/services/bookings_api_service.dart';
+import 'package:petcare_app/core/utils/vn_date.dart';
 import 'dart:typed_data';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:petcare_app/features/sitter/data/sitter_profile.dart';
+import 'package:petcare_app/shared/data/sitter_profile.dart';
 import 'package:petcare_app/features/sitter/services/sitter_profile_api_service.dart';
 import 'package:petcare_app/shared/utils/chon_anh.dart';
 
 // Kết quả chọn ảnh từ máy rồi tải lên thư viện
-enum KetQuaThemAnh { thanhCong, motPhan, huy, dayAnh, loi }
+enum KetQuaThemAnh { thanhCong, motPhan, huy, dayAnh, quaNang, loi }
 
 // Trang cá nhân của chính người đăng nhập, nạp từ /sitter/profile
 class SitterMeNotifier extends AsyncNotifier<SitterProfile> {
@@ -37,11 +39,12 @@ class SitterMeNotifier extends AsyncNotifier<SitterProfile> {
   }
 
   // Chọn ảnh đại diện từ máy rồi upload ngay
-  Future<bool> chonVaDoiAvatar() async {
-    final bytes = await chonMotAnh();
-    if (bytes == null) return false;
-    await doiAvatar(bytes);
-    return true;
+  Future<KetQuaThemAnh> chonVaDoiAvatar() async {
+    final chon = await chonMotAnh();
+    if (chon.quaNang) return KetQuaThemAnh.quaNang;
+    if (chon.anh == null) return KetQuaThemAnh.huy;
+    await doiAvatar(chon.anh!);
+    return KetQuaThemAnh.thanhCong;
   }
 
   // Chọn nhiều ảnh từ máy rồi upload ngay
@@ -49,12 +52,15 @@ class SitterMeNotifier extends AsyncNotifier<SitterProfile> {
     final daCo = state.value?.photos.length ?? 0;
     if (daCo >= maxSitterPhotos) return KetQuaThemAnh.dayAnh;
     final chon = await chonNhieuAnh(maxSitterPhotos - daCo);
-    if (chon.anh.isEmpty) return KetQuaThemAnh.huy;
+    if (chon.anh.isEmpty) {
+      return chon.quaNang > 0 ? KetQuaThemAnh.quaNang : KetQuaThemAnh.huy;
+    }
     try {
       await themAnh(chon.anh);
     } catch (_) {
       return KetQuaThemAnh.loi;
     }
+    if (chon.quaNang > 0) return KetQuaThemAnh.quaNang;
     return chon.du ? KetQuaThemAnh.motPhan : KetQuaThemAnh.thanhCong;
   }
 
@@ -85,3 +91,24 @@ final sitterMeProvider = AsyncNotifierProvider<SitterMeNotifier, SitterProfile>(
 final sitterPublicProvider = FutureProvider.family<SitterProfile, String>(
   (ref, id) => SitterProfileApiService().getSitter(id),
 );
+
+typedef LichBanNcc = ({List<DateTime> nghi, List<DateTime> kinDon});
+
+final ngayKinCuaNccProvider = FutureProvider.family<LichBanNcc, String>((
+  ref,
+  sitterId,
+) async {
+  final homNay = homNayVn();
+  final lich = await BookingsApiService().lichTrong(
+    sitterId: sitterId,
+    tu: homNay,
+    den: homNay.add(const Duration(days: 60)),
+  );
+  return (
+    nghi: lich.ngayNghi(),
+    kinDon: [
+      for (final e in lich.theoNgay.values)
+        if (e.kinCaNgay) e.ngay,
+    ],
+  );
+});

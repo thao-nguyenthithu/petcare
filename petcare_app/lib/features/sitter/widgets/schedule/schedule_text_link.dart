@@ -15,7 +15,7 @@ class ScheduleTextLink extends StatelessWidget {
       onPressed: onTap,
       style: TextButton.styleFrom(
         foregroundColor: AppColors.accent,
-        textStyle: AppTextStyles.label.copyWith(fontSize: 13),
+        textStyle: AppTextStyles.label,
         padding: EdgeInsets.zero,
         minimumSize: Size.zero,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,

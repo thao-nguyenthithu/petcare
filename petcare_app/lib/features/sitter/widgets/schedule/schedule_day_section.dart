@@ -5,8 +5,7 @@ import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/vn_date.dart';
-import 'package:petcare_app/features/sitter/data/mock_sitter_availability.dart';
-import 'package:petcare_app/features/sitter/data/mock_sitter_schedule.dart';
+import 'package:petcare_app/features/sitter/data/sitter_schedule.dart';
 import 'package:petcare_app/features/sitter/widgets/schedule/availability_fields.dart';
 import 'package:petcare_app/features/sitter/widgets/schedule/schedule_filter_sheet.dart';
 import 'package:petcare_app/features/sitter/widgets/schedule/schedule_text_link.dart';
@@ -19,6 +18,8 @@ class ScheduleDaySection extends StatelessWidget {
   const ScheduleDaySection({
     super.key,
     required this.day,
+    required this.soCho,
+    required this.soChoToiDa,
     required this.filter,
     required this.onMoLoc,
     required this.onXoaLoc,
@@ -27,6 +28,8 @@ class ScheduleDaySection extends StatelessWidget {
   });
 
   final ScheduleDay day;
+  final int soCho;
+  final int soChoToiDa;
   final ScheduleFilter filter;
   final VoidCallback onMoLoc;
   final VoidCallback onXoaLoc;
@@ -50,9 +53,8 @@ class ScheduleDaySection extends StatelessWidget {
             ),
             Text(
               l10n.soDon(hienThi.length.toString()),
-              style: AppTextStyles.captionSm.copyWith(
+              style: AppTextStyles.label.copyWith(
                 color: AppColors.primaryColor,
-                fontWeight: FontWeight.w600,
               ),
             ),
             IconButton(
@@ -74,8 +76,8 @@ class ScheduleDaySection extends StatelessWidget {
         const SizedBox(height: AppSpacing.labelGap),
         // Số chỗ trông giữ
         SlotStepperField(
-          soCho: MockSitterAvailability.cuaNgay(day.date).boardingSlots,
-          toiDa: MockSitterAvailability.soChoToiDa,
+          soCho: soCho,
+          toiDa: soChoToiDa,
           onDoi: onDoiSoCho,
           nhan: '${l10n.trongGiu} · ${l10n.conNhanCho}',
           chiXem: day.date.isBefore(homNayVn()),
@@ -125,7 +127,7 @@ class _BannerNgayNghi extends StatelessWidget {
           Expanded(
             child: Text(
               context.l10n.ngayNghiMoTa,
-              style: AppTextStyles.captionSm.copyWith(fontSize: 11),
+              style: AppTextStyles.captionSm,
             ),
           ),
         ],

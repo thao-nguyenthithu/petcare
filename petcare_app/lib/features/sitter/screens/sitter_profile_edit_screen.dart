@@ -5,22 +5,25 @@ import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/generated/app_localizations.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
-import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/auth/providers/current_user_provider.dart';
-import 'package:petcare_app/features/sitter/data/sitter_profile.dart';
+import 'package:petcare_app/core/utils/validators.dart';
+import 'package:petcare_app/shared/data/sitter_profile.dart';
 import 'package:petcare_app/features/sitter/providers/sitter_profile_provider.dart';
 import 'package:petcare_app/shared/widgets/locked_field.dart';
 import 'package:petcare_app/features/sitter/widgets/profile/sitter_avatar_picker.dart';
 import 'package:petcare_app/features/sitter/widgets/profile/sitter_photos_section.dart';
-import 'package:petcare_app/shared/utils/date_format.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_loading_overlay.dart';
 import 'package:petcare_app/shared/widgets/app_screen_header.dart';
+import 'package:petcare_app/shared/widgets/app_text_box.dart';
 import 'package:petcare_app/shared/widgets/bottom_action_bar.dart';
 import 'package:petcare_app/shared/widgets/confirm_dialog.dart';
 import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
+import 'package:petcare_app/core/utils/vn_date.dart';
+import 'package:petcare_app/shared/utils/chon_anh.dart';
+import 'package:petcare_app/shared/widgets/app_screen.dart';
+import 'package:petcare_app/features/auth/providers/profile_refresh.dart';
 
 // Màn Sửa trang cá nhân NCC
 class SitterProfileEditScreen extends ConsumerStatefulWidget {
@@ -67,8 +70,13 @@ class _SitterProfileEditScreenState
     final l10n = context.l10n;
     setState(() => _dangUpAvatar = true);
     try {
-      if (await ref.read(sitterMeProvider.notifier).chonVaDoiAvatar()) {
-        ref.invalidate(currentUserProvider);
+      switch (await ref.read(sitterMeProvider.notifier).chonVaDoiAvatar()) {
+        case KetQuaThemAnh.thanhCong:
+          _lamMoiTrangCongKhai();
+        case KetQuaThemAnh.quaNang:
+          _thongBao(l10n.loiAnhQuaNang('$mbAnhToiDa'));
+        default:
+          break;
       }
     } catch (_) {
       _thongBao(l10n.luuThatBai);
@@ -85,14 +93,25 @@ class _SitterProfileEditScreenState
       ref.read(sitterMeProvider.notifier).chonVaThemAnh,
     );
     switch (kq) {
-      case KetQuaThemAnh.dayAnh || KetQuaThemAnh.motPhan:
+      case KetQuaThemAnh.dayAnh:
         _thongBao(l10n.daDatToiDaAnh('$maxSitterPhotos'));
+      case KetQuaThemAnh.motPhan:
+        _lamMoiTrangCongKhai();
+        _thongBao(l10n.daDatToiDaAnh('$maxSitterPhotos'));
+      case KetQuaThemAnh.quaNang:
+        _lamMoiTrangCongKhai();
+        _thongBao(l10n.loiAnhQuaNang('$mbAnhToiDa'));
       case KetQuaThemAnh.loi:
         _thongBao(l10n.luuThatBai);
-      case KetQuaThemAnh.thanhCong || KetQuaThemAnh.huy:
+      case KetQuaThemAnh.thanhCong:
+        _lamMoiTrangCongKhai();
+      case KetQuaThemAnh.huy:
         break;
     }
   }
+
+  void _lamMoiTrangCongKhai() =>
+      ref.refreshProfileData(boQua: [sitterMeProvider]);
 
   // avatar và ảnh đã tải lên ngay lúc chọn
   Future<void> _luu() async {
@@ -106,7 +125,7 @@ class _SitterProfileEditScreenState
             bio: _bioController.text.trim(),
             phone: _sdtController.text.trim(),
           );
-      ref.invalidate(currentUserProvider);
+      ref.refreshProfileData(boQua: [sitterMeProvider]);
       // Lưu xong thoát về màn view
       if (mounted) context.pop();
     } catch (_) {
@@ -156,27 +175,22 @@ class _SitterProfileEditScreenState
       onPopInvokedWithResult: (didPop, _) {
         if (!didPop) _thoat();
       },
-      child: Scaffold(
+      child: AppScreen(
         backgroundColor: AppColors.surface,
-        body: SafeArea(
-          bottom: false,
-          child: Column(
-            children: [
-              AppScreenHeader(title: l10n.suaTrangCaNhan, onBack: _thoat),
-              const AppDongKe(),
-              Expanded(
-                child: p == null
-                    ? Center(
-                        child: async.hasError
-                            ? Text(l10n.khongTaiDuocDuLieu)
-                            : const CircularProgressIndicator(),
-                      )
-                    : _form(l10n, p),
-              ),
-              if (p != null) _thanhLuu(l10n),
-            ],
-          ),
+        header: Column(
+          children: [
+            AppScreenHeader(title: l10n.suaTrangCaNhan, onBack: _thoat),
+            const AppDongKe(),
+          ],
         ),
+        body: p == null
+            ? Center(
+                child: async.hasError
+                    ? Text(l10n.khongTaiDuocDuLieu)
+                    : const CircularProgressIndicator(),
+              )
+            : _form(l10n, p),
+        bottomBar: p == null ? null : _thanhLuu(l10n),
       ),
     );
   }
@@ -199,23 +213,26 @@ class _SitterProfileEditScreenState
             onDoi: _chonAvatar,
           ),
           const SizedBox(height: AppSpacing.blockGap),
-          _Nhan(l10n.hoVaTen),
+          AppFieldLabel(l10n.hoVaTen),
           const SizedBox(height: AppSpacing.itemGap),
-          _ONhap(
+          AppTextBox(
             controller: _tenController,
             hint: l10n.nhapHoVaTen,
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(soKyTuHoTenNccToiDa),
+            ],
             validator: (v) =>
                 (v == null || v.trim().isEmpty) ? l10n.vuiLongNhapHoTen : null,
           ),
           const SizedBox(height: AppSpacing.groupGap),
-          _Nhan(l10n.gioiThieuBanThan),
+          AppFieldLabel(l10n.gioiThieuBanThan),
           const SizedBox(height: AppSpacing.itemGap),
-          _ONhap(
+          AppTextBox(
             controller: _bioController,
             hint: l10n.hintGioiThieu,
             minLines: 4,
             maxLines: 6,
-            maxLength: 500,
+            maxLength: soKyTuGioiThieuToiDa,
           ),
           const SizedBox(height: AppSpacing.groupGap),
           SitterPhotosSection(anh: p.photos, onThem: _themAnh),
@@ -231,9 +248,9 @@ class _SitterProfileEditScreenState
             verified: p.email != null,
           ),
           const SizedBox(height: AppSpacing.itemGap),
-          _Nhan(l10n.soDienThoai),
+          AppFieldLabel(l10n.soDienThoai),
           const SizedBox(height: AppSpacing.itemGap),
-          _ONhap(
+          AppTextBox(
             controller: _sdtController,
             hint: l10n.nhapSoDienThoai,
             keyboardType: TextInputType.phone,
@@ -248,7 +265,7 @@ class _SitterProfileEditScreenState
             label: l10n.ngaySinh,
             value: p.dateOfBirth == null
                 ? l10n.chuaCapNhat
-                : dinhDangNgay(p.dateOfBirth!),
+                : ngayThangNam(p.dateOfBirth!),
             khoa: true,
           ),
           const SizedBox(height: AppSpacing.itemGap),
@@ -279,67 +296,4 @@ class _SitterProfileEditScreenState
     'OTHER' => l10n.gioiTinhKhac,
     _ => l10n.chuaCapNhat,
   };
-}
-
-// Nhãn của một trường
-class _Nhan extends StatelessWidget {
-  const _Nhan(this.text);
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) => Text(text, style: AppTextStyles.label);
-}
-
-// Ô nhập trực tiếp
-class _ONhap extends StatelessWidget {
-  const _ONhap({
-    required this.controller,
-    required this.hint,
-    this.minLines = 1,
-    this.maxLines = 1,
-    this.maxLength,
-    this.validator,
-    this.keyboardType,
-    this.inputFormatters,
-  });
-
-  final TextEditingController controller;
-  final String hint;
-  final int minLines;
-  final int maxLines;
-  final int? maxLength;
-  final String? Function(String?)? validator;
-  final TextInputType? keyboardType;
-  final List<TextInputFormatter>? inputFormatters;
-
-  @override
-  Widget build(BuildContext context) {
-    OutlineInputBorder vien(Color mau, double rong) => OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppRadius.radius14),
-      borderSide: BorderSide(color: mau, width: rong),
-    );
-    return TextFormField(
-      controller: controller,
-      minLines: minLines,
-      maxLines: maxLines,
-      maxLength: maxLength,
-      keyboardType: keyboardType,
-      inputFormatters: inputFormatters,
-      validator: validator,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      style: AppTextStyles.body,
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: AppTextStyles.caption,
-        filled: true,
-        fillColor: AppColors.background,
-        contentPadding: const EdgeInsets.all(14),
-        enabledBorder: vien(AppColors.neutral, 1),
-        focusedBorder: vien(AppColors.primaryColor, 1.5),
-        errorBorder: vien(AppColors.error, 1),
-        focusedErrorBorder: vien(AppColors.error, 1.5),
-      ),
-    );
-  }
 }

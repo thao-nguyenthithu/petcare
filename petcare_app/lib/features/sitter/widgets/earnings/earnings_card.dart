@@ -3,7 +3,7 @@ import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/sitter/data/mock_sitter_home.dart';
+import 'package:petcare_app/features/sitter/data/sitter_dashboard.dart';
 import 'package:petcare_app/features/sitter/widgets/icon_box.dart';
 import 'package:petcare_app/shared/utils/money_format.dart';
 import 'package:go_router/go_router.dart';
@@ -14,13 +14,13 @@ import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 class EarningsCard extends StatelessWidget {
   const EarningsCard({super.key, required this.data});
 
-  final MockSitterDashboard data;
+  final SitterDashboard data;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final change = data.earningsChangePercent;
-    final tang = change >= 0;
+    final tang = (change ?? 0) >= 0;
     final mauChange = tang ? AppColors.primaryColor : AppColors.accent;
     return Material(
       color: AppColors.cardMint,
@@ -64,8 +64,7 @@ class EarningsCard extends StatelessWidget {
                               const SizedBox(width: 2),
                               Text(
                                 '$change%',
-                                style: AppTextStyles.captionSm.copyWith(
-                                  fontWeight: FontWeight.w600,
+                                style: AppTextStyles.label.copyWith(
                                   color: mauChange,
                                 ),
                               ),
@@ -75,7 +74,7 @@ class EarningsCard extends StatelessWidget {
                         const SizedBox(height: 2),
                         Text(
                           '${dinhDangTien(data.weekEarnings)}đ',
-                          style: AppTextStyles.h1.copyWith(fontSize: 26),
+                          style: AppTextStyles.h1,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -87,8 +86,7 @@ class EarningsCard extends StatelessWidget {
                     children: [
                       Text(
                         l10n.chiTiet,
-                        style: AppTextStyles.captionSm.copyWith(
-                          fontWeight: FontWeight.w600,
+                        style: AppTextStyles.label.copyWith(
                           color: AppColors.primaryColor,
                         ),
                       ),
@@ -116,7 +114,7 @@ class EarningsCard extends StatelessWidget {
                   _StatLine(
                     icon: Icons.access_time,
                     iconColor: AppColors.textSecondary,
-                    text: data.workedThisWeek,
+                    text: l10n.nGioNhan('${data.workedThisWeek}'),
                   ),
                 ],
               ),

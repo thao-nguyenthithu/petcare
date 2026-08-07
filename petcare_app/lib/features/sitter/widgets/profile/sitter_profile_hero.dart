@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/sitter/data/sitter_profile.dart';
+import 'package:petcare_app/shared/data/sitter_profile.dart';
+import 'package:petcare_app/shared/widgets/page_dots.dart';
 import 'package:petcare_app/shared/widgets/photo_viewer.dart';
 import 'package:petcare_app/features/sitter/widgets/profile/circle_icon_button.dart';
 import 'package:petcare_app/shared/utils/placeholder_action.dart';
+import 'package:petcare_app/shared/utils/anh_cache.dart';
 
 // Ảnh bìa trang cá nhân NCC
 class SitterProfileHero extends StatefulWidget {
@@ -64,6 +66,10 @@ class _SitterProfileHeroState extends State<SitterProfileHero> {
                   child: CachedNetworkImage(
                     imageUrl: photos[i].url,
                     fit: BoxFit.cover,
+                    memCacheWidth: beRongCache(
+                      context,
+                      MediaQuery.sizeOf(context).width,
+                    ),
                     placeholder: (_, _) =>
                         const ColoredBox(color: AppColors.cardMint),
                     errorWidget: (_, _, _) =>
@@ -115,6 +121,21 @@ class _SitterProfileHeroState extends State<SitterProfileHero> {
           ),
           if (photos.length > 1)
             Positioned(
+              left: 0,
+              right: 0,
+              bottom: 18,
+              child: PageDots(
+                count: photos.length,
+                current: _idx,
+                dotSize: 6,
+                activeWidth: 6,
+                gap: 7,
+                mauHoatDong: AppColors.textWhite,
+                mauTinh: AppColors.textWhite.withValues(alpha: 0.5),
+              ),
+            ),
+          if (photos.length > 1)
+            Positioned(
               right: 16,
               bottom: 14,
               child: Container(
@@ -128,7 +149,9 @@ class _SitterProfileHeroState extends State<SitterProfileHero> {
                 ),
                 child: Text(
                   '${_idx + 1} / ${photos.length}',
-                  style: AppTextStyles.captionSm.copyWith(color: Colors.white),
+                  style: AppTextStyles.captionSm.copyWith(
+                    color: AppColors.textWhite,
+                  ),
                 ),
               ),
             ),

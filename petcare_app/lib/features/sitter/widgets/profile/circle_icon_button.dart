@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:petcare_app/core/theme/app_colors.dart';
 
 // Nút tròn nền đen mờ đặt trên ảnh header trang cá nhân
 class CircleIconButton extends StatelessWidget {
@@ -18,7 +19,7 @@ class CircleIconButton extends StatelessWidget {
         child: SizedBox(
           width: 40,
           height: 40,
-          child: Icon(icon, size: 20, color: Colors.white),
+          child: Icon(icon, size: 20, color: AppColors.textWhite),
         ),
       ),
     );
