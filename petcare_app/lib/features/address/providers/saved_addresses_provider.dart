@@ -1,4 +1,4 @@
-import 'package:petcare_app/features/address/data/saved_address.dart';
+import 'package:petcare_app/shared/data/saved_address.dart';
 import 'package:petcare_app/features/address/services/address_api_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

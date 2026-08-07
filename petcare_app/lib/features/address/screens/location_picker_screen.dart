@@ -10,13 +10,14 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/address/data/ket_qua_vi_tri.dart';
+import 'package:petcare_app/shared/data/ket_qua_vi_tri.dart';
 import 'package:petcare_app/features/address/services/tra_cuu_dia_chi_service.dart';
 import 'package:petcare_app/features/address/widgets/location_permission_sheet.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_screen_header.dart';
 import 'package:petcare_app/shared/widgets/map_tiles.dart';
 import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
+import 'package:petcare_app/shared/widgets/app_screen.dart';
 
 // Màn chọn vị trí pin cố định giữa màn, kéo bản đồ để đặt điểm, có ô tìm kiếm.
 class LocationPickerScreen extends StatefulWidget {
@@ -150,84 +151,75 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            AppScreenHeader(title: l10n.chonViTri),
-            Expanded(
-              child: Stack(
-                children: [
-                  FlutterMap(
-                    mapController: _mapController,
-                    options: MapOptions(
-                      initialCenter: _center,
-                      initialZoom: _zoom,
-                      onPositionChanged: (camera, _) =>
-                          _khiDoiTam(camera.center),
-                    ),
-                    children: [
-                      voyagerTileLayer(),
-                      const RichAttributionWidget(
-                        alignment: AttributionAlignment.bottomLeft,
-                        attributions: [
-                          TextSourceAttribution('© OpenStreetMap, © CARTO'),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 40),
-                      child: Icon(
-                        Icons.location_on,
-                        size: 44,
-                        color: AppColors.primaryColor,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: AppSpacing.itemGap,
-                    left: AppSpacing.screenPadding,
-                    right: AppSpacing.screenPadding,
-                    child: _OTimKiem(
-                      controller: _timController,
-                      hint: l10n.timDiaDiem,
-                      dangTim: _dangTimKiem,
-                      goiY: _goiY,
-                      onDoi: _lenLichTimKiem,
-                      onChon: _chonGoiY,
-                    ),
-                  ),
-                  Positioned(
-                    right: AppSpacing.screenPadding,
-                    bottom: AppSpacing.screenPadding,
-                    child: FloatingActionButton.small(
-                      heroTag: 'viTriHienTai',
-                      onPressed: _dangDinhVi
-                          ? null
-                          : () => _veViTriHienTai(xinQuyen: true),
-                      backgroundColor: AppColors.surface,
-                      foregroundColor: AppColors.primaryColor,
-                      child: _dangDinhVi
-                          ? const SizedBox(
-                              width: 18,
-                              height: 18,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : const Icon(Icons.my_location),
-                    ),
-                  ),
+    return AppScreen(
+      header: AppScreenHeader(title: l10n.chonViTri),
+      body: Stack(
+        children: [
+          FlutterMap(
+            mapController: _mapController,
+            options: MapOptions(
+              initialCenter: _center,
+              initialZoom: _zoom,
+              onPositionChanged: (camera, _) => _khiDoiTam(camera.center),
+            ),
+            children: [
+              voyagerTileLayer(),
+              const RichAttributionWidget(
+                alignment: AttributionAlignment.bottomLeft,
+                attributions: [
+                  TextSourceAttribution('© OpenStreetMap, © CARTO'),
                 ],
               ),
+            ],
+          ),
+          const Center(
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 40),
+              child: Icon(
+                Icons.location_on,
+                size: 44,
+                color: AppColors.primaryColor,
+              ),
             ),
-            _ThanhXacNhan(
-              diaChi: _diaChi?.moTa,
-              dangTim: _dangTimDiaChi,
-              onXacNhan: _xacNhan,
+          ),
+          Positioned(
+            top: AppSpacing.itemGap,
+            left: AppSpacing.screenPadding,
+            right: AppSpacing.screenPadding,
+            child: _OTimKiem(
+              controller: _timController,
+              hint: l10n.timDiaDiem,
+              dangTim: _dangTimKiem,
+              goiY: _goiY,
+              onDoi: _lenLichTimKiem,
+              onChon: _chonGoiY,
             ),
-          ],
-        ),
+          ),
+          Positioned(
+            right: AppSpacing.screenPadding,
+            bottom: AppSpacing.screenPadding,
+            child: FloatingActionButton.small(
+              heroTag: 'viTriHienTai',
+              onPressed: _dangDinhVi
+                  ? null
+                  : () => _veViTriHienTai(xinQuyen: true),
+              backgroundColor: AppColors.surface,
+              foregroundColor: AppColors.primaryColor,
+              child: _dangDinhVi
+                  ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.my_location),
+            ),
+          ),
+        ],
+      ),
+      bottomBar: _ThanhXacNhan(
+        diaChi: _diaChi?.moTa,
+        dangTim: _dangTimDiaChi,
+        onXacNhan: _xacNhan,
       ),
     );
   }
@@ -361,33 +353,37 @@ class _ThanhXacNhan extends StatelessWidget {
       width: double.infinity,
       color: AppColors.surface,
       padding: const EdgeInsets.all(AppSpacing.screenPadding),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              const Icon(
-                Icons.location_on,
-                size: 18,
-                color: AppColors.primaryColor,
-              ),
-              const SizedBox(width: AppSpacing.labelGap),
-              Expanded(
-                child: Text(
-                  noiDung,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTextStyles.captionSm.copyWith(
-                    color: AppColors.textPrimary,
+      // Màn có thanh đáy thì thanh đáy tự chừa (rule-flutter mục 6)
+      child: SafeArea(
+        top: false,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(
+                  Icons.location_on,
+                  size: 18,
+                  color: AppColors.primaryColor,
+                ),
+                const SizedBox(width: AppSpacing.labelGap),
+                Expanded(
+                  child: Text(
+                    noiDung,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextStyles.captionSm.copyWith(
+                      color: AppColors.textPrimary,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.itemGap),
-          AppButton(text: l10n.xacNhanViTri, onTap: onXacNhan),
-        ],
+              ],
+            ),
+            const SizedBox(height: AppSpacing.itemGap),
+            AppButton(text: l10n.xacNhanViTri, onTap: onXacNhan),
+          ],
+        ),
       ),
     );
   }

@@ -7,13 +7,15 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/address/data/ket_qua_vi_tri.dart';
-import 'package:petcare_app/features/address/data/saved_address.dart';
+import 'package:petcare_app/shared/data/ket_qua_vi_tri.dart';
+import 'package:petcare_app/shared/data/saved_address.dart';
 import 'package:petcare_app/features/address/providers/saved_addresses_provider.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_refresh_indicator.dart';
 import 'package:petcare_app/shared/widgets/app_screen_header.dart';
+import 'package:petcare_app/shared/widgets/app_skeleton.dart';
 import 'package:petcare_app/shared/widgets/button_select.dart';
+import 'package:petcare_app/shared/widgets/app_screen.dart';
 
 // Màn Địa chỉ đã lưu
 class AddressListScreen extends ConsumerStatefulWidget {
@@ -113,84 +115,69 @@ class _AddressListScreenState extends ConsumerState<AddressListScreen> {
       onPopInvokedWithResult: (didPop, _) {
         if (!didPop) _thoatChon();
       },
-      child: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: [
-              AppScreenHeader(
-                title: l10n.diaChiDaLuu,
-                onBack: _dangChon ? _thoatChon : null,
-                action: _dangChon
-                    ? IconButton(
-                        onPressed: _daChon.isEmpty ? null : _xoaDaChon,
-                        icon: const Icon(Icons.delete_outline),
-                        tooltip: l10n.xoa,
-                        color: AppColors.error,
-                      )
-                    : null,
-              ),
-              Expanded(
-                child: AppRefreshIndicator(
-                  onRefresh: () => ref.read(savedAddressesProvider.future),
-                  child: asyncDanhSach.when(
-                    loading: () =>
-                        const Center(child: CircularProgressIndicator()),
-                    error: (_, _) => Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(
-                          AppSpacing.screenPaddingWide,
-                        ),
-                        child: Text(
-                          l10n.taiDiaChiThatBai,
-                          textAlign: TextAlign.center,
-                          style: AppTextStyles.captionSm,
-                        ),
-                      ),
-                    ),
-                    data: (danhSach) => danhSach.isEmpty
-                        ? _TrongRong(onThem: _themMoi)
-                        : ListView(
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            padding: const EdgeInsets.all(
-                              AppSpacing.screenPadding,
-                            ),
-                            children: [
-                              for (final diaChi in danhSach) ...[
-                                _AddressCard(
-                                  diaChi: diaChi,
-                                  dangChon: _dangChon,
-                                  daChon: _daChon.contains(diaChi.id),
-                                  onChonMacDinh: () => ref
-                                      .read(savedAddressesProvider.notifier)
-                                      .chonMacDinh(diaChi.id),
-                                  onSua: () => context.push(
-                                    AppRoutes.addAddress,
-                                    extra: diaChi,
-                                  ),
-                                  onVaoChon: () => _vaoChon(diaChi.id),
-                                  onToggle: () => _toggle(diaChi.id),
-                                ),
-                                const SizedBox(height: AppSpacing.stackGap),
-                              ],
-                              if (!_dangChon) ...[
-                                AppButton(
-                                  text: l10n.themDiaChiMoi,
-                                  icon: Icons.add,
-                                  outlined: true,
-                                  onTap: _themMoi,
-                                ),
-                                const SizedBox(height: AppSpacing.stackGap),
-                                Text(
-                                  l10n.ghiChuDiaChiMacDinh,
-                                  style: AppTextStyles.captionSm,
-                                ),
-                              ],
-                            ],
-                          ),
-                  ),
+      child: AppScreen(
+        header: AppScreenHeader(
+          title: l10n.diaChiDaLuu,
+          onBack: _dangChon ? _thoatChon : null,
+          action: _dangChon
+              ? IconButton(
+                  onPressed: _daChon.isEmpty ? null : _xoaDaChon,
+                  icon: const Icon(Icons.delete_outline),
+                  tooltip: l10n.xoa,
+                  color: AppColors.error,
+                )
+              : null,
+        ),
+        body: AppRefreshIndicator(
+          onRefresh: () => ref.read(savedAddressesProvider.future),
+          child: asyncDanhSach.when(
+            loading: () => const AppSkeletonList(soThe: 3, caoThe: 92),
+            error: (_, _) => Center(
+              child: Padding(
+                padding: const EdgeInsets.all(AppSpacing.screenPaddingWide),
+                child: Text(
+                  l10n.taiDiaChiThatBai,
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.captionSm,
                 ),
               ),
-            ],
+            ),
+            data: (danhSach) => danhSach.isEmpty
+                ? _TrongRong(onThem: _themMoi)
+                : ListView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: const EdgeInsets.all(AppSpacing.screenPadding),
+                    children: [
+                      for (final diaChi in danhSach) ...[
+                        _AddressCard(
+                          diaChi: diaChi,
+                          dangChon: _dangChon,
+                          daChon: _daChon.contains(diaChi.id),
+                          onChonMacDinh: () => ref
+                              .read(savedAddressesProvider.notifier)
+                              .chonMacDinh(diaChi.id),
+                          onSua: () =>
+                              context.push(AppRoutes.addAddress, extra: diaChi),
+                          onVaoChon: () => _vaoChon(diaChi.id),
+                          onToggle: () => _toggle(diaChi.id),
+                        ),
+                        const SizedBox(height: AppSpacing.stackGap),
+                      ],
+                      if (!_dangChon) ...[
+                        AppButton(
+                          text: l10n.themDiaChiMoi,
+                          icon: Icons.add,
+                          outlined: true,
+                          onTap: _themMoi,
+                        ),
+                        const SizedBox(height: AppSpacing.stackGap),
+                        Text(
+                          l10n.ghiChuDiaChiMacDinh,
+                          style: AppTextStyles.captionSm,
+                        ),
+                      ],
+                    ],
+                  ),
           ),
         ),
       ),
