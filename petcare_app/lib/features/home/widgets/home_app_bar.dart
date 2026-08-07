@@ -5,19 +5,17 @@ import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
+import 'package:petcare_app/features/notification/providers/notifications_provider.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_system_ui.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/address/data/saved_address.dart';
+import 'package:petcare_app/shared/data/saved_address.dart';
 import 'package:petcare_app/features/address/providers/saved_addresses_provider.dart';
 import 'package:petcare_app/features/auth/providers/current_user_provider.dart';
-import 'package:petcare_app/features/home/data/mock_home_data.dart';
 
 // Header xanh logo, chuông, lời chào, địa chỉ
 class HomeAppBar extends ConsumerWidget {
-  const HomeAppBar({super.key, required this.user});
-
-  final MockHomeUser user;
+  const HomeAppBar({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -69,7 +67,8 @@ class HomeAppBar extends ConsumerWidget {
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         icon: Badge(
-                          isLabelVisible: user.hasUnreadNotifications,
+                          isLabelVisible:
+                              ref.watch(soThongBaoChuaDocProvider(null)) > 0,
                           smallSize: 8,
                           backgroundColor: AppColors.accent,
                           child: const Icon(Icons.notifications, size: 20),
@@ -148,8 +147,6 @@ class SearchBarHeaderDelegate extends SliverPersistentHeaderDelegate {
   bool shouldRebuild(SearchBarHeaderDelegate oldDelegate) => false;
 }
 
-// Có địa chỉ mặc định thì hiện nó (bấm mở danh sách), chưa có thì mời chọn
-// (bấm mở thẳng form thêm).
 class _AddressRow extends ConsumerWidget {
   const _AddressRow();
 

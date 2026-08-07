@@ -6,9 +6,9 @@ import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
+import 'package:petcare_app/shared/data/vai_tro.dart';
 import 'package:petcare_app/features/address/widgets/location_permission_sheet.dart';
 import 'package:petcare_app/features/dksitter/providers/dksitter_provider.dart';
-import 'package:petcare_app/shared/utils/placeholder_action.dart';
 import 'package:petcare_app/shared/widgets/app_loading_overlay.dart';
 
 // Banner Kết nối với người chăm sóc
@@ -33,7 +33,7 @@ class VerifiedBanner extends StatelessWidget {
                 Material(
                   type: MaterialType.transparency,
                   child: InkWell(
-                    onTap: () => baoDangPhatTrien(context),
+                    onTap: () => context.push(AppRoutes.search),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -144,7 +144,7 @@ class BecomeProviderBanner extends ConsumerWidget {
     } catch (_) {}
     if (!context.mounted) return;
     context.push(
-      trangThai == 'PENDING'
+      trangThai == TrangThaiHoSoNcc.choDuyet
           ? AppRoutes.sitterSubmitted
           : AppRoutes.sitterIntro,
     );
@@ -154,7 +154,7 @@ class BecomeProviderBanner extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final trangThai = ref.watch(sitterStatusProvider).asData?.value;
-    if (trangThai == 'APPROVED') return const SizedBox.shrink();
+    if (trangThai == TrangThaiHoSoNcc.daDuyet) return const SizedBox.shrink();
     return Container(
       width: double.infinity,
       color: AppColors.primaryColor,

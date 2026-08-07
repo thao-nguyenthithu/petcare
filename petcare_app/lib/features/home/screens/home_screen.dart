@@ -1,34 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
-import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/features/account/screens/account_screen.dart';
 import 'package:petcare_app/features/booking/screens/my_bookings_screen.dart';
-import 'package:petcare_app/features/home/data/mock_home_data.dart';
+import 'package:petcare_app/features/home/providers/owner_home_provider.dart';
 import 'package:petcare_app/features/home/screens/owner_home_tab.dart';
 import 'package:petcare_app/features/home/widgets/active_order_bar.dart';
+import 'package:petcare_app/features/messaging/providers/conversations_provider.dart';
 import 'package:petcare_app/features/messaging/screens/owner_messages_screen.dart';
+import 'package:petcare_app/shared/widgets/chat_nav_icon.dart';
+import 'package:petcare_app/shared/widgets/lazy_indexed_stack.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _tabIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final unread = ref.watch(soChuaDocChuNuoiProvider);
     return Scaffold(
-      body: switch (_tabIndex) {
-        0 => const _HomeTabWithLiveBar(),
-        1 => const MyBookingsScreen(),
-        2 => const OwnerMessagesScreen(),
-        _ => const AccountScreen(),
-      },
+      body: LazyIndexedStack(
+        index: _tabIndex,
+        children: const [
+          _HomeTabWithLiveBar(),
+          MyBookingsScreen(),
+          OwnerMessagesScreen(),
+          AccountScreen(),
+        ],
+      ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _tabIndex,
         onDestinationSelected: (index) => setState(() => _tabIndex = index),
@@ -44,18 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
             label: l10n.donCuaToi,
           ),
           NavigationDestination(
-            icon: SvgPicture.asset(
-              'assets/icons/icon_chat.svg',
-              width: 24,
-              colorFilter: const ColorFilter.mode(
-                AppColors.textSecondary,
-                BlendMode.srcIn,
-              ),
-            ),
-            selectedIcon: SvgPicture.asset(
-              'assets/icons/icon_chat.svg',
-              width: 24,
-            ),
+            icon: ChatNavIcon(unread: unread),
+            selectedIcon: ChatNavIcon(unread: unread, selected: true),
             label: l10n.tinNhan,
           ),
           NavigationDestination(
@@ -70,12 +66,13 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 // Tab Trang chủ với đơn đang diễn ra
-class _HomeTabWithLiveBar extends StatelessWidget {
+class _HomeTabWithLiveBar extends ConsumerWidget {
   const _HomeTabWithLiveBar();
 
   @override
-  Widget build(BuildContext context) {
-    const orders = MockHomeData.activeOrders;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final orders =
+        ref.watch(trangChuCuaToiProvider).value?.donDangChay ?? const [];
     return Stack(
       children: [
         OwnerHomeTab(bottomInset: orders.isEmpty ? 24 : 108),

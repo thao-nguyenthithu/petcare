@@ -3,39 +3,44 @@ import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/home/data/mock_home_data.dart';
-import 'package:petcare_app/shared/utils/placeholder_action.dart';
+import 'package:go_router/go_router.dart';
+import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/features/home/widgets/provider_card.dart';
+import 'package:petcare_app/shared/data/sitter_result.dart';
 
 // Danh sách ngang các card người cung cấp
 class ProviderList extends StatelessWidget {
   const ProviderList({super.key, required this.providers, this.onSeeMore});
 
-  final List<MockProviderCard> providers;
+  static const double cao = 240;
+  static const double _rongMoiO = 176;
+
+  final List<SitterResult> providers;
   final VoidCallback? onSeeMore;
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-      child: IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            for (var i = 0; i < providers.length; i++) ...[
-              if (i > 0) const SizedBox(width: 12),
-              ProviderCard(
-                data: providers[i],
-                onTap: () => baoDangPhatTrien(context),
-              ),
-            ],
-            if (onSeeMore != null) ...[
-              const SizedBox(width: 12),
-              _SeeMoreCard(onTap: onSeeMore!),
-            ],
-          ],
-        ),
+    final soO = providers.length + (onSeeMore == null ? 0 : 1);
+    return SizedBox(
+      height: cao,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+        itemCount: soO,
+        itemExtent: _rongMoiO,
+        itemBuilder: (context, i) {
+          final child = i < providers.length
+              ? ProviderCard(
+                  data: providers[i],
+                  onTap: () =>
+                      context.push(AppRoutes.sitterDetailPath(providers[i].id)),
+                )
+              : _SeeMoreCard(onTap: onSeeMore!);
+          return Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: child,
+          );
+        },
       ),
     );
   }
