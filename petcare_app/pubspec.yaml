@@ -52,6 +52,7 @@ dependencies:
   # Camera & image
   image_picker: ^1.0.0
   flutter_image_compress: ^2.1.0
+  gal: ^2.3.0                 # Lưu ảnh bằng chứng về thư viện máy
 
   # GPS 
   geolocator: ^14.0.1

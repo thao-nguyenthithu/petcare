@@ -26,3 +26,4 @@ docs/
 run-app-with-api.bat
 petcare_app/assets/mock/
 petcare_app/tool
+/tool/
