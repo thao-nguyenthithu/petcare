@@ -1,9 +1,12 @@
 import 'package:petcare_app/core/utils/vn_date.dart';
-import 'package:petcare_app/features/pets/data/prevention_items.dart';
+import 'package:petcare_app/shared/data/prevention_items.dart';
 import 'package:petcare_app/shared/widgets/photo_viewer.dart';
 
 // Đơn vị chu kỳ nhắc lại
 enum CycleUnit { ngay, tuan, thang }
+
+// Trần chu kỳ nhắc lại
+const int soNgayChuKyToiDa = 1095;
 
 // Một mức nhắc lại
 class PreventionCycle {
@@ -26,6 +29,12 @@ class PreventionCycle {
     CycleUnit.ngay => 'DAY',
     CycleUnit.tuan => 'WEEK',
     CycleUnit.thang => 'MONTH',
+  };
+
+  int get soNgay => switch (donVi) {
+    CycleUnit.ngay => so,
+    CycleUnit.tuan => so * 7,
+    CycleUnit.thang => so * 30,
   };
 
   // Hạn kế tiếp tính từ ngày vừa thực hiện

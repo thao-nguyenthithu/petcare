@@ -56,8 +56,7 @@ class GreenTitleHeader extends StatelessWidget {
                           const SizedBox(height: 4),
                           Text(
                             subtitle!,
-                            style: AppTextStyles.body.copyWith(
-                              fontSize: 13,
+                            style: AppTextStyles.captionSm.copyWith(
                               color: AppColors.textWhite.withValues(
                                 alpha: 0.85,
                               ),

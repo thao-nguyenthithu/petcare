@@ -1,21 +1,26 @@
 import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:petcare_app/shared/utils/anh_cache.dart';
 import 'package:flutter/material.dart';
+import 'package:petcare_app/core/theme/app_colors.dart';
 
 // Một ảnh trong trình xem
 class PhotoItem {
-  const PhotoItem.mang(String this.url, {this.ngayThem})
+  const PhotoItem.mang(String this.url, {this.id, this.ngayThem})
     : bytes = null,
       asset = null;
   const PhotoItem.bytes(Uint8List this.bytes, {this.ngayThem})
-    : url = null,
+    : id = null,
+      url = null,
       asset = null;
 
   const PhotoItem.asset(String this.asset, {this.ngayThem})
-    : url = null,
+    : id = null,
+      url = null,
       bytes = null;
 
+  final String? id;
   final String? url;
   final Uint8List? bytes;
   final String? asset;
@@ -49,10 +54,14 @@ class PhotoThumb extends StatelessWidget {
       width: canh,
       height: canh,
       fit: fit,
-      placeholder: (_, _) =>
-          const Center(child: CircularProgressIndicator(color: Colors.white)),
-      errorWidget: (_, _, _) =>
-          const Icon(Icons.broken_image, color: Colors.white54),
+      memCacheWidth: canh == null ? null : beRongCache(context, canh!),
+      placeholder: (_, _) => const Center(
+        child: CircularProgressIndicator(color: AppColors.textWhite),
+      ),
+      errorWidget: (_, _, _) => Icon(
+        Icons.broken_image,
+        color: AppColors.textWhite.withValues(alpha: 0.54),
+      ),
     );
   }
 }

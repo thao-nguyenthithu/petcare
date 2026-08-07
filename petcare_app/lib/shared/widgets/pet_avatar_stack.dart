@@ -93,7 +93,6 @@ class _OVien extends StatelessWidget {
   }
 }
 
-// Ô +n cho các bé không đủ chỗ hiện avatar
 class _OThem extends StatelessWidget {
   const _OThem({required this.con, required this.size});
 

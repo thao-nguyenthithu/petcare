@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
@@ -261,14 +262,16 @@ class _ThanhTren extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () => Navigator.of(context).pop(),
-            icon: const Icon(Icons.close, size: 20, color: Colors.white),
+            icon: const Icon(Icons.close, size: 20, color: AppColors.textWhite),
           ),
           Expanded(
             child: Column(
               children: [
                 Text(
                   tieuDe,
-                  style: AppTextStyles.label.copyWith(color: Colors.white),
+                  style: AppTextStyles.label.copyWith(
+                    color: AppColors.textWhite,
+                  ),
                 ),
                 // Phụ đề gồm tên hạng mục và ngày
                 if (phuDe != null)
@@ -315,7 +318,7 @@ class _ChamChiSo extends StatelessWidget {
             height: i == hienTai ? 7 : 5,
             decoration: BoxDecoration(
               color: i == hienTai
-                  ? Colors.white
+                  ? AppColors.textWhite
                   : _chuPhu.withValues(alpha: .5),
               shape: BoxShape.circle,
             ),
@@ -356,7 +359,7 @@ class _DaiAnhNho extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           shape: RoundedRectangleBorder(
             side: i == hienTai
-                ? const BorderSide(color: Colors.white, width: 2)
+                ? const BorderSide(color: AppColors.textWhite, width: 2)
                 : BorderSide.none,
             borderRadius: BorderRadius.circular(_boGoc),
           ),
@@ -442,10 +445,7 @@ class _Nut extends StatelessWidget {
               Text(
                 muc.label,
                 textAlign: TextAlign.center,
-                style: AppTextStyles.captionSm.copyWith(
-                  color: mau,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: AppTextStyles.label.copyWith(color: mau),
               ),
             ],
           ),

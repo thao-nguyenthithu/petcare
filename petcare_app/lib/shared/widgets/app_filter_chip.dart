@@ -26,12 +26,13 @@ class AppFilterChip extends StatelessWidget {
       showCheckmark: false,
       visualDensity: VisualDensity.compact,
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      labelStyle: AppTextStyles.captionSm.copyWith(
-        fontWeight: FontWeight.w600,
+      labelStyle: AppTextStyles.label.copyWith(
         color: selected ? AppColors.primaryColor : AppColors.textSecondary,
       ),
       backgroundColor: backgroundColor,
       selectedColor: AppColors.cardMint,
+      elevation: 0,
+      pressElevation: 0,
       side: BorderSide(
         color: selected ? AppColors.primaryColor : AppColors.neutralLight,
       ),

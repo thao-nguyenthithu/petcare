@@ -68,10 +68,7 @@ class _Dong extends StatelessWidget {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       leading: Icon(icon, size: 20, color: AppColors.primaryColor),
-      title: Text(
-        nhan,
-        style: AppTextStyles.label.copyWith(color: AppColors.textPrimary),
-      ),
+      title: Text(nhan, style: AppTextStyles.label),
       onTap: onTap,
     );
   }

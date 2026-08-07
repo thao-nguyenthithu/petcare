@@ -4,6 +4,7 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
+import 'package:petcare_app/shared/widgets/active_dot_icon.dart';
 
 // Ô nhập tìm kiếm dùng chung
 class AppSearchField extends StatelessWidget {
@@ -12,22 +13,26 @@ class AppSearchField extends StatelessWidget {
     required this.controller,
     required this.onChanged,
     required this.hintText,
+    this.onSubmitted,
     this.autofocus = false,
     this.height = 40,
     this.fillColor = AppColors.background,
     this.elevation = 0,
     this.filterOpen = false,
+    this.filterActive = false,
     this.onToggleFilter,
   });
 
   final TextEditingController controller;
   final ValueChanged<String> onChanged;
   final String hintText;
+  final ValueChanged<String>? onSubmitted;
   final bool autofocus;
   final double height;
   final Color fillColor;
   final double elevation;
   final bool filterOpen; // hàng lọc đang mở
+  final bool filterActive;
   final VoidCallback? onToggleFilter;
 
   void _clear() {
@@ -56,6 +61,7 @@ class AppSearchField extends StatelessWidget {
                   child: TextField(
                     controller: controller,
                     onChanged: onChanged,
+                    onSubmitted: onSubmitted,
                     autofocus: autofocus,
                     textInputAction: TextInputAction.search,
                     style: AppTextStyles.body.copyWith(
@@ -99,8 +105,10 @@ class AppSearchField extends StatelessWidget {
         const SizedBox(width: AppSpacing.labelGap),
         IconButton(
           onPressed: onToggleFilter,
-          icon: const Icon(Icons.tune_rounded),
-          color: filterOpen ? AppColors.primaryColor : AppColors.textSecondary,
+          icon: ActiveDotIcon(
+            icon: Icons.tune_rounded,
+            dangBat: filterActive || filterOpen,
+          ),
         ),
       ],
     );

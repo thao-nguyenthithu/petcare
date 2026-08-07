@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:petcare_app/core/utils/vn_date.dart';
-import 'package:petcare_app/features/pets/data/prevention_record.dart';
+import 'package:petcare_app/shared/data/prevention_record.dart';
 import 'package:petcare_app/shared/widgets/photo_viewer.dart';
 
 // Đơn chưa kết thúc của bé, dùng để chặn xoá hồ sơ
@@ -84,9 +84,7 @@ class Pet {
         PhotoItem.mang(
           (a as Map)['url'] as String,
           id: a['id'] as String?,
-          ngayThem: DateTime.tryParse(
-            a['createdAt'] as String? ?? '',
-          )?.toLocal(),
+          ngayThem: docMocVn(a['createdAt'] as String?),
         ),
     ],
     daTrietSan: j['isNeutered'] as bool? ?? false,

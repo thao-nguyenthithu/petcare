@@ -44,12 +44,7 @@ class LockedField extends StatelessWidget {
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        label ?? '',
-                        style: AppTextStyles.captionSm.copyWith(
-                          color: AppColors.textSecondary,
-                        ),
-                      ),
+                      Text(label ?? '', style: AppTextStyles.captionSm),
                       const SizedBox(height: 2),
                       Text(chu, style: AppTextStyles.body),
                     ],
@@ -58,9 +53,7 @@ class LockedField extends StatelessWidget {
                     chu,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTextStyles.body.copyWith(
-                      color: AppColors.textSecondary,
-                    ),
+                    style: AppTextStyles.body,
                   ),
           ),
           if (verified)

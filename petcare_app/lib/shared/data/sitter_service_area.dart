@@ -1,13 +1,12 @@
 import 'package:latlong2/latlong.dart';
 
-// Bán kính phục vụ
 const minServiceRadiusKm = 1;
-const maxServiceRadiusKm = 20;
 const defaultServiceRadiusKm = 5;
 
 // Địa điểm khu vực phục vụ của NCC
 class SitterServiceArea {
   final String? address;
+  final String? khuVuc;
   final double? lat;
   final double? lng;
   final String? addressNote;
@@ -15,6 +14,7 @@ class SitterServiceArea {
 
   const SitterServiceArea({
     this.address,
+    this.khuVuc,
     this.lat,
     this.lng,
     this.addressNote,
@@ -28,12 +28,14 @@ class SitterServiceArea {
 
   SitterServiceArea copyWith({
     String? address,
+    String? khuVuc,
     double? lat,
     double? lng,
     String? addressNote,
     int? radiusKm,
   }) => SitterServiceArea(
     address: address ?? this.address,
+    khuVuc: khuVuc ?? this.khuVuc,
     lat: lat ?? this.lat,
     lng: lng ?? this.lng,
     addressNote: addressNote ?? this.addressNote,
@@ -51,6 +53,7 @@ class SitterServiceArea {
   factory SitterServiceArea.fromJson(Map<String, dynamic> j) =>
       SitterServiceArea(
         address: j['address'] as String?,
+        khuVuc: j['area'] as String?,
         lat: (j['lat'] as num?)?.toDouble(),
         lng: (j['lng'] as num?)?.toDouble(),
         addressNote: j['addressNote'] as String?,

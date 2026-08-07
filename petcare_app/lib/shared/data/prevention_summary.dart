@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/utils/vn_date.dart';
-import 'package:petcare_app/features/pets/data/pet.dart';
-import 'package:petcare_app/features/pets/data/prevention_items.dart';
-import 'package:petcare_app/features/pets/data/prevention_record.dart';
+import 'package:petcare_app/shared/data/pet.dart';
+import 'package:petcare_app/shared/data/prevention_items.dart';
+import 'package:petcare_app/shared/data/prevention_record.dart';
 
 const int _nguongDoiSangThang = 30;
 
@@ -182,6 +182,32 @@ String petPreventionLabel(BuildContext context, Pet pet) {
     ),
     PetPreventionStatus.dayDu => l10n.phongBenhDayDu,
   };
+}
+
+PreventionRecord? mucCanNhacGapNhat(Pet pet, PreventionStatus trangThai) {
+  final ds = pet.phongBenh.where((m) => m.trangThai == trangThai).toList();
+  if (ds.isEmpty) return null;
+  ds.sort((a, b) => (a.soNgayConLai ?? 0).compareTo(b.soNgayConLai ?? 0));
+  return ds.first;
+}
+
+String petPreventionLabelChiTiet(BuildContext context, Pet pet) {
+  final l10n = context.l10n;
+  final trangThai = petPreventionStatus(pet);
+  final canNhac = switch (trangThai) {
+    PetPreventionStatus.quaHan => PreventionStatus.quaHan,
+    PetPreventionStatus.sapToiHan => PreventionStatus.sapToiHan,
+    _ => null,
+  };
+  if (canNhac == null) return petPreventionLabel(context, pet);
+  final muc = mucCanNhacGapNhat(pet, canNhac);
+  if (muc == null) return petPreventionLabel(context, pet);
+  final ten = tenCuaHangMuc(context, muc);
+  final nhan = canNhac == PreventionStatus.quaHan
+      ? l10n.quaHanMuc(ten)
+      : l10n.sapToiHanMuc(ten);
+  final conLai = _soMuc(pet, canNhac) - 1;
+  return conLai > 0 ? '$nhan ${l10n.themSoMuc('$conLai')}' : nhan;
 }
 
 // Icon và màu của nhãn

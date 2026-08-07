@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:petcare_app/features/pets/data/pet.dart';
-import 'package:petcare_app/features/pets/data/prevention_record.dart';
+import 'package:petcare_app/shared/data/pet.dart';
+import 'package:petcare_app/shared/data/prevention_record.dart';
 import 'package:petcare_app/shared/utils/song_ngu.dart';
 
 enum PreventionForm { vacXin, uong, nhoGay, khac }
@@ -38,7 +38,7 @@ const _hangMucCho = [
     en: '5-in-1 vaccine (Distemper, Parvo...)',
     loai: PetSpecies.dog,
     hinhThuc: PreventionForm.vacXin,
-    chuKyDeXuat: PreventionCycle.tuan(4),
+    chuKyDeXuat: PreventionCycle.tuan(12),
   ),
   PreventionItem(
     ma: 'benh7',
@@ -46,7 +46,7 @@ const _hangMucCho = [
     en: '7-in-1 vaccine (Distemper, Parvo...)',
     loai: PetSpecies.dog,
     hinhThuc: PreventionForm.vacXin,
-    chuKyDeXuat: PreventionCycle.tuan(4),
+    chuKyDeXuat: PreventionCycle.tuan(12),
   ),
   PreventionItem(
     ma: 'dai',
@@ -66,7 +66,7 @@ const _hangMucMeo = [
     en: '4-in-1 vaccine (FVRCP + Chlamydia)',
     loai: PetSpecies.cat,
     hinhThuc: PreventionForm.vacXin,
-    chuKyDeXuat: PreventionCycle.tuan(4),
+    chuKyDeXuat: PreventionCycle.tuan(12),
   ),
   PreventionItem(
     ma: 'benh3',
@@ -74,7 +74,7 @@ const _hangMucMeo = [
     en: '3-in-1 vaccine (FVRCP)',
     loai: PetSpecies.cat,
     hinhThuc: PreventionForm.vacXin,
-    chuKyDeXuat: PreventionCycle.tuan(4),
+    chuKyDeXuat: PreventionCycle.tuan(12),
   ),
   PreventionItem(
     ma: 'dai',

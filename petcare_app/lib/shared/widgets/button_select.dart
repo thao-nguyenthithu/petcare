@@ -18,6 +18,7 @@ class ButtonSelect extends StatelessWidget {
     this.borderColor,
     this.note,
     this.badge,
+    this.duoi,
     this.leading,
     this.showIndicator = true,
     this.trailing,
@@ -35,6 +36,9 @@ class ButtonSelect extends StatelessWidget {
   final Color? borderColor;
   final String? note;
   final Widget? badge;
+
+  // Khối phụ nằm dưới subtitle, ví dụ chip trạng thái của một địa chỉ
+  final Widget? duoi;
   final Widget? leading;
   final bool showIndicator;
   final Widget? trailing;
@@ -102,6 +106,10 @@ class ButtonSelect extends StatelessWidget {
                             : TextOverflow.ellipsis,
                       ),
                     ],
+                    if (duoi != null) ...[
+                      const SizedBox(height: AppSpacing.labelGap),
+                      duoi!,
+                    ],
                     if (note != null && note!.isNotEmpty) ...[
                       const SizedBox(height: AppSpacing.textGap),
                       Row(
@@ -114,12 +122,7 @@ class ButtonSelect extends StatelessWidget {
                           ),
                           const SizedBox(width: 4),
                           Expanded(
-                            child: Text(
-                              note!,
-                              style: AppTextStyles.captionSm.copyWith(
-                                color: AppColors.textSecondary,
-                              ),
-                            ),
+                            child: Text(note!, style: AppTextStyles.captionSm),
                           ),
                         ],
                       ),

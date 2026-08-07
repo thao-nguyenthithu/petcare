@@ -1,9 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:petcare_app/features/pets/data/pet.dart';
+import 'package:petcare_app/shared/data/pet.dart';
 import 'package:petcare_app/shared/utils/song_ngu.dart';
 
-// Danh mục giống nuôi phổ biến tại Việt Nam
-// Giống lưu bằng mã
+// Danh mục giống chó và mèo
 class PetBreed {
   const PetBreed(this.ma, this.vi, this.en);
 

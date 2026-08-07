@@ -50,7 +50,6 @@ class AppSegmentedTabs extends StatelessWidget {
                   child: Text(
                     labels[i],
                     style: AppTextStyles.label.copyWith(
-                      fontSize: 13,
                       color: i == selectedIndex
                           ? (nhat
                                 ? AppColors.primaryColor

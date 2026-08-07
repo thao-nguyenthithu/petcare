@@ -33,8 +33,6 @@ class AppIconChip extends StatelessWidget {
   }
 }
 
-// Một dòng trong thẻ menu: chip icon (tuỳ chọn) + nhãn + phụ đề (tuỳ chọn) +
-// phần đuôi (mặc định mũi tên). danger = true tô màu accent nhấn mạnh.
 class AppMenuTile extends StatelessWidget {
   const AppMenuTile({
     super.key,

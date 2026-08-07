@@ -25,7 +25,7 @@ class SavedAddress {
   final double? lng;
   final bool isDefault;
 
-  // Đọc từ JSON của backend (nhãn HOME/WORK/OTHER, province/ward/street/note)
+  // Đọc từ JSON của backend
   factory SavedAddress.fromJson(Map<String, dynamic> json) => SavedAddress(
     id: json['id'] as String,
     label: nhanTuApi(json['label'] as String?),
@@ -63,7 +63,6 @@ class SavedAddress {
     NhanDiaChi.khac => 'OTHER',
   };
 
-  // Tên nhãn hiển thị
   String tenNhan(String nha, String congTy, String khac) => switch (label) {
     NhanDiaChi.nha => nha,
     NhanDiaChi.congTy => congTy,
@@ -71,7 +70,6 @@ class SavedAddress {
       (customLabel?.trim().isNotEmpty ?? false) ? customLabel!.trim() : khac,
   };
 
-  // Chuỗi đầy đủ để hiển thị
   String get diaChiDayDu =>
       [soNha, phuongXa, tinh].where((e) => e.trim().isNotEmpty).join(', ');
 

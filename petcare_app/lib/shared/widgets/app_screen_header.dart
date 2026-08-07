@@ -11,18 +11,20 @@ class AppScreenHeader extends StatelessWidget {
     this.subtitle,
     this.action,
     this.onBack,
+    this.leNgang = AppSpacing.screenPadding,
   });
 
   final String title;
   final String? subtitle;
   final Widget? action;
   final VoidCallback? onBack;
+  final double leNgang;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.screenPadding,
+      padding: EdgeInsets.symmetric(
+        horizontal: leNgang,
         vertical: AppSpacing.itemGap,
       ),
       child: Row(

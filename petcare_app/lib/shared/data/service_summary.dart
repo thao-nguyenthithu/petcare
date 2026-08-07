@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
-import 'package:petcare_app/features/sitter/data/sitter_services.dart';
+import 'package:petcare_app/shared/data/sitter_services.dart';
 import 'package:petcare_app/shared/utils/money_format.dart';
 
 // Nhãn loài nhận
@@ -18,7 +18,28 @@ String serviceTypeName(BuildContext context, ServiceType type) =>
       ServiceType.grooming => context.l10n.tamVaTia,
     };
 
-// Tóm tắt dịch vụ (dùng trong danh sách dịch vụ của tôi)
+String serviceTypeNameDai(BuildContext context, ServiceType type) =>
+    switch (type) {
+      ServiceType.walking => context.l10n.datDiDao,
+      ServiceType.boarding => context.l10n.trongGiuTaiNha,
+      ServiceType.grooming => context.l10n.tamVaCatTia,
+    };
+
+// Tên gói grooming
+String groomingPackageName(BuildContext context, GroomingPackage goi) =>
+    goi == GroomingPackage.bath
+    ? context.l10n.chiTam
+    : context.l10n.tamVaCatTia;
+
+// Nhãn mức cân nặng
+String weightTierLabel(BuildContext context, WeightTier muc) => switch (muc) {
+  WeightTier.duoi5 => context.l10n.duoi5kg,
+  WeightTier.tu5den10 => context.l10n.tu5den10kg,
+  WeightTier.tu10den20 => context.l10n.tu10den20kg,
+  WeightTier.tren20 => context.l10n.tren20kg,
+};
+
+// Tóm tắt dịch vụ
 String? serviceTypeSummary(
   BuildContext context,
   SitterServices s,

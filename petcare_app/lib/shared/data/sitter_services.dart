@@ -91,7 +91,7 @@ class WalkingConfig {
     }
     return WalkingConfig(
       enabled: j['enabled'] as bool? ?? false,
-      petKind: _petKind(j['petKind']),
+      petKind: PetKind.dog,
       priceByDuration: bang,
       additionalPetFee: _toInt(j['additionalPetFee']),
       maxPets: _toInt(j['maxPets']),
@@ -238,6 +238,10 @@ class GroomingConfig {
   int? phutCua(GroomingPackage goi, WeightTier muc) =>
       durationByPackage[goi]?[muc];
 
+  // NCC có bán gói nào cho mức cân này không
+  bool coGiaChoMucCan(WeightTier muc) =>
+      priceByPackage.values.any((bang) => bang[muc] != null);
+
   bool get configured {
     if (priceByPackage.isEmpty) return false;
     for (final e in priceByPackage.entries) {
@@ -278,6 +282,13 @@ class SitterServices {
     ServiceType.walking => walking.configured,
     ServiceType.boarding => boarding.configured,
     ServiceType.grooming => grooming.configured,
+  };
+
+  // Giá thấp nhất của một loại
+  int? giaTuCua(ServiceType type) => switch (type) {
+    ServiceType.walking => walking.lowestPrice,
+    ServiceType.boarding => boarding.pricePerDay,
+    ServiceType.grooming => grooming.lowestPrice,
   };
 
   List<ServiceType> get configuredTypes =>

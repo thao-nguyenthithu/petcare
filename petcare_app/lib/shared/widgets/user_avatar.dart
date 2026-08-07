@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
+import 'package:petcare_app/shared/utils/anh_cache.dart';
 
 // Avatar tròn cho người dùng
 class UserAvatar extends StatelessWidget {
@@ -35,7 +36,7 @@ class UserAvatar extends StatelessWidget {
             ? Border.all(color: AppColors.textWhite, width: 3)
             : null,
       ),
-      child: ClipOval(child: _anh()),
+      child: ClipOval(child: _anh(context)),
     );
     if (onTap == null) return o;
     return Stack(
@@ -51,7 +52,7 @@ class UserAvatar extends StatelessWidget {
     );
   }
 
-  Widget _anh() {
+  Widget _anh(BuildContext context) {
     if (!_coAnh) return _placeholder();
     if (_laMang) {
       return CachedNetworkImage(
@@ -59,6 +60,7 @@ class UserAvatar extends StatelessWidget {
         width: size,
         height: size,
         fit: BoxFit.cover,
+        memCacheWidth: beRongCache(context, size),
         placeholder: (_, _) => _placeholder(),
         errorWidget: (_, _, _) => _placeholder(),
       );

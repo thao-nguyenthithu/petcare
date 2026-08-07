@@ -10,6 +10,8 @@ class PageDots extends StatelessWidget {
     this.dotSize = 8,
     this.activeWidth = 22,
     this.gap = 10,
+    this.mauHoatDong,
+    this.mauTinh,
   });
 
   final int count;
@@ -17,6 +19,8 @@ class PageDots extends StatelessWidget {
   final double dotSize;
   final double activeWidth;
   final double gap;
+  final Color? mauHoatDong;
+  final Color? mauTinh;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +34,9 @@ class PageDots extends StatelessWidget {
           width: active ? activeWidth : dotSize,
           height: dotSize,
           decoration: BoxDecoration(
-            color: active ? AppColors.primaryColor : AppColors.neutral,
+            color: active
+                ? (mauHoatDong ?? AppColors.primaryColor)
+                : (mauTinh ?? AppColors.neutral),
             borderRadius: BorderRadius.circular(dotSize / 2),
           ),
         );
