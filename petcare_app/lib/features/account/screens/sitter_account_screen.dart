@@ -74,7 +74,7 @@ class SitterAccountScreen extends ConsumerWidget {
       tile(
         Icons.account_balance_wallet_outlined,
         l10n.viVaThuNhap,
-        () => context.push(AppRoutes.sitterEarnings),
+        () => context.push(AppRoutes.sitterWallet),
       ),
       tile(
         Icons.star_outline,
@@ -83,7 +83,7 @@ class SitterAccountScreen extends ConsumerWidget {
       ),
       tile(
         Icons.receipt_long_outlined,
-        l10n.lichSuDon,
+        l10n.tatCaDon,
         () => context.push(AppRoutes.sitterBookings),
       ),
       tile(
@@ -108,7 +108,7 @@ class SitterAccountScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    final tenNguoiDung = ref.watch(currentUserProvider).asData?.value.fullName;
+    final nguoiDung = ref.watch(currentUserProvider).asData?.value;
 
     return ColoredBox(
       color: AppColors.background,
@@ -127,7 +127,8 @@ class SitterAccountScreen extends ConsumerWidget {
             ),
             SliverToBoxAdapter(
               child: AccountProfileHeader(
-                name: tenNguoiDung,
+                name: nguoiDung?.fullName,
+                avatarUrl: nguoiDung?.avatarUrl,
                 roleLabel: l10n.nguoiCungCapDaXacMinh,
                 statusText: l10n.dangOCheDoNguoiCungCap,
               ),

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/l10n/locale_provider.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
+import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/shared/widgets/user_avatar.dart';
@@ -14,11 +15,13 @@ class AccountProfileHeader extends StatelessWidget {
     required this.roleLabel,
     required this.statusText,
     this.name,
+    this.avatarUrl,
   });
 
   final String roleLabel;
   final String statusText;
   final String? name;
+  final String? avatarUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class AccountProfileHeader extends StatelessWidget {
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
       ),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+        padding: const EdgeInsets.fromLTRB(24, 4, 24, 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -47,10 +50,15 @@ class AccountProfileHeader extends StatelessWidget {
                 const _LanguageToggle(),
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: AppSpacing.stackGap),
             Row(
               children: [
-                UserAvatar(name: ten, size: 64, bordered: true),
+                UserAvatar(
+                  name: ten,
+                  imageUrl: avatarUrl,
+                  size: 64,
+                  bordered: true,
+                ),
                 const SizedBox(width: 14),
                 Expanded(
                   child: Column(
@@ -95,7 +103,6 @@ class AccountProfileHeader extends StatelessWidget {
   }
 }
 
-// Toggle ngôn ngữ trực tiếp
 class _LanguageToggle extends ConsumerWidget {
   const _LanguageToggle();
 
@@ -103,9 +110,12 @@ class _LanguageToggle extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final code = ref.watch(localeProvider).languageCode;
     return Container(
-      padding: const EdgeInsets.all(3),
+      padding: const EdgeInsets.all(2),
       decoration: BoxDecoration(
-        color: const Color(0xFF23705A),
+        color: Color.alphaBlend(
+          Colors.black.withValues(alpha: 0.18),
+          AppColors.primaryColor,
+        ),
         borderRadius: BorderRadius.circular(999),
       ),
       child: Row(
@@ -125,16 +135,15 @@ class _LanguageToggle extends ConsumerWidget {
           : () => ref.read(localeProvider.notifier).setLocale(maNgonNgu),
       behavior: HitTestBehavior.opaque,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
         decoration: BoxDecoration(
           color: dangChon ? AppColors.textWhite : Colors.transparent,
           borderRadius: BorderRadius.circular(999),
         ),
         child: Text(
           label,
-          style: AppTextStyles.captionSm.copyWith(
+          style: AppTextStyles.label.copyWith(
             color: dangChon ? AppColors.primaryColor : AppColors.textWhite,
-            fontWeight: FontWeight.w700,
           ),
         ),
       ),
@@ -154,7 +163,7 @@ class _StatusPill extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
       decoration: BoxDecoration(
         color: AppColors.textWhite.withValues(alpha: 0.16),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppRadius.radius20),
         border: Border.all(color: AppColors.textWhite.withValues(alpha: 0.24)),
       ),
       child: Row(

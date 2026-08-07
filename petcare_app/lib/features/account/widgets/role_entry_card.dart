@@ -6,8 +6,11 @@ import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
+import 'package:petcare_app/shared/data/vai_tro.dart';
 import 'package:petcare_app/features/account/widgets/sitter_switch_sheet.dart';
 import 'package:petcare_app/features/dksitter/providers/dksitter_provider.dart';
+import 'package:petcare_app/features/sitter_order/data/sitter_order_api.dart';
+import 'package:petcare_app/features/sitter_order/providers/sitter_orders_provider.dart';
 import 'package:petcare_app/shared/widgets/app_menu_card.dart';
 import 'package:petcare_app/shared/widgets/button_select.dart';
 
@@ -18,8 +21,11 @@ class RoleEntryCard extends ConsumerWidget {
   final bool providerMode;
 
   //sheet xác nhận rồi sang Home người cung cấp
-  Future<void> _moSheetSangNCC(BuildContext context) async {
-    final doiCheDo = await showSitterSwitchSheet(context);
+  Future<void> _moSheetSangNCC(
+    BuildContext context,
+    TomTatDonNcc? tomTat,
+  ) async {
+    final doiCheDo = await showSitterSwitchSheet(context, tomTat: tomTat);
     if (doiCheDo == true && context.mounted) {
       context.go(AppRoutes.sitterHome);
     }
@@ -62,10 +68,12 @@ class RoleEntryCard extends ConsumerWidget {
     final trangThai = ref.watch(sitterStatusProvider).asData?.value;
 
     // Đã duyệt chuyển chế độ Người cung cấp
-    if (trangThai == 'APPROVED') {
+    if (trangThai == TrangThaiHoSoNcc.daDuyet) {
+      final tomTat = ref.watch(tomTatDonNccProvider).asData?.value;
+      final soDon = tomTat?.soDonCho ?? 0;
       return ButtonSelect(
         selected: true,
-        onTap: () => _moSheetSangNCC(context),
+        onTap: () => _moSheetSangNCC(context, tomTat),
         title: l10n.chuyenSangCheDoNguoiCungCap,
         titleColor: AppColors.primaryColor,
         titleMaxLines: 2,
@@ -76,12 +84,14 @@ class RoleEntryCard extends ConsumerWidget {
           iconSize: 22,
           background: AppColors.surface,
         ),
-        trailing: _TrailingBadge(text: l10n.soDonMoi('2')),
+        trailing: _TrailingBadge(
+          text: soDon > 0 ? l10n.soDonMoi('$soDon') : null,
+        ),
       );
     }
 
     // Đang chờ duyệt thẻ trạng thái
-    if (trangThai == 'PENDING') {
+    if (trangThai == TrangThaiHoSoNcc.choDuyet) {
       return ButtonSelect(
         selected: false,
         borderColor: AppColors.accent,
@@ -139,10 +149,7 @@ class _TrailingBadge extends StatelessWidget {
             ),
             child: Text(
               text!,
-              style: AppTextStyles.captionSm.copyWith(
-                color: AppColors.textWhite,
-                fontWeight: FontWeight.w600,
-              ),
+              style: AppTextStyles.label.copyWith(color: AppColors.textWhite),
             ),
           ),
           const SizedBox(width: AppSpacing.textGap),

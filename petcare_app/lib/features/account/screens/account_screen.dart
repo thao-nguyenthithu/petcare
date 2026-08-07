@@ -50,7 +50,7 @@ class AccountScreen extends ConsumerWidget {
       tile(
         Icons.person_outline,
         l10n.hoSoCuaToi,
-        () => baoDangPhatTrien(context),
+        () => context.push(AppRoutes.ownerProfile),
       ),
       tile(
         Icons.pets_outlined,
@@ -58,9 +58,9 @@ class AccountScreen extends ConsumerWidget {
         () => context.push(AppRoutes.myPets),
       ),
       tile(
-        Icons.account_balance_wallet_outlined,
-        l10n.viVaThanhToan,
-        () => baoDangPhatTrien(context),
+        Icons.receipt_long_outlined,
+        l10n.thanhToan,
+        () => context.push(AppRoutes.ownerWallet),
       ),
       tile(
         Icons.location_on_outlined,
@@ -70,12 +70,12 @@ class AccountScreen extends ConsumerWidget {
       tile(
         Icons.star_outline,
         l10n.danhGiaCuaToi,
-        () => baoDangPhatTrien(context),
+        () => context.push(AppRoutes.ownerReviews),
       ),
       tile(
         Icons.receipt_long_outlined,
         l10n.lichSuVaChiTieu,
-        () => baoDangPhatTrien(context),
+        () => context.push(AppRoutes.ownerSpending),
       ),
       tile(
         Icons.settings_outlined,
@@ -98,7 +98,7 @@ class AccountScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tenNguoiDung = ref.watch(currentUserProvider).asData?.value.fullName;
+    final nguoiDung = ref.watch(currentUserProvider).asData?.value;
 
     return ColoredBox(
       color: AppColors.background,
@@ -120,7 +120,8 @@ class AccountScreen extends ConsumerWidget {
             ),
             SliverToBoxAdapter(
               child: AccountProfileHeader(
-                name: tenNguoiDung,
+                name: nguoiDung?.fullName,
+                avatarUrl: nguoiDung?.avatarUrl,
                 roleLabel: context.l10n.chuNuoiDaXacMinh,
                 statusText: context.l10n.dangOCheDoChuNuoi,
               ),
