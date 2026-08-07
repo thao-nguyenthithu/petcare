@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
 
-// Đọc lỗi backend trả về ({code, message, meta}) từ DioException.
-// Dùng chung cho mọi cụm; auth có bản riêng cũ, không đụng tới.
 Map<dynamic, dynamic>? _dataFromError(Object error) {
   if (error is! DioException) return null;
   final data = error.response?.data;

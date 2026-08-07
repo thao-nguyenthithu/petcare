@@ -1,10 +1,3 @@
-// Thang khoảng cách dùng chung, giá trị đều là bội số 4.
-// Đặt tên theo CÔNG DỤNG để đọc code là biết ngay chỗ đó nên dùng cái nào.
-// Nhiều tên trùng giá trị là cố ý: sau này đổi lề màn sẽ không kéo theo padding
-// trong card.
-//
-// Số đo RIÊNG của một widget (rộng card, đường kính avatar, cao ảnh bìa, vị trí
-// một nhãn trên ảnh) giữ tại chính widget đó, KHÔNG đưa vào đây.
 class AppSpacing {
   AppSpacing._();
 
@@ -26,8 +19,7 @@ class AppSpacing {
   // 16 — padding bên trong card, banner, ô
   static const double cardPadding = 16;
 
-  // 16 — giữa các khối xếp chồng: card trong danh sách, trường nhập trong form.
-  // Khối dày nên cần thở hơn itemGap vốn dành cho dòng list mỏng.
+  // 16 — giữa các khối xếp chồng
   static const double stackGap = 16;
 
   // 20 — giữa hai khối nội dung trong cùng một section

@@ -43,6 +43,13 @@ class AppTextStyles {
     height: 20 / 14,
     color: AppColors.textPrimary,
   );
+  static const TextStyle labelSm = TextStyle(
+    fontFamily: _f,
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
+    height: 16 / 12,
+    color: AppColors.textPrimary,
+  );
 
   // w400
   static const TextStyle captionSm = TextStyle(

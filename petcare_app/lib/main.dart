@@ -1,18 +1,24 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:petcare_app/core/config/cau_hinh_nghiep_vu_provider.dart';
 import 'package:petcare_app/core/l10n/generated/app_localizations.dart';
 import 'package:petcare_app/core/l10n/locale_provider.dart';
+import 'package:petcare_app/core/providers/app_container.dart';
+import 'package:petcare_app/core/services/push_refresh.dart';
 import 'package:petcare_app/core/storage/locale_storage.dart';
 import 'package:petcare_app/core/theme/app_system_ui.dart';
 import 'package:petcare_app/core/theme/app_theme.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/shared/utils/chon_anh.dart';
-import 'firebase_options.dart';
+import 'package:petcare_app/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  if (!kIsWeb) FlutterForegroundTask.initCommunicationPort();
   // Bảng chọn ảnh chặn đúng số ảnh cho phép
   batPhotoPickerAndroid();
   try {
@@ -28,13 +34,15 @@ void main() async {
   } catch (e) {
     debugPrint('Không đọc được ngôn ngữ đã lưu: $e');
   }
+  // Giữ tham chiếu kho provider để guard điều hướng đọc được vai người dùng
+  appContainer = ProviderContainer(
+    overrides: [savedLanguageCodeProvider.overrideWithValue(savedLanguageCode)],
+  );
+  // Push tới lúc app đang mở phải kéo theo dữ liệu mới
+  noiPushVaoLamMoi(appContainer);
+  appContainer.read(cauHinhNghiepVuProvider);
   runApp(
-    ProviderScope(
-      overrides: [
-        savedLanguageCodeProvider.overrideWithValue(savedLanguageCode),
-      ],
-      child: const MyApp(),
-    ),
+    UncontrolledProviderScope(container: appContainer, child: const MyApp()),
   );
 }
 

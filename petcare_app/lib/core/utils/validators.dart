@@ -1,5 +1,9 @@
 import 'package:petcare_app/core/l10n/generated/app_localizations.dart';
 
+const int soKyTuHoTenToiDa = 80;
+const int soKyTuHoTenNccToiDa = 100;
+const int soKyTuGioiThieuToiDa = 500;
+
 class Validators {
   final AppLocalizations l10n;
 
@@ -18,7 +22,6 @@ class Validators {
     return null;
   }
 
-  /// So khớp với mật khẩu đã nhập ở ô trước
   String? confirmPassword(String? value, String password) {
     if (value != password) return l10n.matKhauKhongKhop;
     return null;
