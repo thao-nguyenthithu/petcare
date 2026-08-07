@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
-import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
-import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/booking/data/mock_booking_data.dart';
+import 'package:petcare_app/features/booking/data/owner_booking.dart';
+import 'package:petcare_app/shared/widgets/app_filter_chip.dart';
 
 // Hàng chip lọc nhanh theo loại dịch vụ
 class BookingServiceFilter extends StatelessWidget {
@@ -36,30 +35,10 @@ class BookingServiceFilter extends StatelessWidget {
         separatorBuilder: (_, _) => const SizedBox(width: AppSpacing.labelGap),
         itemBuilder: (context, i) {
           final (label, type) = items[i];
-          final isSelected = selected == type;
-          return ChoiceChip(
-            label: Text(label),
-            selected: isSelected,
-            onSelected: (_) => onSelected(type),
-            showCheckmark: false,
-            visualDensity: VisualDensity.compact,
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            labelStyle: AppTextStyles.captionSm.copyWith(
-              fontWeight: FontWeight.w600,
-              color: isSelected
-                  ? AppColors.primaryColor
-                  : AppColors.textSecondary,
-            ),
-            backgroundColor: AppColors.background,
-            selectedColor: AppColors.cardMint,
-            side: BorderSide(
-              color: isSelected
-                  ? AppColors.primaryColor
-                  : AppColors.neutralLight,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(999),
-            ),
+          return AppFilterChip(
+            label: label,
+            selected: selected == type,
+            onTap: () => onSelected(type),
           );
         },
       ),

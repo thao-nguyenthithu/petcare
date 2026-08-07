@@ -1,14 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/booking/data/mock_booking_data.dart';
+import 'package:petcare_app/features/booking/data/owner_booking.dart';
 import 'package:petcare_app/features/booking/widgets/booking_service_filter.dart';
 import 'package:petcare_app/features/booking/widgets/booking_status_tab_bar.dart';
 import 'package:petcare_app/features/booking/widgets/booking_tab_view.dart';
 import 'package:petcare_app/shared/widgets/app_search_field.dart';
 
-// Tab "Đơn của tôi" của chủ nuôi: ô tìm + chip lọc dịch vụ + 4 tab trạng thái.
+// Tab Đơn của tôi của chủ nuôi: ô tìm + chip lọc dịch vụ + 5 tab trạng thái.
 class MyBookingsScreen extends StatefulWidget {
   const MyBookingsScreen({super.key});
 
@@ -17,25 +19,38 @@ class MyBookingsScreen extends StatefulWidget {
 }
 
 class _MyBookingsScreenState extends State<MyBookingsScreen> {
+  static const _choGoXong = Duration(milliseconds: 400);
+
   final _searchController = TextEditingController();
+  Timer? _henTim;
   String _query = '';
-  PetServiceType? _serviceType; // null = tất cả dịch vụ
+  PetServiceType? _serviceType;
   bool _showFilter = false;
 
   @override
   void dispose() {
+    _henTim?.cancel();
     _searchController.dispose();
     super.dispose();
+  }
+
+  void _doiTuKhoa(String value) {
+    final tuKhoa = value.trim();
+    if (tuKhoa == _query) return;
+    _henTim?.cancel();
+    _henTim = Timer(_choGoXong, () {
+      if (mounted) setState(() => _query = tuKhoa);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    // Thứ tự tab: Sắp tới, Đang diễn ra, Đã xong, Đã huỷ
     final tabs = <(String, BookingStatus)>[
+      (l10n.trangThaiChoXacNhan, BookingStatus.choXacNhan),
       (l10n.sapToi, BookingStatus.sapToi),
       (l10n.dangDienRa, BookingStatus.dangDienRa),
-      (l10n.daXong, BookingStatus.hoanThanh),
+      (l10n.hoanThanh, BookingStatus.hoanThanh),
       (l10n.daHuy, BookingStatus.daHuy),
     ];
     return DefaultTabController(
@@ -62,14 +77,13 @@ class _MyBookingsScreenState extends State<MyBookingsScreen> {
               ),
               child: AppSearchField(
                 controller: _searchController,
-                onChanged: (value) => setState(() => _query = value),
-                hintText: l10n.timDonHint,
+                onChanged: _doiTuKhoa,
+                hintText: l10n.timDonChuNuoiHint,
                 filterOpen: _showFilter,
                 onToggleFilter: () =>
                     setState(() => _showFilter = !_showFilter),
               ),
             ),
-            // Hàng chip lọc dịch vụ ẩn/hiện theo nút lọc
             AnimatedSize(
               duration: const Duration(milliseconds: 200),
               curve: Curves.easeInOut,
