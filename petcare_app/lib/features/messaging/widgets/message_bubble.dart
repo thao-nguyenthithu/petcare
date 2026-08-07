@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -10,6 +8,8 @@ import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/messaging/data/chat_message.dart';
 import 'package:petcare_app/features/messaging/widgets/media_viewers.dart';
+import 'package:petcare_app/shared/utils/placeholder_action.dart';
+import 'package:petcare_app/shared/widgets/location_viewer.dart';
 import 'package:petcare_app/shared/widgets/map_tiles.dart';
 
 // Một bong bóng chat
@@ -90,8 +90,7 @@ class _TextBubble extends StatelessWidget {
       decoration: _bubbleDecoration(me),
       child: Text(
         message.text,
-        style: AppTextStyles.body.copyWith(
-          fontSize: 13,
+        style: AppTextStyles.captionSm.copyWith(
           color: me ? AppColors.textWhite : AppColors.textPrimary,
         ),
       ),
@@ -108,20 +107,59 @@ class _ImageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final images = message.images;
+    final Widget anh;
     if (images == null || images.isEmpty) {
-      return _Placeholder(
+      anh = _Placeholder(
         icon: Icons.image_outlined,
         label: context.l10n.anhGuiKem,
       );
+    } else if (images.length == 1) {
+      anh = _Photo(
+        nguon: images.first,
+        width: 180,
+        height: 130,
+        onTap: () => showImageViewer(context, images, 0),
+      );
+    } else {
+      anh = _PhotoGrid(images: images, soAnhThem: message.soAnhThem);
     }
-    return images.length == 1
-        ? _Photo(
-            bytes: images.first,
-            width: 180,
-            height: 130,
-            onTap: () => showImageViewer(context, images, 0),
-          )
-        : _PhotoGrid(images: images);
+    if (message.caption == null && message.actionLabel == null) return anh;
+    return Container(
+      padding: const EdgeInsets.all(6),
+      decoration: _bubbleDecoration(false),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          anh,
+          if (message.caption != null) ...[
+            const SizedBox(height: 6),
+            Text(message.caption!, style: AppTextStyles.captionSm),
+          ],
+          if (message.actionLabel != null) ...[
+            const SizedBox(height: 4),
+            InkWell(
+              onTap: () => baoDangPhatTrien(context),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    message.actionLabel!,
+                    style: AppTextStyles.labelSm.copyWith(
+                      color: AppColors.primaryColor,
+                    ),
+                  ),
+                  const Icon(
+                    Icons.chevron_right_rounded,
+                    size: 14,
+                    color: AppColors.primaryColor,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
   }
 }
 
@@ -155,7 +193,6 @@ class _LocationBubble extends StatelessWidget {
                   child: Text(
                     message.caption!,
                     style: AppTextStyles.captionSm.copyWith(
-                      fontSize: 12,
                       color: me ? AppColors.textWhite : AppColors.textPrimary,
                     ),
                   ),
@@ -174,13 +211,13 @@ class _LocationBubble extends StatelessWidget {
 // Một ảnh đơn
 class _Photo extends StatelessWidget {
   const _Photo({
-    required this.bytes,
+    required this.nguon,
     required this.width,
     required this.height,
     this.onTap,
   });
 
-  final Uint8List bytes;
+  final String nguon;
   final double width;
   final double height;
   final VoidCallback? onTap;
@@ -191,8 +228,9 @@ class _Photo extends StatelessWidget {
       onTap: onTap,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
-        child: Image.memory(
-          bytes,
+        child: anhChat(
+          context,
+          nguon,
           width: width,
           height: height,
           fit: BoxFit.cover,
@@ -202,11 +240,12 @@ class _Photo extends StatelessWidget {
   }
 }
 
-// Lưới ảnh 3 cột, n hàng
+// Ô cuối phủ lớp tối kèm "+n" thay vì kéo dài lưới
 class _PhotoGrid extends StatelessWidget {
-  const _PhotoGrid({required this.images});
+  const _PhotoGrid({required this.images, this.soAnhThem});
 
-  final List<Uint8List> images;
+  final List<String> images;
+  final int? soAnhThem;
 
   static const double _gridWidth = 234;
   static const double _gap = 4;
@@ -215,6 +254,7 @@ class _PhotoGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cell = (_gridWidth - _gap * (_cols - 1)) / _cols;
+    final them = soAnhThem ?? 0;
     return SizedBox(
       width: _gridWidth,
       child: Wrap(
@@ -222,12 +262,42 @@ class _PhotoGrid extends StatelessWidget {
         runSpacing: _gap,
         children: [
           for (var i = 0; i < images.length; i++)
-            _Photo(
-              bytes: images[i],
-              width: cell,
-              height: cell,
-              onTap: () => showImageViewer(context, images, i),
-            ),
+            if (them > 0 && i == images.length - 1)
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  _Photo(
+                    nguon: images[i],
+                    width: cell,
+                    height: cell,
+                    onTap: () => showImageViewer(context, images, i),
+                  ),
+                  IgnorePointer(
+                    child: Container(
+                      width: cell,
+                      height: cell,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: AppColors.textPrimary.withValues(alpha: 0.55),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        '+$them',
+                        style: AppTextStyles.h3.copyWith(
+                          color: AppColors.textWhite,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            else
+              _Photo(
+                nguon: images[i],
+                width: cell,
+                height: cell,
+                onTap: () => showImageViewer(context, images, i),
+              ),
         ],
       ),
     );
@@ -254,7 +324,7 @@ class _Placeholder extends StatelessWidget {
         children: [
           Icon(icon, color: AppColors.primaryColor),
           const SizedBox(height: AppSpacing.textGap),
-          Text(label, style: AppTextStyles.captionSm.copyWith(fontSize: 11)),
+          Text(label, style: AppTextStyles.captionSm),
         ],
       ),
     );
@@ -319,7 +389,7 @@ class _Meta extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final base = AppTextStyles.captionSm.copyWith(fontSize: 10);
+    final base = AppTextStyles.captionSm;
     final children = <Widget>[];
     if (message.timeLabel != null) {
       children.add(Text(message.timeLabel!, style: base));
@@ -393,10 +463,7 @@ class _MaskedNotice extends StatelessWidget {
         Flexible(
           child: Text(
             context.l10n.soDienThoaiDaAn,
-            style: AppTextStyles.captionSm.copyWith(
-              fontSize: 12,
-              color: AppColors.accent,
-            ),
+            style: AppTextStyles.captionSm.copyWith(color: AppColors.accent),
           ),
         ),
       ],

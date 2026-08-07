@@ -39,7 +39,6 @@ class ChatSystemChip extends StatelessWidget {
                     : l10n.phienBatDauChat(message.text),
                 textAlign: TextAlign.center,
                 style: AppTextStyles.captionSm.copyWith(
-                  fontSize: safety ? 12 : 10,
                   color: safety
                       ? AppColors.primaryColor
                       : AppColors.textSecondary,

@@ -1,6 +1,5 @@
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/router/app_router.dart';
-import 'package:petcare_app/features/messaging/data/mock_chat_threads.dart';
 import 'package:petcare_app/features/messaging/screens/chat_detail_screen.dart';
 
 // Định tuyến màn chat chi tiết
@@ -11,7 +10,6 @@ final messagingRoutes = <RouteBase>[
       final args = state.extra as ChatArgs;
       return ChatDetailScreen(
         conversation: args.conversation,
-        thread: MockChatThreads.of(args.conversation.id),
         isOwner: args.isOwner,
       );
     },

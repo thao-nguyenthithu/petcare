@@ -2,13 +2,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
-import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/shared/utils/placeholder_action.dart';
+import 'package:petcare_app/shared/widgets/app_card.dart';
 
-// Pill mint cuối luồng khi chat đã khoá (Figma A1.15c-locked): thông báo kết thúc
-// + link "trung tâm hỗ trợ" mở trang trợ giúp.
+// Pill mint cuối luồng khi chat đã khoá, kèm lối vào trung tâm hỗ trợ
 class ChatEndedNotice extends StatefulWidget {
   const ChatEndedNotice({super.key, this.onHelpTap});
 
@@ -36,17 +35,15 @@ class _ChatEndedNoticeState extends State<ChatEndedNotice> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final base = AppTextStyles.captionSm.copyWith(fontSize: 12);
+    final base = AppTextStyles.captionSm;
     return Center(
-      child: Container(
+      child: AppCard(
         width: 300,
+        nen: AppColors.cardMint,
+        vien: false,
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.screenPadding,
           vertical: AppSpacing.itemGap,
-        ),
-        decoration: BoxDecoration(
-          color: AppColors.cardMint,
-          borderRadius: BorderRadius.circular(AppRadius.radius14),
         ),
         child: Text.rich(
           textAlign: TextAlign.center,

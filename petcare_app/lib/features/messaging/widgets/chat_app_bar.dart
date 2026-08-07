@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
+import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
+import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/messaging/data/conversation.dart';
-import 'package:petcare_app/shared/utils/placeholder_action.dart';
+import 'package:petcare_app/shared/data/conversation.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_status_badge.dart';
 import 'package:petcare_app/shared/widgets/user_avatar.dart';
@@ -14,9 +16,17 @@ enum ChatMenuAction { xemHoSo, xemChiTietDon, canTroGiup }
 
 // Thanh tiêu đề màn chat
 class ChatAppBar extends StatelessWidget {
-  const ChatAppBar({super.key, required this.conversation, this.countdown});
+  const ChatAppBar({
+    super.key,
+    required this.conversation,
+    required this.isOwner,
+    this.countdown,
+  });
 
   final Conversation conversation;
+
+  // Vai của người đang đọc: quyết định menu mở màn của chủ nuôi hay người chăm
+  final bool isOwner;
   final String? countdown; // null = không hiện badge đếm ngược
 
   @override
@@ -82,7 +92,7 @@ class ChatAppBar extends StatelessWidget {
                     const SizedBox(height: AppSpacing.textGap),
                     Text(
                       '${c.serviceContext}  ${c.bookingCode}',
-                      style: AppTextStyles.captionSm.copyWith(fontSize: 12),
+                      style: AppTextStyles.captionSm,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -94,16 +104,18 @@ class ChatAppBar extends StatelessWidget {
                 icon: const Icon(Icons.more_vert, color: AppColors.textPrimary),
                 color: AppColors.surface,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(AppRadius.radius14),
                 ),
                 position: PopupMenuPosition.under,
-                onSelected: (_) => baoDangPhatTrien(context),
+                onSelected: (chon) => _chon(context, chon),
                 itemBuilder: (context) => [
-                  _menuItem(
-                    ChatMenuAction.xemHoSo,
-                    Icons.person_outline,
-                    l10n.xemHoSo,
-                  ),
+                  // Chủ nuôi không có trang hồ sơ công khai nên bỏ hẳn mục này
+                  if (isOwner)
+                    _menuItem(
+                      ChatMenuAction.xemHoSo,
+                      Icons.person_outline,
+                      l10n.xemHoSo,
+                    ),
                   _menuItem(
                     ChatMenuAction.xemChiTietDon,
                     Icons.receipt_long_outlined,
@@ -124,6 +136,32 @@ class ChatAppBar extends StatelessWidget {
     );
   }
 
+  // Ba lối ra của menu; "Cần trợ giúp" dẫn về đúng màn xử lý sự cố của vai
+  void _chon(BuildContext context, ChatMenuAction chon) {
+    final donId = conversation.bookingId;
+    switch (chon) {
+      case ChatMenuAction.xemHoSo:
+        final nccId = conversation.sitterId;
+        if (nccId == null) return;
+        context.push(AppRoutes.sitterDetailPath(nccId));
+      case ChatMenuAction.xemChiTietDon:
+        if (donId == null) return;
+        if (isOwner) {
+          context.push(AppRoutes.bookingDetail, extra: donId);
+        } else {
+          context.push(AppRoutes.sitterOrderDetailPath(donId));
+        }
+      case ChatMenuAction.canTroGiup:
+        if (donId == null) return;
+        // Lối xử lý của chủ nuôi nằm trong chi tiết đơn nên đưa họ về đó
+        if (isOwner) {
+          context.push(AppRoutes.bookingDetail, extra: donId);
+        } else {
+          context.push(AppRoutes.sitterIncidentPath(donId));
+        }
+    }
+  }
+
   PopupMenuItem<ChatMenuAction> _menuItem(
     ChatMenuAction value,
     IconData icon,
@@ -136,10 +174,7 @@ class ChatAppBar extends StatelessWidget {
         children: [
           Icon(icon, size: 20, color: color),
           const SizedBox(width: AppSpacing.itemGap),
-          Text(
-            label,
-            style: AppTextStyles.body.copyWith(fontSize: 14, color: color),
-          ),
+          Text(label, style: AppTextStyles.body.copyWith(color: color)),
         ],
       ),
     );

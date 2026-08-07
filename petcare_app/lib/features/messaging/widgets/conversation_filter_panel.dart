@@ -3,7 +3,7 @@ import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/messaging/data/conversation.dart';
+import 'package:petcare_app/shared/data/conversation.dart';
 import 'package:petcare_app/shared/widgets/app_filter_chip.dart';
 
 // Panel lọc hội thoại, bung dưới header tab Tin nhắn
@@ -17,9 +17,9 @@ class ConversationFilterPanel extends StatelessWidget {
   });
 
   final ConversationState? sessionFilter; // null = tất cả trạng thái
-  final Set<ServiceKind> serviceTypes; // rỗng = tất cả loại dịch vụ
+  final Set<ServiceType> serviceTypes; // rỗng = tất cả loại dịch vụ
   final ValueChanged<ConversationState?> onSessionChanged;
-  final ValueChanged<ServiceKind> onToggleServiceType;
+  final ValueChanged<ServiceType> onToggleServiceType;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,7 @@ class ConversationFilterPanel extends StatelessWidget {
             spacing: AppSpacing.blockGap,
             runSpacing: AppSpacing.textGap,
             children: [
-              for (final loai in ServiceKind.values)
+              for (final loai in ServiceType.values)
                 _ServiceCheckbox(
                   label: _nhanDichVu(context, loai),
                   selected: serviceTypes.contains(loai),
@@ -83,12 +83,12 @@ class ConversationFilterPanel extends StatelessWidget {
     };
   }
 
-  String _nhanDichVu(BuildContext context, ServiceKind loai) {
+  String _nhanDichVu(BuildContext context, ServiceType loai) {
     final l10n = context.l10n;
     return switch (loai) {
-      ServiceKind.datDiDao => l10n.datDiDao,
-      ServiceKind.trongGiu => l10n.trongGiu,
-      ServiceKind.tamTia => l10n.tamVaTia,
+      ServiceType.walking => l10n.datDiDao,
+      ServiceType.boarding => l10n.trongGiu,
+      ServiceType.grooming => l10n.tamVaTia,
     };
   }
 }
@@ -103,14 +103,7 @@ class _FilterGroupLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.labelGap),
-      child: Text(
-        text,
-        style: AppTextStyles.captionSm.copyWith(
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
-          color: AppColors.textPrimary,
-        ),
-      ),
+      child: Text(text, style: AppTextStyles.label),
     );
   }
 }
@@ -150,7 +143,6 @@ class _ServiceCheckbox extends StatelessWidget {
           Text(
             label,
             style: AppTextStyles.captionSm.copyWith(
-              fontSize: 13,
               color: AppColors.textPrimary,
             ),
           ),

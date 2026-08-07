@@ -68,13 +68,7 @@ class _Chip extends StatelessWidget {
           border: Border.all(color: AppColors.neutral),
           borderRadius: BorderRadius.circular(999),
         ),
-        child: Text(
-          label,
-          style: AppTextStyles.captionSm.copyWith(
-            fontSize: 11,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        child: Text(label, style: AppTextStyles.label),
       ),
     );
   }

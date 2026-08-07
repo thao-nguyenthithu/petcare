@@ -1,18 +1,14 @@
-import 'dart:typed_data';
+import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
-import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
-import 'package:petcare_app/core/theme/app_spacing.dart';
-import 'package:petcare_app/shared/widgets/map_tiles.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:petcare_app/shared/utils/anh_cache.dart';
 
 // Mở trình xem ảnh toàn màn
 void showImageViewer(
   BuildContext context,
-  List<Uint8List> images,
+  List<String> images,
   int initialIndex,
 ) {
   showDialog<void>(
@@ -22,19 +18,34 @@ void showImageViewer(
   );
 }
 
-// Mở bản đồ toàn màn để xem tương tác vị trí đã gửi
-void showLocationViewer(BuildContext context, LatLng location) {
-  Navigator.of(context).push(
-    MaterialPageRoute<void>(
-      builder: (_) => _LocationViewer(location: location),
-    ),
-  );
+// Ảnh trong chat có hai nguồn: URL đã lên server và ảnh vừa chọn trên máy
+Widget anhChat(
+  BuildContext context,
+  String nguon, {
+  double? width,
+  double? height,
+  BoxFit fit = BoxFit.contain,
+}) {
+  if (nguon.startsWith('http')) {
+    return CachedNetworkImage(
+      imageUrl: nguon,
+      width: width,
+      height: height,
+      fit: fit,
+      // Bỏ trống bề ngang là ảnh xem toàn màn, lấy đúng bề ngang màn hình
+      memCacheWidth: beRongCache(
+        context,
+        width ?? MediaQuery.sizeOf(context).width,
+      ),
+    );
+  }
+  return Image.file(File(nguon), width: width, height: height, fit: fit);
 }
 
 class _ImageViewer extends StatefulWidget {
   const _ImageViewer({required this.images, required this.initialIndex});
 
-  final List<Uint8List> images;
+  final List<String> images;
   final int initialIndex;
 
   @override
@@ -64,7 +75,7 @@ class _ImageViewerState extends State<_ImageViewer> {
             itemBuilder: (_, i) => InteractiveViewer(
               minScale: 1,
               maxScale: 4,
-              child: Center(child: Image.memory(widget.images[i])),
+              child: Center(child: anhChat(context, widget.images[i])),
             ),
           ),
           SafeArea(
@@ -73,91 +84,6 @@ class _ImageViewerState extends State<_ImageViewer> {
               child: IconButton(
                 onPressed: () => Navigator.of(context).pop(),
                 icon: const Icon(Icons.close, color: AppColors.textWhite),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _LocationViewer extends StatelessWidget {
-  const _LocationViewer({required this.location});
-
-  final LatLng location;
-
-  // Mở Google Maps chỉ đường tới điểm này
-  Future<void> _chiDuong(BuildContext context) async {
-    final messenger = ScaffoldMessenger.of(context);
-    final loi = context.l10n.khongMoDuocBanDo;
-    final uri = Uri.parse(
-      'https://www.google.com/maps/dir/?api=1'
-      '&destination=${location.latitude},${location.longitude}',
-    );
-    try {
-      final ok = await launchUrl(uri, mode: LaunchMode.externalApplication);
-      if (!ok) messenger.showSnackBar(SnackBar(content: Text(loi)));
-    } catch (_) {
-      messenger.showSnackBar(SnackBar(content: Text(loi)));
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          FlutterMap(
-            options: MapOptions(initialCenter: location, initialZoom: 16),
-            children: [
-              voyagerTileLayer(),
-              MarkerLayer(
-                markers: [
-                  Marker(
-                    point: location,
-                    width: 40,
-                    height: 40,
-                    alignment: Alignment.topCenter,
-                    child: const Icon(
-                      Icons.location_on,
-                      color: AppColors.primaryColor,
-                      size: 36,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: CircleAvatar(
-                backgroundColor: AppColors.surface,
-                child: IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: AppSpacing.screenPadding,
-            right: AppSpacing.screenPadding,
-            bottom: AppSpacing.screenPadding,
-            child: SafeArea(
-              top: false,
-              child: FilledButton.icon(
-                onPressed: () => _chiDuong(context),
-                style: FilledButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                  minimumSize: const Size.fromHeight(48),
-                ),
-                icon: const Icon(Icons.directions_outlined),
-                label: Text(context.l10n.xemDuongDi),
               ),
             ),
           ),

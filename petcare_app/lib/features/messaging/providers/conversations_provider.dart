@@ -1,46 +1,93 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:petcare_app/features/messaging/data/conversation.dart';
-import 'package:petcare_app/features/messaging/data/mock_owner_messages.dart';
-import 'package:petcare_app/features/messaging/data/mock_sitter_messages.dart';
+import 'package:petcare_app/core/utils/vn_date.dart';
+import 'package:petcare_app/features/messaging/services/messaging_api_service.dart';
+import 'package:petcare_app/shared/data/conversation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-// State danh sách hội thoại
-class ConversationsNotifier extends Notifier<List<Conversation>> {
-  ConversationsNotifier(this._seed);
+part 'conversations_provider.g.dart';
 
-  final List<Conversation> _seed;
+// Danh sách hội thoại của một vai, hai vai giữ hai bộ nhớ riêng
+@Riverpod(keepAlive: true)
+class HoiThoaiChuNuoi extends _$HoiThoaiChuNuoi {
+  final _service = MessagingApiService();
 
   @override
-  List<Conversation> build() => List.of(_seed);
+  Future<List<Conversation>> build() => _service.danhSach(laChuNuoi: true);
 
-  void danhDauDaDoc(String id) {
-    state = [
-      for (final c in state)
-        if (c.id == id && c.chuaDoc) c.copyWith(unreadCount: 0) else c,
-    ];
+  Future<void> taiLai() async {
+    state = await AsyncValue.guard(() => _service.danhSach(laChuNuoi: true));
+  }
+
+  // Badge phải tắt ngay lúc mở, chờ server là thấy số chưa đọc nhấp nháy
+  Future<void> danhDauDaDoc(String id) async {
+    final ds = state.value;
+    if (ds != null) state = AsyncData(_daDoc(ds, id));
+    await _service.danhDauDaDoc(id);
+  }
+
+  void capNhatTinCuoi(String id, String noiDung) {
+    final ds = state.value;
+    if (ds == null) return;
+    state = AsyncData(_tinCuoiCuaToi(ds, id, noiDung));
   }
 }
 
-// Hội thoại của chủ nuôi
-final ownerConversationsProvider =
-    NotifierProvider<ConversationsNotifier, List<Conversation>>(
-      () => ConversationsNotifier(MockOwnerMessagesData.conversations),
+@Riverpod(keepAlive: true)
+class HoiThoaiNguoiCham extends _$HoiThoaiNguoiCham {
+  final _service = MessagingApiService();
+
+  @override
+  Future<List<Conversation>> build() => _service.danhSach(laChuNuoi: false);
+
+  Future<void> taiLai() async {
+    state = await AsyncValue.guard(() => _service.danhSach(laChuNuoi: false));
+  }
+
+  Future<void> danhDauDaDoc(String id) async {
+    final ds = state.value;
+    if (ds != null) state = AsyncData(_daDoc(ds, id));
+    await _service.danhDauDaDoc(id);
+  }
+
+  void capNhatTinCuoi(String id, String noiDung) {
+    final ds = state.value;
+    if (ds == null) return;
+    state = AsyncData(_tinCuoiCuaToi(ds, id, noiDung));
+  }
+}
+
+List<Conversation> _daDoc(List<Conversation> ds, String id) => [
+  for (final c in ds)
+    if (c.id == id && c.chuaDoc) c.copyWith(unreadCount: 0) else c,
+];
+
+// Hội thoại vừa nhắn nhảy lên đầu, giữ đúng thứ tự server trả ở lần tải sau
+List<Conversation> _tinCuoiCuaToi(
+  List<Conversation> ds,
+  String id,
+  String noiDung,
+) {
+  final c = ds.where((e) => e.id == id).firstOrNull;
+  if (c == null) return ds;
+  return [
+    c.copyWith(lastMessage: noiDung, lastMessageAt: nowVn(), fromMe: true),
+    for (final e in ds)
+      if (e.id != id) e,
+  ];
+}
+
+// Tổng tin chưa đọc cho badge trên tab
+@riverpod
+int soChuaDocChuNuoi(Ref ref) => ref
+    .watch(hoiThoaiChuNuoiProvider)
+    .maybeWhen(
+      data: (ds) => ds.fold(0, (tong, c) => tong + c.unreadCount),
+      orElse: () => 0,
     );
 
-// Hội thoại của người cung cấp
-final sitterConversationsProvider =
-    NotifierProvider<ConversationsNotifier, List<Conversation>>(
-      () => ConversationsNotifier(MockSitterMessagesData.conversations),
+@riverpod
+int soChuaDocNguoiCham(Ref ref) => ref
+    .watch(hoiThoaiNguoiChamProvider)
+    .maybeWhen(
+      data: (ds) => ds.fold(0, (tong, c) => tong + c.unreadCount),
+      orElse: () => 0,
     );
-
-// Tổng số tin chưa đọc, badge trên tab Tin nhắn
-final ownerUnreadCountProvider = Provider<int>(
-  (ref) => ref
-      .watch(ownerConversationsProvider)
-      .fold(0, (tong, c) => tong + c.unreadCount),
-);
-
-final sitterUnreadCountProvider = Provider<int>(
-  (ref) => ref
-      .watch(sitterConversationsProvider)
-      .fold(0, (tong, c) => tong + c.unreadCount),
-);

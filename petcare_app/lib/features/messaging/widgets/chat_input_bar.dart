@@ -65,15 +65,14 @@ class ChatInputBar extends StatelessWidget {
                     maxLines: 4,
                     textInputAction: TextInputAction.send,
                     onSubmitted: (_) => onSend(),
-                    style: AppTextStyles.body.copyWith(
-                      fontSize: 13,
+                    style: AppTextStyles.captionSm.copyWith(
                       color: AppColors.textPrimary,
                     ),
                     decoration: InputDecoration(
                       isCollapsed: true,
                       border: InputBorder.none,
                       hintText: l10n.nhanTinHint,
-                      hintStyle: AppTextStyles.captionSm.copyWith(fontSize: 13),
+                      hintStyle: AppTextStyles.captionSm,
                     ),
                   ),
                 ),

@@ -5,7 +5,7 @@ import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/messaging/data/conversation.dart';
+import 'package:petcare_app/shared/data/conversation.dart';
 import 'package:petcare_app/features/messaging/screens/chat_detail_screen.dart';
 import 'package:petcare_app/features/messaging/widgets/conversation_filter_panel.dart';
 import 'package:petcare_app/features/messaging/widgets/conversation_tile.dart';
@@ -14,6 +14,7 @@ import 'package:petcare_app/shared/widgets/app_refresh_indicator.dart';
 import 'package:petcare_app/shared/widgets/app_search_field.dart';
 import 'package:petcare_app/shared/widgets/green_title_header.dart';
 import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
+import 'package:petcare_app/shared/widgets/app_skeleton.dart';
 
 // Nội dung tab Tin nhắn
 class MessagesTab extends StatefulWidget {
@@ -27,6 +28,8 @@ class MessagesTab extends StatefulWidget {
     required this.emptyMessage,
     this.lightHeader = false,
     this.onOpen,
+    this.onRefresh,
+    this.dangTai = false,
   });
 
   final List<Conversation> conversations;
@@ -37,6 +40,10 @@ class MessagesTab extends StatefulWidget {
   final String emptyMessage;
   final bool lightHeader;
   final ValueChanged<Conversation>? onOpen; // đánh dấu đã đọc khi mở
+  final Future<void> Function()? onRefresh;
+
+  // Lượt tải đầu đừng nhá "chưa có tin nhắn nào" rồi đổi thành danh sách
+  final bool dangTai;
 
   @override
   State<MessagesTab> createState() => _MessagesTabState();
@@ -47,7 +54,7 @@ class _MessagesTabState extends State<MessagesTab> {
   String _keyword = '';
   bool _filterOpen = false;
   ConversationState? _sessionFilter; // null = tất cả trạng thái
-  final Set<ServiceKind> _serviceTypes = {}; // rỗng = tất cả loại dịch vụ
+  final Set<ServiceType> _serviceTypes = {}; // rỗng = tất cả loại dịch vụ
 
   @override
   void dispose() {
@@ -102,7 +109,10 @@ class _MessagesTabState extends State<MessagesTab> {
           if (widget.lightHeader) const AppDongKe(),
           Expanded(
             child: AppRefreshIndicator(
-              child: list.isEmpty
+              onRefresh: widget.onRefresh,
+              child: widget.dangTai
+                  ? const AppSkeletonList(soThe: 6, caoThe: 68)
+                  : list.isEmpty
                   ? _DanhSachRong(
                       icon: coDieuKien
                           ? Icons.search_off_rounded
@@ -179,7 +189,7 @@ class _MessagesTabState extends State<MessagesTab> {
     );
   }
 
-  void _toggleServiceType(ServiceKind type) {
+  void _toggleServiceType(ServiceType type) {
     setState(() {
       if (!_serviceTypes.remove(type)) _serviceTypes.add(type);
     });
@@ -217,10 +227,7 @@ class _LightHeader extends StatelessWidget {
             children: [
               Text(title, style: AppTextStyles.h3),
               const SizedBox(height: AppSpacing.textGap),
-              Text(
-                subtitle,
-                style: AppTextStyles.captionSm.copyWith(fontSize: 13),
-              ),
+              Text(subtitle, style: AppTextStyles.captionSm),
               const SizedBox(height: AppSpacing.itemGap),
               child,
             ],

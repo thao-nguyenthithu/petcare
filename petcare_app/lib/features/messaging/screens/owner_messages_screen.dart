@@ -11,16 +11,19 @@ class OwnerMessagesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
+    final ds = ref.watch(hoiThoaiChuNuoiProvider);
     return MessagesTab(
-      conversations: ref.watch(ownerConversationsProvider),
+      conversations: ds.value ?? const [],
+      dangTai: ds.isLoading && !ds.hasValue,
       title: l10n.tinNhan,
       subtitle: l10n.troChuyenGanVoiDon,
       searchHint: l10n.timKiemTinNhan,
       emptyTitle: l10n.chuaCoTinNhan,
       emptyMessage: l10n.chuaCoTinNhanOwnerMoTa,
       lightHeader: true,
+      onRefresh: () => ref.read(hoiThoaiChuNuoiProvider.notifier).taiLai(),
       onOpen: (c) =>
-          ref.read(ownerConversationsProvider.notifier).danhDauDaDoc(c.id),
+          ref.read(hoiThoaiChuNuoiProvider.notifier).danhDauDaDoc(c.id),
     );
   }
 }

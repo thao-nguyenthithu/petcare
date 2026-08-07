@@ -3,7 +3,8 @@ import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-import 'package:petcare_app/features/messaging/data/conversation.dart';
+import 'package:petcare_app/core/utils/vn_date.dart';
+import 'package:petcare_app/shared/data/conversation.dart';
 import 'package:petcare_app/shared/utils/relative_time.dart';
 import 'package:petcare_app/shared/widgets/app_status_badge.dart';
 import 'package:petcare_app/shared/widgets/pet_avatar_stack.dart';
@@ -84,22 +85,35 @@ class ConversationTile extends StatelessWidget {
                               Flexible(
                                 child: Text(
                                   c.partnerName,
-                                  style: AppTextStyles.label.copyWith(
-                                    fontSize: 15,
-                                  ),
+                                  style: AppTextStyles.label,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                               const SizedBox(width: AppSpacing.labelGap),
-                              // Phiên đang chạy: đếm ngược thay nhãn trạng thái
+                              // Phiên chạy thì đếm ngược thay nhãn
                               AppStatusBadge(
-                                label: c.dangChay
-                                    ? thoiGianConLai(l10n, c.remainingMinutes!)
-                                    : status.label,
+                                label: switch (c.state) {
+                                  ConversationState.dangDienRa
+                                      when c.dangChay =>
+                                    l10n.conKhoang(
+                                      dongHoConLai(l10n, c.remainingMinutes!),
+                                    ),
+                                  ConversationState.sapToi when c.sapToiGan =>
+                                    nhanToiTrong(l10n, c.remainingMinutes!),
+                                  ConversationState.choXacNhan
+                                      when c.remainingMinutes != null =>
+                                    l10n.xacNhanTrongKhoang(
+                                      dongHoConLai(l10n, c.remainingMinutes!),
+                                    ),
+                                  _ => status.label,
+                                },
                                 background: status.background,
                                 textColor: status.textColor,
-                                leading: c.dangChay
+                                leading:
+                                    c.dangChay ||
+                                        c.choChuNuoiChot ||
+                                        c.sapToiGan
                                     ? Icon(
                                         Icons.schedule,
                                         size: 11,
@@ -112,16 +126,18 @@ class ConversationTile extends StatelessWidget {
                         ),
                         const SizedBox(width: AppSpacing.labelGap),
                         Text(
-                          c.timeLabel,
-                          style: AppTextStyles.captionSm.copyWith(
-                            fontSize: 11,
-                            color: c.chuaDoc
-                                ? AppColors.primaryColor
-                                : AppColors.textSecondary,
-                            fontWeight: c.chuaDoc
-                                ? FontWeight.w600
-                                : FontWeight.w400,
-                          ),
+                          c.lastMessageAt == null
+                              ? c.timeLabel
+                              : nhanThoiDiemTin(l10n, c.lastMessageAt!),
+                          style:
+                              (c.chuaDoc
+                                      ? AppTextStyles.labelSm
+                                      : AppTextStyles.captionSm)
+                                  .copyWith(
+                                    color: c.chuaDoc
+                                        ? AppColors.primaryColor
+                                        : AppColors.textSecondary,
+                                  ),
                         ),
                       ],
                     ),
@@ -132,7 +148,6 @@ class ConversationTile extends StatelessWidget {
                           child: Text(
                             '${c.serviceName} · ${c.bookingCode}',
                             style: AppTextStyles.captionSm.copyWith(
-                              fontSize: 13,
                               color: ketThuc
                                   ? AppColors.textSecondary
                                   : AppColors.primaryColor,
@@ -158,7 +173,6 @@ class ConversationTile extends StatelessWidget {
                                 ? l10n.soBeVaTen('${c.pets.length}', c.moTaBe)
                                 : c.moTaBe,
                             style: AppTextStyles.captionSm.copyWith(
-                              fontSize: 12,
                               color: AppColors.textPrimary,
                             ),
                             maxLines: 1,
@@ -170,15 +184,15 @@ class ConversationTile extends StatelessWidget {
                     const SizedBox(height: AppSpacing.textGap),
                     Text(
                       preview,
-                      style: AppTextStyles.captionSm.copyWith(
-                        fontSize: 13,
-                        color: c.chuaDoc
-                            ? AppColors.textPrimary
-                            : AppColors.textSecondary,
-                        fontWeight: c.chuaDoc
-                            ? FontWeight.w600
-                            : FontWeight.w400,
-                      ),
+                      style:
+                          (c.chuaDoc
+                                  ? AppTextStyles.labelSm
+                                  : AppTextStyles.captionSm)
+                              .copyWith(
+                                color: c.chuaDoc
+                                    ? AppColors.textPrimary
+                                    : AppColors.textSecondary,
+                              ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),

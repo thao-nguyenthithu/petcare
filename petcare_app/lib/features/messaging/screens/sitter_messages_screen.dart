@@ -11,15 +11,18 @@ class SitterMessagesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
+    final ds = ref.watch(hoiThoaiNguoiChamProvider);
     return MessagesTab(
-      conversations: ref.watch(sitterConversationsProvider),
+      conversations: ds.value ?? const [],
+      dangTai: ds.isLoading && !ds.hasValue,
       title: l10n.tinNhan,
       subtitle: l10n.troDoiVoiChuNuoi,
       searchHint: l10n.timKiemTinNhan,
       emptyTitle: l10n.chuaCoTinNhan,
       emptyMessage: l10n.chuaCoTinNhanMoTa,
+      onRefresh: () => ref.read(hoiThoaiNguoiChamProvider.notifier).taiLai(),
       onOpen: (c) =>
-          ref.read(sitterConversationsProvider.notifier).danhDauDaDoc(c.id),
+          ref.read(hoiThoaiNguoiChamProvider.notifier).danhDauDaDoc(c.id),
     );
   }
 }
