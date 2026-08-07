@@ -4,9 +4,6 @@ import 'package:petcare_app/shared/data/pet.dart';
 import 'package:petcare_app/shared/data/pet_brief.dart';
 import 'package:petcare_app/shared/data/sitter_services.dart';
 
-// Bản thô của GET /sitter/bookings, chuỗi hiển thị dựng ở map
-
-// Giữ đủ trạng thái thật của đơn, không rút về chip
 enum TrangThaiDonApi {
   choNhan,
   daNhan,
@@ -21,11 +18,9 @@ enum TrangThaiDonApi {
   khieuNai,
   daXuLy,
   huyBoiQuanTri,
-  // Mã app chưa biết, không suy đoán và không mở nút nào
   khongRo,
 }
 
-// Cố ý bỏ hai trạng thái chờ trả tiền vì người chăm không thấy
 TrangThaiDonApi trangThaiDonTuMa(String? ma) => switch (ma) {
   'pending' => TrangThaiDonApi.choNhan,
   'confirmed' => TrangThaiDonApi.daNhan,
@@ -40,7 +35,6 @@ TrangThaiDonApi trangThaiDonTuMa(String? ma) => switch (ma) {
   'cancelledByAdmin' => TrangThaiDonApi.huyBoiQuanTri,
   'disputed' => TrangThaiDonApi.khieuNai,
   'resolved' => TrangThaiDonApi.daXuLy,
-  // Đoán bừa là chờ nhận thì đơn đã xong vẫn hiện nút Chấp nhận
   _ => TrangThaiDonApi.khongRo,
 };
 
@@ -178,7 +172,6 @@ typedef TrongGiuApi = ({
   CapNhatNgayApi? capNhatMoiNhat,
   int soBanCapNhat,
   List<String> anh,
-  // Tách bốn nhóm: ảnh bé ghép cặp trước sau, ảnh đồ dùng thì không
   List<String> anhBeNhan,
   List<String> anhBeTra,
   List<String> anhDoDungNhan,

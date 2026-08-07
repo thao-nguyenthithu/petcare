@@ -3,10 +3,8 @@ import 'package:petcare_app/core/utils/vn_date.dart';
 import 'package:petcare_app/shared/data/service_catalog.dart';
 import 'package:petcare_app/shared/data/sitter_booking.dart';
 
-// Ba nấc kỳ thống kê, thêm một nấc bỏ ràng buộc thời gian
 enum LoaiKy { ngay, thang, nam, tatCa }
 
-// Mốc bỏ trống là kỳ hiện tại, nhờ vậy vẫn khai được const
 class KyThongKe {
   const KyThongKe(this.loai, [this.moc]);
 
@@ -25,10 +23,8 @@ class KyThongKe {
     };
   }
 
-  // Cùng nấc và cùng mốc theo độ chính xác của nấc
   bool giongVoi(KyThongKe khac) => loai == khac.loai && chua(khac.mocThuc);
 
-  // Nhãn thẻ tóm tắt, luôn nói rõ đang xem kỳ nào
   String nhanTomTat(AppLocalizations l10n) {
     final m = mocThuc;
     return switch (loai) {
@@ -39,7 +35,6 @@ class KyThongKe {
     };
   }
 
-  // Kỳ chọn tay ghi rõ mốc, khỏi nhầm với kỳ hiện tại
   String nhanNhanh(AppLocalizations l10n) {
     if (moc != null) return nhanTomTat(l10n);
     return switch (loai) {
@@ -51,7 +46,6 @@ class KyThongKe {
   }
 }
 
-// Cùng trục ngày, tháng, năm với bộ chọn kỳ
 const List<KyThongKe> kyNhanh = [
   KyThongKe(LoaiKy.ngay),
   KyThongKe(LoaiKy.thang),
@@ -59,7 +53,6 @@ const List<KyThongKe> kyNhanh = [
   KyThongKe(LoaiKy.tatCa),
 ];
 
-// Bộ lọc màn Tất cả đơn, dịch vụ rỗng là lấy cả ba
 class BoLocDon {
   const BoLocDon({
     this.dichVu = const {},

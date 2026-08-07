@@ -1,9 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 
-// Chip giữ mã, không giữ câu chữ: đổi chữ là hỏng thống kê
-
-// Từ chối đơn còn đang chờ trả lời
 const List<String> maLyDoTuChoiDon = [
   'trungLich',
   'quaXa',
@@ -21,7 +18,6 @@ const List<String> maLyDoHuyDonNcc = [
   'khac',
 ];
 
-// Dừng giữa đường, đội hỗ trợ soát để xét miễn phạt
 const List<String> maLyDoKhongTheTiepNhan = [
   'taiNanSuCo',
   'xeHongGiuaDuong',
@@ -29,7 +25,6 @@ const List<String> maLyDoKhongTheTiepNhan = [
   'khac',
 ];
 
-// Chọn lý do này thì bắt buộc mô tả thêm
 const String maLyDoKhacNcc = 'khac';
 
 String nhanLyDoNcc(BuildContext context, String ma) {

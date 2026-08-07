@@ -1,31 +1,24 @@
 import 'package:flutter/foundation.dart';
 import 'package:petcare_app/features/sitter_order/data/sitter_check_in.dart';
 
-// Ô 0 là tấm cả đàn, chỉ lưu bằng chứng, không phán quyết
 const int slotCaDan = 0;
 
-// Ba kết luận AI trả cho một tấm riêng
 enum KetLuanQuet { dat, khongDat, chuaXacMinhDuoc }
 
-// Server chốt lối đi từng ô, app không tự tính lại
 enum XuLySlot { diTiep, canTuXacNhan, chupLai }
 
-// Bốn màn kết quả, app suy ra từ danh sách ô
 enum ManQuetAi { dangQuet, aiDu, chuaQuaKiem, hetLanChup }
 
-// Mã lạ về nhánh chưa xác minh, không ghi vi phạm
 KetLuanQuet _ketLuan(String? ma) => switch (ma) {
   'DAT' => KetLuanQuet.dat,
   'KHONG_DAT' => KetLuanQuet.khongDat,
   _ => KetLuanQuet.chuaXacMinhDuoc,
 };
 
-// Mã lạ thì bắt chụp lại, không tự mở đường đi tiếp
 XuLySlot _xuLy(String? ma) => switch (ma) {
   'DI_TIEP' => XuLySlot.diTiep,
   'TU_XAC_NHAN' => XuLySlot.canTuXacNhan,
   'CHUP_LAI' => XuLySlot.chupLai,
-  // Kêu lên để không im lặng nuốt lỗi lệch tên mã
   _ => _laLoi(ma),
 };
 
@@ -34,7 +27,6 @@ XuLySlot _laLoi(String? ma) {
   return XuLySlot.chupLai;
 }
 
-// Phán quyết cho một tấm, đếm lượt riêng theo ô
 class SlotQuet {
   const SlotQuet({
     required this.slotIndex,
@@ -65,35 +57,21 @@ class SlotQuet {
   );
 
   final int slotIndex;
-
-  // Thiếu thật khác ảnh không đọc được, màn phải nói khác
   final KetLuanQuet ketLuan;
-
   final XuLySlot xuLy;
-
-  // Câu server soạn sẵn, hiển thị nguyên văn
   final String reason;
-
-  // null thì đừng chừa chỗ trống trên màn
   final String? ghiChu;
-
-  // Chỉ để hiển thị, lối đi do server chốt ở xuLy
   final double doTinCay;
 
   final bool anhDuNet;
 
   final int soLanConLai;
   final bool daTuXacNhan;
-
-  // false là lỗi hạ tầng, bộ đếm lượt không bị trừ
   final bool luotNayCoTru;
 
   final String? anhUrl;
 
-  // Hết chặn: server cho đi tiếp hoặc người chăm đã ký
   bool get xong => daTuXacNhan || xuLy != XuLySlot.chupLai;
-
-  // Đi tiếp được nhưng phải có chữ ký người chăm
   bool get canTuXacNhan => xuLy == XuLySlot.canTuXacNhan && !daTuXacNhan;
 
   bool get conLuot => soLanConLai > 0;
@@ -101,7 +79,6 @@ class SlotQuet {
   int get phanTramTinCay => (doTinCay * 100).round();
 }
 
-// Trạng thái quét của một đơn, dùng cho cả REST lẫn socket
 class KetQuaLoQuet {
   const KetQuaLoQuet({
     required this.slots,
@@ -110,7 +87,6 @@ class KetQuaLoQuet {
     this.dangQuet = false,
   });
 
-  // Vừa gửi lô, chưa có phán quyết nào
   const KetQuaLoQuet.dangQuetLo(this.batchId)
     : slots = const [],
       duDieuKienBatDau = false,
@@ -131,14 +107,10 @@ class KetQuaLoQuet {
   }
 
   final List<SlotQuet> slots;
-
-  // Server chốt cho đi tiếp hay không, app không suy ra
   final bool duDieuKienBatDau;
-
   final String? batchId;
   final bool dangQuet;
 
-  // Tấm cả đàn không có phán quyết nên phải loại ra
   List<SlotQuet> get slotBe =>
       slots.where((s) => s.slotIndex != slotCaDan).toList();
 
@@ -153,7 +125,6 @@ class KetQuaLoQuet {
         : ManQuetAi.hetLanChup;
   }
 
-  // Còn lượt thì chụp lại, hết lượt mới tới van xả
   SlotQuet? get slotDangVuong {
     final chua = slotBe.where((s) => !s.xong).toList();
     if (chua.isEmpty) return null;
@@ -166,8 +137,6 @@ class KetQuaLoQuet {
   bool get batDauDuoc => duDieuKienBatDau && man == ManQuetAi.aiDu;
 }
 
-// Ảnh một ô của lô gửi lên, ô 0 là tấm cả đàn
 typedef AnhSlot = ({int slotIndex, Uint8List bytes});
 
-// Đi qua extra vì lô ảnh chỉ sống trong lượt check-in
 typedef KetQuaQuetArgs = ({CheckInArgs checkIn, String? batchId});

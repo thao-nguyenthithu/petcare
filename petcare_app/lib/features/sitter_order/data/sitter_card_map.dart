@@ -22,7 +22,6 @@ SitterBooking cardDonNccTuApi(AppLocalizations l10n, DongDonNccApi api) {
     pets: api.pets,
     ghiChu: _ghiChuCard(api.trangThai),
     soTien: api.thucNhan,
-    // Tiền chỉ về tay khi đơn đã khép lại có lợi cho người chăm
     thucNhan:
         api.trangThai == TrangThaiDonApi.hoanThanh ||
         api.trangThai == TrangThaiDonApi.daXuLy,
@@ -45,7 +44,6 @@ SitterBookingStatus _trangThaiCard(TrangThaiDonApi tt) => switch (tt) {
   TrangThaiDonApi.khieuNai => SitterBookingStatus.khieuNai,
   TrangThaiDonApi.hoanThanh ||
   TrangThaiDonApi.daXuLy => SitterBookingStatus.hoanThanh,
-  // Liệt kê đủ lối huỷ để thêm trạng thái mới là hỏng biên dịch
   TrangThaiDonApi.huyBoiChuNuoi ||
   TrangThaiDonApi.huyBoiNguoiCham ||
   TrangThaiDonApi.huyHetHan ||
@@ -54,7 +52,6 @@ SitterBookingStatus _trangThaiCard(TrangThaiDonApi tt) => switch (tt) {
   TrangThaiDonApi.khongRo => SitterBookingStatus.khongRo,
 };
 
-// Ghi chú cuối dòng các bé, nói vì sao đơn đang đứng ở đây
 GhiChuDon _ghiChuCard(TrangThaiDonApi tt) => switch (tt) {
   TrangThaiDonApi.choNhan => GhiChuDon.choBanNhanDon,
   TrangThaiDonApi.choChuNuoiChot => GhiChuDon.choChuNuoiChot,
@@ -62,13 +59,11 @@ GhiChuDon _ghiChuCard(TrangThaiDonApi tt) => switch (tt) {
   TrangThaiDonApi.huyVangMat => GhiChuDon.khachVangMat,
   TrangThaiDonApi.huyBoiChuNuoi => GhiChuDon.khachHuy,
   TrangThaiDonApi.huyBoiNguoiCham => GhiChuDon.banDaHuy,
-  // Quá hạn là hệ thống huỷ, ghi rõ kẻo tưởng mình bấm huỷ
   TrangThaiDonApi.huyHetHan => GhiChuDon.hetHanNhan,
   TrangThaiDonApi.huyBoiQuanTri => GhiChuDon.quanTriHuy,
   _ => GhiChuDon.khong,
 };
 
-// Phút còn lại của việc đang chờ, hết giờ thì thôi đếm
 int? _phutConLaiCard(DongDonNccApi api, DateTime bayGio) {
   final moc = switch (api.trangThai) {
     TrangThaiDonApi.choNhan => api.hanTraLoi,

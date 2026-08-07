@@ -29,12 +29,9 @@ import 'package:petcare_app/features/sitter_order/screens/sitter_wait_confirm_sc
 import 'package:petcare_app/features/sitter_order/screens/sitter_walk_return_screen.dart';
 import 'package:petcare_app/features/sitter_order/screens/sitter_walking_session_screen.dart';
 
-// Route cụm đơn, id lấy từ đường dẫn rồi tải đơn thật
-
 String _id(GoRouterState state) => state.pathParameters['id'] ?? '';
 
 final sitterOrderRoutes = <RouteBase>[
-  // Nơi khác mở sẵn chip qua query, khỏi cần biết model bộ lọc
   GoRoute(
     path: AppRoutes.sitterBookings,
     builder: (context, state) => SitterBookingsScreen(
@@ -54,7 +51,6 @@ final sitterOrderRoutes = <RouteBase>[
     ),
   ),
 
-  // ---- Kỳ trông giữ ----
   GoRoute(
     path: AppRoutes.sitterHandoverCamera,
     builder: (context, state) {
@@ -71,7 +67,6 @@ final sitterOrderRoutes = <RouteBase>[
   ),
   GoRoute(
     path: AppRoutes.sitterHandover,
-    // Ảnh đi qua extra vì chưa lên server, không tải lại được
     builder: (context, state) {
       final anh = state.extra as AnhBanGiao?;
       return TaiDonNcc(
@@ -125,7 +120,6 @@ final sitterOrderRoutes = <RouteBase>[
     },
   ),
 
-  // ---- Buổi tắm và cắt tỉa ----
   GoRoute(
     path: AppRoutes.sitterGroomingStart,
     builder: (context, state) => TaiDonNcc(
@@ -159,7 +153,6 @@ final sitterOrderRoutes = <RouteBase>[
     ),
   ),
 
-  // ---- Nhận bé của luồng dắt ----
   GoRoute(
     path: AppRoutes.sitterCheckIn,
     builder: (context, state) => TaiDonNcc(
@@ -184,7 +177,6 @@ final sitterOrderRoutes = <RouteBase>[
   ),
   GoRoute(
     path: AppRoutes.sitterAiScan,
-    // Vào lại từ đường dẫn thì không có lô, màn tự hỏi cả đơn
     builder: (context, state) {
       final args = state.extra as KetQuaQuetArgs?;
       return TaiDonNcc(
@@ -197,7 +189,6 @@ final sitterOrderRoutes = <RouteBase>[
     },
   ),
 
-  // ---- Phiên dắt ----
   GoRoute(
     path: AppRoutes.sitterActiveService,
     builder: (context, state) => TaiDonNcc(
@@ -226,7 +217,6 @@ final sitterOrderRoutes = <RouteBase>[
     ),
   ),
 
-  // ---- Tranh chấp và các màn phụ ----
   GoRoute(
     path: AppRoutes.sitterAbsence,
     builder: (context, state) => TaiDonNcc(
