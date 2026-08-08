@@ -75,16 +75,12 @@ export type AudienceCount = {
 
 export type NotificationTypeRow = {
   type: NotificationType;
-  event: string;
   audience: 'OWNER' | 'SITTER' | 'BOTH';
-  openTarget: string;
   inApp: boolean;
   push: boolean;
   hasTrigger: boolean;
 };
 
 export type PreventionNote = {
-  label: string;
-  desc: string;
-  value: string;
+  ma: string;
 };

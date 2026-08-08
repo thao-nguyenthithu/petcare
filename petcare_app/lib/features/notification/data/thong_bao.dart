@@ -37,6 +37,15 @@ const _maVai = <String, VaiNhan>{
   'NGUOI_CHAM': VaiNhan.nguoiCham,
 };
 
+// Backend trộn chuỗi với số, ép hết về chuỗi cho placeholder ARB
+Map<String, String> _docThamSo(Object? tho) {
+  if (tho is! Map) return const {};
+  return {
+    for (final e in tho.entries)
+      if (e.value != null) e.key.toString(): e.value.toString(),
+  };
+}
+
 String maCuaVai(VaiNhan vai) =>
     vai == VaiNhan.chuNuoi ? 'CHU_NUOI' : 'NGUOI_CHAM';
 
@@ -48,6 +57,9 @@ class ThongBao {
     required this.title,
     required this.message,
     required this.thoiDiem,
+    this.titleKey,
+    this.bodyKey,
+    this.params = const {},
     this.canXuLy = false,
     this.targetId,
     this.daDoc = false,
@@ -59,6 +71,10 @@ class ThongBao {
   final String title;
   final String message;
   final DateTime thoiDiem;
+
+  final String? titleKey;
+  final String? bodyKey;
+  final Map<String, String> params;
 
   final bool canXuLy;
 
@@ -72,6 +88,9 @@ class ThongBao {
     title: (json['title'] as String?) ?? '',
     message: (json['body'] as String?) ?? '',
     thoiDiem: docMocVn(json['createdAt'] as String?) ?? nowVn(),
+    titleKey: json['titleKey'] as String?,
+    bodyKey: json['bodyKey'] as String?,
+    params: _docThamSo(json['params']),
     canXuLy: (json['urgent'] as bool?) ?? false,
     targetId: json['targetId'] as String?,
     daDoc: (json['isRead'] as bool?) ?? false,
@@ -84,6 +103,9 @@ class ThongBao {
     title: title,
     message: message,
     thoiDiem: thoiDiem,
+    titleKey: titleKey,
+    bodyKey: bodyKey,
+    params: params,
     canXuLy: canXuLy,
     targetId: targetId,
     daDoc: daDoc ?? this.daDoc,

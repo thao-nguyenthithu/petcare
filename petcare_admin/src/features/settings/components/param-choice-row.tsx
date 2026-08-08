@@ -2,7 +2,12 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Popover from '@radix-ui/react-popover';
 import { Check, ChevronDown } from 'lucide-react';
-import { khoaChuoi, nhanGiaTriChon, nhanNguoiDoi } from '@/features/settings/param-labels';
+import {
+  khoaChuoi,
+  nhanGiaTriChon,
+  nhanNguoiDoi,
+  nhanThamSo,
+} from '@/features/settings/param-labels';
 import type { OperatingSetting } from '@/features/settings/types';
 
 export function ParamChoiceRow({
@@ -29,7 +34,7 @@ export function ParamChoiceRow({
   return (
     <div className="flex items-start justify-between gap-item border-b border-neutral-light py-item first:pt-0">
       <div className="min-w-0">
-        <p className="truncate text-label">{item.nhan}</p>
+        <p className="truncate text-label">{nhanThamSo(t, item.key)}</p>
         <p className="mt-text truncate text-caption-sm text-text-secondary">
           {t('caiDat.luaChon.goiY', { macDinh: nhanGiaTriChon(t, String(item.macDinh)) })}
         </p>
@@ -43,7 +48,7 @@ export function ParamChoiceRow({
         <Popover.Trigger asChild>
           <button
             type="button"
-            aria-label={item.nhan}
+            aria-label={nhanThamSo(t, item.key)}
             disabled={disabled || dsChon.length === 0}
             className="flex h-[42px] w-[168px] shrink-0 items-center justify-between gap-label rounded-card border border-neutral bg-surface px-item text-label text-text-primary transition-colors hover:bg-card-mint disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-surface"
           >

@@ -67,7 +67,6 @@
   "guiLaiMa": "Gửi lại mã",
   "xacNhan": "Xác nhận",
   "doiEmail": "Đổi email",
-  "nhapEmailMoiNhanMa": "Nhập email mới để nhận lại mã xác minh.",
   "nhapEmailDaDangKy": "Nhập email đã đăng ký, chúng tôi sẽ gửi mã xác minh để đặt lại mật khẩu.",
   "guiMaXacMinh": "Gửi mã xác minh",
   "quayLaiDangNhap": "Quay lại đăng nhập",
@@ -101,27 +100,17 @@
   "khaiDichVuSauDuyet": "Dịch vụ, giá và khu vực phục vụ sẽ khai sau khi hồ sơ được duyệt.",
   "batDauDangKy": "Bắt đầu đăng ký",
   "tatCaDichVuCuaToi": "Tất cả dịch vụ của tôi",
-  "themItNhatMotDichVu": "Thêm ít nhất một dịch vụ bạn cung cấp.",
-  "themDichVuBanCungCap": "Thêm dịch vụ bạn cung cấp để chủ nuôi tìm thấy bạn.",
-  "themDichVu": "Thêm dịch vụ",
   "loaiDichVu": "Loại dịch vụ",
   "datThuCung": "Dắt thú cưng",
   "trongGiu": "Trông giữ",
-  "catTia": "Cắt tỉa",
-  "tamVaTia": "Tắm & tỉa",
   "nhanLoai": "Nhận loài",
   "cho": "Chó",
   "meo": "Mèo",
   "caHai": "Cả hai",
   "chiHoTroChoMeo": "Hiện chỉ hỗ trợ chó và mèo.",
-  "tenDichVu": "Tên dịch vụ",
-  "viDuDatCho": "VD: Dắt chó buổi sáng",
-  "viDuTrongGiu": "VD: Trông cún PKA",
-  "viDuCatTia": "VD: Tỉa lông cún poodle",
-  "moTaDvDat": "Dịch vụ dắt thú cưng tính theo lượt cho 1 bé.",
-  "moTaDvTrongGiu": "Dịch vụ trông giữ tại cơ sở tính theo ngày cho 1 bé.",
-  "moTaDvCatTia": "Dịch vụ tắm và cắt tỉa tính giá theo cân nặng cho 1 bé.",
-  "thoiLuongMoiLuot": "Thời lượng mỗi lượt",
+  "moTaDvDat": "Dịch vụ dắt thú cưng tính theo lượt.",
+  "moTaDvTrongGiu": "Dịch vụ trông giữ tại cơ sở tính theo ngày.",
+  "moTaDvCatTia": "Dịch vụ tắm và cắt tỉa tính giá theo cân nặng.",
   "soPhut": "{minutes} phút",
   "@soPhut": {
     "placeholders": {
@@ -131,12 +120,117 @@
   "giaDichVu": "Giá dịch vụ",
   "donGiaLuot": "đ / lượt / bé",
   "donGiaNgay": "đ / ngày / bé",
-  "donGiaBe": "đ / bé",
   "donViDong": "đ",
+  "batLoaiDichVuBanCungCap": "Bật loại dịch vụ bạn cung cấp và đặt bảng giá.",
+  "chuaThietLap": "Chưa thiết lập · Chạm để bật",
+  "chonItNhatMotGoi": "Chọn ít nhất một gói",
+  "bangGiaThoiLuong": "Bảng giá theo thời lượng",
+  "nhapGiaDuHaiThoiLuong": "Nhập giá cho cả hai mức thời lượng.",
+  "chonGoiBanCungCap": "Chọn gói bạn cung cấp.",
+  "thoatKhongLuuTitle": "Thoát không lưu?",
+  "thoatKhongLuuMoTa": "Thay đổi bạn vừa chỉnh sẽ không được lưu.",
+  "thoatKhongLuu": "Thoát",
+  "khuVucPhucVu": "Khu vực phục vụ",
+  "luuKhuVucPhucVu": "Lưu khu vực phục vụ",
+  "suaKhuVuc": "Chỉnh sửa khu vực",
+  "chuaDatKhuVuc": "Chưa đặt khu vực phục vụ. Thêm để chủ nuôi tìm thấy bạn.",
+  "chuaCoDanhGia": "Chưa có đánh giá",
+  "chamDeXemBanDo": "Chạm để xem bản đồ",
+  "luuThatBai": "Lưu thất bại, thử lại sau",
+  "daLuu": "Đã lưu",
+  "chuaCapNhat": "Chưa cập nhật",
+  "taiCoSoToiDa": "Tại cơ sở · tối đa {so} bé",
+  "@taiCoSoToiDa": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "taiNhaTheoCan": "Tại nhà · theo cân nặng",
+  "moiLuot": "mỗi lượt",
+  "moiNgay": "mỗi ngày",
+  "moiBe": "mỗi bé",
+  "tuGiaTien": "từ {gia}đ",
+  "@tuGiaTien": {
+    "placeholders": {
+      "gia": {"type": "String"}
+    }
+  },
+  "giaTien": "{gia}đ",
+  "@giaTien": {
+    "placeholders": {
+      "gia": {"type": "String"}
+    }
+  },
+  "nhanDonNgayBanChon": "Nhận đơn {nhan}/{tong} ngày bạn chọn",
+  "@nhanDonNgayBanChon": {
+    "placeholders": {
+      "nhan": {"type": "int"},
+      "tong": {"type": "int"}
+    }
+  },
+  "banKinhKm": "Nhận dịch vụ trong bán kính {km} quanh khu vực này.",
+  "@banKinhKm": {
+    "placeholders": {
+      "km": {"type": "String"}
+    }
+  },
+  "datKhuVuc": "Đặt khu vực phục vụ",
+  "thieuKhuVucVaDichVu": "Đặt khu vực và thiết lập ít nhất 1 dịch vụ để hoàn tất.",
+  "thieuKhuVuc": "Đặt khu vực phục vụ để hoàn tất thiết lập.",
+  "thieuDichVu": "Thiết lập ít nhất 1 dịch vụ để hoàn tất.",
+  "hoanTatDeNhanDon": "Thiết lập công việc của bạn",
+  "buocSo": "BƯỚC {so}",
+  "@buocSo": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "moTaHoanTat": "Hoàn tất các bước sau để bắt đầu nhận đơn.",
+  "buocDatKhuVuc": "Đặt khu vực phục vụ",
+  "buocThietLapDichVu": "Thiết lập dịch vụ của bạn",
+  "thietLapNgay": "Thiết lập ngay",
+  "sanSangNhanDon": "Từ giờ bạn có thể bật dịch vụ để nhận đơn.",
+  "batDauNhanDon": "Bắt đầu nhận đơn",
+  "veCheDoChuNuoi": "Về chế độ Chủ nuôi",
+  "deTiepTucThietLap": "Để tiếp tục, hãy thiết lập dịch vụ của bạn.",
+  "moTaKhuVucPhucVu": "Nơi trông giữ và điểm xuất phát cho dịch vụ tận nhà. Dùng chung cho mọi dịch vụ.",
+  "diaChiPhucVu": "Địa chỉ phục vụ",
+  "ghiChuKhuVucPhucVu": "Bán kính chỉ áp cho dắt chó và grooming tận nhà; trông giữ dùng địa chỉ cơ sở.",
+  "daLuuKhuVuc": "Đã lưu địa điểm và khu vực phục vụ",
+  "tuGiaBe": "từ {gia}đ/bé",
+  "@tuGiaBe": {
+    "placeholders": {
+      "gia": {"type": "String"}
+    }
+  },
+  "giaNgayToiDa": "{gia}đ/ngày · tối đa {sucChua} bé",
+  "@giaNgayToiDa": {
+    "placeholders": {
+      "gia": {"type": "String"},
+      "sucChua": {"type": "String"}
+    }
+  },
+  "banKinhPhucVu": "Bán kính phục vụ",
+  "soKm": "{km} km",
+  "@soKm": {
+    "placeholders": {
+      "km": {"type": "String"}
+    }
+  },
   "ghiChuMotNgay": "1 ngày được tính là 24 giờ kể từ giờ nhận bé.",
   "sucChuaToiDa": "Sức chứa tối đa",
   "hintSucChua": "VD: 5",
-  "tomTatDatDv": "{loai} · {phut} phút · {gia}đ/lượt",
+  "phuPhiBeThem": "Phụ phí mỗi bé thêm",
+  "hintPhuPhiBeThem": "20.000",
+  "donGiaBeThem": "đ / bé thêm",
+  "ghiChuPhuPhiBeThem": "Áp dụng từ bé thứ 2 trong cùng một đơn.",
+  "soBeToiDaMoiDon": "Số bé tối đa mỗi đơn",
+  "hintSoBeToiDa": "VD: 3",
+  "loiSoBeToiThieu": "Số bé tối đa mỗi đơn phải từ 1 trở lên",
+  "loiPhuPhiCanNhieuBe": "Chỉ đặt phụ phí khi bạn nhận từ 2 bé mỗi đơn",
+  "loiPhuPhiBatBuoc": "Hãy nhập phụ phí mỗi bé thêm khi nhận từ 2 bé mỗi đơn",
+  "loiMaxPetVuotSucChua": "Số bé tối đa mỗi đơn không được vượt quá sức chứa",
+  "tomTatDatDv": "{loai} · {phut} phút · từ {gia}đ/lượt",
   "@tomTatDatDv": {
     "placeholders": {
       "loai": {"type": "String"},
@@ -144,52 +238,43 @@
       "gia": {"type": "String"}
     }
   },
-  "tomTatTrongGiu": "{loai} · {gia}đ/ngày · tối đa {sucChua} bé",
-  "@tomTatTrongGiu": {
-    "placeholders": {
-      "loai": {"type": "String"},
-      "gia": {"type": "String"},
-      "sucChua": {"type": "String"}
-    }
-  },
-  "tomTatCatTia": "{loai} · {hangMuc} · từ {gia}đ/bé",
-  "@tomTatCatTia": {
-    "placeholders": {
-      "loai": {"type": "String"},
-      "hangMuc": {"type": "String"},
-      "gia": {"type": "String"}
-    }
-  },
   "goiNayGom": "Gói này gồm",
   "chiTam": "Chỉ tắm",
   "tamVaCatTia": "Tắm và cắt tỉa",
-  "banRiengThiTaoHaiGoi": "Muốn bán cả hai thì tạo hai dịch vụ riêng.",
-  "bangGiaCanNang": "Bảng giá theo cân nặng",
-  "chonMucCanNhan": "Chọn mức cân bạn nhận.",
+  "moiGoiGomNhungViecGi": "Mỗi gói gồm những việc gì",
+  "moTaGoiChiTam": "Tắm, sấy, vệ sinh tai, cắt móng",
+  "moTaGoiTamVaCatTia": "Gói tắm ở trên, thêm tỉa tạo kiểu",
+  "giaVaThoiLuongMoiBe": "giá và thời lượng mỗi bé",
+  "chamDeNhanMucNay": "Chạm để nhận mức này",
+  "giaMoiBe": "Giá mỗi bé",
+  "thoiLuong": "Thời lượng",
+  "donViPhut": "phút",
+  "thongTinKhongDuocBoTrong": "Thông tin không được bỏ trống",
+  "loiGiaPhaiLonHonKhong": "Giá phải lớn hơn 0",
+  "loiThoiLuongGrooming": "Thời lượng từ {min} đến {max} phút, bước {buoc} phút",
+  "@loiThoiLuongGrooming": {
+    "placeholders": {
+      "min": {"type": "String"},
+      "max": {"type": "String"},
+      "buoc": {"type": "String"}
+    }
+  },
   "chonItNhatMotMucCan": "Chọn ít nhất một mức cân nặng",
   "duoi5kg": "Dưới 5 kg",
   "tu5den10kg": "5 - 10 kg",
   "tu10den20kg": "10 - 20 kg",
   "tren20kg": "Trên 20 kg",
   "luuDichVu": "Lưu dịch vụ",
-  "suaDichVu": "Sửa dịch vụ",
-  "luuThayDoi": "Lưu thay đổi",
-  "xoaDichVu": "Xóa dịch vụ",
-  "xacNhanXoaDichVu": "Dịch vụ này sẽ bị gỡ khỏi hồ sơ của bạn.",
-  "xoa": "Xóa",
-  "huy": "Hủy",
   "thongTinCaNhan": "Thông tin cá nhân",
   "nhapDungGiayTo": "Nhập đúng theo giấy tờ tùy thân.",
   "hoVaTenThat": "Họ và tên thật",
   "hintHoTenThat": "Nguyễn Văn A",
   "ngaySinh": "Ngày sinh",
-  "chonNgaySinh": "Chọn ngày sinh",
   "gioiTinh": "Giới tính",
   "chonGioiTinh": "Chọn giới tính",
   "gioiTinhNam": "Nam",
   "gioiTinhNu": "Nữ",
   "gioiTinhKhac": "Khác",
-  "phaiDu18Tuoi": "Bạn phải đủ 18 tuổi để đăng ký cung cấp dịch vụ",
   "soCccd": "Số CCCD",
   "hintCccd": "12 chữ số trên thẻ CCCD",
   "cccdKhongHopLe": "Số CCCD phải đủ 12 chữ số",
@@ -204,9 +289,6 @@
   "khongDuocDeTrong": "Không được để trống",
   "taiLenCccd": "Tải lên CCCD",
   "anhRoNet": "Ảnh rõ nét, đủ 4 góc, không bị lóa sáng.",
-  "anhCccd": "Ảnh CCCD",
-  "matTruoc": "Mặt trước",
-  "matSau": "Mặt sau",
   "chupMatTruoc": "Chụp mặt trước CCCD",
   "chupMatSau": "Chụp mặt sau CCCD",
   "chupLai": "Chụp lại",
@@ -228,16 +310,16 @@
   "batBuoc": "* Bắt buộc",
   "hoanTatGuiHoSo": "Gửi hồ sơ",
   "hoSoDuyet24h": "Hồ sơ được duyệt trong vòng 24 giờ. Bạn sẽ nhận thông báo để cập nhật hồ sơ sau khi được duyệt.",
-  "vuiLongDongY": "Vui lòng đồng ý với điều khoản để tiếp tục",
   "daGuiHoSo": "Đã gửi hồ sơ!",
   "hoSoDangXemXet": "Hồ sơ của bạn đang được xem xét, thường trong vòng 24 giờ. Chúng tôi sẽ gửi thông báo ngay khi có kết quả.",
   "trongLucChoDungChuNuoi": "Trong lúc chờ, bạn vẫn có thể dùng app với vai trò Chủ nuôi.",
   "veTrangChu": "Về trang chủ",
   "xemTrangThaiHoSo": "Xem trạng thái hồ sơ",
   "loiKetNoiMayChu": "Không thể kết nối máy chủ, vui lòng thử lại",
+  "loiHoSoNccChuaDuyet": "Hồ sơ người chăm của bạn đang chờ duyệt",
   "loiHoSoDaDuyet": "Hồ sơ đã được duyệt, không thể gửi lại",
   "loiCccdDaDangKy": "Số CCCD này đã được sử dụng",
-  "loiTaiAnhCccd": "Không tải được ảnh CCCD lên kho lưu trữ, kiểm tra kết nối mạng hoặc cấu hình Supabase",
+  "loiTaiAnhCccd": "Không tải được ảnh CCCD, vui lòng thử lại sau",
   "loiEmailDaSuDung": "Email đã được sử dụng",
   "loiSoDienThoaiDaSuDung": "Số điện thoại đã được sử dụng",
   "loiTaiKhoanKhongTonTai": "Tài khoản không tồn tại",
@@ -252,6 +334,8 @@
   "loiMangXaHoiChuaCauHinh": "Đăng nhập mạng xã hội chưa được cấu hình trên máy chủ",
   "loiTokenMangXaHoi": "Phiên đăng nhập mạng xã hội không hợp lệ, vui lòng thử lại",
   "loiMangXaHoiThieuEmail": "Tài khoản mạng xã hội không cung cấp email",
+  "loiEmailDaDangNhapCachKhac": "Email này đã đăng nhập bằng cách khác. Hãy dùng Google hoặc email và mật khẩu.",
+  "loiDangNhapMangXaHoiThatBai": "Đăng nhập bằng mạng xã hội không thành công, vui lòng thử lại",
   "loiMaOtpKhongDung": "Mã xác minh không đúng",
   "loiMaOtpHetHan": "Mã xác minh đã hết hạn, vui lòng gửi lại mã",
   "loiGuiLaiOtpQuaSom": "Vui lòng chờ 30 giây trước khi gửi lại mã",
@@ -279,14 +363,6 @@
   "dichVuPhoBien": "Dịch vụ phổ biến",
   "datDiDao": "Dắt đi dạo",
   "tamVaTia": "Tắm & Tỉa",
-  "trongQuaDem": "Trông qua đêm",
-  "khamThuY": "Khám thú y",
-  "tuGia": "từ {gia}",
-  "@tuGia": {
-    "placeholders": {
-      "gia": {"type": "String"}
-    }
-  },
   "nguoiCungCapGanBan": "Người cung cấp gần bạn",
   "datLaiLanNua": "Đặt lại lần nữa",
   "thuCungCuaBan": "Thú cưng của bạn",
@@ -296,22 +372,19 @@
   "xacMinhDeNhanDon": "Xác minh hồ sơ để nhận đơn và kiếm thêm thu nhập",
   "dangKyLamNcc": "Đăng ký ngay",
   "xemThem": "Xem thêm",
-  "conXphut": "còn {phut} phút",
-  "@conXphut": {
+  "tatCaAnh": "Tất cả ảnh",
+  "chon": "Chọn",
+  "xong": "Xong",
+  "daDatToiDaAnh": "Đã đạt tối đa {max} ảnh. Xoá bớt để thêm ảnh mới.",
+  "@daDatToiDaAnh": {
     "placeholders": {
-      "phut": {"type": "int"}
+      "max": {"type": "String"}
     }
   },
-  "conXgio": "còn {gio} giờ",
-  "@conXgio": {
+  "xoaNAnh": "Xoá {n} ảnh",
+  "@xoaNAnh": {
     "placeholders": {
-      "gio": {"type": "int"}
-    }
-  },
-  "conXngay": "còn {ngay} ngày",
-  "@conXngay": {
-    "placeholders": {
-      "ngay": {"type": "int"}
+      "n": {"type": "String"}
     }
   },
   "donCuaToi": "Đơn của tôi",
@@ -322,9 +395,6 @@
   "themDiaChi": "Thêm địa chỉ",
   "dungViTriHienTai": "Dùng vị trí hiện tại",
   "themHoSoThuCung": "Thêm hồ sơ thú cưng để đặt dịch vụ nhanh và chính xác hơn",
-  "meoChamSoc": "Mẹo chăm sóc thú cưng",
-  "noiBat": "Nổi bật",
-  "baiVietMoi": "Bài viết mới",
   "truocSoPhut": "{minutes} phút trước",
   "@truocSoPhut": {
     "placeholders": {
@@ -343,15 +413,11 @@
       "days": {"type": "String"}
     }
   },
-  "homQua": "Hôm qua",
-  "dichVuChoBe": "Dịch vụ cho bé",
   "tatCaDichVu": "Tất cả dịch vụ",
   "chonLoaiDichVuPhuHop": "Chọn loại dịch vụ phù hợp với thú cưng của bạn",
-  "moTaLoaiDatDiDao": "GPS thời gian thực · gói 30 / 60 / 90 phút",
-  "moTaLoaiTrongGiu": "Tại cơ sở người chăm · nhật ký ảnh mỗi ngày",
-  "moTaLoaiCatTia": "Tại nhà · 3 gói Cơ bản / Tiêu chuẩn / Full",
-  "theoCan": " (theo cân)",
-  "luuYPhucVuChoMeo": "Hiện phục vụ chó và mèo. Các loài khác sẽ sớm có mặt.",
+  "moTaLoaiDatDiDao": "Người chăm tới nhà đón bé, dắt đi dạo đúng số phút bạn đặt. Bạn xem đường đi trên bản đồ suốt buổi, hết giờ có ảnh và quãng đường thực tế.",
+  "moTaLoaiTrongGiu": "Bé ở nhà người chăm trọn kỳ, được cho ăn, dắt đi vệ sinh và chơi theo lịch. Mỗi ngày có nhật ký ảnh báo tình hình.",
+  "moTaLoaiCatTia": "Người chăm mang dụng cụ tới tận nhà: tắm, sấy, cắt tỉa lông, vệ sinh tai và cắt móng. Có ảnh trước và sau khi làm.",
   "thongBao": "Thông báo",
   "docTatCa": "Đọc tất cả",
   "tatCa": "Tất cả",
@@ -362,7 +428,7 @@
       "count": {"type": "String"}
     }
   },
-  "canXuLy": "Cần xử lý",
+  "canXuLyNgay": "Cần xử lý ngay",
   "homNay": "Hôm nay",
   "truocDo": "Trước đó",
   "chuaCoThongBao": "Chưa có thông báo",
@@ -370,20 +436,16 @@
   "huy": "Huỷ",
   "timKiemGanDay": "Tìm kiếm gần đây",
   "xoa": "Xoá",
-  "phoBien": "Phổ biến",
+  "goiYDanhChoBan": "Gợi ý dành cho bạn",
   "danhMuc": "Danh mục",
   "boLoc": "Bộ lọc",
-  "goiY": "Gợi ý",
   "nguoiCham": "Người chăm",
   "khongTimThayKetQua": "Không tìm thấy kết quả",
   "moTaKhongTimThay": "Thử kiểm tra chính tả hoặc dùng từ khoá khác.",
   "coTheBanQuanTam": "Có thể bạn quan tâm",
-  "hoacNhapTay": "hoặc nhập tay",
   "tinhThanhPho": "Tỉnh / Thành phố",
   "phuongXa": "Phường / Xã",
-  "chonPhuongXa": "Chọn phường / xã",
   "soNhaTenDuong": "Số nhà, tên đường",
-  "hintSoNha": "VD: 12 Ngõ 4 Đặng Văn Ngữ",
   "chonViTri": "Chọn vị trí",
   "xacNhanViTri": "Xác nhận vị trí",
   "timDiaDiem": "Tìm địa điểm, đường, khu vực",
@@ -408,7 +470,6 @@
   "sua": "Sửa",
   "macDinh": "Mặc định",
   "ghiChuDiaChiMacDinh": "Địa chỉ mặc định dùng để tìm người chăm gần bạn và làm điểm đón mặc định khi đặt lịch.",
-  "xoaDiaChiHoi": "Xoá địa chỉ này?",
   "xoaSoDiaChiDaChon": "Xoá {so} địa chỉ đã chọn?",
   "@xoaSoDiaChiDaChon": {
     "placeholders": {
@@ -422,22 +483,26 @@
   "moTaQuyenViTri": "Smart Pet Care dùng vị trí để gợi ý người chăm gần bạn và theo dõi GPS khi dắt thú cưng. Bạn có thể tắt bất cứ lúc nào.",
   "choPhepTruyCap": "Cho phép truy cập",
   "deSau": "Để sau",
-  "loiQuyenViTriBiTat": "Bạn đã tắt quyền vị trí. Mở Cài đặt để bật lại.",
-  "loiKhongLayDuocViTri": "Không lấy được vị trí hiện tại, vui lòng thử lại.",
   "dangLayViTri": "Đang lấy vị trí...",
-  "daLayViTri": "Đã lấy vị trí hiện tại: {toaDo}",
-  "@daLayViTri": {
-    "placeholders": {
-      "toaDo": {"type": "String"}
-    }
-  },
   "moCaiDat": "Mở Cài đặt",
   "dangOCheDoChuNuoi": "Đang ở chế độ Chủ nuôi",
   "chuNuoiDaXacMinh": "Chủ nuôi · Đã xác minh",
   "chuyenSangCheDoNguoiCungCap": "Chuyển sang chế độ Người cung cấp",
   "xemDonCanXacNhanLichLamViec": "Xem đơn cần xác nhận và lịch làm việc",
   "dangChoOCheDoNCC": "Đang chờ bạn ở chế độ Người cung cấp",
-  "tomTatDonCho": "2 đơn chờ xác nhận · 1 đơn bắt đầu lúc 14:00",
+  "capNhatHoSoThanhCong": "Cập nhật hồ sơ thành công",
+  "soDonChoXacNhanNcc": "{count} đơn chờ xác nhận",
+  "@soDonChoXacNhanNcc": {
+    "placeholders": {
+      "count": {"type": "String"}
+    }
+  },
+  "donKeBatDauLuc": "1 đơn bắt đầu lúc {moc}",
+  "@donKeBatDauLuc": {
+    "placeholders": {
+      "moc": {"type": "String"}
+    }
+  },
   "chuyenCheDo": "Chuyển chế độ",
   "oLaiCheDoChuNuoi": "Ở lại chế độ Chủ nuôi",
   "soDonMoi": "{count} đơn mới",
@@ -448,7 +513,6 @@
   },
   "hoSoCuaToi": "Hồ sơ của tôi",
   "thuCungCuaToi": "Thú cưng của tôi",
-  "viVaThanhToan": "Ví & thanh toán",
   "danhGiaCuaToi": "Đánh giá của tôi",
   "caiDat": "Cài đặt",
   "troGiupHoTro": "Trợ giúp & hỗ trợ",
@@ -458,35 +522,24 @@
   "kiemThem": "Kiếm thêm",
   "congViec": "Công việc",
   "lich": "Lịch",
-  "sanSangNhanDon": "Xin chào, bạn đã sẵn sàng nhận đơn chưa?",
   "dangNhanDon": "Đang nhận đơn",
   "dangTamNghi": "Đang tạm nghỉ",
-  "thuNhapHomNay": "Thu nhập hôm nay",
   "thuNhapTuanNay": "Thu nhập tuần này",
   "chiTiet": "Chi tiết",
   "cachBan": "cách bạn {khoangCach}",
   "@cachBan": {
     "placeholders": {
-      "khoangCach": {"type": "String"}
     }
   },
   "hieuSuatThangNay": "Hiệu suất tháng này",
   "khongCoDonCho": "Chưa có đơn nào chờ xác nhận",
   "chuaCoDichVu": "Bạn chưa có dịch vụ nào",
-  "chuaCoDichVuMoTa": "Thêm dịch vụ để bắt đầu nhận đơn từ chủ nuôi.",
   "chuaCoLichHomNay": "Hôm nay chưa có lịch",
   "chuaCoHieuSuat": "Chưa có dữ liệu hiệu suất tháng này",
-  "dichVuCuaToi": "Dịch vụ của tôi",
   "donHoanThanhSo": "{count} đơn hoàn thành",
   "@donHoanThanhSo": {
     "placeholders": {
       "count": {"type": "String"}
-    }
-  },
-  "thoiGianOnline": "{thoiGian} online",
-  "@thoiGianOnline": {
-    "placeholders": {
-      "thoiGian": {"type": "String"}
     }
   },
   "donChoXacNhan": "Đơn chờ xác nhận",
@@ -495,15 +548,10 @@
   "chapNhan": "Chấp nhận",
   "lichHomNay": "Lịch hôm nay",
   "sapToi": "Sắp tới",
-  "daXacNhan": "Đã xác nhận",
-  "hieuSuatTuanNay": "Hiệu suất tuần này",
   "diemDanhGia": "Điểm đánh giá",
   "tyLeNhan": "Tỷ lệ nhận",
   "hoanThanh": "Hoàn thành",
-  "meoTangDon": "Mẹo tăng đơn",
-  "meoTangDonMoTa": "Phản hồi trong 5 phút giúp bạn được ưu tiên hiển thị với chủ nuôi gần bạn.",
   "dangDienRa": "Đang diễn ra",
-  "daXong": "Đã xong",
   "daHuy": "Đã huỷ",
   "chuaCoDonNao": "Chưa có đơn nào",
   "datDichVuDauTien": "Đặt dịch vụ đầu tiên để chăm sóc bé cưng của bạn.",
@@ -514,13 +562,4485 @@
   "dangOCheDoNguoiCungCap": "Đang ở chế độ Người cung cấp",
   "chuyenSangCheDoChuNuoi": "Chuyển sang chế độ Chủ nuôi",
   "moTaCheDoChuNuoi": "Đặt dịch vụ và chăm sóc thú cưng của bạn",
-  "hoSoNguoiCungCap": "Hồ sơ người cung cấp",
   "dichVuCuaToi": "Dịch vụ của tôi",
   "viVaThuNhap": "Ví & thu nhập",
   "danhGiaTuKhach": "Đánh giá từ khách",
-  "lichSuDon": "Lịch sử đơn",
-  "trungTamNguoiCham": "Trung tâm người chăm",
   "oLaiCheDoNguoiCungCap": "Ở lại chế độ Người cung cấp",
   "vanNhanDonOCheDoNCC": "Vẫn nhận đơn ở chế độ Người cung cấp",
-  "chuyenCheDoKhongNgungNhanDon": "Chuyển chế độ không làm bạn ngừng nhận đơn mới."
+  "chuyenCheDoKhongNgungNhanDon": "Chuyển chế độ không làm bạn ngừng nhận đơn mới.",
+  "khongCoLichHen": "Không có lịch hẹn",
+  "khongCoLichHenMoTa": "Ngày này bạn chưa có lịch hẹn nào",
+  "timKiemTinNhan": "Tìm cuộc trò chuyện",
+  "chuaCoTinNhan": "Chưa có tin nhắn nào",
+  "chuaCoTinNhanMoTa": "Tin nhắn với chủ nuôi sẽ hiện ở đây",
+  "khongTimThayTinNhan": "Không tìm thấy cuộc trò chuyện",
+  "thuTuKhoaKhac": "Thử tìm với từ khoá khác",
+  "banTienTo": "Bạn: ",
+  "chuaCoTinNhanOwnerMoTa": "Tin nhắn với người chăm sẽ hiện ở đây",
+  "troChuyenGanVoiDon": "Trao đổi với người cung cấp trong phiên giao dịch",
+  "trangThai": "Trạng thái",
+  "dichVu": "Dịch vụ",
+  "thoiGian": "Thời gian",
+  "nhanTin": "Nhắn tin",
+  "daChapNhanDon": "Đã chấp nhận đơn, hẹn gặp bé cưng nhé!",
+  "daTuChoiDon": "Đã từ chối yêu cầu",
+  "daKetThuc": "Đã kết thúc",
+  "chiTietDon": "Chi tiết đơn",
+  "hoSo": "Hồ sơ",
+  "diemDon": "Điểm đón",
+  "chuNuoi": "Chủ nuôi",
+  "daXacMinh": "Đã xác minh",
+  "ghiChu": "Ghi chú",
+  "thanhToan": "Thanh toán",
+  "thucNhan": "Thực nhận",
+  "lichDon": "Lịch đơn",
+  "gioRanh": "Giờ rảnh",
+  "soDon": "{count} đơn",
+  "@soDon": {
+    "placeholders": {
+      "count": {"type": "String"}
+    }
+  },
+  "daXacNhan": "Đã xác nhận",
+  "troDoiVoiChuNuoi": "Trao đổi với chủ nuôi trong phiên dịch vụ",
+  "thuNhap": "Thu nhập",
+  "giaoDichGanDay": "Giao dịch gần đây",
+  "soDonHoanThanh": "{count} đơn hoàn thành",
+  "@soDonHoanThanh": {
+    "placeholders": {
+      "count": {"type": "String"}
+    }
+  },
+  "trangThaiChoXacNhan": "Chờ xác nhận",
+  "choChuNuoiXacNhan": "Chờ chủ nuôi xác nhận",
+  "dangChay": "Đang chạy",
+  "tatCaDonNhan": "Tất cả đơn nhận",
+  "chuaCoDonLoc": "Không có đơn nào ở mục này",
+  "danhGiaVeToi": "Đánh giá về tôi",
+  "soDanhGia": "{count} đánh giá",
+  "@soDanhGia": {
+    "placeholders": {
+      "count": {"type": "String"}
+    }
+  },
+  "baoSuCo": "Báo sự cố",
+  "chuyenGiDangXayRa": "Chuyện gì đang xảy ra?",
+  "scBeKhongHopTac": "Bé không hợp tác hoặc có dấu hiệu lạ",
+  "scChuNuoiVang": "Chủ nuôi không có mặt tại điểm hẹn",
+  "scDiaChiSai": "Địa chỉ / điểm đón sai",
+  "scThoiTietXau": "Thời tiết xấu, không đảm bảo an toàn",
+  "scKhac": "Khác",
+  "moTaVaAnh": "Mô tả và ảnh",
+  "moTaSuCoHint": "Mô tả cụ thể tình huống để đội hỗ trợ và chủ nuôi nắm rõ...",
+  "canhBaoNguyHiem": "Nếu bé đang gặp nguy hiểm, gọi ngay cho chủ nuôi trước khi gửi báo cáo.",
+  "guiBaoCaoSuCo": "Gửi báo cáo sự cố",
+  "daGuiBaoCao": "Đã gửi báo cáo sự cố",
+  "trangCaNhan": "Trang cá nhân",
+  "suaTrangCaNhan": "Sửa trang cá nhân",
+  "doiAnhDaiDien": "Đổi ảnh đại diện",
+  "anh": "Ảnh",
+  "luu": "Lưu",
+  "gioiThieu": "Giới thiệu",
+  "chuaCo": "Chưa có",
+  "dichVuVaGia": "Dịch vụ & giá",
+  "donHoanThanh": "Đơn hoàn thành",
+  "choVaMeo": "Chó & Mèo",
+  "gioiThieuBanThan": "Giới thiệu bản thân",
+  "hintGioiThieu": "Chia sẻ kinh nghiệm, phong cách chăm sóc và điều khiến bạn đáng tin để chủ nuôi yên tâm chọn bạn.",
+  "luuTrangCaNhan": "Lưu trang cá nhân",
+  "themAnh": "Thêm",
+  "quangDuong": "Quãng đường",
+  "anhGui": "Ảnh gửi",
+  "chupAnh": "Chụp ảnh",
+  "suCo": "Sự cố",
+  "ketThucDichVu": "Kết thúc dịch vụ",
+  "anhTruoc": "Trước",
+  "anhTrong": "Trong",
+  "anhSau": "Sau",
+  "minhChungDichVu": "Minh chứng dịch vụ",
+  "chonTuThuVien": "Chọn từ thư viện",
+  "minhChungGhiChu": "Cần ít nhất 1 ảnh \"Sau\" mới kết thúc được dịch vụ. Ảnh tải lên hiển thị realtime trong nhật ký của chủ nuôi.",
+  "nhanTinHint": "Nhắn tin...",
+  "batDauDichVu": "Bắt đầu dịch vụ",
+  "nhanTinChoChuNuoi": "Nhắn tin cho chủ nuôi",
+  "hoanTatDichVu": "Hoàn tất dịch vụ",
+  "daGuiXacNhan": "Đã gửi xác nhận hoàn thành",
+  "choXacNhanMoTa": "Chủ nuôi có {gio} giờ để xác nhận và đánh giá. Quá hạn, hệ thống tự động hoàn thành đơn và ghi nhận thu nhập.",
+  "@choXacNhanMoTa": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "thoiGianThucHien": "Thời gian thực hiện",
+  "anhMinhChung": "Ảnh minh chứng",
+  "thucNhanDuKien": "Thực nhận dự kiến",
+  "veTabCongViec": "Về tab Công việc",
+  "xemChiTietDon": "Xem chi tiết đơn",
+  "tatNhanDonMoTa": "Bạn không hiện trong tìm kiếm nên sẽ không có yêu cầu mới. Đơn đã nhận vẫn diễn ra bình thường.",
+  "khongTaiDuocDuLieu": "Không tải được dữ liệu",
+  "loiMangMoTa": "Kiểm tra kết nối mạng rồi thử lại. Đơn và thu nhập của bạn vẫn được lưu.",
+  "xemHoSo": "Xem hồ sơ",
+  "canTroGiup": "Cần trợ giúp",
+  "datLaiDichVu": "Đặt lại dịch vụ",
+  "daDoc": "Đã đọc",
+  "daGui": "Đã gửi",
+  "dangGui": "Đang gửi",
+  "guiThatBai": "Gửi thất bại",
+  "guiViTri": "Gửi vị trí",
+  "khongMoDuocAnh": "Không mở được ảnh, thử lại nhé",
+  "viTriHienTai": "Vị trí hiện tại",
+  "xemDuongDi": "Xem đường đi",
+  "khongMoDuocBanDo": "Không mở được bản đồ",
+  "anhGuiKem": "Ảnh gửi kèm",
+  "giaoDichTrongApp": "Giao dịch trong app để được bảo vệ",
+  "soDienThoaiDaAn": "Vì an toàn, số điện thoại đã được ẩn. Giữ liên lạc trong app.",
+  "chatDaKetThuc": "Cuộc trò chuyện đã kết thúc.",
+  "vuiLongVao": "Vui lòng vào ",
+  "trungTamHoTro": "trung tâm hỗ trợ",
+  "neuCanTroGiupThem": " nếu bạn cần trợ giúp thêm",
+  "phienBatDauChat": "Phiên bắt đầu {gio} · chat mở đến khi đơn kết thúc",
+  "@phienBatDauChat": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "conLai": "còn {thoiGian}",
+  "@conLai": {
+    "placeholders": {
+      "thoiGian": {"type": "String"}
+    }
+  },
+  "goiYChuBeTheNao": "Bé thế nào rồi?",
+  "goiYChuXinAnh": "Cho mình xin ảnh với",
+  "goiYChuToiChua": "Bạn tới nơi chưa?",
+  "goiYChuUongNuoc": "Nhớ cho bé uống nước nhé",
+  "goiYChuCamOn": "Cảm ơn bạn nhiều!",
+  "goiYNccDangToi": "Tôi đang trên đường đến ạ",
+  "goiYNccBeNgoan": "Bé đang rất ngoan, bạn yên tâm nhé",
+  "goiYNccSapXong": "Dịch vụ sắp hoàn thành ạ",
+  "goiYNccHoanThanh": "Đã hoàn thành, cảm ơn bạn đã tin tưởng ạ",
+  "goiYNccHenGap": "Rất mong được phục vụ bạn lần sau ạ",
+  "thuHaiNgan": "T2",
+  "thuBaNgan": "T3",
+  "thuTuNgan": "T4",
+  "thuNamNgan": "T5",
+  "thuSauNgan": "T6",
+  "thuBayNgan": "T7",
+  "chuNhatNgan": "CN",
+  "ngayThuTrenTong": "Ngày {thu}/{tong}",
+  "@ngayThuTrenTong": {
+    "placeholders": {
+      "thu": {"type": "String"},
+      "tong": {"type": "String"}
+    }
+  },
+  "dangDienRaKhongHuy": "Đơn đang diễn ra không huỷ được. Dùng Báo sự cố nếu có vấn đề.",
+  "ngayDaQuaChiXem": "Ngày đã qua nên chỉ xem lại lịch, không chỉnh được nữa.",
+  "ngayDaQuaKhongCoDon": "Ngày này bạn không có đơn nào.",
+  "khongNghiViDangDienRa": "Ngày này đang có đơn diễn ra nên không đặt nghỉ được.",
+  "khoangCoDonDangDienRa": "Khoảng này có đơn đang diễn ra ({ngay}) nên chưa đặt nghỉ được.",
+  "@khoangCoDonDangDienRa": {
+    "placeholders": {
+      "ngay": {"type": "String"}
+    }
+  },
+  "gioRiengChiApDonMoi": "Giờ riêng chỉ áp cho đơn MỚI. {so} đơn đã nhận trong ngày vẫn giữ nguyên giờ cũ.",
+  "@gioRiengChiApDonMoi": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "donNgoaiKhungGio": "{so} đơn đã nhận nằm ngoài khung {khung} nhưng bạn vẫn phải thực hiện.",
+  "@donNgoaiKhungGio": {
+    "placeholders": {
+      "so": {"type": "String"},
+      "khung": {"type": "String"}
+    }
+  },
+  "phaiHuyDonMoiNghi": "Ngày này còn {so} đơn chưa diễn ra. Huỷ các đơn đó rồi mới đặt nghỉ được.",
+  "@phaiHuyDonMoiNghi": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "phaiHuyDonKhoangMoiNghi": "Khoảng này còn {so} đơn chưa xong ({ngay}). Chạm từng ngày trên lịch để huỷ đơn rồi mới đặt nghỉ được.",
+  "@phaiHuyDonKhoangMoiNghi": {
+    "placeholders": {
+      "so": {"type": "String"},
+      "ngay": {"type": "String"}
+    }
+  },
+  "maDonNgan": "Mã {ma}",
+  "@maDonNgan": {
+    "placeholders": {
+      "ma": {"type": "String"}
+    }
+  },
+  "moTaHuyBatBuoc": "Mô tả lý do (bắt buộc)",
+  "moTaHuyTuyChon": "Mô tả thêm (tuỳ chọn)",
+  "moTaHuyHint": "Nói rõ để chủ nuôi và hệ thống hiểu tình huống của bạn",
+  "donTrongNgay": "Đơn trong ngày",
+  "daXuatPhatDungKhongTheTiepNhan": "Bạn đã bấm Xuất phát, dùng Không thể tiếp nhận thay cho huỷ thường",
+  "gioBatDauLabel": "Giờ bắt đầu",
+  "gioKetThucLabel": "Giờ kết thúc",
+  "ngayLamViec": "Ngày làm việc",
+  "ngayLamViecMoTa": "Chọn các ngày trong tuần bạn nhận đơn theo giờ.",
+  "caTuan": "Cả tuần",
+  "chuaChonNgayLamViec": "Chọn ít nhất một ngày làm việc",
+  "gioKetThucPhaiSauGioBatDau": "Giờ kết thúc phải sau giờ bắt đầu",
+  "huyDon": "Huỷ đơn",
+  "huyDonTitle": "Huỷ đơn này?",
+  "huyDonMoTa": "Chủ nuôi sẽ được báo ngay và phải tìm người cung cấp khác.",
+  "lyDoHuy": "Lý do huỷ",
+  "lyDoOmDotXuat": "Ốm đột xuất",
+  "lyDoBanViecGap": "Bận việc gấp",
+  "lyDoTrungLich": "Trùng lịch",
+  "canhBaoHuyDon": "Huỷ đơn đã xác nhận sẽ tính vào tỷ lệ huỷ và làm giảm thứ hạng hiển thị của bạn.",
+  "giuDon": "Giữ đơn",
+  "lienHeHoTro": "Liên hệ hỗ trợ",
+  "daHuyDon": "Đã huỷ đơn và báo cho chủ nuôi",
+  "huyDonThatBai": "Huỷ đơn không thành công, thử lại sau",
+  "quanLyNgayGioNhanDon": "Quản lý ngày & giờ nhận đơn",
+  "gioLamViec": "Giờ làm việc",
+  "gioLamViecMoTa": "Khung giờ nhận đơn áp dụng cho tất cả các ngày.",
+  "trongGiuNhanTheoNgay": "Trông giữ nhận theo ngày",
+  "khungGio": "{batDau} - {ketThuc}",
+  "@khungGio": {
+    "placeholders": {
+      "batDau": {"type": "String"},
+      "ketThuc": {"type": "String"}
+    }
+  },
+  "chinhTheoTungNgay": "Chỉnh theo từng ngày",
+  "chinhTheoTungNgayMoTa": "Chạm một ngày trên lịch để đặt giờ riêng hoặc cho nghỉ ngày đó.",
+  "coDon": "Có đơn",
+  "chanKhoangNgayNghi": "Chặn khoảng ngày nghỉ",
+  "chanNgayNghi": "Chặn ngày nghỉ",
+  "chanNgayNghiMoTa": "Trong khoảng này bạn sẽ không nhận đơn mới.",
+  "tuNgay": "Từ ngày",
+  "denNgay": "Đến ngày",
+  "lyDoTuyChon": "Lý do (tuỳ chọn)",
+  "lyDoBanViecRieng": "Bận việc riêng",
+  "lyDoDiVang": "Đi vắng",
+  "lyDoKhac": "Khác",
+  "donDaNhanVanGiu": "Đơn đã nhận trong khoảng này vẫn được giữ nguyên.",
+  "xacNhanNghi": "Xác nhận nghỉ",
+  "dieuChinhRiengChoNgay": "Điều chỉnh riêng cho ngày này.",
+  "theoGioMacDinh": "Theo giờ mặc định",
+  "datGioRieng": "Đặt giờ riêng",
+  "nghi": "Nghỉ",
+  "khongNhanDonTheoGio": "Không nhận đơn theo giờ",
+  "tuGio": "Từ",
+  "denGio": "Đến",
+  "conNhanCho": "Còn nhận chỗ",
+  "ngayNghi": "Ngày nghỉ",
+  "ngayNghiMoTa": "Bạn đã đặt nghỉ ngày này nên không nhận đơn mới.",
+  "suaGioRanh": "Sửa giờ rảnh",
+  "datLai": "Đặt lại",
+  "apDung": "Áp dụng",
+  "xoaBoLoc": "Xoá bộ lọc",
+  "khongCoDonKhopLoc": "Không có đơn khớp bộ lọc",
+  "khongCoDonKhopLocMoTa": "Thử bỏ bớt điều kiện lọc để xem các đơn khác trong ngày.",
+  "soBeVaTen": "{so} bé: {ten}",
+  "@soBeVaTen": {
+    "placeholders": {
+      "so": {"type": "String"},
+      "ten": {"type": "String"}
+    }
+  },
+  "thuHaiDai": "Thứ Hai",
+  "thuBaDai": "Thứ Ba",
+  "thuTuDai": "Thứ Tư",
+  "thuNamDai": "Thứ Năm",
+  "thuSauDai": "Thứ Sáu",
+  "thuBayDai": "Thứ Bảy",
+  "chuNhatDai": "Chủ Nhật",
+  "thangNam": "Tháng {thang}, {nam}",
+  "@thangNam": {
+    "placeholders": {
+      "thang": {"type": "String"},
+      "nam": {"type": "String"}
+    }
+  },
+  "ngayDayDu": "{thu}, {ngay}",
+  "@ngayDayDu": {
+    "placeholders": {
+      "thu": {"type": "String"},
+      "ngay": {"type": "String"}
+    }
+  },
+  "homNayNgay": "Hôm nay, {thu} {ngay}",
+  "@homNayNgay": {
+    "placeholders": {
+      "thu": {"type": "String"},
+      "ngay": {"type": "String"}
+    }
+  },
+  "soBeDangCoHoSo": "{so} bé",
+  "@soBeDangCoHoSo": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "chuaCoThuCungNao": "Chưa có bé nào trong hồ sơ",
+  "themThuCung": "Thêm thú cưng",
+  "ghiChuHoSoThuCung": "Hồ sơ đầy đủ giúp người chăm nhận đơn nhanh hơn và tính đúng giá cho từng bé.",
+  "duc": "Đực",
+  "cai": "Cái",
+  "soKgCanNang": "{so} kg",
+  "@soKgCanNang": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "gioiTinhVaTuoi": "{gioiTinh}, {tuoi} tuổi",
+  "@gioiTinhVaTuoi": {
+    "placeholders": {
+      "gioiTinh": {"type": "String"},
+      "tuoi": {"type": "String"}
+    }
+  },
+  "anhCuaBe": "Ảnh của bé",
+  "soAnhTrenToiDa": "{so} / {toiDa}",
+  "@soAnhTrenToiDa": {
+    "placeholders": {
+      "so": {"type": "String"},
+      "toiDa": {"type": "String"}
+    }
+  },
+  "moTaAnhCuaBe": "Người chăm nhận đúng bé lúc đón nhờ ảnh, và đây cũng là mốc so sánh nếu sau đó có khiếu nại.",
+  "ghiChuAnhDaiDien": "Ảnh đầu tiên là ảnh đại diện. Chạm giữ để xem, xóa.",
+  "anhDaiDien": "Đại diện",
+  "thongTinCoBan": "Thông tin cơ bản",
+  "tenBe": "Tên bé",
+  "hintTenBe": "Nhập tên bé",
+  "loai": "Loài",
+  "giong": "Giống",
+  "chonGiong": "Chọn giống",
+  "ghiChuChonGiongKhac": "Không thấy giống của bé thì chọn \"Khác\".",
+  "chonNgay": "Chọn ngày",
+  "canNangKg": "Cân nặng (kg)",
+  "hintSoKg": "Nhập số kg",
+  "ghiChuCanNangBatBuoc": "Cân nặng là bắt buộc: giá tắm và cắt tỉa tính theo mức cân.",
+  "loiCanNangVuotTran": "Cân nặng không quá {so} kg",
+  "@loiCanNangVuotTran": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "loiChuKyVuotTran": "Chu kỳ nhắc lại không quá {so} ngày",
+  "@loiChuKyVuotTran": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "luuYChamSoc": "Lưu ý chăm sóc",
+  "moTaLuuYChamSoc": "Dùng cho mọi đơn, mọi người chăm. Nhập một lần, không phải nhập lại mỗi lần đặt.",
+  "hintLuuYChamSoc": "Ví dụ: ăn 2 bữa sáng và tối, dị ứng thịt gà, hơi nhát người lạ",
+  "anhCuaBeTen": "Ảnh của {ten}",
+  "@anhCuaBeTen": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "datLamDaiDien": "Đặt làm đại diện",
+  "xoaAnh": "Xoá ảnh",
+  "xoaAnhNay": "Xoá ảnh này?",
+  "anhSoTrenToiDa": "Ảnh {so} trong {toiDa}",
+  "@anhSoTrenToiDa": {
+    "placeholders": {
+      "so": {"type": "String"},
+      "toiDa": {"type": "String"}
+    }
+  },
+  "themNgay": "Thêm ngày {ngay}",
+  "@themNgay": {
+    "placeholders": {
+      "ngay": {"type": "String"}
+    }
+  },
+  "canhBaoXoaAnhDaiDien": "Đây đang là ảnh đại diện. Xoá xong ảnh kế tiếp sẽ tự thành đại diện.",
+  "giuLai": "Giữ lại",
+  "daDuSoAnhToiDa": "Chỉ thêm được tối đa {toiDa} ảnh",
+  "@daDuSoAnhToiDa": {
+    "placeholders": {
+      "toiDa": {"type": "String"}
+    }
+  },
+  "sucKhoeCuaBe": "Sức khoẻ của {ten}",
+  "@sucKhoeCuaBe": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "ghiChuHoSoTiemChung": "Hồ sơ phòng bệnh đầy đủ giúp người chăm yên tâm nhận đơn, nhất là dịch vụ trông giữ nhiều bé chung chỗ.",
+  "tinhTrangChung": "Tình trạng chung",
+  "daTrietSan": "Đã triệt sản",
+  "roi": "Rồi",
+  "chuaTrietSan": "Chưa",
+  "tinhTrangSucKhoe": "Tình trạng sức khoẻ",
+  "binhThuong": "Bình thường",
+  "dangDieuTri": "Đang điều trị",
+  "benhNenDiUng": "Bệnh nền hoặc dị ứng",
+  "hintNhapNeuCo": "Nhập nếu có",
+  "ghiChuBenhNen": "Ví dụ: dị ứng thịt gà, viêm da cơ địa.",
+  "thuocDangDung": "Thuốc đang dùng",
+  "ghiChuThuocDangDung": "Ghi rõ liều và giờ uống để người chăm cho uống đúng.",
+  "phongBenhDinhKy": "Phòng bệnh định kỳ",
+  "moTaPhongBenhDinhKy": "Vaccine, tẩy giun, phòng ve rận đều ghi ở đây. Chạm vào một hạng mục để sửa hoặc xoá.",
+  "hinhThucVacXin": "Vaccine",
+  "hinhThucUong": "Uống",
+  "hinhThucNhoGay": "Nhỏ gáy",
+  "lanKeTiepNgay": "kế tiếp {ngay}",
+  "@lanKeTiepNgay": {
+    "placeholders": {
+      "ngay": {"type": "String"}
+    }
+  },
+  "toiHanNgay": "tới hạn {ngay}",
+  "@toiHanNgay": {
+    "placeholders": {
+      "ngay": {"type": "String"}
+    }
+  },
+  "daQuaHanNgay": "đã quá hạn {ngay}",
+  "@daQuaHanNgay": {
+    "placeholders": {
+      "ngay": {"type": "String"}
+    }
+  },
+  "conSoNgay": "còn {so} ngày",
+  "@conSoNgay": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "conSoThang": "còn {so} tháng",
+  "@conSoThang": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "treSoNgay": "trễ {so} ngày",
+  "@treSoNgay": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "soAnhKem": "{so} ảnh",
+  "@soAnhKem": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "khongDatNhacLai": "không đặt nhắc lại",
+  "conHan": "Còn hạn",
+  "sapToiHan": "Sắp tới hạn",
+  "quaHan": "Quá hạn",
+  "khongNhac": "Không nhắc",
+  "themHangMuc": "Thêm hạng mục",
+  "giayToCuaBe": "Giấy tờ của bé",
+  "moTaGiayToCuaBe": "Ảnh phiếu của mọi hạng mục và ngày của lần đó.",
+  "hinhThucVaTen": "{hinhThuc} {ten}",
+  "@hinhThucVaTen": {
+    "placeholders": {
+      "hinhThuc": {"type": "String"},
+      "ten": {"type": "String"}
+    }
+  },
+  "luuHoSoCuaBe": "Lưu hồ sơ của {ten}",
+  "@luuHoSoCuaBe": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "chuaCoHangMucNao": "Chưa có hạng mục nào",
+  "hangMuc": "Hạng mục",
+  "chonHangMuc": "Chọn hạng mục",
+  "tenHangMucTuNhap": "Tên hạng mục",
+  "hintTenHangMuc": "Nhập tên hạng mục",
+  "ngayThucHien": "Ngày thực hiện",
+  "soTuanNhac": "{so} tuần",
+  "@soTuanNhac": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "soLanDaLam": "{so} lần",
+  "@soLanDaLam": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "ganNhatNgay": "Gần nhất {ngay}",
+  "@ganNhatNgay": {
+    "placeholders": {
+      "ngay": {"type": "String"}
+    }
+  },
+  "mucSucKhoe": "Sức khoẻ",
+  "xoaHoSoCuaBeHoi": "Xoá hồ sơ của {ten}?",
+  "@xoaHoSoCuaBeHoi": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "xoaXongBanMat": "Xoá xong bạn mất",
+  "soAnhCuaBe": "{so} ảnh của bé",
+  "@soAnhCuaBe": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "soPhongBenhVaAnhPhieu": "Sổ phòng bệnh và ảnh phiếu kèm theo",
+  "luuYChamSocDaNhap": "Lưu ý chăm sóc đã nhập",
+  "ghiChuDonDaHoanThanh": "Các đơn đã hoàn thành của {ten} vẫn giữ nguyên trong lịch sử.",
+  "@ghiChuDonDaHoanThanh": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "chuaXoaDuocHoSo": "Chưa xoá được hồ sơ của {ten}",
+  "@chuaXoaDuocHoSo": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "beDangCoDonChuaKetThuc": "Bé đang nằm trong đơn chưa kết thúc.",
+  "xemDonDangChay": "Xem đơn đang chạy",
+  "dong": "Đóng",
+  "suaHoSoBe": "Sửa hồ sơ",
+  "hoSoThuCungCuaBan": "Hồ sơ thú cưng của bạn",
+  "hoSoCuaBe": "Hồ sơ của {ten}",
+  "@hoSoCuaBe": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "donMaBanDaNhan": "Đơn {ma} · bạn đã nhận",
+  "@donMaBanDaNhan": {
+    "placeholders": {
+      "ma": {"type": "String"}
+    }
+  },
+  "canhBaoQuaHanMuc": "{ten} đã quá hạn {so} ngày. Làm xong hãy cập nhật vào sổ phòng bệnh.",
+  "@canhBaoQuaHanMuc": {
+    "placeholders": {
+      "ten": {"type": "String"},
+      "so": {"type": "String"}
+    }
+  },
+  "luuYChamSocTuChuNuoi": "Lưu ý chăm sóc từ chủ nuôi",
+  "ghiChuLuuYHienVoiNCC": "Người chăm thấy nội dung này khi nhận đơn. Sửa xong chỉ áp cho đơn đặt sau.",
+  "loaiVaGiong": "Loài và giống",
+  "canNang": "Cân nặng",
+  "gioiTinhVaTuoiNhan": "Giới tính và tuổi",
+  "trietSan": "Triệt sản",
+  "tinhTrang": "Tình trạng",
+  "benhNenDiUngNhan": "Bệnh nền/Dị ứng",
+  "khongCo": "Không",
+  "soMuc": "{so} mục",
+  "@soMuc": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "soLanVaGanNhat": "{so} lần · gần nhất {ngay}",
+  "@soLanVaGanNhat": {
+    "placeholders": {
+      "so": {"type": "String"},
+      "ngay": {"type": "String"}
+    }
+  },
+  "treSoNgayNhan": "Trễ {so} ngày",
+  "@treSoNgayNhan": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "gioiTinhVaTuoiGiaTri": "{gioiTinh} · {tuoi}",
+  "@gioiTinhVaTuoiGiaTri": {
+    "placeholders": {
+      "gioiTinh": {"type": "String"},
+      "tuoi": {"type": "String"}
+    }
+  },
+  "soTuoiNhan": "{so} tuổi",
+  "@soTuoiNhan": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "soThangTuoiNhan": "{so} tháng",
+  "@soThangTuoiNhan": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "xoaHoSoCuaBe": "Xoá hồ sơ của {ten}",
+  "@xoaHoSoCuaBe": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "nhanChoChuNuoi": "Nhắn cho chủ nuôi",
+  "themHangMucChoBe": "Thêm hạng mục cho {ten}",
+  "@themHangMucChoBe": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "daCoSoLan": "Đã có · {so} lần",
+  "@daCoSoLan": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "ghiChuHangMucDaCo": "Hạng mục tô xám là đã có. Muốn ghi thêm thì mở mục đó trong sổ Phòng bệnh định kỳ.",
+  "beVaSoLan": "{ten} · {so} lần",
+  "@beVaSoLan": {
+    "placeholders": {
+      "ten": {"type": "String"},
+      "so": {"type": "String"}
+    }
+  },
+  "beChuaGhiLanNao": "{ten} · chưa ghi lần nào",
+  "@beChuaGhiLanNao": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "hangMucDaTaoChuaCoLan": "Hạng mục đã tạo, chưa có lần ghi nào",
+  "xoaHangMucNay": "Xoá hạng mục này",
+  "ghiChuXoaKhongMatGi": "Chưa có lần nào nên xoá không mất dữ liệu gì.",
+  "dongThoiGian": "Dòng thời gian",
+  "nhanLanGanNhat": "Lần gần nhất",
+  "moTaLanKeTiep": "Lần kế tiếp tính từ lần {ngay} cộng chu kỳ {chuKy} đặt ở lần đó",
+  "@moTaLanKeTiep": {
+    "placeholders": {
+      "ngay": {"type": "String"},
+      "chuKy": {"type": "String"}
+    }
+  },
+  "henNhacLaiSau": "Hẹn nhắc lại sau {chuKy}",
+  "@henNhacLaiSau": {
+    "placeholders": {
+      "chuKy": {"type": "String"}
+    }
+  },
+  "chamDeSuaXoaLan": "Chạm để sửa hoặc xoá riêng lần đó.",
+  "ghiLanDaLam": "Ghi lần đã làm",
+  "moTaMocQuaHan": "Hạn đã trôi qua mà chưa có lần nào được ghi. Mốc này biến mất khi bạn ghi lần đã làm.",
+  "moTaQuaHanChiTiet": "Đã trễ {soNgay} ngày so với hạn {ngay}. Làm xong bấm Ghi lần đã làm, hạn kế tiếp tính lại từ ngày thật chứ không tính từ hạn cũ.",
+  "@moTaQuaHanChiTiet": {
+    "placeholders": {
+      "soNgay": {"type": "String"},
+      "ngay": {"type": "String"}
+    }
+  },
+  "ghiChuXoaCaHangMucSoLan": "Xoá cả hạng mục là mất toàn bộ {so} lần trên dòng thời gian.",
+  "@ghiChuXoaCaHangMucSoLan": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "xoaCaHangMucNay": "Xoá cả hạng mục này",
+  "themLanGhiMoi": "Thêm lần ghi mới",
+  "ghiChuHangMucKhoa": "Hạng mục bị khoá theo mục bạn mở. Chu kỳ để sẵn theo lần trước, sửa được.",
+  "datHomNay": "Đặt hôm nay",
+  "nhacLaiLanKeTiep": "Nhắc lại lần kế tiếp",
+  "sauChuKy": "Sau",
+  "moTaNgayToiHanTinh": "Tính từ ngày bạn vừa nhập cộng chu kỳ {chuKy}.",
+  "@moTaNgayToiHanTinh": {
+    "placeholders": {
+      "chuKy": {"type": "String"}
+    }
+  },
+  "anhPhieuHoacHoaDon": "Ảnh phiếu hoặc hoá đơn",
+  "suaLanGhi": "Sửa lần ghi",
+  "xoaLanNay": "Xoá lần này",
+  "xacNhanXoaLan": "Xoá lần ghi này khỏi dòng thời gian? Các lần khác của hạng mục vẫn giữ nguyên.",
+  "chuaGhiLan": "Chưa ghi",
+  "chuaCoLanGhiNao": "Chưa có lần ghi nào",
+  "hangMucVaBe": "{ten} · {tenBe}",
+  "@hangMucVaBe": {
+    "placeholders": {
+      "ten": {"type": "String"},
+      "tenBe": {"type": "String"}
+    }
+  },
+  "loiBeDangCoDon": "Bé đang có đơn chưa kết thúc, chưa xoá được hồ sơ",
+  "loiKhongTimThayHoSoBe": "Không tìm thấy hồ sơ của bé",
+  "banMangBeDiTu": "Bạn mang bé đi từ",
+  "ghiChuDiaChiSauKhiNhan": "Địa chỉ chính xác gửi khi người chăm nhận đơn.",
+  "loiAnhKhongHopLe": "Ảnh không hợp lệ. Chỉ nhận JPG, PNG hoặc WEBP, mỗi ảnh tối đa 8MB",
+  "hangMucDaCo": "Hạng mục này đã có trong danh sách",
+  "coNhacLai": "Nhắc lại",
+  "khongNhacLai": "Không nhắc lại",
+  "hintSoChuKy": "Số",
+  "donViNgay": "Ngày",
+  "donViTuan": "Tuần",
+  "donViThang": "Tháng",
+  "soNgayNhac": "{so} ngày",
+  "@soNgayNhac": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "soThangNhac": "{so} tháng",
+  "@soThangNhac": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "ngayToiHanKeTiep": "Ngày tới hạn lần kế tiếp",
+  "ghiChuNgayToiHan": "Tự tính từ ngày tiêm và chu kỳ. Hệ thống nhắc bạn trước 7 ngày.",
+  "chuaChonNgayTiem": "Chọn ngày thực hiện để tính",
+  "noiThucHien": "Nơi thực hiện",
+  "hintNoiTiem": "Nhập nếu muốn nhớ",
+  "ghiChuNoiThucHien": "Ví dụ: Phòng khám thú y Pet Home, Đống Đa.",
+  "phongBenhDayDu": "Phòng bệnh đầy đủ",
+  "quaHanSoMuc": "Quá hạn {so} mục",
+  "@quaHanSoMuc": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "sapToiHanSoMuc": "Sắp tới hạn {so} mục",
+  "@sapToiHanSoMuc": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "chuaCoSoPhongBenh": "Chưa có sổ phòng bệnh",
+  "gioiTinhVaThangTuoi": "{gioiTinh}, {so} tháng",
+  "@gioiTinhVaThangTuoi": {
+    "placeholders": {
+      "gioiTinh": {"type": "String"},
+      "so": {"type": "String"}
+    }
+  },
+
+  "tyLeNhanDon": "Tỷ lệ nhận đơn",
+  "tyLeHuyMuon": "Tỷ lệ huỷ muộn",
+  "nguoiChamTinCay": "Người chăm tin cậy",
+  "chamXemGoiVaChinhSach": "Chạm để xem gói",
+  "nPhut": "{phut} phút",
+  "@nPhut": {
+    "placeholders": {
+      "phut": {"type": "String"}
+    }
+  },
+  "goiNPhut": "Gói {phut} phút",
+  "@goiNPhut": {
+    "placeholders": {
+      "phut": {"type": "String"}
+    }
+  },
+  "toiDaNBe": "tối đa {so} bé",
+  "@toiDaNBe": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "soBe": "{so} bé",
+  "@soBe": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "soBeToiDa": "Số bé tối đa",
+  "congGiaMoiBe": "+{gia}đ/ bé",
+  "@congGiaMoiBe": {
+    "placeholders": {
+      "gia": {"type": "String"}
+    }
+  },
+  "congGiaMoiBeMoiNgay": "+{gia}đ/ bé/ ngày",
+  "@congGiaMoiBeMoiNgay": {
+    "placeholders": {
+      "gia": {"type": "String"}
+    }
+  },
+  "trongTaiCoSoMoiNgay": "Trông tại cơ sở · mỗi ngày",
+  "khongCoTinhRiengTungBe": "Không có, tính giá riêng từng bé",
+  "lichTrongTuanNay": "Lịch trống tuần này",
+  "xemLichDayDu": "Xem lịch đầy đủ",
+  "danhGiaSo": "Đánh giá ({so})",
+  "@danhGiaSo": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "xemTatCaNDanhGia": "Xem tất cả {so} đánh giá",
+  "@xemTatCaNDanhGia": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "chiTu": "Chỉ từ",
+  "datLich": "Đặt lịch",
+
+  "datDichVuVoi": "Đặt dịch vụ với {ten}",
+  "@datDichVuVoi": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "nccNhanNDichVu": "{ten} nhận {so} dịch vụ. Chọn dịch vụ trước, chọn gói ở bước sau.",
+  "@nccNhanNDichVu": {
+    "placeholders": {
+      "ten": {"type": "String"},
+      "so": {"type": "String"}
+    }
+  },
+  "ghiChuXemKyDichVu": "Muốn xem kỹ từng dịch vụ thì chạm mũi tên ở mục Dịch vụ và giá trong hồ sơ.",
+  "choVaMeoDai": "Chó và Mèo",
+  "taiCoSo": "tại cơ sở",
+  "taiNhaBan": "tại nhà bạn",
+  "theoCanNang": "theo cân nặng",
+  "lyDoChiNhanLoai": "Chỉ nhận {loaiNhan} · bé của bạn đều là {loaiBe}",
+  "@lyDoChiNhanLoai": {
+    "placeholders": {
+      "loaiNhan": {"type": "String"},
+      "loaiBe": {"type": "String"}
+    }
+  },
+  "chiNhanLoai": "Chỉ nhận {loai}",
+  "@chiNhanLoai": {
+    "placeholders": {
+      "loai": {"type": "String"}
+    }
+  },
+  "chiLoai": "Chỉ {loai}",
+  "@chiLoai": {
+    "placeholders": {
+      "loai": {"type": "String"}
+    }
+  },
+  "nccKhongNhanLoai": "{ten} không nhận {loai}",
+  "@nccKhongNhanLoai": {
+    "placeholders": {
+      "ten": {"type": "String"},
+      "loai": {"type": "String"}
+    }
+  },
+  "moTaChanLoai": "Cả {so} bé của bạn đều là {loai} nên không đặt được dịch vụ nào với người chăm này.",
+  "@moTaChanLoai": {
+    "placeholders": {
+      "so": {"type": "String"},
+      "loai": {"type": "String"}
+    }
+  },
+  "nccNhan": "{ten} nhận",
+  "@nccNhan": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "beCuaBan": "Bé của bạn",
+  "banCoThe": "Bạn có thể",
+  "huongTimNccNhanLoai": "Tìm người chăm nhận {loai}, bộ lọc tìm kiếm có mục loài thú cưng.",
+  "@huongTimNccNhanLoai": {
+    "placeholders": {
+      "loai": {"type": "String"}
+    }
+  },
+  "huongThemHoSoBeKhac": "Thêm hồ sơ bé khác nếu bạn còn nuôi bé chưa khai báo.",
+
+  "cachSoKm": "Cách {km}",
+  "@cachSoKm": {
+    "placeholders": {
+      "km": {"type": "String"}
+    }
+  },
+
+  "chonBe": "Chọn bé",
+  "themBe": "Thêm bé",
+  "chuaCoHoSoThuCungNao": "Bạn chưa có hồ sơ thú cưng nào",
+  "viSaoNccCanHoSoBe": "Người chăm cần biết bé thuộc loài gì, nặng bao nhiêu và có lưu ý gì trước khi nhận đơn.",
+  "chonItNhatMotBe": "Chọn ít nhất một bé để tiếp tục.",
+  "nhanToiDaNBeMoiLuot": "Nhận tối đa {so} bé mỗi lượt.",
+  "@nhanToiDaNBeMoiLuot": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "nhanToiDaNBeMoiDon": "Nhận tối đa {so} bé mỗi đơn.",
+  "@nhanToiDaNBeMoiDon": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "beThuHaiTroDiPhuPhi": "Bé thứ 2 trở đi tính phụ phí {gia}đ mỗi bé.",
+  "@beThuHaiTroDiPhuPhi": {
+    "placeholders": {
+      "gia": {"type": "String"}
+    }
+  },
+  "nangSoKg": "Nặng {so} kg",
+  "@nangSoKg": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+
+  "luuYChamSocTungBe": "Lưu ý chăm sóc của từng bé",
+  "chamMotBeDeXemDayDu": "Chạm một bé để xem đầy đủ. Lấy từ hồ sơ bé.",
+  "luuYLayTuHoSoBe": "Lưu ý chăm sóc lấy từ hồ sơ bé.",
+  "phongBenh": "Phòng bệnh",
+  "quaHanHangMucSoNgay": "Quá hạn {ten} {so} ngày",
+  "@quaHanHangMucSoNgay": {
+    "placeholders": {
+      "ten": {"type": "String"},
+      "so": {"type": "String"}
+    }
+  },
+  "nccDuocTuChoiViLyDoNay": "người chăm được từ chối đơn vì lý do này",
+
+  "chonGoiCua": "Chọn gói của {ten}",
+  "@chonGoiCua": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "moTaGoi30Phut": "Phù hợp bé nhỏ, đi quanh khu",
+  "moTaGoi60Phut": "Phù hợp bé to, bé vận động nhiều",
+  "goiChoTungBe": "Gói cho từng bé",
+  "goiDichVuTungBe": "Gói dịch vụ từng bé",
+  "giaTheoMuc": "Giá theo mức {muc}",
+  "@giaTheoMuc": {
+    "placeholders": {
+      "muc": {"type": "String"}
+    }
+  },
+  "vuotMucCanNcc": "Vượt mức cân người chăm nhận",
+
+  "diemDonVaGhiChuDon": "Điểm đón và ghi chú đơn",
+  "diaDiemVaGhiChuDon": "Địa điểm và ghi chú đơn",
+  "trongTai": "Trông tại",
+  "lamTai": "Làm tại",
+  "nhaCuaNcc": "Nhà {ten}",
+  "@nhaCuaNcc": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "banDo": "Bản đồ",
+  "doi": "Đổi",
+  "hintGhiChuDon": "Ghi chú cho riêng đơn này (tuỳ chọn). Ví dụ: chìa khoá ở hộp thư, hôm nay bé hơi mệt",
+  "banChuaCoDiaChiNao": "Bạn chưa có địa chỉ nào",
+  "themDiaChiDeTiepTuc": "Thêm địa chỉ để tiếp tục.",
+
+  "tamTinh": "Tạm tính",
+  "dongBeDauGoi": "Bé đầu {gia}đ gói {goi}",
+  "@dongBeDauGoi": {
+    "placeholders": {
+      "gia": {"type": "String"},
+      "goi": {"type": "String"}
+    }
+  },
+  "dongPhuPhiThemNBe": "Phụ phí thêm {so} bé × {gia}đ",
+  "@dongPhuPhiThemNBe": {
+    "placeholders": {
+      "so": {"type": "String"},
+      "gia": {"type": "String"}
+    }
+  },
+  "dongBeDauMoiDem": "Bé đầu {gia}đ × {soDem} đêm",
+  "@dongBeDauMoiDem": {
+    "placeholders": {
+      "gia": {"type": "String"},
+      "soDem": {"type": "String"}
+    }
+  },
+  "dongPhuPhiThemNBeMoiDem": "Phụ phí thêm {so} bé × {gia}đ × {soDem} đêm",
+  "@dongPhuPhiThemNBeMoiDem": {
+    "placeholders": {
+      "so": {"type": "String"},
+      "gia": {"type": "String"},
+      "soDem": {"type": "String"}
+    }
+  },
+  "ghiChuPhuPhiNccTuDat": "Mức phụ phí bé thêm do người chăm tự đặt, mỗi người một mức khác nhau.",
+  "ghiChuGiaGroomingTungBe": "Dịch vụ tắm và cắt tỉa tính giá riêng từng bé theo gói và cân nặng.",
+  "loiVuotTongThoiLuongGrooming": "Tổng thời lượng đang là {tong} giờ, vượt mức {tran} giờ một đơn. Bỏ bớt bé hoặc đổi sang gói ngắn hơn.",
+  "@loiVuotTongThoiLuongGrooming": {
+    "placeholders": {
+      "tong": {"type": "String"},
+      "tran": {"type": "String"}
+    }
+  },
+  "trongGiuTaiNhaNguoiCham": "Trông giữ tại nhà người chăm",
+  "tamVaCatTiaTaiNha": "Tắm và cắt tỉa tại nhà",
+
+  "chonDiemDon": "Chọn điểm đón",
+  "trongKhuVuc": "Trong khu vực",
+  "ngoaiBanKinh": "Ngoài bán kính",
+  "dungDiaChiNay": "Dùng địa chỉ này",
+  "ghiChuBanKinhNhanDon": "{ten} chỉ nhận trong bán kính {km} quanh khu vực này. Địa chỉ ngoài bán kính không chọn được, bạn đổi địa chỉ khác hoặc tìm người chăm gần hơn.",
+  "@ghiChuBanKinhNhanDon": {
+    "placeholders": {
+      "ten": {"type": "String"},
+      "km": {"type": "String"}
+    }
+  },
+  "ghiChuKhongChanBanKinh": "Bạn mang bé tới nhà {ten} nên địa chỉ này chỉ dùng để tính đường đi và thời gian tới. Không bị chặn theo bán kính.",
+  "@ghiChuKhongChanBanKinh": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "cachNhaNccSoKm": "Cách nhà {ten} {km}",
+  "@cachNhaNccSoKm": {
+    "placeholders": {
+      "ten": {"type": "String"},
+      "km": {"type": "String"}
+    }
+  },
+
+  "chonNgayVaGio": "Chọn ngày và giờ",
+  "ghiChuDatTruocToiDaNNgay": "Chỉ đặt trước tối đa {so} ngày kể từ hôm nay",
+  "@ghiChuDatTruocToiDaNNgay": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "ghiChuKhungGio30Phut": "Khung 30 phút theo giờ làm việc của {ten}. Giờ kết thúc tự tính theo gói đã chọn.",
+  "@ghiChuKhungGio30Phut": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "chonNgayTruocDeXemGio": "Chọn ngày để xem khung giờ còn trống.",
+  "ghiChuLeadTimeNGio": "Đơn phải đặt trước giờ bắt đầu ít nhất {so} giờ.",
+  "@ghiChuLeadTimeNGio": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "chonGioBatDau": "Chọn giờ bắt đầu",
+  "ketThucGio": "Kết thúc {gio}",
+  "@ketThucGio": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "daQuaGio": "Đã qua",
+  "canDatTruocNGio": "Cần đặt trước ít nhất {so} giờ",
+  "@canDatTruocNGio": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "ngoaiGioLamViec": "Ngoài giờ làm việc",
+  "chonGioMangDen": "Chọn giờ mang đến",
+  "chonGioDonVe": "Chọn giờ đón về",
+  "daCoDonKhungNay": "Đã có đơn",
+  "beDaCoDonKhungNay": "Bé của bạn đã có đơn",
+  "khongDuNPhutTrong": "Không đủ {so} phút trống",
+  "@khongDuNPhutTrong": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "dangChon": "Đang chọn",
+  "ngayNghi": "Nghỉ",
+  "daKinDon": "Đã kín đơn",
+  "nghiHoacDaQua": "Nghỉ hoặc đã qua",
+  "nhanTinCay": "Tin cậy",
+  "tu": "từ",
+  "cachKm": "cách {km} km",
+  "@cachKm": {
+    "placeholders": {
+      "km": {"type": "String"}
+    }
+  },
+  "soNguoiChamPhuHop": "{so} người chăm phù hợp",
+  "@soNguoiChamPhuHop": {
+    "placeholders": {
+      "so": {"type": "int"}
+    }
+  },
+  "moiNgayLoc": "Mọi ngày",
+  "locSoBe": "Số bé",
+  "danhGia": "Đánh giá",
+  "diemTroLen": "{diem} trở lên",
+  "@diemTroLen": {
+    "placeholders": {
+      "diem": {"type": "String"}
+    }
+  },
+  "sapXepTheo": "Sắp xếp theo",
+  "duocDeXuat": "Được đề xuất",
+  "ganBanNhat": "Gần bạn nhất",
+  "danhGiaCaoNhat": "Đánh giá cao nhất",
+  "nhieuDonHoanThanhNhat": "Nhiều đơn hoàn thành nhất",
+  "tyLeHuyMuonThapNhat": "Tỷ lệ huỷ muộn thấp nhất",
+  "locNhanh": "Lọc nhanh",
+  "chonKhoangNgay": "Chọn khoảng ngày",
+  "khoangNgayGon": "{tu} - {den}",
+  "@khoangNgayGon": {
+    "placeholders": {
+      "tu": {"type": "String"},
+      "den": {"type": "String"}
+    }
+  },
+  "xoaNgay": "Xoá ngày",
+  "moTaChonKhoangNgay": "Chỉ hiện người chăm còn nhận đơn trong khoảng này.",
+  "ngayMai": "Ngày mai",
+  "cuoiTuanNay": "Cuối tuần này",
+  "ghiChuNgayMoDat": "Ngày mờ là đã qua hoặc quá 60 ngày. Hôm nay chỉ chọn được nếu còn cách giờ hẹn ít nhất 2 giờ.",
+  "soNgayDem": "{ngay} ngày · {dem} đêm",
+  "@soNgayDem": {
+    "placeholders": {
+      "ngay": {"type": "int"},
+      "dem": {"type": "int"}
+    }
+  },
+  "xemKetQua": "Xem kết quả",
+  "be": "Bé",
+  "xoaLichSuTim": "Xoá lịch sử tìm kiếm?",
+  "moTaXoaLichSuTim": "Toàn bộ từ khoá đã tìm sẽ bị xoá và không khôi phục được.",
+  "timQuanhDau": "Tìm quanh đâu",
+  "xoaHet": "Xoá hết",
+  "diaChiMacDinhCuaBan": "Địa chỉ mặc định của bạn",
+  "chamDeNhapDiaChiTimQuanh": "Chạm để nhập địa chỉ bạn muốn tìm quanh",
+  "nhap": "Nhập",
+  "banKinh": "Bán kính",
+  "vungDangXem": "vùng đang xem",
+  "timTrongVungNay": "Tìm trong vùng này",
+  "soNguoiChamNhanDonToiNha": "{so} người chăm nhận đơn tới nhà bạn · trượt để xem",
+  "@soNguoiChamNhanDonToiNha": {
+    "placeholders": {
+      "so": {"type": "int"}
+    }
+  },
+  "soNguoiChamTrongVung": "{so} người chăm trong vùng · trượt để xem",
+  "@soNguoiChamTrongVung": {
+    "placeholders": {
+      "so": {"type": "int"}
+    }
+  },
+  "soNguoiChamTrongBanKinh": "{so} người chăm trong {km} km · trượt để xem",
+  "@soNguoiChamTrongBanKinh": {
+    "placeholders": {
+      "so": {"type": "int"},
+      "km": {"type": "String"}
+    }
+  },
+  "banChuaLuuDiaChiNao": "Bạn chưa lưu địa chỉ nào",
+  "moTaChuaLuuDiaChi": "Kết quả đang tính theo vùng bạn đang xem trên bản đồ, không phải quanh nhà bạn. Thêm địa chỉ để lọc đúng người nhận đơn tới nơi.",
+  "chuaBatQuyenViTri": "Chưa bật quyền vị trí",
+  "moTaChuaBatQuyenViTri": "Hệ thống không lấy được chỗ bạn đang đứng nên đang hiện theo vùng bạn đang xem. Bật quyền hoặc nhập địa chỉ để lọc đúng người nhận đơn tới nơi.",
+  "nhapDiaChi": "Nhập địa chỉ",
+  "dangTimQuanhViTriHienTai": "Đang tìm quanh vị trí hiện tại",
+  "khongPhaiDiaChiDaLuu": "Không phải địa chỉ đã lưu của bạn",
+  "luuLai": "Lưu lại",
+  "nhapDiaChiHoacTenKhuVuc": "Nhập địa chỉ hoặc tên khu vực",
+  "canQuyenTruyCapViTri": "Cần quyền truy cập vị trí",
+  "chonTrenBanDo": "Chọn trên bản đồ",
+  "keoGhimToiDungCho": "Kéo ghim tới đúng chỗ bạn muốn tìm",
+  "baoNhieuBeCanCham": "Bao nhiêu bé cần chăm sóc?",
+  "moTaSoBeCanCham": "Thêm ít nhất một bé để tìm người chăm nhận đúng loài và cân nặng.",
+  "moTaBoLoc": "Chọn bé, dịch vụ và thời gian bạn cần",
+  "datChoBeNao": "Đặt cho bé nào",
+  "dangLocTheoSoBe": "Đang lọc theo {so} bé. Chọn bé cụ thể sẽ thay cho số này.",
+  "@dangLocTheoSoBe": {
+    "placeholders": {
+      "so": {"type": "int"}
+    }
+  },
+  "moTaDatChoBeNao": "Chọn bé thì hệ thống tự lọc loài, số bé và mức cân của bé đó",
+  "dangChonSoBe": "Đang chọn {so} bé",
+  "@dangChonSoBe": {
+    "placeholders": {
+      "so": {"type": "int"}
+    }
+  },
+  "loaiCho": "loài chó",
+  "loaiMeo": "loài mèo",
+  "loaiChoVaMeo": "cả chó và mèo",
+  "nhanTuSoBeCungLuc": "nhận từ {so} bé cùng lúc",
+  "@nhanTuSoBeCungLuc": {
+    "placeholders": {
+      "so": {"type": "int"}
+    }
+  },
+  "toiSoKg": "tới {kg} kg",
+  "@toiSoKg": {
+    "placeholders": {
+      "kg": {"type": "String"}
+    }
+  },
+  "khoangNgay": "Khoảng ngày",
+  "khoangNgayGuiBe": "Khoảng ngày gửi bé",
+  "ngayNhanBe": "Ngày nhận",
+  "ngayTraBe": "Ngày trả",
+  "giaMoiLuot": "Giá mỗi lượt",
+  "moTaGiaDatDiDao": "Giá dắt đi dạo tính theo lượt 30 hoặc 60 phút",
+  "moTaGiaTrongGiu": "Khoảng giá của 1 bé, chưa gồm phí thêm bé",
+  "moTaGiaGrooming": "Giá tắm và cắt tỉa tính theo gói và mức cân của từng bé",
+  "giaToiThieu": "Giá tối thiểu",
+  "giaToiDa": "Giá tối đa",
+  "kyHieuDong": "đ",
+  "mucCanCuaBe": "Mức cân của bé",
+  "moTaMucCanCuaBe": "Mốc dưới luôn tính vào mức đó.",
+  "theoBeDaChon": "theo bé đã chọn",
+  "chonNgayVaGioHen": "Chọn ngày và giờ hẹn",
+  "trongGiuTaiNha": "Trông giữ tại nhà",
+  "khoangDangChon": "Khoảng đang chọn",
+  "soGio": "{so} giờ",
+  "@soGio": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "soGioSoPhut": "{gio} giờ {phut} phút",
+  "@soGioSoPhut": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "phut": {"type": "String"}
+    }
+  },
+  "soNgaySoGio": "{ngay} ngày {gio} giờ",
+  "@soNgaySoGio": {
+    "placeholders": {
+      "ngay": {"type": "String"},
+      "gio": {"type": "String"}
+    }
+  },
+  "ghiChuChonKhoangNgay": "Chạm ngày đầu rồi chạm ngày cuối để chọn cả khoảng; ngày đã qua, ngày nghỉ và ngày kín chỗ không chạm được.",
+  "soDemNhan": "{so} đêm",
+  "@soDemNhan": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "nccConChoCaKhoang": "{ten} còn chỗ cả khoảng này.",
+  "@nccConChoCaKhoang": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "chuaChonKhoangNgay": "Chưa chọn khoảng ngày",
+  "chuaChonKhoangNgayMoTa": "Chạm ngày nhận rồi chạm ngày trả trên lịch phía trên.",
+  "gioMangDenVaDonVe": "Giờ mang đến và giờ đón về",
+  "mangBeDen": "Mang bé đến",
+  "donBeVe": "Đón bé về",
+  "ghiChuKhungGioTrongGiu": "Khung 30 phút theo giờ làm việc của {ten}, {batDau} tới {ketThuc}. Nên đón về gần giờ đã mang đến để không phát sinh phí giữ thêm.",
+  "@ghiChuKhungGioTrongGiu": {
+    "placeholders": {
+      "ten": {"type": "String"},
+      "batDau": {"type": "String"},
+      "ketThuc": {"type": "String"}
+    }
+  },
+  "loiChonKhoangNgayTruoc": "Chọn khoảng ngày trước, hệ thống mới biết ngày nào để chọn giờ.",
+  "cachTinhDemVaGioGiuThem": "Cách tính đêm và giờ giữ thêm",
+  "ghiChuMoiDemToiDa24Gio": "Mỗi đêm tính tối đa 24 giờ. Số đêm đếm theo ngày, không tính theo giờ.",
+  "ghiChuSoGioDonVe": "Hệ thống so giờ bạn đón về ngày cuối với giờ bạn mang đến ngày đầu. Lệch trong 2 giờ thì không tính thêm.",
+  "lechTrong2Gio": "Lệch trong 2 giờ",
+  "lechTren2DenGio8": "Lệch trên 2 giờ tới 8 giờ",
+  "lechTren8Gio": "Lệch trên 8 giờ",
+  "khongThemPhi": "Không thêm",
+  "them50MotDem": "+50% một đêm",
+  "them100ThanhMotDem": "+100%, thành thêm một đêm",
+  "moTaGiuThemKhongPhatSinh": "Bạn đang chọn mang đến {den} và đón về {ve}, lệch {lech} nên không phát sinh phí giữ thêm.",
+  "@moTaGiuThemKhongPhatSinh": {
+    "placeholders": {
+      "den": {"type": "String"},
+      "ve": {"type": "String"},
+      "lech": {"type": "String"}
+    }
+  },
+  "moTaGiuThemCoPhatSinh": "Bạn đang chọn mang đến {den} và đón về {ve}, lệch {lech} nên phát sinh thêm {tien}đ.",
+  "@moTaGiuThemCoPhatSinh": {
+    "placeholders": {
+      "den": {"type": "String"},
+      "ve": {"type": "String"},
+      "lech": {"type": "String"},
+      "tien": {"type": "String"}
+    }
+  },
+  "chuaChonGioGiuThem": "Chọn xong ngày và giờ, hệ thống sẽ cho biết đơn có phát sinh phí giữ thêm hay không.",
+  "gioHenLabel": "Giờ hẹn",
+  "ghiChuKhungGioHen": "Chọn giờ bắt đầu theo khung 30 phút. Người chăm có thể tới sớm hoặc muộn quanh giờ đó vì còn đỗ xe và dựng đồ nghề.",
+  "nguoiChamToiQuanhGioNay": "Người chăm tới quanh giờ này",
+  "ngayLucGio": "{ngay} lúc {gio}",
+  "@ngayLucGio": {
+    "placeholders": {
+      "ngay": {"type": "String"},
+      "gio": {"type": "String"}
+    }
+  },
+  "hoanThanhLucGio": "Hoàn thành lúc {gio}",
+  "@hoanThanhLucGio": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "duKienXongKhoang": "Dự kiến xong lúc {gio}",
+  "@duKienXongKhoang": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "tongPhutTheoThoiLuong": "Giờ xong là dự kiến, có thể lệch nếu lông rối nhiều.",
+  "@tongPhutTheoThoiLuong": {
+    "placeholders": {
+      "so": {"type": "String"},
+      "ten": {"type": "String"}
+    }
+  },
+  "thoiLuongNPhut": "Thời lượng {so} phút",
+  "@thoiLuongNPhut": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "xacNhanVaThanhToan": "Xác nhận và thanh toán",
+  "chiTietGia": "Chi tiết giá",
+  "tongThanhToan": "Tổng thanh toán",
+  "thuCung": "Thú cưng",
+  "ghiChuCuaDon": "Ghi chú của đơn",
+  "lichGiu": "Lịch giữ",
+  "nhanBe": "Nhận bé",
+  "traBe": "Trả bé",
+  "nhanBeNgan": "nhận",
+  "traBeNgan": "trả",
+  "caNgay": "Cả ngày",
+  "mangBeToiNhaNguoiCham": "Mang bé tới nhà người chăm",
+  "gioHenNhanBeLuc": "Giờ hẹn nhận bé {gio}",
+  "@gioHenNhanBeLuc": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "xuatPhatMangBeToi": "Xuất phát mang bé tới nhà người chăm",
+  "dangGiaoBe": "Đang giao bé",
+  "ketThucSomNhan": "Kết thúc sớm",
+  "dangDonBeVeNhan": "Đang đón bé về",
+  "dangNhanBeVeNhan": "Đang nhận bé về",
+  "banDangToiDonBeVe": "Bạn đang tới đón bé về",
+  "moTaDangToiDon": "Hẹn đón {gio} — tới sớm hơn cũng được, {ten} đã được báo và đang chuẩn bị đồ dùng của các bé.",
+  "@moTaDangToiDon": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "ten": {"type": "String"}
+    }
+  },
+  "moLaiChiDuong": "Mở lại chỉ đường",
+  "ghiChuGeofenceDon": "Vào trong 200 m quanh nhà người chăm, hệ thống tự ghi nhận bạn đã tới — không cần bấm gì. Việc bàn giao bé vẫn do hai bên xác nhận khi gặp mặt.",
+  "toiToiDonMuon": "Tôi tới đón muộn",
+  "conCachHenDon": "Còn {km} · khoảng {phut} phút xe máy · hẹn đón {gio}",
+  "@conCachHenDon": {
+    "placeholders": {
+      "km": {"type": "String"},
+      "phut": {"type": "String"},
+      "gio": {"type": "String"}
+    }
+  },
+  "moTaDaToiDonBe": "Giờ đón chốt {gio} khi bạn tới nơi. Nhận lại đủ các bé và đồ dùng, người chăm xác nhận bàn giao là đơn hoàn thành.",
+  "@moTaDaToiDonBe": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "daToiLucHenDon": "Đã tới lúc {gioToi} · hẹn đón {gioHen}",
+  "@daToiLucHenDon": {
+    "placeholders": {
+      "gioToi": {"type": "String"},
+      "gioHen": {"type": "String"}
+    }
+  },
+  "nccDangDatCacBeRa": "{ten} đang dắt các bé ra",
+  "@nccDangDatCacBeRa": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "moTaHoanThanhTrongGiu": "Giờ đón chốt {gioToi} khi bạn tới nơi — trước hẹn {gioHen} nên không có phí giữ thêm. {ten} xác nhận bàn giao kèm ảnh, đơn hoàn thành ngay. Báo sự cố được trong {gio} giờ nếu phát hiện vấn đề.",
+  "@moTaHoanThanhTrongGiu": {
+    "placeholders": {
+      "gioToi": {"type": "String"},
+      "gioHen": {"type": "String"},
+      "ten": {"type": "String"},
+      "gio": {"type": "String"}
+    }
+  },
+  "nhatKyNhan": "Nhật ký",
+  "daTrongNhan": "Đã trông",
+  "nhatKyKyGiu": "Nhật ký kỳ giữ",
+  "taiTatCaAnhVeMay": "Tải tất cả ảnh về máy",
+  "soAnhLuc": "{gio} · {so} ảnh",
+  "@soAnhLuc": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "so": {"type": "String"}
+    }
+  },
+  "cacBeDangONha": "Các bé đang ở nhà {ten}",
+  "@cacBeDangONha": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "moTaTraBeConLai": "Trả bé {ngay} lúc {gio} · còn {conLai}.",
+  "@moTaTraBeConLai": {
+    "placeholders": {
+      "ngay": {"type": "String"},
+      "gio": {"type": "String"},
+      "conLai": {"type": "String"}
+    }
+  },
+  "moTaHomNayDonBe": "Hôm nay đón bé về lúc {gio} · còn {conLai}.",
+  "@moTaHomNayDonBe": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "conLai": {"type": "String"}
+    }
+  },
+  "moTaChotKetThucSom": "Bạn chốt lúc {gioChot}, đón bé hôm nay {gioDon} tại nhà {ten}.",
+  "@moTaChotKetThucSom": {
+    "placeholders": {
+      "gioChot": {"type": "String"},
+      "gioDon": {"type": "String"},
+      "ten": {"type": "String"}
+    }
+  },
+  "capNhatTuNguoiCham": "Cập nhật từ người chăm",
+  "xemTatCaNAnh": "Xem tất cả ({so} ảnh)",
+  "@xemTatCaNAnh": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "chinhSachHuyVaDonTraBe": "Chính sách huỷ và đón trả bé",
+  "xuatPhatDonBe": "Xuất phát đón bé",
+  "xuatPhatDonBeMoLuc": "Xuất phát đón bé (mở lúc {gio} ngày trả)",
+  "@xuatPhatDonBeMoLuc": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "ketThucSomVaDonBeVe": "Kết thúc sớm và đón bé về",
+  "dangODemTrongKy": "Bạn đang ở đêm {dem} trong kỳ {tong} đêm.",
+  "@dangODemTrongKy": {
+    "placeholders": {
+      "dem": {"type": "String"},
+      "tong": {"type": "String"}
+    }
+  },
+  "nhanTraTenGon": "Nhận {nhan} · trả {tra} · {ten}",
+  "@nhanTraTenGon": {
+    "placeholders": {
+      "nhan": {"type": "String"},
+      "tra": {"type": "String"},
+      "ten": {"type": "String"}
+    }
+  },
+  "banMuonDonBeVao": "Bạn muốn đón bé vào",
+  "dangChonNhan": "Đang chọn",
+  "ngayTraGocNhan": "Ngày trả gốc",
+  "ngoaiKyNhan": "Ngoài kỳ",
+  "giaiThichChonNgayDon": "Ngày đã qua và ngoài kỳ không chọn được. Chọn đúng {ngay} (ngày trả gốc) nghĩa là giữ nguyên kỳ.",
+  "@giaiThichChonNgayDon": {
+    "placeholders": {
+      "ngay": {"type": "String"}
+    }
+  },
+  "gioDonTheoGioLamViec": "Giờ đón (theo giờ làm việc của {ten})",
+  "@gioDonTheoGioLamViec": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "gioNayThanhGioHenTraMoi": "Giờ này thành giờ hẹn trả mới",
+  "ghiChuKetThucSom": "Sớm nhất 1 giờ kể từ lúc chốt để người chăm kịp thu dọn đồ dùng của các bé. Đón muộn hơn giờ hẹn trả mới sẽ tính phí giữ thêm. Đón sớm hơn vẫn tính như đã chốt.",
+  "lyDoKetThucSom": "Lý do kết thúc sớm",
+  "doiKeHoach": "Đổi kế hoạch",
+  "viecGiaDinh": "Việc gia đình",
+  "moTaThemBatBuocKhiKhac": "Mô tả thêm (bắt buộc khi chọn \"Khác\")",
+  "lyDoGuiChoNccKetThucSom": "Lý do gửi cho người chăm để họ chuẩn bị — không ảnh hưởng tới cách tính tiền.",
+  "tinhLaiTien": "Tính lại tiền",
+  "oToiNgay": "Ở tới {ngay}",
+  "@oToiNgay": {
+    "placeholders": {
+      "ngay": {"type": "String"}
+    }
+  },
+  "oDuKy": "Ở đủ kỳ",
+  "khongCoDemBiCat": "Không có đêm bị cắt",
+  "demBiCatTrongKe": "{so} đêm bị cắt (trong 7 đêm kề)",
+  "@demBiCatTrongKe": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "hoanVeVnpayNhan": "Hoàn về VNPay",
+  "xacNhanKetThucSom": "Xác nhận kết thúc sớm",
+  "daChotKetThucSomNhan": "Đã chốt kết thúc sớm",
+  "khongCoThayDoiDeXacNhan": "Không có thay đổi để xác nhận",
+  "giuNguyenKyTrongGiu": "Giữ nguyên kỳ trông giữ",
+  "vuaChonNgayTraGoc": "Bạn vừa chọn ngày trả gốc {ngay}. Muốn kết thúc sớm thì chọn một ngày trước nó.",
+  "@vuaChonNgayTraGoc": {
+    "placeholders": {
+      "ngay": {"type": "String"}
+    }
+  },
+  "khauHieuUngDung": "Hệ thống chăm sóc thú cưng",
+  "congThucDem": "{so} đêm × {gia}đ",
+  "@congThucDem": {
+    "placeholders": {
+      "so": {"type": "String"},
+      "gia": {"type": "String"}
+    }
+  },
+  "congThucDemCat": "{so} đêm × {gia}đ × {phanTram}%",
+  "@congThucDemCat": {
+    "placeholders": {
+      "so": {"type": "String"},
+      "gia": {"type": "String"},
+      "phanTram": {"type": "String"}
+    }
+  },
+  "hoaDonHoanTien": "Hoá đơn hoàn tiền",
+  "lichTraGoc": "Lịch trả gốc: {moc}",
+  "@lichTraGoc": {
+    "placeholders": {
+      "moc": {"type": "String"}
+    }
+  },
+  "ketThucSomODem": "kết thúc sớm ở đêm {dem}/{tong}",
+  "@ketThucSomODem": {
+    "placeholders": {
+      "dem": {"type": "String"},
+      "tong": {"type": "String"}
+    }
+  },
+  "hoanTienVeTaiKhoan": "Tiền hoàn được gửi đi ngay khi đơn khép sổ, về tài khoản trong 3 đến 5 ngày làm việc tuỳ ngân hàng.",
+  "donDangKhieuNaiChoKetLuan": "Đơn đang khiếu nại thì lệnh hoàn chỉ gửi sau khi đội hỗ trợ có kết luận.",
+  "banDaToiNhaNcc": "Bạn đã tới nhà {ten}",
+  "@banDaToiNhaNcc": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "moTaDaToiDangRaNhan": "Vị trí của bạn khớp địa chỉ, {ten} được báo và đang ra nhận bé. Quá {gio} chưa được nhận thì bạn có thể huỷ đơn miễn phí.",
+  "@moTaDaToiDangRaNhan": {
+    "placeholders": {
+      "ten": {"type": "String"},
+      "gio": {"type": "String"}
+    }
+  },
+  "banDaToiChoQuaNPhut": "Bạn đã tới, chờ quá {so} phút",
+  "@banDaToiChoQuaNPhut": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "moTaDaToiNccChuaNhan": "Vị trí của bạn khớp nhà người chăm lúc {gio}. Bạn được huỷ miễn phí, lỗi do người chăm.",
+  "@moTaDaToiNccChuaNhan": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "daToiLucGioHen": "Đã tới lúc {gioToi} · giờ hẹn {gioHen}",
+  "@daToiLucGioHen": {
+    "placeholders": {
+      "gioToi": {"type": "String"},
+      "gioHen": {"type": "String"}
+    }
+  },
+  "nccDangRaNhanBe": "{ten} đang ra nhận bé",
+  "@nccDangRaNhanBe": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "nguoiChamKhongCoNha": "Người chăm không có nhà",
+  "nguoiChamKhongCoNhaMoLuc": "Người chăm không có nhà (mở lúc {gio})",
+  "@nguoiChamKhongCoNhaMoLuc": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "moLucNgay": "Mở {gio} ngày {ngay}",
+  "@moLucNgay": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "ngay": {"type": "String"}
+    }
+  },
+  "banDangMangBeToi": "Bạn đang mang bé tới nhà {ten}",
+  "@banDangMangBeToi": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "moTaBanDangMangBeToi": "Người chăm đã sẵn sàng nhận bé. Tới nơi thì bàn giao bé để bắt đầu kỳ trông giữ.",
+  "dangMangBeToi": "Đang mang bé tới",
+  "chiDuongMoLuc": "Chỉ đường tới nhà người chăm (mở {gio} ngày {ngay})",
+  "@chiDuongMoLuc": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "ngay": {"type": "String"}
+    }
+  },
+  "toiMangBeToiMuon": "Tôi mang bé tới muộn",
+  "moTaMangBeQuaNhaNcc": "Bạn mang bé qua nhà {ten} vào đúng giờ đã hẹn. Nhận thông báo ngay khi người chăm xác nhận đã nhận bé.",
+  "@moTaMangBeQuaNhaNcc": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "nhanBeNgayGio": "Nhận {ngay} · {gio}",
+  "@nhanBeNgayGio": {
+    "placeholders": {
+      "ngay": {"type": "String"},
+      "gio": {"type": "String"}
+    }
+  },
+  "traBeNgayGio": "Trả {ngay} · {gio}",
+  "@traBeNgayGio": {
+    "placeholders": {
+      "ngay": {"type": "String"},
+      "gio": {"type": "String"}
+    }
+  },
+  "beGiongCan": "{ten} ({giong} · {can})",
+  "@beGiongCan": {
+    "placeholders": {
+      "ten": {"type": "String"},
+      "giong": {"type": "String"},
+      "can": {"type": "String"}
+    }
+  },
+  "beDau": "bé đầu",
+  "phiGiuThemNhan": "Phí giữ thêm",
+  "moTaPhiGiuThemKhongCo": "Đón về lệch {lech} so với giờ mang đến nên không phát sinh",
+  "@moTaPhiGiuThemKhongCo": {
+    "placeholders": {
+      "lech": {"type": "String"}
+    }
+  },
+  "moTaPhiGiuThemCo": "Đón về lệch {lech} so với giờ mang đến",
+  "@moTaPhiGiuThemCo": {
+    "placeholders": {
+      "lech": {"type": "String"}
+    }
+  },
+  "traNgayBangVnpay": "Trả ngay bằng VNPay",
+  "moTaTraNgayVnpay": "Tiền được giữ ở nền tảng, tự cộng vào ví người chăm sau {gio} giờ kể từ khi đơn kết thúc",
+  "@moTaTraNgayVnpay": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "traNgayBangCongThuNghiem": "Trả ngay bằng cổng thanh toán thử nghiệm",
+  "chinhSachHuy": "Chính sách huỷ",
+  "chinhSachHuyDon": "Chính sách huỷ đơn",
+  "apDungKhiBanDat": "Áp dụng khi bạn là người đặt dịch vụ",
+  "tamCatTiaNgan": "Tắm cắt tỉa",
+  "banHuyDon": "Bạn huỷ đơn",
+  "apDungKhiBanNhanDon": "Áp dụng khi bạn là người nhận đơn",
+  "banNhanHoacTuChoi": "Bạn nhận hoặc từ chối đơn",
+  "conDuoi6Gio": "Còn dưới 6 giờ tới giờ hẹn",
+  "han30Phut": "Hạn 30 phút",
+  "con6Toi24Gio": "Còn 6 tới 24 giờ",
+  "han2Gio": "Hạn 2 giờ",
+  "con1Toi7Ngay": "Còn 1 tới 7 ngày",
+  "han12Gio": "Hạn 12 giờ",
+  "conTren7Ngay": "Còn trên 7 ngày",
+  "han24Gio": "Hạn 24 giờ",
+  "giaiThichTuChoiTrongHan": "Từ chối trong hạn không tính vào tỷ lệ huỷ, chỉ ảnh hưởng tỷ lệ phản hồi. Im lặng để hết hạn thì đơn tự huỷ và tỷ lệ phản hồi giảm mạnh.",
+  "banHuyDonDaNhan": "Bạn huỷ đơn đã nhận",
+  "khiNaoBiAnHoSo": "Khi nào hồ sơ bị ẩn",
+  "huyChuaXuatPhat": "Huỷ có báo trước, chưa bấm Xuất phát",
+  "tinh1LanTyLeHuy": "Tính 1 lần vào tỷ lệ huỷ",
+  "daXuatPhatRoiBoDon": "Đã bấm Xuất phát rồi bỏ đơn",
+  "treoPhatChoHoTroSoat": "Ghi lý do kèm ảnh, treo phạt chờ soát",
+  "imLangBoDon": "Im lặng bỏ đơn: quá giờ hẹn không tới, không báo gì",
+  "nguongCanhCaoVaTyLeHuy": "Đủ {soCanhCao} cảnh cáo trong {soNgay} ngày, hoặc tỷ lệ huỷ vượt {tranTyLe}%",
+  "@nguongCanhCaoVaTyLeHuy": {
+    "placeholders": {
+      "soCanhCao": {"type": "String"},
+      "soNgay": {"type": "String"},
+      "tranTyLe": {"type": "String"}
+    }
+  },
+  "tamAnTheoBac": "Tạm ẩn 3, rồi 7, rồi 14 ngày",
+  "tamAnLan4Trong6Thang": "Bị tạm ẩn tới lần thứ 4 trong 6 tháng",
+  "khoaHoSoVinhVien": "Khoá hồ sơ vĩnh viễn",
+  "giaiThichThangBaMuc": "Ranh giới của thang phạt là đã bấm Xuất phát hay chưa, không phải còn mấy giờ tới giờ hẹn. Chưa đi thì chủ nuôi còn cơ hội tìm người khác; đi rồi thì cả hai bên đã bỏ công ra đường. Cảnh cáo chỉ sinh ở hai mức sau.",
+  "giaiThichTamAn": "Tạm ẩn: hồ sơ biến mất khỏi tìm kiếm, không nhận được đơn mới, đơn đã nhận vẫn phải hoàn thành; hết hạn thì hiện lại, không phải xin duyệt. Tỷ lệ huỷ chỉ xét khi bạn đã nhận từ {soDon} đơn trở lên. Từ cảnh cáo thứ 2 hệ thống báo cho bạn biết còn cách ngưỡng bao xa.",
+  "@giaiThichTamAn": {
+    "placeholders": {
+      "soDon": {"type": "String"}
+    }
+  },
+  "chuNuoiHuyTieuDe": "Chủ nuôi huỷ",
+  "moTaChuNuoiHuyMocDuoi": "Chủ nuôi được huỷ miễn phí trước mốc của từng loại đơn dưới đây; huỷ sau mốc thì bạn được đền theo bảng cuối mục.",
+  "donDatVaTamTia": "Đơn dắt chó và tắm cắt tỉa",
+  "moc12TruaHomTruoc": "12:00 trưa ngày hôm trước",
+  "donTrongGiu7DemXuong": "Đơn trông giữ từ 7 đêm trở xuống",
+  "moc12Trua1NgayTruocNhanBe": "12:00 trưa 1 ngày trước nhận bé",
+  "donTrongGiuTren7Dem": "Đơn trông giữ trên 7 đêm",
+  "mocTruocNhanBe7Ngay": "Trước ngày nhận bé 7 ngày",
+  "donDatGapSauMoc": "Đơn đặt gấp (đặt sau các mốc trên)",
+  "moc30PhutTuKhiNhan": "Trong 30 phút kể từ khi bạn nhận, hoặc tới lúc bạn bấm Xuất phát",
+  "huyTrongHanMienPhi": "Huỷ trong hạn miễn phí",
+  "banNhan0d": "Bạn nhận 0đ",
+  "huySauHanMienPhi": "Huỷ sau hạn miễn phí",
+  "nhanPhanTramPhiHuy": "Nhận {phanTram}% của phí huỷ",
+  "@nhanPhanTramPhiHuy": {
+    "placeholders": {
+      "phanTram": {"type": "String"}
+    }
+  },
+  "chuNuoiVangMatSau15": "Vắng mặt sau 15 phút",
+  "ketThucSomGiuaKyTrongGiu": "Kết thúc sớm giữa kỳ (trông giữ)",
+  "demDaODuGiaVaPhanTramDemCat": "Đêm đã ở đủ giá + {phanTram}% đêm bị cắt",
+  "@demDaODuGiaVaPhanTramDemCat": {
+    "placeholders": {
+      "phanTram": {"type": "String"}
+    }
+  },
+  "giaiThichPhiHuyChia": "Phí huỷ là khoản chủ nuôi chịu khi huỷ muộn; bạn nhận {banNhan}%, nền tảng giữ {phiNenTang}%. Chủ nuôi vắng mặt hay thiếu rọ mõm, dây xích đều tính đúng như huỷ muộn: {phiHuy}% giá đơn, bạn nhận {banNhan}% của khoản đó. Không tính vào tỷ lệ huỷ của bạn.",
+  "@giaiThichPhiHuyChia": {
+    "placeholders": {
+      "banNhan": {"type": "String"},
+      "phiNenTang": {"type": "String"},
+      "phiHuy": {"type": "String"}
+    }
+  },
+  "truongHopKhongTinhLoi": "Trường hợp không tính lỗi cho bạn",
+  "tuChoiTrongHan": "Từ chối đơn trong hạn trả lời",
+  "tuChoiViThieuDungCu": "Từ chối bắt đầu vì chủ nuôi thiếu rọ mõm hoặc dây xích",
+  "khongTinhTyLeHuy": "Không tính tỷ lệ huỷ",
+  "heThongTuHuyTieuDe": "Hệ thống tự huỷ khi quá giờ hẹn",
+  "banKhongToiSau30": "Bạn chưa tới điểm đón sau 30 phút kể từ giờ hẹn",
+  "tinhTyLeHuyVaCanhCao": "Tính tỷ lệ huỷ và 1 cảnh cáo",
+  "banDaToiMaChuaGiaoBe": "Bạn đã tới nơi mà quá 30 phút bé vẫn chưa được giao, bạn không báo vắng mặt",
+  "heThongHuyKhongAiMatPhi": "Hệ thống huỷ, bạn nhận 0đ",
+  "giaiThichHeThongTuHuyNcc": "Quá 30 phút kể từ giờ hẹn mà đơn chưa bắt đầu thì hệ thống tự khép lại, không để đơn treo. Bạn chưa tới nơi thì lần này xếp ở mức nặng nhất của thang phạt: cộng tỷ lệ huỷ và một cảnh cáo, áp thẳng không qua soát. Bạn đã tới nơi mà chủ nuôi không giao bé thì đơn không tính lỗi cho bạn, nhưng muốn nhận {banNhan}% phí huỷ thì phải tự bấm báo vắng mặt kèm ảnh tại điểm hẹn, cửa sổ bấm là từ phút 15 tới phút 30 kể từ lúc bạn báo đã tới.",
+  "@giaiThichHeThongTuHuyNcc": {
+    "placeholders": {
+      "banNhan": {"type": "String"}
+    }
+  },
+  "nccChuaToiSau30": "Người chăm chưa tới điểm đón sau 30 phút",
+  "heThongTuHuyHoan100": "Hệ thống tự huỷ, hoàn 100%",
+  "quaGioHenChuaGiaoBe": "Quá 30 phút mà bé vẫn chưa được giao, không bên nào báo gì",
+  "heThongTuHuyKhongMatPhi": "Hệ thống tự huỷ, bạn không mất phí",
+  "quaGioHenChuaNhanBe": "Quá 30 phút mà bé vẫn chưa được nhận, không bên nào báo gì",
+  "giaiThichHeThongTuHuy": "Hệ thống tự khép đơn ở phút thứ 30 để đơn không treo mãi và tiền không bị giam. Người chăm chưa tới thì lỗi thuộc họ, bạn được hoàn đủ. Người chăm đã tới mà bé chưa giao được thì không bên nào bị tính phí.",
+  "tyLeHuyTinhTheNao": "Tỷ lệ huỷ tính thế nào?",
+  "giaiThichTyLeHuy": "Số đơn bạn huỷ sau khi đã nhận, chia cho số đơn đã nhận trong {soNgay} ngày gần nhất. Chưa đủ {soDon} đơn thì chưa xét. Giữ huy hiệu Người chăm tin cậy cần tỷ lệ 5% trở xuống.",
+  "@giaiThichTyLeHuy": {
+    "placeholders": {
+      "soNgay": {"type": "String"},
+      "soDon": {"type": "String"}
+    }
+  },
+  "tyLeNhanDonTinhTheNao": "Tỷ lệ nhận đơn tính thế nào?",
+  "giaiThichTyLeNhanDon": "Số đơn bạn đã bấm nhận, chia cho số đơn tới tay bạn trong {soNgay} ngày gần nhất mà chính bạn đã trả lời xong. Huỷ đơn đã nhận, từ chối trong hạn và để đơn hết hạn đều làm con số này xấu đi; riêng hai việc sau không bị coi là lỗi và không sinh cảnh cáo. Con số này hiện ở hồ sơ công khai cho chủ nuôi xem trước khi đặt.",
+  "@giaiThichTyLeNhanDon": {
+    "placeholders": {
+      "soNgay": {"type": "String"}
+    }
+  },
+  "nccChuaNhanDon": "Người chăm chưa nhận đơn",
+  "mienPhi": "Miễn phí",
+  "truoc12TruaHomTruoc": "Trước 12:00 trưa ngày hôm trước",
+  "donDatGap30Phut": "Đơn đặt gấp - đặt sau mốc trên, huỷ miễn phí trong 30 phút kể từ khi người chăm nhận, hoặc tới lúc họ bấm Xuất phát, cái nào đến trước",
+  "muonHonCacMoc": "Muộn hơn các mốc trên",
+  "phiPhanTram": "Phí {phanTram}%",
+  "@phiPhanTram": {
+    "placeholders": {
+      "phanTram": {"type": "String"}
+    }
+  },
+  "nccHuyTieuDe": "Người chăm huỷ",
+  "batKeLucNao": "Bất kể lúc nào, kể cả sát giờ",
+  "hoan100": "Hoàn 100%",
+  "khongCoMatOGioHen": "Không có mặt ở giờ hẹn",
+  "banBiBaoVangMat": "Bạn bị người chăm báo vắng mặt giao bé sau 15 phút chờ, tính từ giờ hẹn hoặc từ lúc người chăm tới nơi, lấy mốc muộn hơn",
+  "nccToiMuonQua15": "Người chăm tới muộn quá 15 phút",
+  "banHuyMienPhi": "Bạn huỷ miễn phí",
+  "giaiThichVangMatThieuDungCu": "Vắng mặt ở mốc giao bé và thiếu rọ mõm hoặc dây xích đều tính như huỷ muộn: bạn chịu {phanTram}% giá đơn. Người chăm phải chờ đủ giờ và chụp ảnh tại điểm hẹn mới báo được, không có mức riêng cho từng tình huống.",
+  "@giaiThichVangMatThieuDungCu": {
+    "placeholders": {
+      "phanTram": {"type": "String"}
+    }
+  },
+  "huyMuonNhieuLan": "Huỷ muộn nhiều lần",
+  "giaiThichHuyMuonNhieuLan": "Huỷ muộn nhiều lần trong {soNgay} ngày gần nhất sẽ bị nhắc, tái diễn thì tạm khoá đặt đơn.",
+  "@giaiThichHuyMuonNhieuLan": {
+    "placeholders": {
+      "soNgay": {"type": "String"}
+    }
+  },
+  "ky7DemHuyTruoc": "Kỳ 7 đêm trở xuống, huỷ trước 12:00 trưa 1 ngày trước ngày nhận bé",
+  "kyTren7DemHuyTruoc": "Kỳ trên 7 đêm, huỷ trước 12:00 trưa 7 ngày trước",
+  "phiPhanTramToiDaNDem": "Phí {phanTram}%, tối đa {soDem} đêm đầu",
+  "@phiPhanTramToiDaNDem": {
+    "placeholders": {
+      "phanTram": {"type": "String"},
+      "soDem": {"type": "String"}
+    }
+  },
+  "ketThucSomGiuaKy": "Kết thúc sớm giữa kỳ (đón bé về trước lịch)",
+  "demDaO": "Đêm đã ở",
+  "nguyenGia": "Nguyên giá",
+  "demBiCat7Ke": "Đêm bị cắt trong 7 đêm kế tiếp",
+  "demXaHon7Ke": "Đêm xa hơn 7 đêm kế tiếp",
+  "hoanDu": "Hoàn đủ",
+  "giaiThichGioDon": "Giờ đón so với giờ gốc mang đến: lệch trong 2 giờ không tính thêm, 2 - 8 giờ +50% một đêm, trên 8 giờ +100%.",
+  "khongCoMatOMocNhanBe": "Không có mặt ở mốc nhận bé",
+  "banVangMatKhongMangBe": "Bạn bị người chăm báo vắng mặt không mang bé tới sau 15 phút tính từ giờ hẹn",
+  "banBaoNccKhongCoNhaSau15": "Bạn báo người chăm không có nhà sau 15 phút bạn chờ tính theo giờ hẹn",
+  "thanhToanThanhCong": "Thanh toán thành công",
+  "daGuiYeuCauToiNcc": "Đã gửi yêu cầu tới người cung cấp",
+  "seNhanThongBaoKhiNhanDon": "Bạn sẽ nhận thông báo ngay khi được nhận đơn.",
+  "maDonNhan": "Mã đơn",
+  "maGiaoDichVnpay": "Mã giao dịch VNPay",
+  "trangThaiTien": "Trạng thái tiền",
+  "dangGiuOTaiKhoanTrungGian": "Đang giữ ở tài khoản trung gian",
+  "conThoiGianNhanDon": "Còn {dongHo} để {ten} nhận đơn",
+  "@conThoiGianNhanDon": {
+    "placeholders": {
+      "dongHo": {"type": "String"},
+      "ten": {"type": "String"}
+    }
+  },
+  "ghiChuHetHanTuHuy": "Hết hạn mà người chăm không nhận thì đơn tự huỷ và hoàn đủ {tien}đ về tài khoản của bạn.",
+  "@ghiChuHetHanTuHuy": {
+    "placeholders": {
+      "tien": {"type": "String"}
+    }
+  },
+  "thanhToanThatBai": "Thanh toán thất bại",
+  "moTaThanhToanThatBai": "Giao dịch bị huỷ ở cổng hoặc thẻ bị từ chối.",
+  "daHetThoiGianGiuCho": "Đã hết thời gian giữ chỗ",
+  "moTaHetGioGiuCho": "Khung giờ {gio} ngày {ngay} đã được nhả cho người khác. Bạn không mất phí vì đơn chưa được tạo.",
+  "@moTaHetGioGiuCho": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "ngay": {"type": "String"}
+    }
+  },
+  "chonGioKhac": "Chọn giờ khác",
+  "chonGioKhacGiuNguyen": "Chọn giờ khác để đặt lại, người chăm, thú cưng và giá giữ nguyên.",
+  "chacMuonHuyDonNay": "Bạn chắc muốn huỷ đơn này?",
+  "khungGioSeNhaNgay": "Khung giờ {gio} ngày {ngay} sẽ nhả ngay cho người khác đặt.",
+  "@khungGioSeNhaNgay": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "ngay": {"type": "String"}
+    }
+  },
+  "thoatKhongDatNua": "Thoát, không đặt nữa",
+  "thuLaiTrongVong": "Thử lại trong vòng {dongHo} để giữ khung giờ đã chọn.",
+  "@thuLaiTrongVong": {
+    "placeholders": {
+      "dongHo": {"type": "String"}
+    }
+  },
+  "canThanhToan": "Cần thanh toán",
+  "thatBai": "Thất bại",
+  "ghiChuKhungGioSeNha": "Khung giờ {gio} ngày {ngay} sẽ nhả nếu hết thời gian.",
+  "@ghiChuKhungGioSeNha": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "ngay": {"type": "String"}
+    }
+  },
+  "thuLaiThanhToan": "Thử lại thanh toán",
+  "dangMoCongThanhToan": "Đang mở cổng thanh toán",
+  "moTaDangMoCong": "Giữ máy một chút, hệ thống đang chuyển bạn sang cổng để nhập thẻ.",
+  "dangXacNhanThanhToan": "Đang xác nhận thanh toán",
+  "moTaDangXacNhan": "Đang hỏi lại cổng xem giao dịch đã xong chưa.",
+  "dangChoThanhToan": "Đang chờ thanh toán",
+  "moTaDangChoThanhToan": "Hoàn tất thanh toán trên cổng rồi quay lại đây. Kết quả do cổng báo thẳng cho hệ thống nên bạn không cần nhập lại gì.",
+  "giuKhungGioTrongVong": "Khung giờ được giữ trong {thoiGian}",
+  "@giuKhungGioTrongVong": {
+    "placeholders": {
+      "thoiGian": {"type": "String"}
+    }
+  },
+  "chuaMoDuocCong": "Chưa mở được cổng thanh toán",
+  "moTaChuaMoDuocCong": "Khung giờ vẫn đang được giữ cho bạn. Bấm mở lại cổng để thanh toán, hoặc huỷ để nhả chỗ.",
+  "toiDaThanhToanXong": "Tôi đã thanh toán xong",
+  "moLaiCongThanhToan": "Mở lại cổng thanh toán",
+  "khongMoDuocCongThanhToan": "Không mở được cổng thanh toán, thử lại giúp mình",
+  "congThanhToanGiaLap": "Cổng thanh toán giả lập",
+  "moTaCongGiaLap": "Hệ thống đang chạy cổng giả lập để thử hai nhánh kết quả.",
+  "maGiaoDichNhan": "Mã giao dịch {ma}",
+  "@maGiaoDichNhan": {
+    "placeholders": {
+      "ma": {"type": "String"}
+    }
+  },
+  "traTienThanhCong": "Thanh toán thành công",
+  "traTienThatBai": "Thanh toán thất bại",
+  "khongCoNoiDung": "Không có",
+  "lichTrong": "Lịch trống",
+  "ghiChuLichCoTheDoi": "Lịch có thể đổi khi người chăm nhận thêm đơn mới.",
+  "daDuSoBe": "Đã đủ {so} bé",
+  "@daDuSoBe": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "quaHanMuc": "Quá hạn {ten}",
+  "@quaHanMuc": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "sapToiHanMuc": "Sắp tới hạn {ten}",
+  "@sapToiHanMuc": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "themSoMuc": "+{so}",
+  "@themSoMuc": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "buocDaDat": "Đã đặt",
+  "buocDaNhan": "Đã nhận",
+  "buocDangDienRa": "Đang diễn ra",
+  "buocHoanThanh": "Hoàn thành",
+  "nguoiChamDenMuon": "Người chăm đang đến",
+  "choNccXacNhan": "Chờ {ten} xác nhận",
+  "@choNccXacNhan": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "moTaChoNccXacNhan": "Quá hạn mà không phản hồi thì đơn tự huỷ, bạn không mất phí. Bạn nhắn tin được cho người chăm ngay khi họ nhận đơn.",
+  "nccDaNhanDon": "{ten} đã nhận đơn",
+  "@nccDaNhanDon": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "moTaNccDaNhanDon": "Người chăm sẽ tới đúng giờ hẹn. Bạn nhận thông báo ngay khi bắt đầu.",
+  "nccBaoDenMuon": "{ten} báo đến muộn {so} phút",
+  "@nccBaoDenMuon": {
+    "placeholders": {
+      "ten": {"type": "String"},
+      "so": {"type": "String"}
+    }
+  },
+  "moTaNccDenMuon": "Người chăm đang trên đường tới.",
+  "tenVaTen": "{dau} và {cuoi}",
+  "@tenVaTen": {
+    "placeholders": {
+      "dau": {"type": "String"},
+      "cuoi": {"type": "String"}
+    }
+  },
+  "thongTinDon": "Thông tin đơn",
+  "ghiChuChoNguoiCham": "Ghi chú cho người chăm",
+  "anToanTheoQuyDinh": "An toàn theo quy định",
+  "moTaAnToanDatCho": "Bạn cần chuẩn bị đủ hai thứ này khi giao bé.",
+  "roMom": "Rọ mõm",
+  "moTaRoMom": "Bắt buộc với chó khi ra nơi công cộng",
+  "dayXich": "Dây xích",
+  "moTaDayXich": "Người chăm giữ dây trong suốt buổi dắt",
+  "hoaDon": "Hoá đơn",
+  "daThanhToan": "Đã thanh toán",
+  "daTraQuaVnpay": "Đã trả qua VNPay",
+  "daTraQuaVnpayChuaNhan": "Đã trả qua VNPay, tiền giữ ở tài khoản trung gian, hoàn đủ nếu người chăm không nhận đơn",
+  "xemHoSoNguoiCham": "Xem hồ sơ người chăm",
+  "nhanChoNguoiCham": "Nhắn cho người chăm",
+  "huyYeuCau": "Huỷ yêu cầu",
+  "moTaViTriNccLanCuoi": "Người chăm chưa vào trong {banKinh} m điểm đón. Lần cuối hệ thống ghi nhận cách {km} lúc {gio}. Nếu họ đã tới nơi thì nút này tự khoá.",
+  "@moTaViTriNccLanCuoi": {
+    "placeholders": {
+      "banKinh": {"type": "String"},
+      "km": {"type": "String"},
+      "gio": {"type": "String"}
+    }
+  },
+  "duDieuKienBaoChuaToi": "Đủ điều kiện báo người chăm chưa tới.",
+  "daGioQuaHenDuDieuKienBaoVang": "Đã {gio}, quá giờ hẹn {phut} phút. Bạn đã tới đúng địa chỉ và đủ điều kiện báo người chăm không có nhà.",
+  "@daGioQuaHenDuDieuKienBaoVang": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "phut": {"type": "String"}
+    }
+  },
+  "moTaViTriBanKhopNhaNcc": "Vị trí của bạn khớp nhà người chăm từ {gio}, lưu làm bằng chứng.",
+  "@moTaViTriBanKhopNhaNcc": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "banDuocHoan": "Bạn được hoàn",
+  "phiHuyBanChiu": "Phí huỷ bạn chịu",
+  "ghiChuDonChuyenDaHuy": "Đơn chuyển sang Đã huỷ, không tính vào tỷ lệ huỷ của bạn.",
+  "huyDonVaHoanTien": "Huỷ đơn và hoàn tiền",
+  "choThem": "Chờ thêm",
+  "dangDienRaNhan": "Đang diễn ra",
+  "hoanThanhNhan": "Hoàn thành",
+  "choBanXacNhan": "Chờ bạn xác nhận",
+  "dangDatDiDao": "Đang dắt đi dạo",
+  "dangTrongGiu": "Đang trông giữ",
+  "dangTamVaCatTia": "Đang tắm và cắt tỉa",
+  "conNPhut": "còn {so} phút",
+  "@conNPhut": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "moTaPhienDangChay": "Bắt đầu lúc {gio} · đã đi {km} · vị trí cập nhật {giay} giây một lần.",
+  "@moTaPhienDangChay": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "km": {"type": "String"},
+      "giay": {"type": "String"}
+    }
+  },
+  "moTaPhienTrongGiu": "Nhận bé lúc {gio} · người chăm gửi ảnh cập nhật mỗi ngày.",
+  "@moTaPhienTrongGiu": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "moTaPhienGrooming": "Bắt đầu lúc {gio} · dự kiến xong khoảng {gioXong}.",
+  "@moTaPhienGrooming": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "gioXong": {"type": "String"}
+    }
+  },
+  "xacMinhTruocKhiDat": "Xác minh trước khi dắt",
+  "aiKiemAnhCheckIn": "AI kiểm ảnh check-in lúc {gio} · độ tin cậy {phanTram}%",
+  "@aiKiemAnhCheckIn": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "phanTram": {"type": "String"}
+    }
+  },
+  "dienBien": "Diễn biến",
+  "nhatKyAnhSo": "Nhật ký ảnh ({so})",
+  "@nhatKyAnhSo": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "theoDoiTrucTiepTrenBanDo": "Theo dõi trực tiếp trên bản đồ",
+  "nccDangLamViecVoiNBe": "{ten} đang {viec} {so} bé",
+  "@nccDangLamViecVoiNBe": {
+    "placeholders": {
+      "ten": {"type": "String"},
+      "viec": {"type": "String"},
+      "so": {"type": "String"}
+    }
+  },
+  "viTriCapNhatMoiNGiay": "Vị trí cập nhật {giay} giây một lần",
+  "@viTriCapNhatMoiNGiay": {
+    "placeholders": {
+      "giay": {"type": "String"}
+    }
+  },
+  "daDi": "Đã đi",
+  "batDau": "Bắt đầu",
+  "ghiChuBanDoChiKhiDangDienRa": "Chỉ xem được vị trí khi dịch vụ đang diễn ra. Kết thúc phiên, bản đồ tự đóng.",
+  "nccDaBaoHoanThanh": "{ten} đã báo hoàn thành",
+  "@nccDaBaoHoanThanh": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "moTaXemMinhChungRoiXacNhan": "Xem lại minh chứng rồi xác nhận để chốt đơn và thanh toán.",
+  "minhChung": "Minh chứng",
+  "daLamNhan": "Đã làm",
+  "anhTruocKhiLam": "Ảnh trước khi làm ({so})",
+  "@anhTruocKhiLam": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "anhSauKhiLam": "Ảnh sau khi làm ({so})",
+  "@anhSauKhiLam": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "xemAnhCapNhat": "Xem ảnh cập nhật",
+  "taiAnhVeMay": "Tải ảnh về máy",
+  "ghiChuAnhMinhChung": "Người chăm chụp bao nhiêu tấm cũng được ở mỗi nhóm. Ngày giờ gửi ảnh ghi ngay trong ảnh.",
+  "maDonSoBeSoAnh": "{maDon} · {soBe} bé · {soAnh} ảnh",
+  "@maDonSoBeSoAnh": {
+    "placeholders": {
+      "maDon": {"type": "String"},
+      "soBe": {"type": "String"},
+      "soAnh": {"type": "String"}
+    }
+  },
+  "nccSeToiNhaBan": "{ten} sẽ tới nhà bạn",
+  "@nccSeToiNhaBan": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "moTaNccMangDungCu": "Người chăm mang theo dụng cụ. Bạn chuẩn bị chỗ làm và nguồn nước giúp bé được tắm thoải mái.",
+  "nccDangTamTaiNhaBan": "{ten} đang tắm tại nhà bạn",
+  "@nccDangTamTaiNhaBan": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "daXacThucViTriNhaBanLuc": "Đã xác thực vị trí tại nhà bạn lúc {gio}",
+  "@daXacThucViTriNhaBanLuc": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "nPhutNhan": "{so} phút",
+  "@nPhutNhan": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "nAnh": "{so} ảnh",
+  "@nAnh": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "ghiChuCuaNcc": "Ghi chú của {ten}",
+  "@ghiChuCuaNcc": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "checkInDaXacMinhDayDu": "Check-in đã xác minh đủ rọ mõm và dây xích lúc {gio}, ảnh lưu trong nhật ký để đối chiếu.",
+  "@checkInDaXacMinhDayDu": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "xacNhanHoanThanh": "Xác nhận hoàn thành",
+  "xacNhanHoanThanhDon": "Xác nhận hoàn thành đơn",
+  "moTaXacNhanHoanThanh": "Xác nhận nghĩa là bạn đã nhận lại bé và đồng ý chuyển tiền cho người chăm.",
+  "daNhanLaiDuNBeAnToan": "Đã nhận lại đủ {so} bé an toàn",
+  "@daNhanLaiDuNBeAnToan": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "daXemNAnhMinhChung": "Đã xem {so} ảnh minh chứng của phiên",
+  "@daXemNAnhMinhChung": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "ghiChuSauKhiXacNhan": "Sau khi xác nhận, đơn được chốt và bạn có thể đánh giá người chăm. Bạn vẫn báo sự cố được trong {gio} giờ nếu phát hiện vấn đề.",
+  "@ghiChuSauKhiXacNhan": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "hoanThanhLuc": "Hoàn thành lúc {gio} · {ngay}",
+  "@hoanThanhLuc": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "ngay": {"type": "String"}
+    }
+  },
+  "moTaHanDanhGiaVaBaoSuCo": "Bạn có 7 ngày để đánh giá và {gio} giờ để báo sự cố nếu phát hiện vấn đề.",
+  "@moTaHanDanhGiaVaBaoSuCo": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "banThayNccChamNBeTheNao": "Bạn thấy {ten} chăm {so} bé thế nào?",
+  "@banThayNccChamNBeTheNao": {
+    "placeholders": {
+      "ten": {"type": "String"},
+      "so": {"type": "String"}
+    }
+  },
+  "chamDeChamSao": "Chạm để chấm sao. Đánh giá giúp người chăm tốt nhận được nhiều đơn hơn.",
+  "danhGiaDichVu": "Đánh giá dịch vụ",
+  "datLaiDichVuNayNhan": "Đặt lại dịch vụ này",
+  "dieuGiBanHaiLong": "Điều gì bạn hài lòng?",
+  "khenDungGio": "Đúng giờ",
+  "khenChamSocTanTinh": "Chăm sóc tận tình",
+  "khenAnhCapNhatDayDu": "Ảnh cập nhật đầy đủ",
+  "khenGiaoTiepTot": "Giao tiếp tốt",
+  "khenBeVuiVeKhiVe": "Bé vui vẻ khi về",
+  "nhanXetThemTuyChon": "Nhận xét thêm (tuỳ chọn)",
+  "hintNhanXetThem": "Chia sẻ trải nghiệm để chủ nuôi khác tham khảo...",
+  "guiDanhGia": "Gửi đánh giá",
+  "daGuiDanhGia": "Đã gửi đánh giá",
+  "saoRatTe": "Rất tệ",
+  "saoChuaTot": "Chưa tốt",
+  "saoBinhThuong": "Bình thường",
+  "saoTot": "Tốt",
+  "saoRatTot": "Rất tốt",
+  "nutThemAnh": "Thêm ảnh",
+  "conLaiNhan": "Còn lại",
+  "nGioNhan": "{so} giờ",
+  "@nGioNhan": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "nNgayNhan": "{so} ngày",
+  "@nNgayNhan": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "toiTrongKhoang": "Tới trong {khoang}",
+  "@toiTrongKhoang": {
+    "placeholders": {
+      "khoang": {"type": "String"}
+    }
+  },
+  "conKhoang": "còn {khoang}",
+  "@conKhoang": {
+    "placeholders": {
+      "khoang": {"type": "String"}
+    }
+  },
+  "xacNhanTrongKhoang": "Xác nhận trong {khoang}",
+  "@xacNhanTrongKhoang": {
+    "placeholders": {
+      "khoang": {"type": "String"}
+    }
+  },
+  "quaGioHen": "Quá giờ hẹn",
+  "chuaToiNoi": "chưa tới nơi",
+  "nguoiChamChuaToi": "Báo người chăm chưa tới",
+  "daGioQuaGioHenNPhut": "Quá giờ hẹn {so} phút",
+  "@daGioQuaGioHenNPhut": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "moTaNccChuaXacThucViTri": "{ten} chưa xác thực vị trí tại điểm đón. Bạn được huỷ miễn phí, lần huỷ tính cho người chăm.",
+  "@moTaNccChuaXacThucViTri": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "nccDangTrenDuongToi": "{ten} đang trên đường tới",
+  "@nccDangTrenDuongToi": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "moTaKhoiHanhKipGio": "{ten} khởi hành lúc {gioDi}, dự kiến kịp giờ hẹn {gioHen}.",
+  "@moTaKhoiHanhKipGio": {
+    "placeholders": {
+      "ten": {"type": "String"},
+      "gioDi": {"type": "String"},
+      "gioHen": {"type": "String"}
+    }
+  },
+  "phiVaHoanTien": "Phí và hoàn tiền",
+  "phiHuy": "Phí huỷ",
+  "thongTinDonDaHuy": "Thông tin đơn đã huỷ",
+  "thoiGianDaDat": "Thời gian đã đặt",
+  "banDaHuyLuc": "Bạn đã huỷ lúc {gio} · {ngay}",
+  "@banDaHuyLuc": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "ngay": {"type": "String"}
+    }
+  },
+  "nccDaHuyLuc": "Người chăm đã huỷ lúc {gio} · {ngay}",
+  "@nccDaHuyLuc": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "ngay": {"type": "String"}
+    }
+  },
+  "donHetHanNhanLuc": "Đơn hết hạn nhận lúc {gio} · {ngay}",
+  "@donHetHanNhanLuc": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "ngay": {"type": "String"}
+    }
+  },
+  "nguoiChamDaBanKhungNay": "Người dắt đã bận vào khung giờ này",
+  "moTaTuHuyHetHan": "Người chăm không phản hồi trong hạn nhận đơn nên hệ thống tự huỷ. Bạn được hoàn đủ tiền, không mất phí.",
+  "moTaTuHuyNccBan": "Người chăm đã nhận một đơn khác trùng khung giờ này. Bạn được hoàn đủ tiền, không mất phí.",
+  "lyDoHuyKhongMatPhi": "Lý do: {lyDo}. Đơn này không tính phí huỷ nên bạn được hoàn đủ tiền.",
+  "@lyDoHuyKhongMatPhi": {
+    "placeholders": {
+      "lyDo": {"type": "String"}
+    }
+  },
+  "lyDoHuyMatPhi": "Lý do: {lyDo}. Bạn huỷ sau hạn miễn phí của đơn nên tính phí huỷ {phanTram}%.",
+  "@lyDoHuyMatPhi": {
+    "placeholders": {
+      "lyDo": {"type": "String"},
+      "phanTram": {"type": "String"}
+    }
+  },
+  "lyDoNganGon": "Lý do: {lyDo}.",
+  "@lyDoNganGon": {
+    "placeholders": {
+      "lyDo": {"type": "String"}
+    }
+  },
+  "banHuyTruocGioHen": "bạn huỷ {khoang} trước giờ hẹn",
+  "@banHuyTruocGioHen": {
+    "placeholders": {
+      "khoang": {"type": "String"}
+    }
+  },
+  "nccHuyTruocGioHen": "{ten} huỷ {khoang} trước giờ hẹn",
+  "@nccHuyTruocGioHen": {
+    "placeholders": {
+      "ten": {"type": "String"},
+      "khoang": {"type": "String"}
+    }
+  },
+  "nccKhongToiDiemDon": "Người chăm không tới điểm đón",
+  "moTaHuyNccChuaToi": "Bạn đã báo người chăm chưa tới điểm đón. Bạn không mất phí, tiền hoàn đủ về VNPay.",
+  "moTaHeThongHuyNccChuaToi": "Quá giờ hẹn 30 phút nhưng người chăm chưa tới nơi nên hệ thống tự hủy đơn. Bạn không mất phí, tiền hoàn đủ về VNPay.",
+  "donHuyViQuaGioHen": "Đơn đã huỷ vì quá giờ hẹn",
+  "moTaHuyKhongAiBatDau": "Quá giờ hẹn 30 phút mà đơn vẫn chưa bắt đầu nên hệ thống tự huỷ. Không bên nào bị tính phí, tiền hoàn đủ về VNPay.",
+  "datVoiNccKhac": "Đặt với người chăm khác",
+  "nccKhacRanhKhungNay": "Người chăm khác rảnh khung này",
+  "datLaiDichVuNay": "Đặt lại dịch vụ này",
+  "timNguoiChamKhac": "Tìm người chăm khác",
+  "trongDonMa": "Trong đơn {ma}",
+  "@trongDonMa": {
+    "placeholders": {
+      "ma": {"type": "String"}
+    }
+  },
+  "thuCungTrongDon": "Thú cưng trong đơn",
+  "donMaDichVu": "Đơn {ma} · {dichVu}",
+  "@donMaDichVu": {
+    "placeholders": {
+      "ma": {"type": "String"},
+      "dichVu": {"type": "String"}
+    }
+  },
+  "huyDonMaDon": "Huỷ đơn {ma}",
+  "@huyDonMaDon": {
+    "placeholders": {
+      "ma": {"type": "String"}
+    }
+  },
+  "moTaHuyConMienPhi": "Bạn đang trong hạn huỷ miễn phí. Cho chúng tôi biết lý do để cải thiện dịch vụ.",
+  "moTaHuyDaTinhPhi": "Đã quá hạn huỷ miễn phí nên việc huỷ đơn này của bạn sẽ bị tính phí.",
+  "lyDoDoiLichKhac": "Đổi lịch khác",
+  "lyDoKhongCanNua": "Không cần nữa",
+  "lyDoTimDuocNccKhac": "Tìm được người chăm khác",
+  "lyDoNccChamPhanHoi": "Người chăm chậm phản hồi",
+  "moTaHuyBatBuocKhac": "Bắt buộc mô tả khi chọn \"Khác\"",
+  "phiHuyMuon": "Phí huỷ muộn",
+  "giaCuaDon": "Giá đơn",
+  "phiHuyPhanTram": "Phí huỷ ({phanTram}%)",
+  "@phiHuyPhanTram": {
+    "placeholders": {
+      "phanTram": {"type": "String"}
+    }
+  },
+  "hoanVeVnpay": "Hoàn về VNPay",
+  "canhBaoPhiHuyChuNuoi": "Phí huỷ trả cho người chăm, huỷ muộn nhiều lần có thể làm giảm độ tin cậy tài khoản của bạn.",
+  "xacNhanHuyVaChiuPhi": "Xác nhận huỷ và chịu phí",
+  "dungCuBanCanChuanBi": "Dụng cụ bạn cần chuẩn bị",
+  "camKetRoMomDayXich": "Tôi cung cấp đủ rọ mõm và dây xích cho cả {soBe} bé khi giao cho người chăm.",
+  "@camKetRoMomDayXich": {
+    "placeholders": {
+      "soBe": {"type": "String"}
+    }
+  },
+  "camKetRoMomDayXichMotBe": "Tôi cung cấp đủ rọ mõm và dây xích cho bé khi giao cho người chăm.",
+  "moTaCamKetRoMom": "Người chăm sẽ đeo và giữ nguyên suốt phiên. Thiếu dụng cụ lúc giao thì đơn phải huỷ và bạn chịu phí {phanTram}%.",
+  "@moTaCamKetRoMom": {
+    "placeholders": {
+      "phanTram": {"type": "String"}
+    }
+  },
+  "camKetDungCuDeTiepTuc": "Xác nhận dụng cụ để tiếp tục",
+  "loiNccKhongNhanDichVu": "Người chăm hiện không nhận dịch vụ này",
+  "loiNccNghiNgayNay": "Người chăm không nhận đơn vào ngày bạn chọn",
+  "loiKhungGioDaCoDon": "Người chăm đã có đơn khác trong khung giờ này, chọn giờ khác giúp mình nhé",
+  "loiHetChoTrongGiu": "Người chăm đã kín chỗ trong khoảng ngày này",
+  "loiBeDaCoDon": "Bé của bạn đã có đơn khác trong khung giờ này",
+  "loiNgoaiGioLamViec": "Khung giờ này nằm ngoài giờ làm việc của người chăm",
+  "loiKhongTimThayNcc": "Không tìm thấy người chăm này",
+  "loiKhongTimThayDiaChi": "Không tìm thấy địa chỉ đã chọn",
+  "loiThieuGiaDichVu": "Người chăm chưa báo giá cho lựa chọn này",
+  "loiTaiLichTrong": "Không tải được lịch của người chăm, thử lại giúp mình nhé",
+  "datDiDaoChiNhanCho": "Dắt đi dạo chỉ nhận chó",
+  "maDonSoBe": "{ma} · {so} bé",
+  "@maDonSoBe": {
+    "placeholders": {
+      "ma": {"type": "String"},
+      "so": {"type": "String"}
+    }
+  },
+  "daNhanDonNhan": "Đã nhận đơn",
+  "dangToiNhan": "Đang tới",
+  "daHetHanNhan": "Đã hết hạn",
+  "choBanPhanHoi": "Chờ bạn phản hồi",
+  "moTaChoBanPhanHoi": "Quá hạn thì đơn tự huỷ và tính vào tỷ lệ nhận đơn của bạn. Nhận đơn xong mới nhắn tin được với chủ nuôi.",
+  "banDaNhanDon": "Bạn đã nhận đơn",
+  "moTaDaNhanDonNcc": "Có mặt đúng giờ tại điểm đón. Nút Bắt đầu mở trước giờ hẹn {phut} phút.",
+  "@moTaDaNhanDonNcc": {
+    "placeholders": {
+      "phut": {"type": "String"}
+    }
+  },
+  "dangTrenDuongToiDiemDon": "Đang trên đường tới điểm đón",
+  "banDaBaoMuonNPhut": "Bạn đã báo muộn {so} phút",
+  "@banDaBaoMuonNPhut": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "moTaDaBaoMuonNcc": "Hệ thống đã báo chủ nuôi lúc {gio} kèm giờ dự kiến mới.",
+  "@moTaDaBaoMuonNcc": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "donDaHetHanNhan": "Đơn đã hết hạn nhận",
+  "donHuyViChuNuoiVangMat": "Đơn huỷ vì chủ nuôi vắng mặt",
+  "moTaHuyViChuNuoiVangMat": "Bạn đã chờ đủ và báo chủ nuôi vắng mặt lúc {gio} · {ngay}. Lần huỷ này không tính vào tỷ lệ huỷ của bạn.",
+  "@moTaHuyViChuNuoiVangMat": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "ngay": {"type": "String"}
+    }
+  },
+  "chuNuoiDaHuyLuc": "Chủ nuôi đã huỷ lúc {gio} · {ngay}",
+  "@chuNuoiDaHuyLuc": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "ngay": {"type": "String"}
+    }
+  },
+  "moTaKhoanBuVaoVi": "Khoản này đã trừ phí nền tảng và sẽ vào ví của bạn.",
+  "donTuHuyTrungLich": "Đơn tự huỷ vì trùng lịch",
+  "moTaTuHuyTrungLich": "Bạn đã nhận một đơn khác đè lên khung giờ này nên hệ thống tự huỷ đơn đây lúc {gio} · {ngay}. Đơn này không tính vào tỷ lệ huỷ của bạn.",
+  "@moTaTuHuyTrungLich": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "ngay": {"type": "String"}
+    }
+  },
+  "trungLichNhan": "Trùng lịch",
+  "banDaHuyNhan": "Bạn đã huỷ",
+  "chuNuoiHuyNhan": "Chủ nuôi huỷ",
+  "chuNuoiVangMatNhan": "Chủ nuôi vắng mặt",
+  "donHuyKhongCoKhoanNhan": "Đơn huỷ, bạn không nhận khoản nào",
+  "khoanBuTuPhiHuy": "Phần bạn nhận từ phí huỷ của đơn",
+  "moTaBanBoDon": "Bạn bỏ đơn đã nhận nên lần này tính vào tỷ lệ huỷ; xem thang xử phạt ở chính sách huỷ.",
+  "moTaChuNuoiBoDon": "Chủ nuôi bỏ đơn nên hồ sơ của bạn không bị ảnh hưởng.",
+  "buocDonToi": "Đơn tới",
+  "buocDangLam": "Đang làm",
+  "buocKetThuc": "Kết thúc",
+  "soDonDaDat": "{so} đơn đã đặt",
+  "@soDonDaDat": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "gioHenNgay": "Giờ hẹn {ngay}",
+  "@gioHenNgay": {
+    "placeholders": {
+      "ngay": {"type": "String"}
+    }
+  },
+  "batDauVaoNgay": "Bắt đầu {ngay}",
+  "@batDauVaoNgay": {
+    "placeholders": {
+      "ngay": {"type": "String"}
+    }
+  },
+  "cachBanNhan": "Cách bạn",
+  "toiDiemDon": "Tới điểm đón",
+  "xuatPhatToiDiemDon": "Xuất phát tới điểm đón",
+  "xuatPhatMoLucNgay": "Xuất phát (mở lúc {gio} ngày {ngay})",
+  "@xuatPhatMoLucNgay": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "ngay": {"type": "String"}
+    }
+  },
+  "chamDeXemThongTinCanThiet": "Chạm để xem thông tin cần thiết",
+  "chamDeXemThongTinVaHoSoBe": "Chạm để xem thông tin cần thiết hoặc chạm vào avatar bé để xem chi tiết hồ sơ bé.",
+  "banChotLucNhanDon": "Bản chốt lúc bạn nhận đơn. Xem đầy đủ ở Hồ sơ thú cưng.",
+  "camKetAnToan": "Cam kết an toàn",
+  "camKetGiuRoMomDayXich": "Tôi cam kết giữ rọ mõm và dây xích trên bé trong suốt phiên dắt.",
+  "camKetGiuRoMomDayXichNBe": "Tôi cam kết giữ rọ mõm và dây xích trên cả {soBe} bé trong suốt phiên dắt.",
+  "@camKetGiuRoMomDayXichNBe": {
+    "placeholders": {
+      "soBe": {"type": "String"}
+    }
+  },
+  "diaChiDayDuMoTruocGioHen": "Số nhà và chỉ đường mở trước giờ hẹn {gio} giờ",
+  "@diaChiDayDuMoTruocGioHen": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "choChot": "Chờ chốt",
+  "moTaThaoRoMomGiuaChung": "Tháo ra giữa chừng mà xảy ra sự cố thì trách nhiệm thuộc về người chăm.",
+  "dieu66LuatChanNuoi": "Điều 66 Luật Chăn nuôi 2018",
+  "banNhanDuoc": "Bạn nhận được",
+  "khoanBanNhan": "Khoản bạn nhận",
+  "banNhan": "Bạn nhận",
+  "donHetHanKhongCoPhiHuy": "Đơn hết hạn, không có phí huỷ",
+  "moTaBoLoHanNhan": "Bỏ lỡ hạn nhận làm giảm mạnh tỷ lệ phản hồi, nhưng không tính vào tỷ lệ huỷ của bạn.",
+  "chapNhanDon": "Chấp nhận đơn",
+  "tuChoiDon": "Từ chối đơn",
+  "batDauMoLuc": "Bắt đầu (mở lúc {gio})",
+  "@batDauMoLuc": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "xuatPhat": "Xuất phát",
+  "xuatPhatMoLuc": "Xuất phát (mở lúc {gio})",
+  "@xuatPhatMoLuc": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "daToiNoi": "Đã tới nơi",
+  "loiKhongLayDuocViTri": "Không lấy được vị trí, hãy bật định vị rồi thử lại",
+  "toiDenMuon": "Tôi đến muộn",
+  "daBaoDenMuon": "Đã báo đến muộn",
+  "xemDonDangCho": "Xem đơn đang chờ",
+  "veDanhSachDon": "Về danh sách đơn",
+  "tuChoiDonMa": "Từ chối đơn {ma}?",
+  "@tuChoiDonMa": {
+    "placeholders": {
+      "ma": {"type": "String"}
+    }
+  },
+  "moTaTuChoiDon": "Cho chúng tôi biết lý do để gợi ý đơn phù hợp hơn.",
+  "lyDoTuChoi": "Lý do từ chối",
+  "lyDoQuaXa": "Quá xa",
+  "lyDoKhongNhanGiongNay": "Không nhận giống bé này",
+  "lyDoBanDotXuat": "Bận đột xuất",
+  "moTaThemBatBuocKhac": "Mô tả thêm (bắt buộc nếu chọn \"Khác\")",
+  "canhBaoTuChoiNhieuDon": "Từ chối nhiều đơn liên tiếp làm giảm tỷ lệ nhận đơn và thứ hạng hiển thị của bạn trong tìm kiếm.",
+  "xemChinhSachHuy": "Xem chính sách huỷ",
+  "quayLai": "Quay lại",
+  "daToiDiemDonNhan": "Đã tới điểm đón",
+  "banDaToiLuc": "Bạn đã tới lúc {gio}",
+  "@banDaToiLuc": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "moTaDaBaoChuNuoiLuc": "Hệ thống đã báo chủ nuôi lúc {gio}.",
+  "@moTaDaBaoChuNuoiLuc": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "nhanBeVaChupAnhCheckIn": "Nhận bé và chụp ảnh check-in",
+  "chuNuoiKhongCoMat": "Chủ nuôi không có mặt",
+  "chuNuoiKhongCoMatMoLuc": "Chủ nuôi không có mặt (mở lúc {gio})",
+  "@chuNuoiKhongCoMatMoLuc": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "khongTheTiepNhan": "Không thể tiếp nhận",
+  "khongTheTiepNhanMa": "Không thể tiếp nhận · {ma}",
+  "@khongTheTiepNhanMa": {
+    "placeholders": {
+      "ma": {"type": "String"}
+    }
+  },
+  "moTaKhongTheTiepNhan": "Bạn đã bấm Xuất phát nên đây không phải huỷ thường. Bắt buộc ghi lý do kèm ít nhất 1 ảnh; hình phạt treo lại chờ đội hỗ trợ soát trong 24 giờ.",
+  "moTaHuyDonChuaXuatPhat": "Bạn chưa bấm Xuất phát nên đây là huỷ thường: hậu quả áp ngay vào hồ sơ, không qua đội hỗ trợ soát.",
+  "lyDoDung": "Lý do dừng",
+  "doiHoTroSeXemXetMienPhat": "Bạn kể lại chuyện đã xảy ra bằng lời của mình, việc xếp loại là của đội hỗ trợ.",
+  "lyDoTaiNanSuCo": "Tai nạn hoặc sự cố",
+  "lyDoXeHongGiuaDuong": "Xe hỏng giữa đường",
+  "lyDoSucKhoeKhongTot": "Sức khoẻ không tốt",
+  "lyDoBanViecDotXuat": "Bận việc đột xuất",
+  "lyDoTrungLichDonKhac": "Trùng lịch đơn khác",
+  "lyDoQuaXaKhongToiKip": "Quá xa, không tới kịp",
+  "moTaThemDeChuNuoiHieu": "Mô tả thêm để chủ nuôi hiểu (bắt buộc nếu chọn \"Khác\")",
+  "moTaChoDoiHoTro": "Mô tả cho đội hỗ trợ (bắt buộc) kèm ảnh hoặc giấy tờ thì duyệt nhanh hơn",
+  "anhHuongToiBan": "Ảnh hưởng tới bạn",
+  "canhBaoTinhTyLeHuy": "Tính 1 lần vào tỷ lệ huỷ; tỷ lệ vượt {tranTyLe}% là hồ sơ bị tạm ẩn.",
+  "@canhBaoTinhTyLeHuy": {
+    "placeholders": {
+      "tranTyLe": {"type": "String"}
+    }
+  },
+  "canhBaoHuyKhongSinhCanhCao": "Chưa bấm Xuất phát nên lần này KHÔNG sinh cảnh cáo, dù còn bao lâu tới giờ hẹn.",
+  "canhBaoKhongDuocMienPhat": "Tính 1 lần vào tỷ lệ huỷ và 1 cảnh cáo nếu đội hỗ trợ không chấp nhận lý do.",
+  "huyDonVaChiuAnhHuong": "Huỷ đơn và chịu ảnh hưởng",
+  "guiBaoVaKetThucDon": "Gửi báo và kết thúc đơn",
+  "tiepTucDiToi": "Tiếp tục đi tới",
+  "maDonDichVuSoBe": "{ma} · {dichVu} · {so} bé",
+  "@maDonDichVuSoBe": {
+    "placeholders": {
+      "ma": {"type": "String"},
+      "dichVu": {"type": "String"},
+      "so": {"type": "String"}
+    }
+  },
+  "banDangODiemDon": "Bạn đang ở điểm đón",
+  "banDangOXaDiemDon": "Bạn đang ở xa điểm đón",
+  "cachDiaChiHenDaXacThuc": "Cách địa chỉ hẹn {met} m · đã xác thực lúc {gio}",
+  "@cachDiaChiHenDaXacThuc": {
+    "placeholders": {
+      "met": {"type": "String"},
+      "gio": {"type": "String"}
+    }
+  },
+  "canhBaoXaQuaBanKinh": "Nếu ở xa quá {met} m, nút gửi ảnh bị khoá.",
+  "@canhBaoXaQuaBanKinh": {
+    "placeholders": {
+      "met": {"type": "String"}
+    }
+  },
+  "doiChieuKhiNhanBe": "Đối chiếu khi nhận bé",
+  "chupAnhCheckInCacBe": "Chụp ảnh check-in các bé",
+  "beThieuRoMomHoacDayXich": "Bé thiếu rọ mõm hoặc dây xích",
+  "daBaoThieuRoMomConLai": "Đã báo thiếu rọ mõm · còn {conLai}",
+  "@daBaoThieuRoMomConLai": {
+    "placeholders": {
+      "conLai": {"type": "String"}
+    }
+  },
+  "huyDonViThieuDungCu": "Huỷ đơn vì thiếu dụng cụ",
+  "moTaDaBaoThieuDungCu": "Đã báo chủ nuôi thiếu rọ mõm lúc {gio}. Chủ nuôi mang ra kịp thì bạn bấm bắt đầu bình thường. Sau {phut} phút chủ nuôi không mang đủ dụng cụ thì bạn được huỷ miễn phí, bù công vẫn tính cho bạn.",
+  "@moTaDaBaoThieuDungCu": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "phut": {"type": "String"}
+    }
+  },
+  "roMomVaDayXich": "Rọ mõm và dây xích",
+  "caDan": "Cả đàn",
+  "beThuMay": "Bé {so}",
+  "@beThuMay": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "huongDanChupCaDan": "Chụp một tấm thấy đủ cả đàn, mỗi bé đều lộ rõ cổ và mõm.",
+  "huongDanChupMotBe": "Chụp riêng {ten}, lấy gần để thấy rõ rọ mõm và dây xích.",
+  "@huongDanChupMotBe": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "soTamDaChup": "{da}/{tong} tấm",
+  "@soTamDaChup": {
+    "placeholders": {
+      "da": {"type": "String"},
+      "tong": {"type": "String"}
+    }
+  },
+  "guiAnh": "Gửi ảnh",
+  "nhacGuiCaLoAnh": "Chụp đủ {tong} tấm rồi gửi trong một lần, AI kiểm xong mới bắt đầu được.",
+  "@nhacGuiCaLoAnh": {
+    "placeholders": {
+      "tong": {"type": "String"}
+    }
+  },
+  "anhCheckIn": "Ảnh check-in",
+  "anhDaGuiSo": "Ảnh đã gửi ({so})",
+  "@anhDaGuiSo": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "aiDangQuetNTam": "AI đang quét {so} tấm riêng của {soBe} bé",
+  "@aiDangQuetNTam": {
+    "placeholders": {
+      "so": {"type": "String"},
+      "soBe": {"type": "String"}
+    }
+  },
+  "aiXacMinhDuCaNBe": "AI xác minh đủ cả {so} bé",
+  "@aiXacMinhDuCaNBe": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "xongLucGio": "xong lúc {gio}",
+  "@xongLucGio": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "beChuaQuaKiem": "{be} chưa qua kiểm",
+  "@beChuaQuaKiem": {
+    "placeholders": {
+      "be": {"type": "String"}
+    }
+  },
+  "aiVanKhongDocDuoc": "AI vẫn không đọc được {be}",
+  "@aiVanKhongDocDuoc": {
+    "placeholders": {
+      "be": {"type": "String"}
+    }
+  },
+  "hetLuotChup": "hết lượt chụp lại",
+  "doTinCayPhanTram": "độ tin cậy {so}%",
+  "@doTinCayPhanTram": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "conNLanChupLai": "còn {so} lần chụp lại",
+  "@conNLanChupLai": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "banDaTuXacNhan": "Bạn đã tự xác nhận bé này",
+  "dangQuetChamCham": "Đang quét...",
+  "dangGuiAnhChamCham": "Đang gửi ảnh...",
+  "khongGuiDuocAnh": "Không gửi được ảnh. Kiểm tra mạng rồi thử lại.",
+  "khongNhanDuocKetQuaQuet": "Chưa nhận được kết quả quét. Thử tải lại kết quả.",
+  "taiLaiKetQua": "Tải lại kết quả",
+  "chupLaiBe": "Chụp lại {be}",
+  "@chupLaiBe": {
+    "placeholders": {
+      "be": {"type": "String"}
+    }
+  },
+  "toiXacNhanCacBeDaDeoDu": "Tôi xác nhận các bé đã đeo đủ",
+  "toiXacNhanBeDaDeoDu": "Tôi xác nhận {be} đã đeo đủ",
+  "@toiXacNhanBeDaDeoDu": {
+    "placeholders": {
+      "be": {"type": "String"}
+    }
+  },
+  "tuXacNhanVaBatDau": "Tôi xác nhận các bé đã đeo đủ · Bắt đầu dịch vụ",
+  "moTaVanXaTuXacNhan": "Máy đã hết lượt đọc, nhưng bạn đang đứng cạnh bé nên bạn nhìn rõ hơn máy. Xác nhận ở đây được ghi kèm giờ, vị trí và các tấm ảnh đã chụp; khai sai xếp vào bỏ mặc thú cưng, khoá hồ sơ vĩnh viễn.",
+  "guiLai": "Gửi lại",
+  "chuNuoiBaoBanChuaToi": "Chủ nuôi báo bạn chưa tới",
+  "moTaDieuKienBaoVangMat": "Chỉ dùng khi bạn đã tới đúng điểm hẹn và chờ đủ {phut} phút.",
+  "@moTaDieuKienBaoVangMat": {
+    "placeholders": {
+      "phut": {"type": "String"}
+    }
+  },
+  "moTaDonDaHuyDuocPhanDoi": "Đơn đã huỷ. Bạn có {gio} giờ để phản đối nếu thấy không đúng.",
+  "@moTaDonDaHuyDuocPhanDoi": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "bangChungBanCoMat": "Bạn có mặt lúc {gio}, đã chờ {phut} phút. Đủ điều kiện báo vắng mặt.",
+  "@bangChungBanCoMat": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "phut": {"type": "String"}
+    }
+  },
+  "bangChungViTriKhop": "Vị trí của bạn khớp điểm hẹn (sai lệch {met} m) và được lưu làm bằng chứng.",
+  "@bangChungViTriKhop": {
+    "placeholders": {
+      "met": {"type": "String"}
+    }
+  },
+  "bangChungChuNuoiBao": "{ten} báo lúc {gio}, quá giờ hẹn {phut} phút.",
+  "@bangChungChuNuoiBao": {
+    "placeholders": {
+      "ten": {"type": "String"},
+      "gio": {"type": "String"},
+      "phut": {"type": "String"}
+    }
+  },
+  "bangChungViTriCuoiCuaBan": "Vị trí cuối của bạn lúc {gio} cách điểm đón {km} km, ngoài vùng {met} m.",
+  "@bangChungViTriCuoiCuaBan": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "km": {"type": "String"},
+      "met": {"type": "String"}
+    }
+  },
+  "ketQua": "Kết quả",
+  "chuNuoiDuocHoan": "Chủ nuôi được hoàn",
+  "ghiVaoHoSo": "Ghi vào hồ sơ",
+  "motLanHuy": "1 lần huỷ",
+  "moTaTamGiuChoPhanDoi": "Tạm giữ {gio} giờ trước khi vào ví. Chủ nuôi có quyền phản đối trong {gioPhanDoi} giờ; có phản đối thì khoản này giữ nguyên cho tới khi đội hỗ trợ kết luận.",
+  "@moTaTamGiuChoPhanDoi": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "gioPhanDoi": {"type": "String"}
+    }
+  },
+  "moTaHanPhanDoi": "Không phản đối trong {gio} giờ thì kết quả trên tự chốt. Phản đối thì hồ sơ khiếu nại mở ra và khoản tiền này giữ nguyên cho tới khi đội hỗ trợ kết luận.",
+  "@moTaHanPhanDoi": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "anhKhieuNaiTrenTran": "Ảnh kèm theo, không bắt buộc ({da}/{tong})",
+  "@anhKhieuNaiTrenTran": {
+    "placeholders": {
+      "da": {"type": "String"},
+      "tong": {"type": "String"}
+    }
+  },
+  "anhChungMinhTrenTran": "Ảnh chứng minh ({da}/{tong})",
+  "@anhChungMinhTrenTran": {
+    "placeholders": {
+      "da": {"type": "String"},
+      "tong": {"type": "String"}
+    }
+  },
+  "banKhongDongY": "Bạn không đồng ý với báo cáo này?",
+  "moTaHanPhanDoiChuNuoi": "Bạn có {gio} giờ kể từ lúc đơn bị khép để gửi phản đối kèm bằng chứng. Đội hỗ trợ sẽ xem lại ảnh và vị trí của cả hai bên.",
+  "@moTaHanPhanDoiChuNuoi": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "hintPhanDoiVangMat": "Kể lại bạn đã ở đâu và làm gì lúc người chăm báo vắng mặt",
+  "guiPhanDoi": "Gửi phản đối",
+  "daGuiPhanDoi": "Đã gửi phản đối, đội hỗ trợ sẽ xem lại",
+  "quaHanPhanDoiVangMat": "Đã quá {gio} giờ kể từ lúc đơn bị khép nên không gửi phản đối được nữa. Cần hỗ trợ thêm thì liên hệ qua hồ sơ khiếu nại của đơn.",
+  "@quaHanPhanDoiVangMat": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "coDemDaKinChoTrongKhoang": "Có đêm trong khoảng này đã kín chỗ, chọn lại giúp bạn",
+  "dangKiemChoTrong": "Đang kiểm chỗ trống của khoảng ngày này",
+  "khongCoAnhDeTai": "Chưa có ảnh nào để tải về",
+  "thieuQuyenLuuAnh": "Cần cho phép lưu ảnh thì mới tải về máy được",
+  "taiAnhThatBai": "Không tải được ảnh nào, kiểm tra mạng rồi thử lại",
+  "daLuuNAnhVeMay": "Đã lưu {da}/{tong} ảnh về máy",
+  "@daLuuNAnhVeMay": {
+    "placeholders": {
+      "da": {"type": "String"},
+      "tong": {"type": "String"}
+    }
+  },
+  "anhSuCoTrenTran": "Ảnh kèm theo, không bắt buộc ({da}/{tong})",
+  "@anhSuCoTrenTran": {
+    "placeholders": {
+      "da": {"type": "String"},
+      "tong": {"type": "String"}
+    }
+  },
+  "anhThayRoBeTrenTran": "Ảnh thấy rõ bé ({da}/{tong})",
+  "@anhThayRoBeTrenTran": {
+    "placeholders": {
+      "da": {"type": "String"},
+      "tong": {"type": "String"}
+    }
+  },
+  "nhacAnhThayRoBe": "Cần ít nhất {so} ảnh thấy rõ bé và phần cổ, mõm.",
+  "@nhacAnhThayRoBe": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "guiBaoThieuDungCu": "Gửi báo thiếu dụng cụ",
+  "anhTaiDiemHenTrenTran": "Ảnh tại điểm hẹn ({da}/{tong})",
+  "@anhTaiDiemHenTrenTran": {
+    "placeholders": {
+      "da": {"type": "String"},
+      "tong": {"type": "String"}
+    }
+  },
+  "nhacAnhTaiDiemHen": "Cần ít nhất {so} ảnh thấy rõ bạn đang ở điểm hẹn.",
+  "@nhacAnhTaiDiemHen": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "guiBaoCaoVangMat": "Gửi báo cáo vắng mặt",
+  "sauKhiBatDau": "Sau khi bắt đầu",
+  "moTaSauKhiBatDau": "GPS bắt đầu ghi quãng đường, chủ nuôi nhận thông báo và xem được vị trí.",
+  "anhHoacGiayToTuyChon": "Ảnh hoặc giấy tờ (tuỳ chọn)",
+  "toiDaNAnh": "Tối đa {so} ảnh",
+  "@toiDaNAnh": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "dangDat": "Đang dắt",
+  "dangDatNBe": "Đang dắt {so} bé",
+  "@dangDatNBe": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "moTaDangDatGuiAnh": "GPS đang ghi quãng đường. Gửi vài tấm ảnh để chủ nuôi yên tâm.",
+  "daDiKmBatDauLuc": "Đã đi {km} · bắt đầu {gio}",
+  "@daDiKmBatDauLuc": {
+    "placeholders": {
+      "km": {"type": "String"},
+      "gio": {"type": "String"}
+    }
+  },
+  "daXacMinhRoMomDayXichLuc": "Đã xác minh rọ mõm và dây xích lúc {gio}",
+  "@daXacMinhRoMomDayXichLuc": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "anhLuuTrongNhatKy": "Ảnh lưu trong nhật ký để đối chiếu",
+  "guiAnhChoChuNuoi": "Gửi ảnh cho chủ nuôi",
+  "ghiChuGuiItNhatMotAnh": "Gửi ít nhất 1 ảnh giữa phiên. AI quét lại rọ mõm trên ảnh đó, nếu phát hiện đã tháo thì hệ thống ghi cờ và bạn chịu trách nhiệm nếu có sự cố.",
+  "ketThucDichVuMoLuc": "Kết thúc dịch vụ (mở lúc {gio})",
+  "@ketThucDichVuMoLuc": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "ketThucDichVuConCach": "Kết thúc dịch vụ (còn cách {met} m)",
+  "@ketThucDichVuConCach": {
+    "placeholders": {
+      "met": {"type": "String"}
+    }
+  },
+  "ketThucDichVuDangDoViTri": "Kết thúc dịch vụ (đang xác định vị trí)",
+  "quanTriDaHuyNhan": "Quản trị viên đã huỷ",
+  "moTaQuanTriHuyNcc": "Quản trị viên đã huỷ đơn này. Bạn không nhận tiền cho đơn, và lần huỷ này không tính vào tỷ lệ huỷ của bạn.",
+  "moTaQuanTriHuyChuNuoi": "Quản trị viên đã huỷ đơn này. Bạn được hoàn đủ số tiền đã trả.",
+  "quanTriHuyDon": "Quản trị viên huỷ đơn",
+  "trangThaiChuaDocDuoc": "Chưa đọc được trạng thái",
+  "moTaTrangThaiChuaDocDuoc": "Đơn này ở trạng thái bản ứng dụng hiện tại chưa hiểu. Hãy cập nhật ứng dụng lên bản mới nhất để xem và thao tác.",
+  "ketThucDichVuKhongDoDuocViTri": "Kết thúc dịch vụ (không đo được vị trí)",
+  "khongDoDuocViTri": "Không đo được vị trí",
+  "nhanTinVaBaoSuCo": "Nhắn tin và báo sự cố",
+  "banDoRealtimeLoTrinh": "Bản đồ realtime · lộ trình {km}",
+  "@banDoRealtimeLoTrinh": {
+    "placeholders": {
+      "km": {"type": "String"}
+    }
+  },
+  "chiDuongVeDiemTraBe": "Chỉ đường về điểm trả bé",
+  "beGhiChuTien": "Bé, ghi chú, tiền",
+  "quayVeTraBeConNPhut": "Quay về trả bé · còn {so} phút",
+  "@quayVeTraBeConNPhut": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "veDiaChiDeTraBe": "Về {diaChi} để trả bé",
+  "@veDiaChiDeTraBe": {
+    "placeholders": {
+      "diaChi": {"type": "String"}
+    }
+  },
+  "conCachNMet": "Còn cách {met} m",
+  "@conCachNMet": {
+    "placeholders": {
+      "met": {"type": "String"}
+    }
+  },
+  "dangXacDinhViTri": "Đang xác định vị trí",
+  "chuaDoDuoc": "--",
+  "conCach": "Còn cách",
+  "soMet": "{so} m",
+  "@soMet": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "nutKetThucBatKhiVaoTrongNMet": "Nút Kết thúc bật khi bạn vào trong {met} m",
+  "@nutKetThucBatKhiVaoTrongNMet": {
+    "placeholders": {
+      "met": {"type": "String"}
+    }
+  },
+  "maDonDichVuNBe": "{ma} · {dichVu} · {so} bé",
+  "@maDonDichVuNBe": {
+    "placeholders": {
+      "ma": {"type": "String"},
+      "dichVu": {"type": "String"},
+      "so": {"type": "String"}
+    }
+  },
+  "anhKetThucBatBuoc": "Ảnh kết thúc (bắt buộc {so} ảnh)",
+  "@anhKetThucBatBuoc": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "ghiChuGuiChuNuoi": "Ghi chú gửi chủ nuôi",
+  "hintGhiChuKetThuc": "Bé chơi thế nào, ăn uống ra sao, có gì cần lưu ý...",
+  "moTaChuNuoiCoNGioXacNhan": "Sau khi kết thúc, chủ nuôi có {so} giờ để xác nhận. Không phản hồi thì hệ thống tự xác nhận và tiền vào ví của bạn.",
+  "@moTaChuNuoiCoNGioXacNhan": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "ketThucVaTraBe": "Kết thúc và trả bé",
+  "hangMucCuaDonSo": "Hạng mục của đơn ({so})",
+  "@hangMucCuaDonSo": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "beGiongNPhut": "{ten} · {giong} · {phut} phút",
+  "@beGiongNPhut": {
+    "placeholders": {
+      "ten": {"type": "String"},
+      "giong": {"type": "String"},
+      "phut": {"type": "String"}
+    }
+  },
+  "moManDangLam": "Mở màn Đang làm",
+  "cacHangMucCanLam": "Các hạng mục cần làm",
+  "cacHangMucCuaDon": "Các hạng mục của đơn",
+  "hangMucSeLam": "Hạng mục sẽ làm",
+  "chupAnhCheckInTruocKhiBatDau": "Chụp ảnh check-in trước khi bắt đầu",
+  "banDangONhaChuNuoi": "Bạn đang ở nhà chủ nuôi",
+  "banDangOXaNhaChuNuoi": "Bạn đang ở xa nhà chủ nuôi",
+  "canhBaoXaQuaBanKinhGrooming": "Nếu ở xa quá {met} m, nút Bắt đầu bị khoá và bạn cần tới đúng địa chỉ hẹn hoặc nhắn cho chủ nuôi.",
+  "@canhBaoXaQuaBanKinhGrooming": {
+    "placeholders": {
+      "met": {"type": "String"}
+    }
+  },
+  "chupAnhCacBeTruocKhiLam": "Chụp ảnh các bé trước khi làm",
+  "anhTruocKhiLamNhan": "Ảnh trước khi làm",
+  "huongDanChupTruocKhiLam": "Chụp ảnh bé trước khi làm. Chạm chip để đổi bé.",
+  "nhacAnhTruocKhiLam": "Mỗi bé cần ít nhất {so} ảnh.\nChụp 1 lượt xong rồi bấm gửi ảnh để bắt đầu",
+  "@nhacAnhTruocKhiLam": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "dangLam": "Đang làm",
+  "quaDuKien": "Quá dự kiến",
+  "duKienXong": "Dự kiến xong",
+  "duKienGio": "Dự kiến {gio}",
+  "@duKienGio": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "dangLamTaiNhaChuNuoi": "Đang làm tại nhà chủ nuôi",
+  "moTaDangLamGrooming": "Đã xác thực vị trí {gioToi} · bắt đầu {gioBatDau} · dự kiến xong {gioXong}",
+  "@moTaDangLamGrooming": {
+    "placeholders": {
+      "gioToi": {"type": "String"},
+      "gioBatDau": {"type": "String"},
+      "gioXong": {"type": "String"}
+    }
+  },
+  "banDaKetThucLuc": "Bạn đã kết thúc lúc {gio}",
+  "@banDaKetThucLuc": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "moTaChuNuoiDangXemMinhChung": "Chủ nuôi đang xem lại minh chứng. Không phản hồi thì hệ thống tự xác nhận sau {so} giờ.",
+  "@moTaChuNuoiDangXemMinhChung": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "buocNhanDon": "Nhận đơn",
+  "moTaCoMatDungGioTaiNhaChuNuoi": "Có mặt đúng giờ tại nhà chủ nuôi. Nút Bắt đầu mở trước giờ hẹn {so} phút.",
+  "@moTaCoMatDungGioTaiNhaChuNuoi": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "moTaMangDuDungCuChoXuatPhat": "Mang đủ dụng cụ. Nút Xuất phát mở trước giờ hẹn {so} tiếng.",
+  "@moTaMangDuDungCuChoXuatPhat": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "xuatPhatToiDiemHen": "Xuất phát tới điểm hẹn",
+  "toiNhaChuNuoi": "Tới nhà chủ nuôi",
+  "chupThem": "Chụp thêm",
+  "nGio": "{so} giờ",
+  "@nGio": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "nGioNPhut": "{gio} giờ {phut}",
+  "@nGioNPhut": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "phut": {"type": "String"}
+    }
+  },
+  "hangMucNhan": "Hạng mục",
+  "truocVaSau": "Trước và sau",
+  "anhSauKhiLamTrenTran": "Ảnh sau khi làm ({da}/{tran})",
+  "@anhSauKhiLamTrenTran": {
+    "placeholders": {
+      "da": {"type": "String"},
+      "tran": {"type": "String"}
+    }
+  },
+  "moiBeCanItNhatMotAnhSau": "Mỗi bé cần ít nhất {so} ảnh sau khi làm",
+  "@moiBeCanItNhatMotAnhSau": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "tinhTrangBeGhiNhan": "Tình trạng bé ghi nhận",
+  "ghiChuVaKhuyenNghi": "Ghi chú và khuyến nghị",
+  "hintGhiChuKhuyenNghi": "Kể thêm cho chủ nuôi và gợi ý lần sau: bao lâu nên tỉa lại, tuần chải mấy lần...",
+  "ketThucVaGuiChoChuNuoi": "Kết thúc và gửi cho chủ nuôi",
+  "dangTrongNBe": "Đang trông {so} bé",
+  "@dangTrongNBe": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "ngayTrenTong": "Ngày {n} / {tong}",
+  "@ngayTrenTong": {
+    "placeholders": {
+      "n": {"type": "String"},
+      "tong": {"type": "String"}
+    }
+  },
+  "demTrenTong": "Đêm {n} / {tong}",
+  "@demTrenTong": {
+    "placeholders": {
+      "n": {"type": "String"},
+      "tong": {"type": "String"}
+    }
+  },
+  "nhanBeLuc": "Nhận bé {moc}",
+  "@nhanBeLuc": {
+    "placeholders": {
+      "moc": {"type": "String"}
+    }
+  },
+  "traBeLuc": "Trả bé {moc}",
+  "@traBeLuc": {
+    "placeholders": {
+      "moc": {"type": "String"}
+    }
+  },
+  "nhanBeLucDaChotKetThucSom": "Nhận bé {moc} · chủ nuôi đã chốt kết thúc sớm",
+  "@nhanBeLucDaChotKetThucSom": {
+    "placeholders": {
+      "moc": {"type": "String"}
+    }
+  },
+  "conLaiKhoang": "còn {khoang}",
+  "@conLaiKhoang": {
+    "placeholders": {
+      "khoang": {"type": "String"}
+    }
+  },
+  "ghiChuCuaChuNuoi": "Ghi chú của chủ nuôi",
+  "ghiChuThemLucNhanBe": "Ghi chú thêm lúc nhận bé",
+  "capNhatChoChuNuoi": "Cập nhật cho chủ nuôi",
+  "nhatKyNAnh": "Nhật ký ({so} ảnh)",
+  "@nhatKyNAnh": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "guiCapNhatMoi": "Gửi cập nhật mới",
+  "guiCapNhat": "Gửi cập nhật",
+  "nhacGuiCapNhatMoiNgay": "Gửi ít nhất một cập nhật mỗi ngày để chủ nuôi yên tâm. Ảnh và ghi chú là của cả đơn, không tách theo từng bé.",
+  "moManDangTrong": "Mở màn đang trông",
+  "danhGiaCuaChuNuoi": "Đánh giá của chủ nuôi",
+  "diemVaNgay": "{diem} · {ngay}",
+  "@diemVaNgay": {
+    "placeholders": {
+      "diem": {"type": "String"},
+      "ngay": {"type": "String"}
+    }
+  },
+  "thuNhapTuDonNay": "Thu nhập từ đơn này",
+  "banNhanDuocDaTinhLai": "Bạn nhận được (đã tính lại)",
+  "moTaChuNuoiSeMangBeToi": "Chủ nuôi sẽ mang {soBe} bé tới nhà bạn. Chuẩn bị chỗ ở và xác nhận khi đã nhận đủ bé.",
+  "@moTaChuNuoiSeMangBeToi": {
+    "placeholders": {
+      "soBe": {"type": "String"}
+    }
+  },
+  "moTaChuNuoiMangBeLuc": "Chủ nuôi mang bé tới lúc {gio} ngày {ngay}. Bạn nhận thông báo khi họ xuất phát kèm giờ tới dự kiến.",
+  "@moTaChuNuoiMangBeLuc": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "ngay": {"type": "String"}
+    }
+  },
+  "daGioChuNuoiChuaMangBeToi": "Đã {gio}, chủ nuôi chưa mang bé tới",
+  "@daGioChuNuoiChuaMangBeToi": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "moTaDaGoiNhanChuNuoiHaiLan": "Hệ thống đã gọi và nhắn cho chủ nuôi 2 lần, chưa có phản hồi.",
+  "chuNuoiBaoToiMuonNPhut": "Chủ nuôi báo tới muộn {so} phút",
+  "@chuNuoiBaoToiMuonNPhut": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "moTaChuNuoiDuKienToiTheoGps": "{ten} dự kiến tới {gio}, giờ tính từ GPS của họ chứ không phải tự khai.",
+  "@moTaChuNuoiDuKienToiTheoGps": {
+    "placeholders": {
+      "ten": {"type": "String"},
+      "gio": {"type": "String"}
+    }
+  },
+  "hoanThanhLucTraBeTrucTiep": "Hoàn thành lúc {gio} · trả bé trực tiếp",
+  "@hoanThanhLucTraBeTrucTiep": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "moTaDonDaChotVaoVi": "Đơn đã chốt. Nền tảng nhả tiền vào ví và ghi vào báo cáo tuần sau {gio} giờ kể từ khi kết thúc.",
+  "@moTaDonDaChotVaoVi": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "chuDangDemBeToi": "Chủ đang đem bé tới",
+  "chuNuoiToiMuon": "Chủ nuôi tới muộn",
+  "chuNuoiChuaToi": "Chủ nuôi chưa tới",
+  "seKetThucSom": "Sẽ kết thúc sớm",
+  "dangTrong": "Đang trông",
+  "kyGiuNhan": "Kỳ giữ",
+  "kyGiuTrenTong": "Kỳ giữ {n}/{tong}",
+  "@kyGiuTrenTong": {
+    "placeholders": {
+      "n": {"type": "String"},
+      "tong": {"type": "String"}
+    }
+  },
+  "kyGiuNDem": "Kỳ giữ {so} đêm",
+  "@kyGiuNDem": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "daTraNhan": "Đã trả",
+  "nhanBeNgay": "Nhận bé {ngay}",
+  "@nhanBeNgay": {
+    "placeholders": {
+      "ngay": {"type": "String"}
+    }
+  },
+  "nhaBanChuNuoiDemBeToi": "Nhà bạn · chủ nuôi đem bé tới",
+  "chuNuoiToiDon": "Chủ nuôi tới đón",
+  "xemViVaThuNhap": "Xem ví và thu nhập",
+  "baoSuCoConNGio": "Báo sự cố · còn {so} giờ",
+  "@baoSuCoConNGio": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "nhanBeMoKhiChuNuoiToi": "Nhận bé (mở khi chủ nuôi tới)",
+  "nhanBeVaChupAnhMoKhiChuNuoiToi": "Nhận bé và chụp ảnh (mở khi chủ nuôi tới)",
+  "traBeVaChupAnh": "Trả bé và chụp ảnh",
+  "traBeVaChupAnhMoNgay": "Trả bé và chụp ảnh (mở ngày trả {ngay})",
+  "@traBeVaChupAnhMoNgay": {
+    "placeholders": {
+      "ngay": {"type": "String"}
+    }
+  },
+  "chuNuoiChuaMangBeToi": "Chủ nuôi chưa mang bé tới",
+  "chuNuoiBaoBanKhongCoNha": "Chủ nuôi báo bạn không có nhà",
+  "moTaDieuKienBaoChuaMangBeToi": "Chỉ dùng khi quá giờ hẹn nhận bé {phut} phút mà chủ nuôi chưa mang bé tới.",
+  "@moTaDieuKienBaoChuaMangBeToi": {
+    "placeholders": {
+      "phut": {"type": "String"}
+    }
+  },
+  "bangChungBanSanSangTaiNha": "Bạn sẵn sàng tại nhà từ giờ hẹn {gio}, đã chờ đủ {phut} phút.",
+  "@bangChungBanSanSangTaiNha": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "phut": {"type": "String"}
+    }
+  },
+  "bangChungChuNuoiChuaXacThucViTri": "Chủ nuôi chưa xác thực vị trí tại nhà bạn.",
+  "bangChungGpsChuNuoiTaiNha": "GPS chủ nuôi ghi nhận tại địa chỉ của bạn lúc {gio}.",
+  "@bangChungGpsChuNuoiTaiNha": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "bangChungChuNuoiChoRoiBao": "Chủ nuôi đã chờ tới {gio} rồi báo bạn không có nhà.",
+  "@bangChungChuNuoiChoRoiBao": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "banDuocDenViMatKyCho": "Bạn được đền vì mất kỳ chỗ",
+  "banDuocDenViChuNuoiVangMat": "Bạn được đền vì chủ nuôi vắng mặt",
+  "tongGiaDon": "Giá đơn",
+  "chuNuoiChiuPhanTram": "Chủ nuôi chịu {phanTram}%",
+  "@chuNuoiChiuPhanTram": {
+    "placeholders": {
+      "phanTram": {"type": "String"}
+    }
+  },
+  "chuNuoiDuocHoan100": "Chủ nuôi được hoàn 100%",
+  "moTaTamGiuDenKyCho": "Tạm giữ trong {gio} giờ, chủ nuôi có quyền phản đối trong {gioPhanDoi} giờ; có phản đối thì khoản này giữ nguyên cho tới khi đội hỗ trợ kết luận. Không tính vào tỷ lệ huỷ của bạn.",
+  "@moTaTamGiuDenKyCho": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "gioPhanDoi": {"type": "String"}
+    }
+  },
+  "guiBaoCaoChuaMangBeToi": "Gửi báo cáo chưa mang bé tới",
+  "anhLucNhanBe": "Ảnh lúc nhận bé",
+  "anhLucTraBe": "Ảnh lúc trả bé",
+  "doDungLucNhan": "Đồ dùng lúc nhận",
+  "doDungLucTra": "Đồ dùng lúc trả",
+  "albumBanGiao": "Album bàn giao",
+  "khongPhanDoiDuocLanNay": "Lần này không phản đối được: người chăm đã chờ đủ giờ và chụp ảnh tại điểm hẹn. Mức phạt áp theo chính sách vắng mặt.",
+  "cacBeNhan": "Các bé",
+  "doDungNhan": "Đồ dùng",
+  "huongDanChupLucNhanBe": "Chụp rõ mặt và toàn thân từng bé. Chuyển sang Đồ dùng để chụp thức ăn, thuốc, đồ chơi.",
+  "huongDanChupLucTraBe": "Chụp ảnh có mặt chủ nuôi khi giao bé. Chuyển sang Đồ dùng để chụp đống đồ trả lại.",
+  "soAnhBe": "{da}/{tran} ảnh bé",
+  "@soAnhBe": {
+    "placeholders": {
+      "da": {"type": "String"},
+      "tran": {"type": "String"}
+    }
+  },
+  "soAnhTraBe": "{da}/{tran} ảnh trả bé",
+  "@soAnhTraBe": {
+    "placeholders": {
+      "da": {"type": "String"},
+      "tran": {"type": "String"}
+    }
+  },
+  "soAnhDoDung": "{da}/{tran} ảnh đồ dùng",
+  "@soAnhDoDung": {
+    "placeholders": {
+      "da": {"type": "String"},
+      "tran": {"type": "String"}
+    }
+  },
+  "nhacAnhLucNhanBe": "Mỗi bé tối đa {so} tấm. Chuyển chip Đồ dùng để chụp lại đồ dùng (nếu có).",
+  "@nhacAnhLucNhanBe": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "nhacAnhLucTraBe": "Cần 1 ảnh trả bé kèm chủ nuôi và 1 ảnh đồ dùng trả lại.",
+  "xacNhanBanGiao": "Xác nhận bàn giao",
+  "maDonTrongGiuNBeNhanLuc": "{ma} · Trông giữ · {so} bé · nhận {gio}",
+  "@maDonTrongGiuNBeNhanLuc": {
+    "placeholders": {
+      "ma": {"type": "String"},
+      "so": {"type": "String"},
+      "gio": {"type": "String"}
+    }
+  },
+  "maDonTrongGiuNBeNDem": "{ma} · Trông giữ · {soBe} bé · {soDem} đêm",
+  "@maDonTrongGiuNBeNDem": {
+    "placeholders": {
+      "ma": {"type": "String"},
+      "soBe": {"type": "String"},
+      "soDem": {"type": "String"}
+    }
+  },
+  "maDonTrongGiuNBeNgay": "{ma} · Trông giữ · {soBe} bé · Ngày {ngay}/{tong}",
+  "@maDonTrongGiuNBeNgay": {
+    "placeholders": {
+      "ma": {"type": "String"},
+      "soBe": {"type": "String"},
+      "ngay": {"type": "String"},
+      "tong": {"type": "String"}
+    }
+  },
+  "anhDaChupLucSoatRoiChot": "Ảnh đã chụp lúc {gio}. Xem lại, ghi đồ dùng rồi mới chốt nhận bé.",
+  "@anhDaChupLucSoatRoiChot": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "heThongGhiNhanChuNuoiToiLuc": "Hệ thống ghi nhận {ten} tới nơi lúc {gio}",
+  "@heThongGhiNhanChuNuoiToiLuc": {
+    "placeholders": {
+      "ten": {"type": "String"},
+      "gio": {"type": "String"}
+    }
+  },
+  "anhLucNhanBeTrenTran": "Ảnh lúc nhận bé ({da}/{tran})",
+  "@anhLucNhanBeTrenTran": {
+    "placeholders": {
+      "da": {"type": "String"},
+      "tran": {"type": "String"}
+    }
+  },
+  "anhDoDungLucNhanTrenTran": "Ảnh đồ dùng gửi kèm lúc nhận ({da}/{tran})",
+  "@anhDoDungLucNhanTrenTran": {
+    "placeholders": {
+      "da": {"type": "String"},
+      "tran": {"type": "String"}
+    }
+  },
+  "anhTraBeChoChuNuoiTrenTran": "Ảnh trả bé cho chủ nuôi ({da}/{tran})",
+  "@anhTraBeChoChuNuoiTrenTran": {
+    "placeholders": {
+      "da": {"type": "String"},
+      "tran": {"type": "String"}
+    }
+  },
+  "anhDoDungTraLaiTrenTran": "Ảnh đồ dùng trả lại ({da}/{tran})",
+  "@anhDoDungTraLaiTrenTran": {
+    "placeholders": {
+      "da": {"type": "String"},
+      "tran": {"type": "String"}
+    }
+  },
+  "anhHomNayTrenTran": "Ảnh hôm nay ({da}/{tran})",
+  "@anhHomNayTrenTran": {
+    "placeholders": {
+      "da": {"type": "String"},
+      "tran": {"type": "String"}
+    }
+  },
+  "ghiChuLucNhanBe": "Ghi chú lúc nhận bé (nếu có)",
+  "hintGhiChuLucNhanBe": "Bé nào có vết xước, đang uống thuốc gì, chủ nuôi dặn thêm điều gì...",
+  "moTaBamNhanBeLaChotMoc": "Bấm nhận bé là chốt mốc tính kỳ giữ. Đồ dùng đã ghi sẽ hiện lại ở màn trả bé để đối chiếu.",
+  "nhanBeVaBatDauKyGiu": "Nhận đủ {so} bé, bắt đầu kỳ giữ",
+  "@nhanBeVaBatDauKyGiu": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "daNhanDuBe": "Đã nhận đủ bé, kỳ giữ bắt đầu",
+  "capNhatHomNay": "Cập nhật hôm nay",
+  "anhDaChupLucChuNuoiNhanNgay": "Ảnh đã chụp lúc {gio}. Chủ nuôi nhận được ngay khi bạn bấm gửi.",
+  "@anhDaChupLucChuNuoiNhanNgay": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "cacBeHomNayTheNao": "Các bé hôm nay thế nào",
+  "loiNhanChoChuNuoi": "Lời nhắn cho chủ nuôi (nếu có)",
+  "hintLoiNhanCapNhat": "Hôm nay Cam chơi nhiều lắm, Bông vẫn hơi nhát nhưng đã ăn hết bữa tối...",
+  "moTaMoiNgayMotCapNhat": "Mỗi ngày một cập nhật. Ảnh và lời nhắn vào nhật ký của kỳ giữ, chủ nuôi xem lại được bất cứ lúc nào.",
+  "guiChoChuNuoi": "Gửi cho chủ nuôi",
+  "daGuiCapNhat": "Đã gửi cập nhật cho chủ nuôi",
+  "xacNhanTraBe": "Xác nhận trả bé",
+  "tinhTrangCacBeTrongKy": "Tình trạng các bé trong kỳ",
+  "hintGhiChuKhuyenNghiTrongGiu": "Kể thêm cho chủ nuôi và gợi ý theo dõi tiếp: bé có thói quen gì mới, cần để ý gì...",
+  "moTaTraBeLaHoanThanhNgay": "Trả bé xong là đơn hoàn thành ngay. Chủ nuôi còn {gio} giờ để báo sự cố, hết hạn đó tiền mới vào ví bạn.",
+  "@moTaTraBeLaHoanThanhNgay": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "traBeVaKetThuc": "Trả bé và kết thúc",
+  "daTraBeVaKetThuc": "Đã trả bé, đơn hoàn thành",
+  "daDatSoLan": "Đã đặt {so} lần",
+  "@daDatSoLan": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "hanHuyMienPhi": "Huỷ miễn phí trước {gio} ngày {ngay}",
+  "@hanHuyMienPhi": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "ngay": {"type": "String"}
+    }
+  },
+  "huyMienPhiKhiChuaNhan": "Huỷ miễn phí tới khi người chăm nhận đơn",
+  "huyMienPhiNccChuaToi": "Người chăm chưa tới đúng hẹn, bạn huỷ không mất phí",
+  "quaHanHuyMienPhiChiuPhi": "Đã qua hạn huỷ miễn phí ({gio} ngày {ngay}) · huỷ giờ chịu phí {phi}, hoàn {hoan}",
+  "@quaHanHuyMienPhiChiuPhi": {
+    "placeholders": {
+      "gio": {"type": "String"},
+      "ngay": {"type": "String"},
+      "phi": {"type": "String"},
+      "hoan": {"type": "String"}
+    }
+  },
+  "donGapHuyMienPhiToi": "Đơn gấp: huỷ miễn phí tới {gio}, tức 30 phút sau khi người chăm nhận đơn",
+  "@donGapHuyMienPhiToi": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "loiKhongTimThayDon": "Không tìm thấy đơn này",
+  "loiDonKhongHuyDuoc": "Đơn đã bắt đầu nên không huỷ được nữa",
+  "loiDaXuatPhatKhongHuyDuoc": "Người chăm đã lên đường nên đơn không huỷ được nữa",
+  "loiThieuMoTaLyDo": "Chọn lý do khác thì cần mô tả thêm",
+  "khongHuyDuocNua": "Không huỷ được nữa",
+  "loiChuaLaNcc": "Tài khoản của bạn chưa phải người chăm",
+  "loiTaiKhoanNccBiKhoa": "Hồ sơ người chăm của bạn đã bị khoá",
+  "loiQuaHanNhanDon": "Đơn đã quá hạn nhận, chủ nuôi được hoàn tiền",
+  "loiTrangThaiKhongHopLe": "Đơn không còn ở bước làm được việc này",
+  "loiDaXuatPhatDungKhongTheTiepNhan": "Bạn đã lên đường nên dùng Không thể tiếp nhận thay cho huỷ đơn",
+  "loiChuaXuatPhat": "Cần bấm xuất phát trước",
+  "loiChuaToiDiemDon": "Cần báo đã tới điểm đón trước",
+  "loiThieuAnh": "Cần chụp ít nhất một ảnh",
+  "chiaSeViTriChoChuNuoi": "Chia sẻ vị trí cho chủ nuôi",
+  "moTaChiaSeViTriNen": "Trong phiên dắt, vị trí của bạn được chia sẻ để chủ nuôi yên tâm theo dõi bé. Để không mất dấu khi bạn tắt màn hình, hãy cho phép định vị Mọi lúc ở bước tiếp theo.",
+  "thieuQuyenNenTieuDe": "Chưa có quyền định vị mọi lúc",
+  "thieuQuyenNenMoTa": "Hiện chỉ theo dõi được khi app đang mở — tắt màn hình là chủ nuôi mất dấu bạn. Vào Cài đặt, chọn Quyền, Vị trí rồi Cho phép mọi lúc.",
+  "tiepTucThieuQuyenNen": "Tiếp tục, chỉ theo dõi khi mở app",
+  "boToiUuPinTieuDe": "Giữ định vị chạy ổn định",
+  "boToiUuPinMoTa": "Cho phép bỏ tối ưu pin để hệ thống không tắt định vị giữa phiên. Máy Xiaomi, Oppo, Vivo cần thêm bước cho app tự khởi động trong cài đặt pin của hãng.",
+  "thongBaoDangChiaSe": "Đang chia sẻ vị trí cho chủ nuôi",
+  "thongBaoChiaSeDon": "Đơn {maDon} · Tự dừng khi kết thúc phiên dắt",
+  "@thongBaoChiaSeDon": {
+    "placeholders": {
+      "maDon": {"type": "String"}
+    }
+  },
+  "kenhThongBaoChiaSeViTri": "Chia sẻ vị trí phiên dắt",
+  "chuNuoiKhongThayViTri": "Chủ nuôi sẽ không thấy vị trí của bạn trong phiên này",
+  "khongTheBatChiaSe": "Chưa bật được chia sẻ vị trí, hãy thử lại",
+  "dinhViDangTat": "Định vị đang tắt — bật lại Vị trí để tiếp tục chia sẻ",
+  "matQuyenChiaSeViTri": "Chia sẻ vị trí đã dừng do mất quyền với đơn",
+  "dangKetNoiLai": "Đang kết nối lại...",
+  "tatCaDon": "Tất cả đơn",
+  "homQua": "Hôm qua",
+  "thangGachNam": "Tháng {thang}/{nam}",
+  "@thangGachNam": {
+    "placeholders": {
+      "thang": {"type": "String"},
+      "nam": {"type": "String"}
+    }
+  },
+  "thucNhanSauPhi": "Thực nhận sau phí",
+  "khieuNai": "Khiếu nại",
+  "dangKhieuNai": "Đang khiếu nại",
+  "conKhoangXacNhan": "còn {khoang} xác nhận",
+  "@conKhoangXacNhan": {
+    "placeholders": {
+      "khoang": {"type": "String"}
+    }
+  },
+  "choChotKhoang": "Chờ chốt {khoang}",
+  "@choChotKhoang": {
+    "placeholders": {
+      "khoang": {"type": "String"}
+    }
+  },
+  "nDemNhan": "{so} đêm",
+  "@nDemNhan": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "nhanLucGio": "nhận {gio}",
+  "@nhanLucGio": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "banDaXongViec": "bạn đã xong việc",
+  "daXongViec": "đã xong việc",
+  "huyTruocKhoang": "huỷ trước {khoang}",
+  "@huyTruocKhoang": {
+    "placeholders": {
+      "khoang": {"type": "String"}
+    }
+  },
+  "choBanNhanDon": "chờ bạn nhận đơn",
+  "choChuNuoiChot": "chờ chủ nuôi xác nhận",
+  "choHoTroXuLy": "chờ hỗ trợ xử lý",
+  "khachVangMatQuaHen": "khách vắng mặt quá hẹn",
+  "khachHuyDon": "khách huỷ",
+  "khachHuySom": "khách huỷ sớm",
+  "banDaHuyDon": "bạn đã huỷ",
+  "hetHanNhanDon": "hết hạn nhận đơn",
+  "nBeVaTen": "{so} bé: {ten}",
+  "@nBeVaTen": {
+    "placeholders": {
+      "so": {"type": "String"},
+      "ten": {"type": "String"}
+    }
+  },
+  "locDon": "Lọc đơn",
+  "xoaLoc": "Xoá lọc",
+  "kyThoiGian": "Kỳ",
+  "thangNay": "Tháng này",
+  "namNay": "Năm nay",
+  "tatCaThoiGian": "Tất cả thời gian",
+  "chonKy": "Chọn kỳ",
+  "theoNgay": "Ngày",
+  "theoThang": "Tháng",
+  "theoNam": "Năm",
+  "thangSo": "Tháng {thang}",
+  "@thangSo": {
+    "placeholders": {
+      "thang": {"type": "String"}
+    }
+  },
+  "namSo": "Năm {nam}",
+  "@namSo": {
+    "placeholders": {
+      "nam": {"type": "String"}
+    }
+  },
+  "xem": "Xem",
+  "traCuuDon": "Tra cứu đơn",
+  "timDonHint": "Tìm tên khách, mã đơn, tên bé",
+  "timDonChuNuoiHint": "Tìm tên người chăm, mã đơn, tên bé",
+  "soDonKhopTuKhoa": "{count} đơn khớp \"{tuKhoa}\" · tìm trong toàn bộ lịch sử",
+  "@soDonKhopTuKhoa": {
+    "placeholders": {
+      "count": {"type": "String"},
+      "tuKhoa": {"type": "String"}
+    }
+  },
+  "khongTimThayDon": "Không tìm thấy đơn nào",
+  "thuTuKhoaKhac": "Thử tên khách, mã đơn hoặc tên bé khác",
+  "nhapTuKhoaTimDon": "Nhập tên khách, mã đơn hoặc tên bé để tra cứu",
+  "soDuKhaDung": "Số dư khả dụng",
+  "daNhanTrongThang": "Đã nhận {tien}đ trong tháng {thang}",
+  "@daNhanTrongThang": {
+    "placeholders": {
+      "tien": {"type": "String"},
+      "thang": {"type": "String"}
+    }
+  },
+  "rutTienVeNganHang": "Rút tiền về ngân hàng",
+  "dangGiuTamTuDon": "Đang giữ tạm {tien}đ từ {soDon} đơn",
+  "@dangGiuTamTuDon": {
+    "placeholders": {
+      "tien": {"type": "String"},
+      "soDon": {"type": "String"}
+    }
+  },
+  "dangGiuTamCoKhieuNai": "Đang giữ tạm {tien}đ từ {soDon} đơn, trong đó {soKhieuNai} đơn đang khiếu nại",
+  "@dangGiuTamCoKhieuNai": {
+    "placeholders": {
+      "tien": {"type": "String"},
+      "soDon": {"type": "String"},
+      "soKhieuNai": {"type": "String"}
+    }
+  },
+  "chamDeXemThongKe": "Chạm để xem thống kê tuần / tháng / năm",
+  "lichSuGiaoDich": "Lịch sử giao dịch",
+  "moiBienDongSoDuVi": "Mọi biến động số dư ví",
+  "taiKhoanNhanTien": "Tài khoản nhận tiền",
+  "vaoViSau": "vào ví sau {khoang}",
+  "@vaoViSau": {
+    "placeholders": {
+      "khoang": {"type": "String"}
+    }
+  },
+  "soTienMuonRut": "Số tiền muốn rút",
+  "khaDungToiThieu": "Khả dụng {tien}đ · tối thiểu {toiThieu}đ",
+  "@khaDungToiThieu": {
+    "placeholders": {
+      "tien": {"type": "String"},
+      "toiThieu": {"type": "String"}
+    }
+  },
+  "rutToanBo": "Rút toàn bộ",
+  "soTienRut": "Số tiền rút",
+  "phiChuyen": "Phí chuyển",
+  "thucNhanVeNganHang": "Thực nhận về ngân hàng",
+  "xacNhanRutTien": "Xác nhận rút tiền",
+  "soTienRutToiThieu": "Số tiền rút tối thiểu là {tien}đ",
+  "@soTienRutToiThieu": {
+    "placeholders": {
+      "tien": {"type": "String"}
+    }
+  },
+  "soTienVuotSoDu": "Số tiền vượt quá số dư khả dụng",
+  "loiAnhQuaNang": "Ảnh vượt quá {mb} MB nên chưa gửi được",
+  "@loiAnhQuaNang": {
+    "placeholders": {
+      "mb": {"type": "String"}
+    }
+  },
+  "loiNhieuAnhQuaNang": "Đã bỏ {so} ảnh vượt quá {mb} MB",
+  "@loiNhieuAnhQuaNang": {
+    "placeholders": {
+      "so": {"type": "String"},
+      "mb": {"type": "String"}
+    }
+  },
+  "conLuotRutTrongNgay": "Còn {conLai}/{moiNgay} lượt rút trong hôm nay, sang ngày mới đếm lại từ đầu.",
+  "@conLuotRutTrongNgay": {
+    "placeholders": {
+      "conLai": {"type": "String"},
+      "moiNgay": {"type": "String"}
+    }
+  },
+  "loiHetLuotRutHomNay": "Hết lượt rút hôm nay, mời bạn quay lại vào ngày mai",
+  "tienDangGiuTam": "Tiền đang giữ tạm",
+  "dangGiuTam": "Đang giữ tạm",
+  "moTaGiuTamHaiPhan": "{tien}đ sắp về ví ({soDon} đơn) · {tienKhieuNai}đ đang giữ do khiếu nại ({soDonKhieuNai} đơn)",
+  "@moTaGiuTamHaiPhan": {
+    "placeholders": {
+      "tien": {"type": "String"},
+      "soDon": {"type": "String"},
+      "tienKhieuNai": {"type": "String"},
+      "soDonKhieuNai": {"type": "String"}
+    }
+  },
+  "sapVeViSo": "Sắp về ví · {so}",
+  "@sapVeViSo": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "dangKhieuNaiSo": "Đang khiếu nại · {so}",
+  "@dangKhieuNaiSo": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "khongCoKhoanGiuTam": "Không có khoản nào đang giữ",
+  "tienVao": "Tiền vào",
+  "rutRa": "Rút ra",
+  "dieuChinh": "Điều chỉnh",
+  "vaoViRaKhoiVi": "Vào ví {vao}đ · Ra khỏi ví {ra}đ",
+  "@vaoViRaKhoiVi": {
+    "placeholders": {
+      "vao": {"type": "String"},
+      "ra": {"type": "String"}
+    }
+  },
+  "vaoViLuc": "Vào ví {moc}",
+  "@vaoViLuc": {
+    "placeholders": {
+      "moc": {"type": "String"}
+    }
+  },
+  "truKhoiViLuc": "Trừ khỏi ví {moc}",
+  "@truKhoiViLuc": {
+    "placeholders": {
+      "moc": {"type": "String"}
+    }
+  },
+  "chuyenDiLuc": "Chuyển đi {moc}",
+  "@chuyenDiLuc": {
+    "placeholders": {
+      "moc": {"type": "String"}
+    }
+  },
+  "xongLuc": "Xong {moc}",
+  "@xongLuc": {
+    "placeholders": {
+      "moc": {"type": "String"}
+    }
+  },
+  "chuaCoGiaoDich": "Chưa có giao dịch nào",
+  "chuaCoGiaoDichLoc": "Không có giao dịch nào ở mục này",
+  "chiTietGiaoDich": "Chi tiết giao dịch",
+  "tienVaoVi": "Tiền vào ví",
+  "rutVeNganHang": "Rút về ngân hàng",
+  "truTheoKetLuanKhieuNai": "Trừ theo kết luận khiếu nại",
+  "daApDung": "Đã áp dụng",
+  "tienVeTay": "Tiền về tay",
+  "giaDichVuChuNuoiTra": "Giá dịch vụ chủ nuôi trả",
+  "phiNenTangPhanTram": "Phí nền tảng ({phanTram}%)",
+  "@phiNenTangPhanTram": {
+    "placeholders": {
+      "phanTram": {"type": "String"}
+    }
+  },
+  "soTien": "Số tiền",
+  "nganHangNhan": "Ngân hàng nhận",
+  "maGiaoDich": "Mã giao dịch",
+  "maLenhRut": "Mã lệnh rút",
+  "maThamChieuNganHang": "Mã tham chiếu ngân hàng",
+  "soDuViSauGiaoDich": "Số dư ví sau giao dịch",
+  "ketLuanXuLy": "Kết luận xử lý",
+  "chuNuoiPhanAnh": "Chủ nuôi phản ánh",
+  "ketLuanCuaHoTro": "Kết luận của hỗ trợ",
+  "nguoiXuLy": "Người xử lý",
+  "dangGiuTamTruocDo": "Đang giữ tạm trước đó",
+  "hoanChoChuNuoi": "Hoàn cho chủ nuôi",
+  "xemHoSoKhieuNai": "Xem hồ sơ khiếu nại",
+  "daXacThuc": "Đã xác thực",
+  "doiTaiKhoan": "Đổi tài khoản",
+  "goLienKet": "Gỡ liên kết",
+  "chuaLienKetTaiKhoan": "Chưa liên kết tài khoản",
+  "moTaChuaLienKet": "Liên kết tài khoản ngân hàng để rút tiền từ ví về.",
+  "lienKetTaiKhoanNganHang": "Liên kết tài khoản ngân hàng",
+  "goLienKetXacNhan": "Gỡ tài khoản này thì bạn không rút tiền được cho tới khi liên kết tài khoản khác.",
+  "hoSoKhieuNai": "Hồ sơ khiếu nại",
+  "conKhoangDeBanPhanHoi": "Còn {khoang} để bạn phản hồi",
+  "@conKhoangDeBanPhanHoi": {
+    "placeholders": {
+      "khoang": {"type": "String"}
+    }
+  },
+  "hetHanPhanHoiMoTa": "Hết hạn {moc}. Quá hạn, hỗ trợ kết luận dựa trên thông tin đang có.",
+  "@hetHanPhanHoiMoTa": {
+    "placeholders": {
+      "moc": {"type": "String"}
+    }
+  },
+  "dangBiGiu": "đang bị giữ",
+  "daVaoVi": "đã vào ví",
+  "phanHoiCuaBan": "Phản hồi của bạn",
+  "hintPhanHoiKhieuNai": "Mô tả lại tình huống, nêu rõ yêu cầu chủ nuôi đã chốt trước khi làm...",
+  "guiPhanHoi": "Gửi phản hồi",
+  "daKetLuanHoanPhanTram": "Đã kết luận · hoàn {phanTram}% cho chủ nuôi",
+  "@daKetLuanHoanPhanTram": {
+    "placeholders": {
+      "phanTram": {"type": "String"}
+    }
+  },
+  "moTaDaKetLuan": "Áp dụng {moc}. Bạn đã nhận {tien}đ cho đơn này.",
+  "@moTaDaKetLuan": {
+    "placeholders": {
+      "moc": {"type": "String"},
+      "tien": {"type": "String"}
+    }
+  },
+  "khieuNaiKhongDuocChapNhan": "Khiếu nại không được chấp nhận",
+  "moTaKhongChapNhan": "Bạn nhận đủ {tien}đ, không bị trừ đồng nào. Hồ sơ không ghi nhận lỗi, điểm uy tín giữ nguyên.",
+  "@moTaKhongChapNhan": {
+    "placeholders": {
+      "tien": {"type": "String"}
+    }
+  },
+  "ketLuan": "Kết luận",
+  "lyDo": "Lý do",
+  "xemGiaoDichTruTien": "Xem giao dịch trừ tiền {ma}",
+  "@xemGiaoDichTruTien": {
+    "placeholders": {
+      "ma": {"type": "String"}
+    }
+  },
+  "xemGiaoDichTienVaoVi": "Xem giao dịch tiền vào ví {ma}",
+  "@xemGiaoDichTienVaoVi": {
+    "placeholders": {
+      "ma": {"type": "String"}
+    }
+  },
+  "maKhieuNaiLuuCanCu": "Mã khiếu nại {ma} · mọi trao đổi trong hồ sơ này được lưu làm căn cứ xử lý.",
+  "@maKhieuNaiLuuCanCu": {
+    "placeholders": {
+      "ma": {"type": "String"}
+    }
+  },
+  "maKhieuNaiDaApDung": "Mã khiếu nại {ma} · kết luận đã áp dụng, hồ sơ này chỉ để tra cứu.",
+  "@maKhieuNaiDaApDung": {
+    "placeholders": {
+      "ma": {"type": "String"}
+    }
+  },
+  "maKhieuNaiDaDong": "Mã khiếu nại {ma} · hồ sơ đã đóng, giữ lại để tra cứu khi cần.",
+  "@maKhieuNaiDaDong": {
+    "placeholders": {
+      "ma": {"type": "String"}
+    }
+  },
+  "daGuiPhanHoiKhieuNai": "Đã gửi phản hồi, hỗ trợ sẽ xem xét và kết luận",
+  "daChiTrongThang": "Đã chi {tien}đ trong tháng {thang}",
+  "@daChiTrongThang": {
+    "placeholders": {
+      "tien": {"type": "String"},
+      "thang": {"type": "String"}
+    }
+  },
+  "hoanTien": "Hoàn tiền",
+  "dangTamGiuChoDon": "Đang tạm giữ {tien}đ cho {soDon} đơn chưa xong",
+  "@dangTamGiuChoDon": {
+    "placeholders": {
+      "tien": {"type": "String"},
+      "soDon": {"type": "String"}
+    }
+  },
+  "chiTieuThangNay": "Chi tiêu tháng này",
+  "chamDeXemChiTieu": "Chạm để xem chi tiêu theo tuần / tháng / năm",
+  "macDinh": "Mặc định",
+  "tienDangTamGiu": "Tiền đang tạm giữ",
+  "dangTamGiu": "Đang tạm giữ",
+  "moTaTamGiuChuNuoi": "Tiền được giữ đủ {gio} giờ kể từ khi đơn kết thúc, hết hạn báo sự cố mới chuyển sang ví người chăm.",
+  "@moTaTamGiuChuNuoi": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "dangGiuSo": "Đang giữ · {so}",
+  "@dangGiuSo": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "khongCoKhoanTamGiu": "Không có khoản nào đang giữ",
+  "khongCoDonDangGiuTien": "Không có đơn nào đang giữ tiền",
+  "moTaGiuHoNDon": "Nền tảng đang giữ hộ cho {so} đơn chưa xong",
+  "@moTaGiuHoNDon": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "daChiDaHoan": "Đã chi {chi}đ · Đã hoàn {hoan}đ",
+  "@daChiDaHoan": {
+    "placeholders": {
+      "chi": {"type": "String"},
+      "hoan": {"type": "String"}
+    }
+  },
+  "hoanVeNganHang": "Hoàn về {nganHang}",
+  "@hoanVeNganHang": {
+    "placeholders": {
+      "nganHang": {"type": "String"}
+    }
+  },
+  "nganHangDaQuet": "Ngân hàng đã thanh toán",
+  "nguonDaThanhToan": "nguồn bạn đã thanh toán",
+  "thanhToanVaHoanTien": "Thanh toán và hoàn tiền",
+  "thanhToanQuaVnpay": "Thanh toán qua VNPay",
+  "daHoanVeNguonLuc": "Đã hoàn về nguồn thanh toán · {moc}",
+  "@daHoanVeNguonLuc": {
+    "placeholders": {
+      "moc": {"type": "String"}
+    }
+  },
+  "thanhToanDonDichVu": "Thanh toán đơn dịch vụ",
+  "hoanTienDonHuy": "Hoàn tiền đơn huỷ",
+  "dangTamGiuChoHoanThanh": "Đang tạm giữ · chờ hoàn thành",
+  "banDaTra": "Bạn đã trả",
+  "giaDichVu": "Giá dịch vụ",
+  "phuPhiNgoaiGio": "Phụ phí ngoài giờ",
+  "khuyenMai": "Khuyến mãi",
+  "tongThanhToan": "Tổng thanh toán",
+  "viSaoDuocHoan": "Vì sao được hoàn",
+  "phiHuy": "Phí huỷ",
+  "thongTinKhac": "Thông tin khác",
+  "nguonTien": "Nguồn tiền",
+  "xemChinhSachHuyDon": "Xem chính sách huỷ đơn",
+  "chiTieu": "Chi tiêu",
+  "tieuVaoViecGi": "Tiêu vào việc gì",
+  "banDangKhieuNai": "bạn đang khiếu nại",
+  "hoanDuKhongMatPhi": "hoàn đủ, không mất phí",
+  "choNguoiChamNhan": "chờ người chăm nhận",
+  "choBanXacNhanDon": "chờ bạn xác nhận",
+  "hoTroDaXuLy": "hỗ trợ đã xử lý",
+  "nguoiChamDaXongViec": "người chăm đã xong việc",
+  "choBanChot": "Chờ bạn chốt",
+  "daXuLy": "Đã xử lý",
+  "tatCaDanhGiaVe": "Tất cả đánh giá về {ten}",
+  "@tatCaDanhGiaVe": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "coAnh": "Có ảnh",
+  "sao": "Sao",
+  "tatCaSao": "Tất cả sao",
+  "nSao": "{so} sao",
+  "@nSao": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "tatCaDichVu": "Tất cả dịch vụ",
+  "nguoiChamPhanHoi": "{ten} phản hồi",
+  "@nguoiChamPhanHoi": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "khongCoDanhGiaPhuHop": "Không có đánh giá phù hợp",
+  "thuBoBotDieuKienLoc": "Thử bỏ bớt điều kiện lọc để xem thêm đánh giá.",
+  "vietPhanHoi": "Viết phản hồi",
+  "hintVietPhanHoi": "Cảm ơn khách và nói lại điều bạn muốn làm tốt hơn...",
+  "soKyTuTren": "{da}/{tong} ký tự",
+  "@soKyTuTren": {
+    "placeholders": {
+      "da": {"type": "String"},
+      "tong": {"type": "String"}
+    }
+  },
+  "phanHoi": "Phản hồi",
+  "banDaPhanHoi": "Bạn đã phản hồi",
+  "nhanChuaPhanHoiSo": "Chưa phản hồi · {so}",
+  "@nhanChuaPhanHoiSo": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "nhanTatCaSo": "Tất cả · {so}",
+  "@nhanTatCaSo": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "daPhanHoiHetDanhGia": "Bạn đã phản hồi hết đánh giá",
+  "moTaDaPhanHoiHet": "Đánh giá mới sẽ hiện ở đây để bạn trả lời.",
+  "nhanChuaDanhGiaSo": "Chưa đánh giá · {so}",
+  "@nhanChuaDanhGiaSo": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "nhanDaDanhGiaSo": "Đã đánh giá · {so}",
+  "@nhanDaDanhGiaSo": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "nhacHanDanhGia": "Bạn có 7 ngày kể từ khi đơn xong để đánh giá. Đánh giá đã gửi không sửa hay xoá được.",
+  "vietDanhGia": "Viết đánh giá",
+  "xongLucNgayGio": "xong {ngay} lúc {gio}",
+  "@xongLucNgayGio": {
+    "placeholders": {
+      "ngay": {"type": "String"},
+      "gio": {"type": "String"}
+    }
+  },
+  "khongConDonChoDanhGia": "Không còn đơn nào chờ đánh giá",
+  "moTaKhongConDonChoDanhGia": "Đơn vừa xong sẽ hiện ở đây trong 7 ngày.",
+  "moTaHoSoChiMinhBan": "Chỉ mình bạn nhìn thấy mục này. Người chăm chỉ thấy tên, ảnh và khu vực của bạn.",
+  "cuaToi": "Của tôi",
+  "soDiaChi": "{so} địa chỉ",
+  "@soDiaChi": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "chinhSuaHoSo": "Chỉnh sửa hồ sơ",
+  "doiAnh": "Đổi ảnh",
+  "luuThayDoi": "Lưu thay đổi",
+  "chonNgaySinh": "Chọn ngày sinh",
+  "khopCccd": "Khớp CCCD",
+  "chuaXacThuc": "Chưa xác thực",
+  "vaiNguoiCham": "Vai người chăm",
+  "trangDichVuCuaBan": "Trang dịch vụ của bạn",
+  "xemTrang": "Xem trang",
+  "moTaTrangDichVu": "Trang khách thấy khi tìm người chăm. Ảnh và tên lấy từ hồ sơ này, sửa một lần là đổi cả hai.",
+  "dangHoatDong": "Đang hoạt động",
+  "ngaySinhKhoaVaiNcc": "Ngày sinh đã khớp CCCD khi bạn đăng ký làm người chăm nên không sửa ở đây được.",
+  "banDanhGia": "Bạn đánh giá",
+  "chuaVietDanhGiaNao": "Bạn chưa viết đánh giá nào",
+  "moTaChuaVietDanhGiaNao": "Đánh giá của bạn giúp người sau chọn được người chăm hợp ý.",
+  "tuHuySauKhoang": "tự huỷ sau {khoang}",
+  "@tuHuySauKhoang": {
+    "placeholders": {
+      "khoang": {"type": "String"}
+    }
+  },
+  "batDauSauKhoang": "bắt đầu sau {khoang}",
+  "@batDauSauKhoang": {
+    "placeholders": {
+      "khoang": {"type": "String"}
+    }
+  },
+  "nhanBeSauKhoang": "nhận bé sau {khoang}",
+  "@nhanBeSauKhoang": {
+    "placeholders": {
+      "khoang": {"type": "String"}
+    }
+  },
+  "duKienToiGio": "dự kiến tới {gio}",
+  "@duKienToiGio": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "quaHenKhoang": "quá hẹn {khoang}",
+  "@quaHenKhoang": {
+    "placeholders": {
+      "khoang": {"type": "String"}
+    }
+  },
+  "cachDiaChiMet": "cách địa chỉ {met} m",
+  "@cachDiaChiMet": {
+    "placeholders": {
+      "met": {"type": "String"}
+    }
+  },
+  "tuXacNhanSauKhoang": "tự xác nhận sau {khoang}",
+  "@tuXacNhanSauKhoang": {
+    "placeholders": {
+      "khoang": {"type": "String"}
+    }
+  },
+  "dienBienDaNhanDon": "Đã nhận đơn",
+  "dienBienXuatPhat": "Xuất phát",
+  "dienBienDaToiNoi": "Đã tới, xác thực vị trí",
+  "dienBienAnhCheckIn": "Ảnh check-in đã xác minh",
+  "dienBienNhanNBe": "Nhận {so} bé từ {ten} — ảnh bàn giao đã lưu",
+  "@dienBienNhanNBe": {
+    "placeholders": {
+      "so": {"type": "String"},
+      "ten": {"type": "String"}
+    }
+  },
+  "dienBienBatDauLam": "Bắt đầu làm",
+  "dienBienBatDauCoAnh": "Bắt đầu · ảnh trước",
+  "dienBienBatDauPhien": "Bắt đầu phiên",
+  "dienBienCapNhatNAnh": "Cập nhật · {so} ảnh",
+  "@dienBienCapNhatNAnh": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "dienBienKetThuc": "Kết thúc, gửi minh chứng cho chủ nuôi",
+  "boPhanHoTro": "Bộ phận hỗ trợ Smart Pet Care",
+  "daTaoLenhRut": "Đã tạo lệnh rút, tiền về tài khoản trong ít phút",
+  "daPhanHoiKhieuNai": "Mỗi khiếu nại chỉ phản hồi được một lần",
+  "quaHanPhanHoiKhieuNai": "Đã quá hạn phản hồi, hồ sơ chuyển sang đội hỗ trợ",
+  "daGuiPhanHoiKhieuNai": "Đã gửi phản hồi cho đội hỗ trợ",
+  "daLuuTaiKhoanNhanTien": "Đã lưu tài khoản nhận tiền",
+  "donViNam": "Năm",
+  "dangLamChoBe": "Đang {dichVu} cho {ten}",
+  "@dangLamChoBe": {
+    "placeholders": {
+      "dichVu": {"type": "String"},
+      "ten": {"type": "String"}
+    }
+  },
+  "baoDenMuonTieuDe": "Báo đến muộn",
+  "baoDenMuonMoTa": "Chọn số phút bạn sẽ tới trễ so với giờ hẹn. Mỗi đơn chỉ báo được một lần, hệ thống nhắn ngay cho chủ nuôi.",
+  "nganHangDaQuet": "Ngân hàng đã dùng",
+  "tenNganHang": "Ngân hàng",
+  "hintTenNganHang": "Ví dụ Vietcombank",
+  "soTaiKhoanNhanTien": "Số tài khoản",
+  "hintSoTaiKhoan": "Chỉ gồm chữ số",
+  "tenChuTaiKhoan": "Tên chủ tài khoản",
+  "hintTenChuTaiKhoan": "Viết in hoa, không dấu",
+  "loiSoTaiKhoan": "Số tài khoản chỉ gồm 6 đến 19 chữ số",
+  "loiThieuThongTinNganHang": "Điền đủ ba ô để lưu tài khoản",
+  "tbHoSoSapBiAnTieuDe": "Hồ sơ của bạn đang có cảnh cáo",
+  "tbHoSoSapBiAnNoiDung": "Bạn đang có {soCanhCao} cảnh cáo, thêm {conLai} lần nữa là hồ sơ bị ẩn khỏi tìm kiếm.",
+  "@tbHoSoSapBiAnNoiDung": {
+    "placeholders": {
+      "soCanhCao": {"type": "String"},
+      "conLai": {"type": "String"}
+    }
+  },
+  "tbHoSoBiKhoaTieuDe": "Hồ sơ đã bị khoá",
+  "tbHoSoBiKhoaNoiDung": "Hồ sơ của bạn đã bị khoá do tái phạm nhiều lần. Liên hệ bộ phận hỗ trợ nếu bạn cho rằng có nhầm lẫn.",
+  "tbHoSoTamAnTieuDe": "Hồ sơ tạm bị ẩn khỏi tìm kiếm",
+  "tbHoSoTamAnNoiDung": "Hồ sơ của bạn tạm ẩn {soNgay} ngày nên không nhận được đơn mới. Các đơn đã nhận vẫn phải hoàn thành, hết hạn ẩn hồ sơ tự hiện lại.",
+  "@tbHoSoTamAnNoiDung": {
+    "placeholders": {
+      "soNgay": {"type": "String"}
+    }
+  },
+  "tbPhongBenhToiHanTieuDe": "Sắp tới hạn {tenHangMuc} của {tenBe}",
+  "@tbPhongBenhToiHanTieuDe": {
+    "placeholders": {
+      "tenHangMuc": {"type": "String"},
+      "tenBe": {"type": "String"}
+    }
+  },
+  "tbPhongBenhToiHanNoiDung": "Còn {conMayNgay} ngày nữa là tới hạn {tenHangMuc} của {tenBe}. Đặt lịch thú y sớm cho kịp.",
+  "@tbPhongBenhToiHanNoiDung": {
+    "placeholders": {
+      "conMayNgay": {"type": "String"},
+      "tenHangMuc": {"type": "String"},
+      "tenBe": {"type": "String"}
+    }
+  },
+  "tbPhongBenhNhacCuoiNoiDung": "{tenHangMuc} của {tenBe} tới hạn vào ngày mai. Đây là lời nhắc cuối.",
+  "@tbPhongBenhNhacCuoiNoiDung": {
+    "placeholders": {
+      "tenHangMuc": {"type": "String"},
+      "tenBe": {"type": "String"}
+    }
+  },
+  "tbDonMoiTieuDe": "Bạn có đơn mới",
+  "tbDonMoiNoiDung": "{tenDichVu} · {code}. Nhận đơn trước khi hết hạn để không bị bỏ lỡ.",
+  "@tbDonMoiNoiDung": {
+    "placeholders": {
+      "tenDichVu": {"type": "String"},
+      "code": {"type": "String"}
+    }
+  },
+  "tbDaNhanDonTieuDe": "Người chăm đã nhận đơn",
+  "tbDaNhanDonNoiDung": "{tenNcc} sẽ phục vụ đơn {code}.",
+  "@tbDaNhanDonNoiDung": {
+    "placeholders": {
+      "tenNcc": {"type": "String"},
+      "code": {"type": "String"}
+    }
+  },
+  "tbTuChoiDonTieuDe": "Người chăm đã từ chối đơn",
+  "tbTuChoiDonNoiDung": "Đơn {code} chưa có người nhận. Bạn có thể chọn người chăm khác.",
+  "@tbTuChoiDonNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"}
+    }
+  },
+  "tbDaXuatPhatTieuDe": "Người chăm đang trên đường",
+  "tbDaXuatPhatNoiDung": "{tenNcc} đã xuất phát tới điểm hẹn của đơn {code}.",
+  "@tbDaXuatPhatNoiDung": {
+    "placeholders": {
+      "tenNcc": {"type": "String"},
+      "code": {"type": "String"}
+    }
+  },
+  "tbDaToiNoiTieuDe": "Người chăm đã tới điểm hẹn",
+  "tbDaToiNoiNoiDung": "Đơn {code} đang chờ bạn giao bé.",
+  "@tbDaToiNoiNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"}
+    }
+  },
+  "tbSapHetGioGiaoBeTieuDe": "Còn 5 phút để giao bé",
+  "tbSapHetGioGiaoBeNoiDung": "Người chăm vẫn đang chờ ở điểm hẹn của đơn {code}. Quá giờ là đơn bị tính phí {phanTramPhi}%.",
+  "@tbSapHetGioGiaoBeNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"},
+      "phanTramPhi": {"type": "String"}
+    }
+  },
+  "tbDaBatDauTieuDe": "Đã bắt đầu dịch vụ",
+  "tbDaBatDauNoiDung": "{tenDichVu} của đơn {code} đang diễn ra.",
+  "@tbDaBatDauNoiDung": {
+    "placeholders": {
+      "tenDichVu": {"type": "String"},
+      "code": {"type": "String"}
+    }
+  },
+  "tbChoXacNhanTieuDe": "Dịch vụ đã hoàn thành, chờ bạn xác nhận",
+  "tbChoXacNhanNoiDung": "Xác nhận đơn {code} trong {gioGiuTien} giờ, quá hạn hệ thống tự chốt.",
+  "@tbChoXacNhanNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"},
+      "gioGiuTien": {"type": "String"}
+    }
+  },
+  "tbAnhMoiTieuDe": "Có ảnh mới từ người chăm",
+  "tbAnhMoiNoiDung": "Người chăm vừa gửi ảnh cho đơn {code}.",
+  "@tbAnhMoiNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"}
+    }
+  },
+  "tbNccHuyDonTieuDe": "Người chăm đã huỷ đơn",
+  "tbNccHuyDonNoiDung": "Đơn {code} đã huỷ, bạn không mất phí và tiền sẽ được hoàn về nguồn đã thanh toán. Bạn có thể tìm người chăm khác cho khung giờ này.",
+  "@tbNccHuyDonNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"}
+    }
+  },
+  "tbNccKhongTiepNhanTieuDe": "Người chăm không thể tiếp nhận đơn",
+  "tbNccKhongTiepNhanNoiDung": "Người chăm gặp sự cố trên đường nên đơn {code} đã dừng. Bạn không mất phí, tiền sẽ được hoàn về nguồn đã thanh toán.",
+  "@tbNccKhongTiepNhanNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"}
+    }
+  },
+  "tbThieuDungCuChuNuoiTieuDe": "Đơn đã huỷ vì thiếu rọ mõm hoặc dây xích",
+  "tbThieuDungCuChuNuoiNoiDung": "Hết thời gian chờ mà bé vẫn chưa đủ rọ mõm hoặc dây xích nên đơn {code} đã huỷ. Phí huỷ {phiHuy}, hoàn {hoanLai} về nguồn đã thanh toán.",
+  "@tbThieuDungCuChuNuoiNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"},
+      "phiHuy": {"type": "String"},
+      "hoanLai": {"type": "String"}
+    }
+  },
+  "tbThieuDungCuNccTieuDe": "Đơn đã huỷ, bạn được nhận phí huỷ",
+  "tbThieuDungCuNccNoiDung": "Đơn {code} huỷ do thiếu dụng cụ. Bạn nhận {nccNhan} từ phí huỷ, đơn này không tính vào tỷ lệ huỷ của bạn.",
+  "@tbThieuDungCuNccNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"},
+      "nccNhan": {"type": "String"}
+    }
+  },
+  "tbVangMatChuNuoiTieuDe": "Người chăm báo bạn không có mặt",
+  "tbVangMatChuNuoiNoiDung": "Đơn {code} đã huỷ sau khi người chăm chờ đủ giờ tại điểm hẹn. Đơn tính như huỷ muộn: phí {phiHuy}, phần còn lại hoàn về nguồn đã thanh toán. Bạn có {soGioPhanDoi} giờ để phản đối kèm bằng chứng.",
+  "@tbVangMatChuNuoiNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"},
+      "phiHuy": {"type": "String"},
+      "soGioPhanDoi": {"type": "String"}
+    }
+  },
+  "tbVangMatNccTieuDe": "Đã ghi nhận chủ nuôi vắng mặt",
+  "tbVangMatNccNoiDung": "Đơn {code} đã khép. {nccNhan} tạm giữ {soGioPhanDoi} giờ chờ chủ nuôi phản đối rồi vào ví của bạn.",
+  "@tbVangMatNccNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"},
+      "nccNhan": {"type": "String"},
+      "soGioPhanDoi": {"type": "String"}
+    }
+  },
+  "tbQuaGioHenTieuDe": "Đơn đã huỷ vì quá giờ hẹn",
+  "tbQuaGioHenChuNuoiNoiDung": "Quá giờ hẹn mà đơn {code} vẫn chưa bắt đầu nên hệ thống đã khép lại. Bạn không mất phí, tiền sẽ được hoàn về nguồn đã thanh toán.",
+  "@tbQuaGioHenChuNuoiNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"}
+    }
+  },
+  "tbQuaGioHenNccNoiDung": "Đơn {code} quá giờ hẹn mà chưa bắt đầu nên hệ thống đã khép lại ở mức không tính phí bên nào. Đơn này không tính vào tỷ lệ huỷ của bạn.",
+  "@tbQuaGioHenNccNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"}
+    }
+  },
+  "tbKetThucSomChuNuoiTieuDe": "Đã chốt kết thúc sớm kỳ trông giữ",
+  "tbKetThucSomChuNuoiNoiDung": "Đơn {code} đã đổi ngày trả. Số tiền hoàn {hoanLai} sẽ về nguồn đã thanh toán.",
+  "@tbKetThucSomChuNuoiNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"},
+      "hoanLai": {"type": "String"}
+    }
+  },
+  "tbKetThucSomNccTieuDe": "Chủ nuôi kết thúc sớm kỳ trông giữ",
+  "tbKetThucSomNccNoiDung": "Đơn {code} đã đổi ngày trả bé. Những đêm bị cắt trong 7 ngày tới vẫn tính nửa tiền cho bạn.",
+  "@tbKetThucSomNccNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"}
+    }
+  },
+  "tbChuNuoiHuyDonTieuDe": "Chủ nuôi đã huỷ đơn",
+  "tbChuNuoiHuyDonNoiDung": "Đơn {code} vừa bị huỷ, lịch của bạn đã được trả lại.",
+  "@tbChuNuoiHuyDonNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"}
+    }
+  },
+  "tbQuaHanNhanChuNuoiTieuDe": "Đơn đã huỷ vì không có người nhận",
+  "tbQuaHanNhanChuNuoiNoiDung": "Đơn {code} hết hạn chờ mà chưa có người chăm nhận, tiền sẽ được hoàn về cho bạn. Bạn có thể đặt lại với người chăm khác.",
+  "@tbQuaHanNhanChuNuoiNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"}
+    }
+  },
+  "tbQuaHanNhanNccTieuDe": "Đơn đã hết hạn nhận",
+  "tbQuaHanNhanNccNoiDung": "Đơn {code} quá hạn trả lời nên hệ thống đã huỷ, lịch của bạn được trả lại.",
+  "@tbQuaHanNhanNccNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"}
+    }
+  },
+  "tbNccChuaToiChuNuoiTieuDe": "Đơn đã huỷ vì người chăm không tới",
+  "tbNccChuaToiChuNuoiNoiDung": "Quá giờ hẹn mà người chăm chưa tới điểm đón nên đơn {code} đã huỷ. Bạn không mất phí, tiền sẽ được hoàn về nguồn đã thanh toán.",
+  "@tbNccChuaToiChuNuoiNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"}
+    }
+  },
+  "tbNccChuaToiNccTieuDe": "Đơn đã huỷ vì bạn chưa tới điểm đón",
+  "tbNccChuaToiNccNoiDung": "Đơn {code} đã huỷ do quá giờ hẹn mà bạn chưa xác thực vị trí tại điểm đón. Lần huỷ này được tính cho bạn.",
+  "@tbNccChuaToiNccNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"}
+    }
+  },
+  "tbNccBanChuNuoiTieuDe": "Đơn đã huỷ vì người chăm bận khung giờ này",
+  "tbNccBanChuNuoiNoiDung": "Đơn {code} đã huỷ do người chăm nhận một đơn khác trùng khung giờ, tiền sẽ được hoàn về cho bạn. Bạn có thể đặt với người chăm khác.",
+  "@tbNccBanChuNuoiNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"}
+    }
+  },
+  "tbNccBanNccTieuDe": "Đơn chờ đã tự huỷ",
+  "tbNccBanNccNoiDung": "Đơn {code} tự huỷ vì bạn đã nhận một đơn khác trùng khung giờ.",
+  "@tbNccBanNccNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"}
+    }
+  },
+  "tbDanhGiaMoiTieuDe": "Bạn có đánh giá mới",
+  "tbDanhGiaMoiNoiDung": "Chủ nuôi vừa chấm {soSao} sao cho một đơn của bạn.",
+  "@tbDanhGiaMoiNoiDung": {
+    "placeholders": {
+      "soSao": {"type": "String"}
+    }
+  },
+  "tbAdminHuyDonTieuDe": "Đơn đã bị huỷ",
+  "tbAdminHuyDonChuaTraTienNoiDung": "Đơn {code} đã được quản trị viên huỷ. Đơn chưa trả tiền nên không có khoản nào bị trừ. Lý do: {lyDo}",
+  "@tbAdminHuyDonChuaTraTienNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"},
+      "lyDo": {"type": "String"}
+    }
+  },
+  "tbAdminHuyDonHoanDuNoiDung": "Đơn {code} đã được quản trị viên huỷ. Bạn được hoàn đủ tiền, lệnh hoàn đã gửi đi. Lý do: {lyDo}",
+  "@tbAdminHuyDonHoanDuNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"},
+      "lyDo": {"type": "String"}
+    }
+  },
+  "tbAdminHuyDonNccNoiDung": "Đơn {code} đã được quản trị viên huỷ. Lần huỷ này không tính vào tỷ lệ huỷ của bạn. Lý do: {lyDo}",
+  "@tbAdminHuyDonNccNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"},
+      "lyDo": {"type": "String"}
+    }
+  },
+  "tbKhieuNaiKetLuanTieuDe": "Khiếu nại đã có kết luận",
+  "tbKhieuNaiCoHoanNoiDung": "Đơn {code}: {ketLuan}. Khoản hoàn cho chủ nuôi: {soTien}. Lý do: {lyDo}",
+  "@tbKhieuNaiCoHoanNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"},
+      "ketLuan": {"type": "String"},
+      "soTien": {"type": "String"},
+      "lyDo": {"type": "String"}
+    }
+  },
+  "tbKhieuNaiKhongHoanNoiDung": "Đơn {code}: {ketLuan}. Khiếu nại không được chấp nhận nên không có khoản hoàn nào. Lý do: {lyDo}",
+  "@tbKhieuNaiKhongHoanNoiDung": {
+    "placeholders": {
+      "code": {"type": "String"},
+      "ketLuan": {"type": "String"},
+      "lyDo": {"type": "String"}
+    }
+  },
+  "loiNgaySinhKhongHopLe": "Ngày sinh không hợp lệ",
+  "loiDangKyHetHan": "Thông tin đăng ký đã hết hạn, vui lòng đăng ký lại",
+  "loiChuaDangNhap": "Phiên đăng nhập không hợp lệ",
+  "loiTaiKhoanKhongHoatDong": "Tài khoản không còn hoạt động",
+  "loiPhienDaHetHieuLuc": "Mật khẩu đã được đổi, vui lòng đăng nhập lại",
+  "loiThieuNgayTra": "Cần chọn ngày và giờ trả bé",
+  "loiKhoangKhongHopLe": "Kỳ trông giữ phải có ít nhất một đêm",
+  "loiThieuThoiLuong": "Cần chọn thời lượng của lượt dắt",
+  "loiKhongSinhDuocMaDon": "Không tạo được mã đơn, thử lại giúp mình",
+  "loiSaiLoaiDichVuXuatPhat": "Chỉ đơn trông giữ mới có nút xuất phát của chủ nuôi",
+  "loiThieuMocGio": "Đơn chưa có mốc giờ để mở nút xuất phát",
+  "loiDaXuatPhat": "Bạn đã bấm xuất phát rồi",
+  "loiNgayTraKhongHopLe": "Ngày trả mới phải nằm giữa ngày nhận và ngày trả đã chốt",
+  "loiKhongTuDatChinhMinh": "Bạn không thể đặt lịch với chính hồ sơ người chăm của mình",
+  "loiThieuCauHinhCong": "Chưa cấu hình VNPay, tạm thời chưa thanh toán được",
+  "loiChuKyKhongHopLe": "Chữ ký của cổng thanh toán không hợp lệ",
+  "loiKhongTimThayGiaoDich": "Không tìm thấy giao dịch này",
+  "loiKhongBatCongGiaLap": "Hệ thống đang chạy cổng thật",
+  "loiDonKhongChoThanhToan": "Đơn này không còn ở bước chờ thanh toán",
+  "loiHetHanGiuCho": "Đã quá hạn giữ chỗ, bạn cần đặt lại đơn mới",
+  "loiSoTienKhongHopLe": "Đơn chưa có số tiền để thanh toán",
+  "loiThieuAnhCccd": "Thiếu ảnh CCCD",
+  "loiChuaCoHoSo": "Chưa có hồ sơ nhà cung cấp",
+  "loiNgaySinhBeKhongHopLe": "Ngày sinh của bé phải là một ngày đã qua",
+  "loiKhongTimThayAnh": "Không tìm thấy ảnh của bé",
+  "loiThieuTenHangMuc": "Hạng mục tự nhập phải có tên",
+  "loiChuKyKhongDayDu": "Chu kỳ nhắc lại phải có cả số và đơn vị",
+  "loiNgayThucHienOTuongLai": "Ngày thực hiện không thể ở tương lai",
+  "loiThieuHoTen": "Vui lòng nhập họ và tên",
+  "loiSdtDaDuocDung": "Số điện thoại đã được người khác sử dụng",
+  "loiTokenKhongHopLe": "Phiên đăng nhập không hợp lệ",
+  "loiKhongPhaiDonCuaBan": "Bạn không giữ đơn này",
+  "loiKhongTimThayLoAnh": "Không tìm thấy lô ảnh này",
+  "loiChuaQuetDuCacBe": "Còn bé chưa xác minh đủ rọ mõm và dây xích",
+  "loiKhongDocDuocKichThuocAnh": "Không đọc được kích thước ảnh. Hãy chụp lại bằng máy ảnh.",
+  "loiSaiDanhSachSlot": "Danh sách chỗ chụp không khớp số ảnh gửi lên",
+  "loiDangQuetLoTruoc": "Lô ảnh trước đang được chấm, hãy đợi kết quả",
+  "loiTrungSlotTrongLo": "Mỗi chỗ chụp chỉ được một ảnh trong một lượt gửi",
+  "loiThieuAnhBe": "Lô này không có ảnh bé nào để quét",
+  "loiSlotKhongHopLe": "Chỗ chụp không thuộc đơn",
+  "loiChuaDuocTuXacNhan": "Bé này chưa tới bước tự xác nhận, hãy chụp lại",
+  "loiDonDaNhanKhongTuChoiDuoc": "Đơn đã nhận rồi, dùng Huỷ đơn thay vì từ chối",
+  "loiTrungLichDonKhac": "Khung giờ này bạn đã nhận một đơn khác",
+  "loiSaiLoaiDichVuViec": "Việc này không thuộc dịch vụ của đơn",
+  "loiThieuAnhBangChung": "Cần ít nhất một ảnh chụp tại điểm hẹn để báo vắng mặt",
+  "loiKhongCoAnhDoDung": "Chỉ kỳ trông giữ mới có ảnh đồ dùng gửi kèm"
 }

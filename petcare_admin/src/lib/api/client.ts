@@ -69,6 +69,8 @@ export function getErrorMessage(error: unknown, fallback = i18n.t('chung.coLoi')
   if (axios.isAxiosError(error)) {
     if (!error.response) return i18n.t('chung.matMang');
     const data = error.response.data as LoiBackend | undefined;
+    const theoMa = data?.code ? i18n.t(`loi.${data.code}`, { defaultValue: '' }) : '';
+    if (theoMa) return theoMa;
     const message = data?.message;
     if (Array.isArray(message)) return message[0] ?? fallback;
     if (typeof message === 'string') return message;

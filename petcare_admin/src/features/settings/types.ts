@@ -6,7 +6,6 @@ export type GiaTriThamSo = number | boolean | string;
 
 export type OperatingSetting = {
   key: string;
-  nhan: string;
   kieu: KieuThamSo;
   donVi: DonViThamSo | null;
   giaTri: GiaTriThamSo;
@@ -78,16 +77,13 @@ export type AdminAccountInfo = {
 };
 
 export type LimitItem = {
-  label: string;
-  desc: string;
+  ma: string;
   value: string;
   unit: string;
 };
 
 export type LimitGroup = {
   key: string;
-  title: string;
-  source: string;
   cot: 'trai' | 'phai';
   items: LimitItem[];
   chuaCoTrongCode?: boolean;

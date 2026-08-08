@@ -14,6 +14,7 @@ import {
   khoaChuoi,
   nhanGiaTriChon,
   nhanNguoiDoi,
+  nhanThamSo,
   type DichChuoi,
 } from '@/features/settings/param-labels';
 import { canLyDo, DAI_TOI_DA_LY_DO } from '@/features/settings/settings-constants';
@@ -137,8 +138,8 @@ export function OperatingParamsCard() {
         onSuccess: (ketQua) => {
           notify.success(
             ketQua.giaTri
-              ? t('caiDat.congTac.daBat', { nhan: congTacDangHoi.nhan })
-              : t('caiDat.congTac.daTat', { nhan: congTacDangHoi.nhan }),
+              ? t('caiDat.congTac.daBat', { nhan: nhanThamSo(t, congTacDangHoi.key) })
+              : t('caiDat.congTac.daTat', { nhan: nhanThamSo(t, congTacDangHoi.key) }),
           );
           setCongTacDangHoi(null);
         },
@@ -154,7 +155,7 @@ export function OperatingParamsCard() {
         onSuccess: () =>
           notify.success(
             t('caiDat.luaChon.daDoi', {
-              nhan: item.nhan,
+              nhan: nhanThamSo(t, item.key),
               giaTri: nhanGiaTriChon(t, giaTri),
             }),
           ),
@@ -238,7 +239,7 @@ export function OperatingParamsCard() {
             {dsSuaChoXacNhan.map((item) => (
               <div key={item.key} className="flex items-center justify-between gap-item">
                 <span className="min-w-0 truncate text-caption-sm text-text-secondary">
-                  {item.nhan}
+                  {nhanThamSo(t, item.key)}
                 </span>
                 <span className="shrink-0 text-label-sm">
                   {String(item.giaTri)} → {layGiaTriGo(item)}
@@ -274,7 +275,7 @@ export function OperatingParamsCard() {
                   ? 'caiDat.congTacXacNhan.tatTieuDe'
                   : 'caiDat.congTacXacNhan.batTieuDe',
                 {
-                  nhan: congTacDangHoi.nhan,
+                  nhan: nhanThamSo(t, congTacDangHoi.key),
                 },
               )
             : ''
@@ -329,7 +330,7 @@ function DongThamSo({
   return (
     <div className="flex items-start justify-between gap-item border-b border-neutral-light py-item first:pt-0">
       <div className="min-w-0">
-        <p className="truncate text-label">{item.nhan}</p>
+        <p className="truncate text-label">{nhanThamSo(t, item.key)}</p>
         <p className="mt-text truncate text-caption-sm text-text-secondary">{goiY}</p>
         <p className="mt-text truncate text-caption-sm text-text-secondary">
           {nhanNguoiDoi(t, item)}
@@ -340,7 +341,7 @@ function DongThamSo({
           <input
             value={giaTri}
             inputMode="numeric"
-            aria-label={item.nhan}
+            aria-label={nhanThamSo(t, item.key)}
             onChange={(event) => onChange(event.target.value)}
             className="w-full min-w-0 bg-transparent text-label font-normal text-text-primary focus:outline-none"
           />
@@ -375,7 +376,7 @@ function DongCongTac({
       }
     >
       <div className="min-w-0">
-        <p className="truncate text-label">{item.nhan}</p>
+        <p className="truncate text-label">{nhanThamSo(t, item.key)}</p>
         <p className="mt-text truncate text-caption-sm text-text-secondary">
           {t('caiDat.vanHanh.goiYCongTac', {
             macDinh: item.macDinh ? t('caiDat.congTac.bat') : t('caiDat.congTac.tat'),
@@ -388,7 +389,7 @@ function DongCongTac({
       <Switch
         checked={item.giaTri === true}
         onChange={onGat}
-        label={item.nhan}
+        label={nhanThamSo(t, item.key)}
         disabled={disabled}
       />
     </div>

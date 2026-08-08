@@ -38,7 +38,7 @@ export function NotificationTypesScreen() {
             !row.hasTrigger && 'text-text-secondary',
           )}
         >
-          {row.event}
+          {t(`thongBao.loai.suKien.${row.type}`)}
         </p>
       ),
     },
@@ -54,7 +54,11 @@ export function NotificationTypesScreen() {
       key: 'openTarget',
       header: t('thongBao.loai.cot.moMan'),
       width: 210,
-      cell: (row) => <span className="text-caption-sm text-text-secondary">{row.openTarget}</span>,
+      cell: (row) => (
+        <span className="text-caption-sm text-text-secondary">
+          {t(`thongBao.loai.moMan.${row.type}`)}
+        </span>
+      ),
     },
     {
       key: 'inApp',
@@ -105,13 +109,15 @@ export function NotificationTypesScreen() {
           bodyClassName="flex flex-col gap-item"
         >
           {GHI_CHU_PHONG_BENH.map((item) => (
-            <div key={item.label} className="flex items-start justify-between gap-item">
+            <div key={item.ma} className="flex items-start justify-between gap-item">
               <div className="min-w-0">
-                <p className="text-label">{item.label}</p>
-                <p className="mt-text text-caption-sm text-text-secondary">{item.desc}</p>
+                <p className="text-label">{t(`thongBao.phongBenh.muc.${item.ma}.nhan`)}</p>
+                <p className="mt-text text-caption-sm text-text-secondary">
+                  {t(`thongBao.phongBenh.muc.${item.ma}.mo`)}
+                </p>
               </div>
               <span className="shrink-0 rounded-card border border-neutral-light bg-canvas px-item py-label text-label-sm text-text-secondary">
-                {item.value}
+                {t(`thongBao.phongBenh.muc.${item.ma}.giaTri`)}
               </span>
             </div>
           ))}

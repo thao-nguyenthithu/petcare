@@ -5,6 +5,7 @@ import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/notification/data/thong_bao.dart';
+import 'package:petcare_app/features/notification/data/thong_bao_i18n.dart';
 import 'package:petcare_app/shared/utils/relative_time.dart';
 
 // Một dòng thông báo
@@ -25,9 +26,10 @@ class NotificationTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final chuaDoc = !notification.daDoc;
     final canXuLy = notification.canXuLy;
-    final thoiGian = thoiGianTuongDoi(context.l10n, notification.soPhutTruoc);
+    final thoiGian = thoiGianTuongDoi(l10n, notification.soPhutTruoc);
     return Material(
       color: _mauNen(chuaDoc, canXuLy),
       clipBehavior: Clip.antiAlias,
@@ -67,9 +69,15 @@ class NotificationTile extends StatelessWidget {
                       ),
                       const SizedBox(height: AppSpacing.textGap),
                     ],
-                    Text(notification.title, style: AppTextStyles.label),
+                    Text(
+                      tieuDeThongBao(l10n, notification),
+                      style: AppTextStyles.label,
+                    ),
                     const SizedBox(height: AppSpacing.textGap),
-                    Text(notification.message, style: AppTextStyles.captionSm),
+                    Text(
+                      noiDungThongBao(l10n, notification),
+                      style: AppTextStyles.captionSm,
+                    ),
                     if (!hienVai) ...[
                       const SizedBox(height: AppSpacing.labelGap),
                       Text(thoiGian, style: AppTextStyles.captionSm),

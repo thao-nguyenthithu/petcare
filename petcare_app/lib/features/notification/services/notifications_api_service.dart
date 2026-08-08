@@ -32,11 +32,12 @@ class NotificationsApiService {
 
   Future<void> danhDauDocHet() => apiClient.post('/notifications/read-all');
 
-  // Đăng ký máy này nhận push
-  Future<void> luuThietBi(String token, String platform) => apiClient.post(
-    '/notifications/device-token',
-    data: {'token': token, 'platform': platform},
-  );
+  // Đăng ký máy này nhận push, locale để backend dựng câu đúng tiếng
+  Future<void> luuThietBi(String token, String platform, String locale) =>
+      apiClient.post(
+        '/notifications/device-token',
+        data: {'token': token, 'platform': platform, 'locale': locale},
+      );
 
   Future<void> xoaThietBi(String token) =>
       apiClient.delete('/notifications/device-token/$token');

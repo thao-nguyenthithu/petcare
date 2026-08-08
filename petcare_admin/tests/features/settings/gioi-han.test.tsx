@@ -7,57 +7,27 @@ import { LimitsScreen } from '@/features/settings/screens/limits-screen';
 import { renderVoiKhung } from '@tests/support/render';
 import { server } from '@tests/support/server';
 
-// Đúng hình dạng GET /admin/limits trả về, thiếu một trường là màn ném lỗi lúc dựng
+// Đúng hình dạng GET /admin/limits trả về: chỉ mã, chữ tra ở vi.json
 const NHOM = [
   {
     key: 'taiKhoan',
-    title: 'Tài khoản và mã xác minh',
-    source: 'Áp cho đăng ký, đăng nhập, xác minh email và mọi ảnh tải lên',
     cot: 'trai',
     items: [
-      {
-        label: 'Mật khẩu tối thiểu',
-        desc: 'Áp chung cho mọi tài khoản, kể cả quản trị',
-        value: '6',
-        unit: 'ký tự',
-      },
-      {
-        label: 'Phiên đăng nhập',
-        desc: 'Đổi mật khẩu là mọi phiên cũ chết ngay',
-        value: '30',
-        unit: 'ngày',
-      },
+      { ma: 'taiKhoan.matKhauToiThieu', value: '6', unit: 'kyTu' },
+      { ma: 'taiKhoan.phienDangNhap', value: '30', unit: 'ngay' },
     ],
   },
   {
     key: 'kyLuat',
-    title: 'Kỷ luật người chăm',
-    source: 'Áp cho cảnh cáo, tạm ẩn và khoá hồ sơ người chăm',
     cot: 'phai',
     coDongDaChuyen: true,
-    items: [
-      {
-        label: 'Thời gian tạm ẩn hồ sơ',
-        desc: 'Ba bậc theo số lần bị ẩn, lần đầu là lời nhắc',
-        value: '3 · 7 · 14',
-        unit: 'ngày',
-      },
-    ],
+    items: [{ ma: 'kyLuat.thoiGianTamAnHoSo', value: '3 · 7 · 14', unit: 'ngay' }],
   },
   {
     key: 'chuaCo',
-    title: 'Chưa có trong code, cần thống nhất',
-    source: 'Những mức chưa được thống nhất, hiện hệ thống không chặn',
     cot: 'phai',
     chuaCoTrongCode: true,
-    items: [
-      {
-        label: 'Số địa chỉ tối đa mỗi tài khoản',
-        desc: 'Lối tạo địa chỉ hiện không đếm và không chặn',
-        value: 'chưa có',
-        unit: '',
-      },
-    ],
+    items: [{ ma: 'chuaCo.soDiaChiToiDaMoiTaiKhoan', value: '', unit: '' }],
   },
 ];
 

@@ -9,6 +9,10 @@ String mapSitterProfileError(AppLocalizations l10n, Object error) {
       return l10n.loiHoSoDaDuyet;
     case 'CCCD_DA_DANG_KY':
       return l10n.loiCccdDaDangKy;
+    case 'THIEU_ANH_CCCD':
+      return l10n.loiThieuAnhCccd;
+    case 'CHUA_CO_HO_SO':
+      return l10n.loiChuaCoHoSo;
   }
   if (error is DioException) {
     return messageFromError(error) ?? l10n.loiKetNoiMayChu;

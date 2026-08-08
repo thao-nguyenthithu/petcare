@@ -79,8 +79,10 @@ function NhomCard({ group }: { group: LimitGroup }) {
     >
       <div className="flex items-start justify-between gap-item px-block pb-stack pt-block">
         <div className="min-w-0">
-          <h2 className="truncate text-h3">{group.title}</h2>
-          <p className="mt-text text-caption-sm text-text-secondary">{group.source}</p>
+          <h2 className="truncate text-h3">{t(`gioiHan.nhom.${group.key}.tieuDe`)}</h2>
+          <p className="mt-text text-caption-sm text-text-secondary">
+            {t(`gioiHan.nhom.${group.key}.nguon`)}
+          </p>
         </div>
         {group.coDongDaChuyen ? (
           <Link
@@ -96,20 +98,24 @@ function NhomCard({ group }: { group: LimitGroup }) {
       <div className="flex flex-col px-block pb-block">
         {group.items.map((item, index) => (
           <div
-            key={item.label}
+            key={item.ma}
             className={cn(
               'flex items-center justify-between gap-item py-item',
               index > 0 && 'border-t border-neutral-light',
             )}
           >
             <div className="min-w-0">
-              <p className="truncate text-label">{item.label}</p>
-              <p className="mt-text truncate text-caption-sm text-text-secondary">{item.desc}</p>
+              <p className="truncate text-label">{t(`gioiHan.muc.${item.ma}.nhan`)}</p>
+              <p className="mt-text truncate text-caption-sm text-text-secondary">
+                {t(`gioiHan.muc.${item.ma}.mo`)}
+              </p>
             </div>
             <div className="flex min-h-[38px] w-[152px] shrink-0 items-center justify-between gap-label rounded-card border border-neutral-light bg-canvas px-item py-label">
-              <span className="min-w-0 text-label">{item.value}</span>
+              <span className="min-w-0 text-label">{item.value || t('gioiHan.chuaCo')}</span>
               {item.unit ? (
-                <span className="shrink-0 text-caption-sm text-text-secondary">{item.unit}</span>
+                <span className="shrink-0 text-caption-sm text-text-secondary">
+                  {t(`gioiHan.donVi.${item.unit}`)}
+                </span>
               ) : null}
             </div>
           </div>

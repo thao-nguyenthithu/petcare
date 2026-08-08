@@ -7,6 +7,11 @@ export function khoaChuoi(key: string): string {
   return key.replace(/\./g, '_');
 }
 
+// Backend chỉ trả khoá tham số, chữ hiển thị nằm trọn ở vi.json
+export function nhanThamSo(t: DichChuoi, key: string): string {
+  return t(`caiDat.thamSo.${khoaChuoi(key)}`);
+}
+
 export function nhanNguoiDoi(t: DichChuoi, item: OperatingSetting): string {
   if (!item.nguoiDoi || !item.capNhatLuc) return t('caiDat.vanHanh.chuaAiDoi');
   return t('caiDat.vanHanh.doiBoi', {

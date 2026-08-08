@@ -25,6 +25,18 @@ String moTaLoiThuCung(BuildContext context, Object error) {
     case 'KHONG_TIM_THAY_HANG_MUC':
     case 'KHONG_TIM_THAY_LAN_GHI':
       return l10n.loiKhongTimThayHoSoBe;
+    case 'NGAY_SINH_KHONG_HOP_LE':
+      return l10n.loiNgaySinhBeKhongHopLe;
+    case 'KHONG_TIM_THAY_ANH':
+      return l10n.loiKhongTimThayAnh;
+    case 'THIEU_ANH':
+      return l10n.loiThieuAnh;
+    case 'THIEU_TEN_HANG_MUC':
+      return l10n.loiThieuTenHangMuc;
+    case 'CHU_KY_KHONG_DAY_DU':
+      return l10n.loiChuKyKhongDayDu;
+    case 'NGAY_THUC_HIEN_O_TUONG_LAI':
+      return l10n.loiNgayThucHienOTuongLai;
   }
   return messageFromError(error) ?? l10n.loiKetNoiMayChu;
 }
