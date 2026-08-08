@@ -5,8 +5,8 @@ REST API và WebSocket cho nền tảng P2P kết nối chủ nuôi với ngư�
 Kiến trúc: NestJS 11 modular monolith · Prisma 7 + Supabase PostgreSQL/PostGIS · Redis (BullMQ,
 OTP, Socket.io adapter) · JWT + Firebase Admin · Supabase Storage.
 
-Quy mô hiện tại: 17 cụm module, 39 controller, 197 route, 6 gateway, 5 cron, 49 bộ test.
-Lược đồ dữ liệu 37 model và 22 enum.
+Quy mô hiện tại: 17 cụm module, 39 controller, 197 route, 4 gateway, 5 cron, 50 bộ test
+với 756 phép kiểm. Lược đồ dữ liệu 37 model và 22 enum.
 
 ## Yêu cầu môi trường
 
@@ -55,17 +55,28 @@ npx prisma generate         # sinh lại client sau khi sửa schema
 npx prisma studio           # xem dữ liệu
 ```
 
-Sửa lược đồ thì tạo migration mới bằng `npx prisma migrate dev --name <ten_khong_dau>`,
-KHÔNG sửa file nền. Cần shadow database riêng (`SHADOW_DATABASE_URL`) vì shadow tạm của
-Prisma không có PostGIS.
+Sửa lược đồ thì **sửa thẳng file nền** rồi áp lên database đang chạy, KHÔNG thêm thư mục
+migration thứ hai và KHÔNG dùng `migrate dev` (lệnh đó đòi reset database thật):
 
-Nghiệm thu lược đồ khớp database:
+```bash
+npx prisma db push          # đồng bộ nhanh database dev, thêm --accept-data-loss nếu đổi cột
+npx prisma generate         # db push không tự sinh lại client
+```
+
+Xong thì cập nhật file nền cho khớp và đánh dấu lại sổ migration, nếu không lần dựng
+database mới sẽ thiếu đúng phần vừa thêm. Cần shadow database riêng
+(`SHADOW_DATABASE_URL`) khi nghiệm thu, vì shadow tạm của Prisma không có PostGIS.
+
+Hai phép nghiệm thu khác nhau, phải chạy cả hai:
 
 ```bash
 npx prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma --script
+npx prisma migrate diff --from-migrations prisma/migrations --to-schema prisma/schema.prisma --script
 ```
 
-In ra `-- This is an empty migration.` là khớp.
+Câu đầu so database đang chạy với lược đồ, câu sau phát lại thư mục migration lên shadow
+database rồi mới so — chỉ câu sau mới nói được nền có dựng lại nổi database hay không. Cả
+hai phải in ra `-- This is an empty migration.`
 
 ## Scripts
 
@@ -87,7 +98,7 @@ config/      configuration.ts đọc biến môi trường
 prisma/      PrismaService (driver adapter pg)
 modules/
   addresses/     sổ địa chỉ chủ nuôi
-  admin/         13 cụm quản trị, tham số vận hành, nhật ký
+  admin/         13 cụm quản trị nghiệp vụ kèm dto và tiện ích chung, tham số vận hành, nhật ký
   ai/            quét ảnh check-in, adapter Anthropic và Gemini
   auth/          đăng ký, đăng nhập, OTP, social login, tài khoản
   bookings/      máy trạng thái đơn, huỷ, khiếu nại, thanh toán đơn
@@ -105,18 +116,46 @@ modules/
   wallet/        ví, rút tiền, tài khoản ngân hàng
 ```
 
+## WebSocket
+
+Bốn gateway chạy chung cổng với REST, dùng Redis adapter để nhiều tiến trình cùng phát
+được. Ứng dụng nối bằng `socket_io_client` kèm JWT.
+
+| Namespace | File | Dùng cho |
+|---|---|---|
+| `/gps` | `gps/gps.gateway.ts` | Chủ nuôi xem lộ trình phiên dắt theo thời gian thực |
+| `/messaging` | `messaging/messaging.gateway.ts` | Hội thoại trong đơn |
+| `/notify` | `notifications/notifications.gateway.ts` | Thông báo đẩy trong ứng dụng |
+| `/checkin-scan` | `sitter/orders/checkin-scan.gateway.ts` | Đẩy kết quả AI quét ảnh check-in |
+
+Kết quả quét AI đi một chiều từ máy chủ ra, ứng dụng KHÔNG hỏi lại theo nhịp.
+
 ## Tác vụ định kỳ
 
-Năm cron chạy trong tiến trình máy chủ, nhịp cụ thể tra bộ luật:
+Năm cron chạy trong tiến trình máy chủ, con số ở đây là nhịp chạy chứ không phải hạn
+nghiệp vụ — hạn tra bộ luật mục 14:
 
-- tự hoàn tất đơn quá hạn (`bookings/auto-complete.job.ts`)
-- quét đơn treo trạng thái (`bookings/booking-sweep.job.ts`)
-- nhắc lịch phòng bệnh (`pets/prevention-reminder.job.ts`)
-- giải phóng tiền tạm giữ về ví người chăm (`wallet/escrow-release.job.ts`)
+| Việc | Nhịp | File |
+|---|---|---|
+| Quét đơn quá hạn: hết hạn nhận, người chăm chưa tới, không ai bắt đầu | mỗi phút | `bookings/booking-sweep.job.ts` |
+| Tự chốt đơn chủ nuôi không xác nhận | mỗi 10 phút | `bookings/auto-complete.job.ts` |
+| Nhả tiền tạm giữ về ví người chăm | mỗi 10 phút | `wallet/escrow-release.job.ts` |
+| Nhắc lịch phòng bệnh | 8 giờ sáng | `pets/prevention-reminder.job.ts` |
+| Dọn bản ghi ngày cài riêng đã qua | 3 giờ sáng | `auth/user-cleanup.service.ts` |
+
+Ba nhánh của lượt quét mỗi phút đi chung một truy vấn rồi phân nhánh trong bộ nhớ, đừng
+tách thành ba việc chạy song song. Việc tự chốt chạy trước việc nhả tiền để đơn vừa chốt
+xong là lượt nhả kế tiếp thấy ngay.
 
 ## Điểm cần biết
 
-  ngưỡng vận hành đọc từ bảng `SystemSetting` và đóng băng theo đơn.
+- **Con số nghiệp vụ**: tra `.claude/so-lieu-nghiep-vu.md` trước khi code, đừng lấy từ mã
+  nguồn cũ. Mười bốn tham số vận hành đọc từ bảng `SystemSetting`, đổi ở màn quản trị 15,
+  và đóng băng theo đơn — phí nền tảng cùng phí huỷ chốt lúc tạo đơn, mốc nhả tiền chốt
+  lúc đơn kết thúc.
+- **Múi giờ database phải là `UTC`**: driver adapter của Prisma bỏ phần offset khi đọc
+  `timestamptz`, nên đặt session sang giờ Việt Nam là mọi mốc lệch 7 giờ ở cả hai chiều.
+  Kiểm bằng `show timezone;`.
 - **Redis**: có `REDIS_URL` thì dùng chuỗi đó (kèm mật khẩu, dành cho môi trường thật),
   không có mới rơi về `REDIS_HOST`/`REDIS_PORT`.
 - **CORS**: khai `CORS_ORIGINS` phân tách bằng dấu phẩy. Bỏ trống lúc chạy máy là mở hết,

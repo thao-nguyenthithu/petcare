@@ -1,199 +1,146 @@
-# Smart Pet Care — Flutter Mobile App
+# Smart Pet Care — Ứng dụng Flutter
 
-Ứng dụng kết nối chủ nuôi thú cưng với người cung cấp dịch vụ theo mô hình On-Demand P2P.
-3 dịch vụ: Dắt thú cưng - Trông giữ - Chăm sóc tại nhà.
+Ứng dụng của nền tảng P2P kết nối chủ nuôi với người chăm thú cưng. Một mã nguồn phục vụ
+hai vai, đổi vai ngay trong ứng dụng: **chủ nuôi** đặt và theo dõi đơn, **người chăm**
+nhận đơn và tác nghiệp.
 
----
+Ba dịch vụ: dắt đi dạo có định vị trực tiếp, trông giữ qua đêm có nhật ký ảnh, tắm và cắt
+tỉa tại nhà.
 
 ## Yêu cầu môi trường
 
-| Tool | Version |
+| Thứ | Bản |
 |---|---|
 | Flutter | 3.41.x stable |
-| Dart | 3.x |
-| Android SDK | API 34 |
-| Java | 21 (Android Studio JBR) |
+| Dart SDK | ^3.11.5 |
+| Android | minSdk 31, biên dịch theo `flutter.compileSdkVersion` |
+| Java | 17 (JBR của Android Studio) |
 
----
+Máy Android **thật** mới chạy được phần đáng thử nhất: máy ảnh, định vị nền, thông báo
+đẩy. Máy ảo chỉ hợp để soát giao diện.
 
 ## Cài đặt
 
-### 1. Clone và cài dependencies
-
 ```bash
-git clone <repo-url>
-cd petcare_app
 flutter pub get
 ```
 
-### 2. Tạo file secrets
+Tạo `secrets.env` ở thư mục này, đúng một biến:
 
-Sao chép file mẫu và điền giá trị thật:
-
-```bash
-cp secrets.env.example secrets.env
+```
+API_URL=http://10.0.2.2:3000/api/v1
 ```
 
-Nội dung `secrets.env`:
+Máy Android thật thì thay bằng địa chỉ IP của máy chạy máy chủ trong cùng mạng LAN, ví dụ
+`http://192.168.1.10:3000/api/v1`; dùng máy chủ đã triển khai thì trỏ
+`https://petcare-backend.up.railway.app/api/v1`. Địa chỉ WebSocket **không khai riêng**:
+ứng dụng cắt phần `/api/v1` khỏi `API_URL` để ra gốc máy chủ rồi nối các namespace.
+
+Facebook keys khai trong `android/gradle.properties`, thiếu thì chỉ tắt đăng nhập
+Facebook chứ không sập ứng dụng:
+
 ```
-SOCKET_URL=https://petcare-backend.up.railway.app
+FACEBOOK_APP_ID=...
+FACEBOOK_CLIENT_TOKEN=...
 ```
 
-Không cần API key cho bản đồ - dự án dùng `flutter_map` với OpenStreetMap (ADR-005), miễn phí và không yêu cầu đăng ký.
+Bản đồ không cần khoá nào: dự án dùng `flutter_map` với OpenStreetMap (ADR-005).
 
-Điền Facebook keys trong `android/gradle.properties` (vẫn cần cho Social Login):
-```
-FACEBOOK_APP_ID=your_facebook_app_id
-FACEBOOK_CLIENT_TOKEN=your_facebook_client_token
-```
-
-### 3. Chạy app
+## Chạy và build
 
 ```bash
 flutter run --dart-define-from-file=secrets.env
-```
-
-### 4. Build APK
-
-```bash
 flutter build apk --debug --dart-define-from-file=secrets.env
 ```
 
----
+Thiếu `--dart-define-from-file` thì `API_URL` rơi về `http://localhost:3000/api/v1`, tức
+chính máy Android chứ không phải máy chạy máy chủ — mọi lời gọi sẽ lỗi mạng.
 
-## Cấu trúc thư mục
+Thêm chuỗi hiển thị thì sinh lại l10n, bắt buộc trước khi build:
 
-```
-lib/
-├── core/
-│   ├── theme/
-│   │   ├── app_colors.dart        - Brand colors (primary, secondary, error...)
-│   │   ├── app_text_styles.dart   - Typography
-│   │   └── app_theme.dart         - ThemeData config
-│   ├── router/
-│   │   └── app_router.dart        - GoRouter config + redirect theo role
-│   ├── constants/
-│   │   ├── api_constants.dart     - BASE_URL, endpoint paths
-│   │   └── app_constants.dart     - GPS batch size (5), flush interval (2min), etc.
-│   ├── network/
-│   │   ├── dio_client.dart        - Dio instance + interceptors (auth header, refresh token)
-│   │   ├── socket_client.dart     - Socket.io client setup (ADR-004)
-│   │   └── api_exception.dart     - Custom exception: ApiException, NetworkException
-│   ├── l10n/                      - i18n - VI (mặc định) + EN
-│   │   ├── app_vi.arb             - Tiếng Việt
-│   │   └── app_en.arb             - Tiếng Anh
-│   └── storage/
-│       └── token_storage.dart     - TokenStorageService: saveTokens(), getAccessToken(), clearTokens()
-│
-├── data/
-│   ├── models/
-│   │   ├── user.dart              - User, UserRole enum
-│   │   ├── pet.dart                - Pet
-│   │   ├── booking.dart           - Booking, BookingStatus enum (gồm AWAITING_OWNER_APPROVAL, ADR-001)
-│   │   ├── service.dart           - Service, ServiceType enum
-│   │   ├── location_track.dart    - WaypointDto (lat, lng, clientTs) - REST batch history
-│   │   └── message.dart           - Message model cho In-session Chat (ADR-004)
-│   ├── repositories/
-│   │   ├── auth_repository.dart
-│   │   ├── booking_repository.dart
-│   │   ├── pet_repository.dart
-│   │   └── gps_repository.dart    - saveBatch() gọi POST /gps/waypoints/batch (lưu history)
-│   └── mock/
-│       └── mock_data.dart         - Dữ liệu giả để dev không cần backend
-│
-├── features/
-│   ├── auth/
-│   │   ├── screens/
-│   │   │   ├── login_screen.dart
-│   │   │   └── register_screen.dart
-│   │   └── providers/
-│   │       └── auth_provider.dart
-│   ├── home/
-│   │   └── screens/home_screen.dart
-│   ├── services/
-│   │   └── screens/service_list_screen.dart
-│   ├── booking/
-│   │   ├── screens/
-│   │   │   ├── booking_flow_screen.dart
-│   │   │   └── owner_override_screen.dart  - [ADR-001] Màn hình Owner Override khi AI fail
-│   │   └── providers/
-│   │       └── booking_provider.dart       - updatedAt gửi kèm request (ADR-003)
-│   ├── tracking/
-│   │   ├── services/
-│   │   │   ├── gps_socket_service.dart     - [ADR-004] WebSocket: gửi/nhận GPS realtime
-│   │   │   └── gps_buffer_service.dart     - Buffer + flush batch lên REST (lưu history)
-│   │   └── screens/
-│   │       └── live_map_screen.dart        - Owner xem live marker qua flutter_map (ADR-005)
-│   ├── chat/
-│   │   ├── services/
-│   │   │   └── chat_socket_service.dart    - [ADR-004] WebSocket: in-session chat
-│   │   ├── providers/
-│   │   │   └── chat_provider.dart
-│   │   └── screens/
-│   │       └── chat_screen.dart            - Chat giữa Owner và Service Provider
-│   ├── pets/
-│   │   └── screens/pet_profile_screen.dart
-│   ├── provider_dashboard/
-│   │   └── screens/provider_home_screen.dart
-│   └── account/
-│       └── screens/account_screen.dart     - Có nút chọn ngôn ngữ VI/EN
-│
-└── shared/
-    └── widgets/
-        ├── primary_button.dart
-        ├── app_text_field.dart
-        └── loading_overlay.dart
+```bash
+flutter gen-l10n
+dart format lib
+flutter analyze
 ```
 
----
+## Cấu trúc `lib/`
 
-## Đa ngôn ngữ (i18n)
+Bốn tầng: `main.dart` tối giản, `core/` hạ tầng, `shared/` dùng chung nhiều cụm,
+`features/` chia theo nghiệp vụ. Widget thăng cấp dần: `_Xxx` trong màn hình →
+`features/<cụm>/widgets/` → `shared/widgets/`.
 
-App hỗ trợ Tiếng Việt (mặc định) và Tiếng Anh.
-User tự chọn trong Settings, preference lưu bằng `flutter_secure_storage`.
+```
+main.dart              khởi tạo Firebase, ProviderScope, router
+core/
+  config/              tham số nghiệp vụ đọc từ máy chủ
+  l10n/                app_vi.arb là nguồn chuỗi, generated/ do gen-l10n sinh
+  network/             api_client.dart (Dio + JWT interceptor), api_error.dart
+  providers/           container dùng chung
+  router/              go_router, chặn đường theo vai và trạng thái hồ sơ
+  services/            thông báo đẩy, socket thông báo, thông báo hệ thống
+  storage/             lưu JWT bằng flutter_secure_storage
+  theme/               AppColors, AppTextStyles, AppTheme, khoảng cách
+  utils/               ngày giờ theo múi giờ Việt Nam, kiểm dữ liệu nhập
+shared/
+  data/                kiểu dữ liệu dùng chung: bé, dịch vụ, khung giờ
+  services/            gọi GPS, socket GPS, tìm người chăm
+  utils/               khoảng cách, chọn ảnh, mở chỉ đường
+  widgets/             nút, thẻ, khung ảnh, kéo làm mới, bộ khung chờ
+features/              mỗi cụm gồm data/ providers/ screens/ services/ widgets/ và
+                       một file <cụm>_routes.dart
+  auth address account pets                     tài khoản và hồ sơ
+  home search service booking owner_wallet      phía chủ nuôi
+  dksitter sitter sitter_order wallet           phía người chăm
+  messaging notification reviews                dùng chung hai vai
+```
 
-iOS permission strings dùng tiếng Anh - Apple yêu cầu, đây là system dialog không phải app UI.
+## Đa ngôn ngữ
 
----
+Chuỗi hiển thị **không được viết thẳng trong mã**. Thêm khoá vào `lib/core/l10n/app_vi.arb`
+(tên khoá tiếng Việt không dấu), chạy `flutter gen-l10n`, rồi gọi `context.l10n.<khoá>`.
 
-## Bản đồ (ADR-005)
+Giai đoạn phát triển chỉ nuôi bản tiếng Việt; `app_en.arb` để dịch trọn một lượt ở cuối
+dự án, đụng vào sớm là ôm hai bản lệch nhau suốt nhiều tháng. Chuỗi xin quyền của iOS vẫn
+để tiếng Anh vì đó là hộp thoại hệ thống.
 
-Dự án dùng `flutter_map` với OpenStreetMap thay cho `google_maps_flutter`.
+## Định vị và thời gian thực
 
-Lý do: miễn phí hoàn toàn, không cần API key, không lo billing khi vượt free tier.
+- **Định vị phiên dắt**: `geolocator` ghi điểm, `flutter_foreground_task` giữ việc chạy
+  khi ứng dụng ở nền, socket `/gps` đẩy vị trí cho chủ nuôi xem. Ngưỡng ghi và gom điểm
+  tra bộ luật mục 8, đừng đọc từ mã nguồn cũ.
+- **Hội thoại trong đơn** qua socket `/messaging`, **thông báo** qua `/notify`, **kết quả
+  AI quét ảnh check-in** qua `/checkin-scan`.
+- Kết quả AI do máy chủ **đẩy xuống**, ứng dụng không hỏi lại theo nhịp. Chờ lâu thì đừng
+  bấm lại, xem log máy chủ.
+- Thông báo đẩy dùng `firebase_messaging`; ứng dụng đang mở thì `flutter_local_notifications`
+  dựng thông báo hệ thống, vì FCM không tự hiện khi ứng dụng ở tiền cảnh.
 
-Package liên quan: `flutter_map`, `latlong2`.
+## Quy ước code
 
----
+Chi tiết ở `.claude/rule/rule-flutter.md`, ba điều hay sai nhất:
 
-## GPS và Chat Realtime (ADR-004)
+- Dùng widget Material 3 gốc (`FilledButton`, `OutlinedButton`, `TextButton`...), style khai
+  một lần trong `AppTheme`. Không tự chế lại thứ đã có sẵn.
+- Màu và khoảng cách lấy từ `core/theme/`, không viết số đo thô lấy từ Figma.
+- Định danh và tên file bằng tiếng Anh; comment, log và thông báo lỗi bằng tiếng Việt,
+  mỗi comment đúng một dòng.
 
-GPS Realtime và In-session Chat dùng WebSocket (Socket.io client) kết nối tới NestJS Gateway, không còn dùng Firebase Realtime Database.
+Hiệu năng: kiểm tra hình thức dữ liệu ngay ở máy, không gọi máy chủ theo từng phím gõ,
+dùng `const`, `ListView.builder`, `cached_network_image` và nhớ `dispose`.
 
-- GPS live: cập nhật vị trí qua WebSocket, Owner nhận marker realtime
-- GPS history: vẫn lưu qua REST batch (`gps_buffer_service.dart`) để query lại sau khi booking hoàn thành
-- Chat: tin nhắn gửi/nhận qua WebSocket, lưu vào PostgreSQL qua backend
+## Quản lý bí mật
 
-Package liên quan: `socket_io_client`.
-
----
-
-## Secret Management
-
-| File | Mô tả | Commit? |
+| File | Nội dung | Commit? |
 |---|---|---|
-| `secrets.env` | Giá trị thật (SOCKET_URL...) | Không |
-| `secrets.env.example` | Template không có giá trị thật | Có |
-| `android/gradle.properties` | FACEBOOK_APP_ID + FACEBOOK_CLIENT_TOKEN cho Gradle | Không |
+| `secrets.env` | `API_URL` trỏ máy chủ đang dùng | Không |
+| `android/gradle.properties` | `FACEBOOK_APP_ID`, `FACEBOOK_CLIENT_TOKEN` | Không |
+| `android/app/google-services.json` | Cấu hình Firebase | Không |
 
----
+## Quyết định kiến trúc
 
-## Architecture Decision Records
-
-| ADR | Tóm tắt | Sprint |
-|---|---|---|
-| ADR-001 | AI fail 3 lần - Owner Override 5 phút (thay Admin Manual Review) | BE S4 - Flutter S5 |
-| ADR-002 | (Deprecated bởi ADR-004) GPS Dual Stream Firebase RTDB | - |
-| ADR-003 | Optimistic Lock bằng `updatedAt` cho Booking State Machine - tránh Race Condition | BE S3 |
-| ADR-004 | WebSocket (Socket.io) thay Firebase RTDB cho GPS Realtime và In-session Chat | BE S4 - Flutter S5 |
-| ADR-005 | flutter_map (OpenStreetMap) thay google_maps_flutter | Flutter S5 |
+| ADR | Tóm tắt |
+|---|---|
+| ADR-003 | Khoá lạc quan bằng `updatedAt` cho máy trạng thái đơn, tránh hai lượt bấm cùng lúc |
+| ADR-004 | WebSocket (Socket.io) cho định vị trực tiếp và hội thoại, thay Firebase Realtime Database |
+| ADR-005 | `flutter_map` với OpenStreetMap thay `google_maps_flutter`, khỏi khoá API và khỏi lo hoá đơn |
