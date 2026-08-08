@@ -62,7 +62,7 @@ export class SitterGuard implements CanActivate {
       });
     }
 
-    const { status, ...hoSo } = ncc;
+    const { status: _status, ...hoSo } = ncc;
     request.sitter = hoSo;
     return true;
   }
