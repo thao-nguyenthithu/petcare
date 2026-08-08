@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:petcare_app/core/storage/token_storage.dart';
+import 'package:petcare_app/core/services/notify_socket_service.dart';
 import 'package:petcare_app/core/services/push_service.dart';
 import 'package:petcare_app/features/auth/services/auth_api_service.dart';
 import 'package:petcare_app/features/auth/services/social_auth_service.dart';
@@ -37,7 +38,10 @@ class AuthNotifier extends _$AuthNotifier {
   @override
   Future<bool> build() async {
     final coPhien = await _tokenStorage.hasToken();
-    if (coPhien) unawaited(PushService.instance.dangKy());
+    if (coPhien) {
+      unawaited(PushService.instance.dangKy());
+      unawaited(NotifySocketService.instance.ketNoi());
+    }
     return coPhien;
   }
 
@@ -90,6 +94,7 @@ class AuthNotifier extends _$AuthNotifier {
   // Đăng xuất
   Future<void> logout() async {
     await WalkTrackingController.dungPhien();
+    NotifySocketService.instance.dong();
     await PushService.instance.huyDangKy();
     await _tokenStorage.clearTokens();
     _resetPhienNguoiDung();
@@ -104,6 +109,7 @@ class AuthNotifier extends _$AuthNotifier {
       _resetPhienNguoiDung();
       state = const AsyncData(true);
       unawaited(PushService.instance.dangKy());
+      unawaited(NotifySocketService.instance.ketNoi());
     }
   }
 

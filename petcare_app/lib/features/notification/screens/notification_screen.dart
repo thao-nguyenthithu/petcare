@@ -31,20 +31,29 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
   bool get _coHaiVai =>
       ref.watch(currentUserProvider).asData?.value.laNguoiCham ?? false;
 
-  VaiNhan? get _vaiDangXem => _coHaiVai ? _vai : VaiNhan.chuNuoi;
+  // Hồ sơ NCC chờ duyệt vẫn nhận tin vai người chăm, lọc cứng là mất sạch tin đó
+  VaiNhan? get _vaiDangXem => _coHaiVai ? _vai : null;
+
+  // Hộp tin sống suốt phiên, không nạp lại thì tin gửi lúc đang ở màn khác không hiện
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => ref.read(thongBaoCuaToiProvider.notifier).taiLai());
+  }
 
   List<ThongBao> _loc(List<ThongBao> nguon) =>
       _chiHienChuaDoc ? nguon.where((n) => !n.daDoc).toList() : nguon;
 
   void _moTin(ThongBao tin) {
+    final coVaiNcc =
+        ref.read(currentUserProvider).asData?.value.laNguoiCham ?? false;
     ref.read(thongBaoCuaToiProvider.notifier).danhDauDaDoc(tin.id);
     moThongBao(
       context,
       tin,
       dangCheDoNcc: widget.dangCheDoNcc,
-      tomTatNcc: _coHaiVai
-          ? ref.read(tomTatDonNccProvider).asData?.value
-          : null,
+      coVaiNcc: coVaiNcc,
+      tomTatNcc: coVaiNcc ? ref.read(tomTatDonNccProvider).asData?.value : null,
     );
   }
 

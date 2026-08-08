@@ -70,14 +70,7 @@ class OwnerHomeTab extends ConsumerWidget {
                 const SizedBox(height: 8),
                 const _CumThuCung(),
                 const SizedBox(height: 8),
-                SectionHeader(
-                  title: l10n.duocDanhGiaCao,
-                  onTapMore: () =>
-                      context.push(AppRoutes.searchPath(sapXep: 'rating')),
-                ),
-                const SizedBox(height: 8),
-                const _HangNguoiCham(ganBan: false),
-                const SizedBox(height: 28),
+                const _CumDanhGiaCao(),
                 const BecomeProviderBanner(),
                 SizedBox(height: bottomInset),
               ],
@@ -138,6 +131,31 @@ class _CumGanBan extends ConsumerWidget {
         ),
         const SizedBox(height: 8),
         const _HangNguoiCham(ganBan: true),
+      ],
+    );
+  }
+}
+
+// Không ai qua cửa đánh giá thì giấu cả tiêu đề (bộ luật mục 9)
+class _CumDanhGiaCao extends ConsumerWidget {
+  const _CumDanhGiaCao();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final async = ref.watch(nguoiChamDanhGiaCaoProvider);
+    if (async.asData?.value.isEmpty ?? false) {
+      return const SizedBox(height: 20);
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionHeader(
+          title: context.l10n.duocDanhGiaCao,
+          onTapMore: () => context.push(AppRoutes.searchPath(sapXep: 'rating')),
+        ),
+        const SizedBox(height: 8),
+        const _HangNguoiCham(ganBan: false),
+        const SizedBox(height: 28),
       ],
     );
   }

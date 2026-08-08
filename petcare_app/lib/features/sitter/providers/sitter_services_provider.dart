@@ -13,6 +13,7 @@ class SitterServicesNotifier extends AsyncNotifier<SitterServices> {
   @override
   Future<SitterServices> build() => _api.getServices();
 
+  // Nuốt lỗi ở đây là người chăm thấy dịch vụ tự biến mất mà không hiểu vì sao
   Future<void> _luu(SitterServices moi) async {
     final chuan = moi.chuanHoa;
     state = AsyncData(chuan);
@@ -20,16 +21,19 @@ class SitterServicesNotifier extends AsyncNotifier<SitterServices> {
       await _api.updateServices(chuan);
     } catch (_) {
       ref.invalidateSelf();
+      rethrow;
     }
   }
 
-  void capNhat(SitterServices moi) => _luu(moi);
+  Future<void> capNhat(SitterServices moi) => _luu(moi);
 
-  // Bật/tắt một loại
+  void _luuBoQuaLoi(SitterServices moi) => _luu(moi).ignore();
+
+  // Bật/tắt một loại, hỏng thì công tắc tự về đúng trạng thái máy chủ
   void batTat(ServiceType type, bool bat) {
     final cur = state.value;
     if (cur == null) return;
-    _luu(switch (type) {
+    _luuBoQuaLoi(switch (type) {
       ServiceType.walking => cur.copyWith(
         walking: cur.walking.copyWith(enabled: bat),
       ),

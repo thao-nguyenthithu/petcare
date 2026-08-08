@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/sitter/data/grooming_form.dart';
+import 'package:petcare_app/shared/data/booking_check.dart';
 import 'package:petcare_app/shared/data/service_summary.dart';
 import 'package:petcare_app/shared/data/sitter_services.dart';
 import 'package:petcare_app/features/sitter/widgets/services/choice_pill_row.dart';
@@ -150,6 +151,9 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
     null => null,
     PricingError.trong => context.l10n.khongDuocDeTrong,
     PricingError.soBeToiThieu => context.l10n.loiSoBeToiThieu,
+    PricingError.vuotTranDichVu => context.l10n.loiVuotTranBeDat(
+      '$soBeToiDaDonDat',
+    ),
     PricingError.vuotSucChua => context.l10n.loiMaxPetVuotSucChua,
     PricingError.phuPhiBatBuoc => context.l10n.loiPhuPhiBatBuoc,
     PricingError.phuPhiThuaBe => context.l10n.loiPhuPhiCanNhieuBe,
@@ -159,8 +163,11 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
       ? int.tryParse(_sucChuaController.text)
       : null;
 
-  String? _vMaxPets(String? v) =>
-      _thongBao(loiSoBeToiDa(int.tryParse(v ?? ''), capacity: _sucChua));
+  int? get _tranBe => _type == ServiceType.walking ? soBeToiDaDonDat : null;
+
+  String? _vMaxPets(String? v) => _thongBao(
+    loiSoBeToiDa(int.tryParse(v ?? ''), capacity: _sucChua, tran: _tranBe),
+  );
 
   String? _vPhuPhi(String? v) => _thongBao(
     loiPhuPhiBeThem(docSoTien(v ?? ''), int.tryParse(_maxPetsController.text)),
@@ -175,7 +182,7 @@ class _ServiceFormScreenState extends State<ServiceFormScreen> {
               (phut) => docSoTien(_giaLuot[phut]!.text) != null,
             ) &&
             loiPhuPhiBeThem(phuPhi, maxPets) == null &&
-            loiSoBeToiDa(maxPets) == null;
+            loiSoBeToiDa(maxPets, tran: soBeToiDaDonDat) == null;
       case ServiceType.boarding:
         return docSoTien(_giaNgayController.text) != null &&
             _sucChua != null &&

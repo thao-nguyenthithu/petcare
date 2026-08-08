@@ -9,6 +9,7 @@ import 'package:petcare_app/core/l10n/generated/app_localizations.dart';
 import 'package:petcare_app/core/l10n/locale_provider.dart';
 import 'package:petcare_app/core/providers/app_container.dart';
 import 'package:petcare_app/core/services/push_refresh.dart';
+import 'package:petcare_app/core/services/local_notif_service.dart';
 import 'package:petcare_app/core/storage/locale_storage.dart';
 import 'package:petcare_app/core/theme/app_system_ui.dart';
 import 'package:petcare_app/core/theme/app_theme.dart';
@@ -38,6 +39,7 @@ void main() async {
   appContainer = ProviderContainer(
     overrides: [savedLanguageCodeProvider.overrideWithValue(savedLanguageCode)],
   );
+  await LocalNotifService.instance.khoiTao();
   // Push tới lúc app đang mở phải kéo theo dữ liệu mới
   noiPushVaoLamMoi(appContainer);
   appContainer.read(cauHinhNghiepVuProvider);
@@ -46,11 +48,32 @@ void main() async {
   );
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  late final AppLifecycleListener _vongDoi;
+
+  @override
+  void initState() {
+    super.initState();
+    _vongDoi = AppLifecycleListener(
+      onResume: () => lamMoiKhiQuayLai(appContainer),
+    );
+  }
+
+  @override
+  void dispose() {
+    _vongDoi.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: AppSystemUi.onLightBackground,
       child: MaterialApp.router(

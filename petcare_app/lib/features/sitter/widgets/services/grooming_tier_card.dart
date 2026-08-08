@@ -50,7 +50,6 @@ class GroomingTierCard extends StatelessWidget {
     GroomingTierError.thoiLuong => context.l10n.loiThoiLuongGrooming(
       '$groomingPhutToiThieu',
       '$groomingPhutToiDa',
-      '$groomingPhutBuoc',
     ),
   };
 

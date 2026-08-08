@@ -12,9 +12,11 @@ Future<void> moThongBao(
   BuildContext context,
   ThongBao tin, {
   required bool dangCheDoNcc,
+  bool coVaiNcc = true,
   TomTatDonNcc? tomTatNcc,
 }) async {
-  final laTinNcc = tin.vai == VaiNhan.nguoiCham;
+  // Hồ sơ chưa duyệt thì không có bộ route người chăm để chuyển sang
+  final laTinNcc = tin.vai == VaiNhan.nguoiCham && coVaiNcc;
 
   if (laTinNcc != dangCheDoNcc) {
     final sheet = laTinNcc

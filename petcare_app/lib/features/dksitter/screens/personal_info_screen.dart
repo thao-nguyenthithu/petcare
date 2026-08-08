@@ -40,6 +40,21 @@ class _PersonalInfoScreenState extends ConsumerState<PersonalInfoScreen> {
 
   static const _tuoiToiThieu = 18;
 
+  // Sửa lại hồ sơ bị yêu cầu bổ sung hay bị từ chối thì khỏi gõ lại từ đầu
+  @override
+  void initState() {
+    super.initState();
+    final nhap = ref.read(dkSitterProvider);
+    _hoTenController.text = nhap.legalName ?? '';
+    _cccdController.text = nhap.nationalId ?? '';
+    _diaChiController.text = nhap.addressDetail ?? '';
+    _noiCapController.text = nhap.idIssuedPlace ?? '';
+    _tinhThanh = nhap.province;
+    _ngaySinh = nhap.dateOfBirth;
+    _ngayCap = nhap.idIssuedDate;
+    _gioiTinh = nhap.gender;
+  }
+
   @override
   void dispose() {
     _hoTenController.dispose();

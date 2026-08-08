@@ -99,9 +99,7 @@ class GroomingForm {
     final so = int.tryParse(phut[goi]![muc]!.text);
     if (tien == null || so == null) return GroomingTierError.trong;
     if (tien <= 0) return GroomingTierError.giaKhongHopLe;
-    if (so < groomingPhutToiThieu ||
-        so > groomingPhutToiDa ||
-        so % groomingPhutBuoc != 0) {
+    if (so < groomingPhutToiThieu || so > groomingPhutToiDa) {
       return GroomingTierError.thoiLuong;
     }
     return null;

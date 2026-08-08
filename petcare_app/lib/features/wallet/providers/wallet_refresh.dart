@@ -22,3 +22,7 @@ extension WalletRefreshWidgetRef on WidgetRef {
   void refreshWalletData({Iterable<ProviderOrFamily> boQua = const []}) =>
       _canLamMoi(boQua).forEach(invalidate);
 }
+
+extension WalletRefreshContainer on ProviderContainer {
+  void refreshWalletData() => _providerVi.forEach(invalidate);
+}

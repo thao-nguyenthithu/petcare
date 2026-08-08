@@ -41,6 +41,11 @@
             android:name="com.facebook.sdk.ClientToken"
             android:value="@string/facebook_client_token"/>
 
+        <!-- Push lúc app tắt phải rơi vào đúng kênh app tự dựng, không thì bị hạ độ ưu tiên -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="petcare_tin"/>
+
         <!-- Foreground Service cho GPS tracking -->
         <service
             android:name="com.pravera.flutter_foreground_task.service.ForegroundTaskService"

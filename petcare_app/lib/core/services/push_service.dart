@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:petcare_app/core/services/tin_realtime.dart';
 import 'package:petcare_app/core/storage/locale_storage.dart';
 import 'package:petcare_app/features/notification/services/notifications_api_service.dart';
 
@@ -67,12 +68,17 @@ class PushService {
     }
   }
 
-  void ngheTinKhiDangMo(void Function(String? loai) khiCoTinMoi) {
-    FirebaseMessaging.onMessage.listen((tin) => khiCoTinMoi(_loai(tin)));
+  void ngheTinKhiDangMo(void Function(TinRealtime tin) khiCoTinMoi) {
+    FirebaseMessaging.onMessage.listen((tin) => khiCoTinMoi(_doc(tin)));
     FirebaseMessaging.onMessageOpenedApp.listen(
-      (tin) => khiCoTinMoi(_loai(tin)),
+      (tin) => khiCoTinMoi(_doc(tin)),
     );
   }
 
-  String? _loai(RemoteMessage tin) => tin.data['type'] as String?;
+  TinRealtime _doc(RemoteMessage tin) => TinRealtime(
+    id: tin.data['notifId'] as String?,
+    loai: tin.data['type'] as String?,
+    tieuDe: tin.notification?.title,
+    noiDung: tin.notification?.body,
+  );
 }

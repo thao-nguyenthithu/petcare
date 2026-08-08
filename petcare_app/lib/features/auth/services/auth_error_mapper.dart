@@ -1,10 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:petcare_app/core/l10n/generated/app_localizations.dart';
 import 'package:petcare_app/features/auth/services/auth_api_service.dart';
+import 'package:petcare_app/features/auth/services/social_auth_service.dart';
 import 'package:petcare_app/shared/utils/loi_vai_tro.dart';
 
 // Map mã lỗi backend sang chuỗi hiển thị theo ngôn ngữ đang chọn
 String mapAuthError(AppLocalizations l10n, Object error) {
+  if (error is LoiSaiTaiKhoanLienKet) {
+    return l10n.loiSaiTaiKhoanLienKet(error.email);
+  }
   if (error is FirebaseAuthException) {
     return error.code == 'account-exists-with-different-credential'
         ? l10n.loiEmailDaDangNhapCachKhac

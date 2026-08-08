@@ -18,7 +18,6 @@ enum GroomingPackage { bath, bathAndTrim }
 
 const groomingPhutToiThieu = 30;
 const groomingPhutToiDa = 240;
-const groomingPhutBuoc = 15;
 
 // Thời lượng gợi ý
 const groomingPhutGoiY = {
@@ -345,15 +344,17 @@ class SitterServices {
 enum PricingError {
   trong,
   soBeToiThieu,
+  vuotTranDichVu,
   vuotSucChua,
   phuPhiBatBuoc,
   phuPhiThuaBe,
 }
 
-// Số bé tối đa mỗi đơn
-PricingError? loiSoBeToiDa(int? maxPets, {int? capacity}) {
+// Số bé tối đa mỗi đơn, tran là trần cứng của dịch vụ (bộ luật mục 1)
+PricingError? loiSoBeToiDa(int? maxPets, {int? capacity, int? tran}) {
   if (maxPets == null) return PricingError.trong;
   if (maxPets < 1) return PricingError.soBeToiThieu;
+  if (tran != null && maxPets > tran) return PricingError.vuotTranDichVu;
   if (capacity != null && maxPets > capacity) return PricingError.vuotSucChua;
   return null;
 }

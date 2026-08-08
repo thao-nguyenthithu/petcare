@@ -49,10 +49,11 @@ class _BlockDaysOffSheetState extends ConsumerState<_BlockDaysOffSheet> {
 
   Future<void> _chonNgay({required bool laTuNgay}) async {
     final homNay = homNayVn();
+    // Ngày kết thúc mở lịch từ đúng ngày bắt đầu, khoảng ngược không chọn được
     final chon = await showDatePicker(
       context: context,
       initialDate: laTuNgay ? _tu : _den,
-      firstDate: homNay,
+      firstDate: laTuNgay ? homNay : _tu,
       lastDate: DateTime(homNay.year + 1, homNay.month, homNay.day),
     );
     if (chon == null || !mounted) return;
@@ -62,7 +63,7 @@ class _BlockDaysOffSheetState extends ConsumerState<_BlockDaysOffSheet> {
         // Kéo ngày kết thúc theo để khoảng luôn hợp lệ.
         if (_den.isBefore(_tu)) _den = _tu;
       } else {
-        _den = chon.isBefore(_tu) ? _tu : chon;
+        _den = chon;
       }
     });
     _taiKhoangDangChon();

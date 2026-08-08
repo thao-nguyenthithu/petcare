@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:petcare_app/core/utils/vn_date.dart';
 import 'package:petcare_app/features/dksitter/data/dksitter_draft.dart';
 import 'package:petcare_app/features/auth/providers/current_user_provider.dart';
 import 'package:petcare_app/features/dksitter/services/id_card_upload_service.dart';
@@ -48,6 +49,28 @@ class DkSitterNotifier extends _$DkSitterNotifier {
   void luuAnhCccd({Uint8List? matTruoc, Uint8List? matSau}) {
     state = state.copyWith(idCardFront: matTruoc, idCardBack: matSau);
   }
+
+  // Nạp lại hồ sơ đã nộp để sửa, ảnh cũ giữ theo đường dẫn chứ không tải về
+  Future<void> napHoSoDaGui() async {
+    final hoSo = await _api.getMine();
+    state = DkSitterDraft(
+      legalName: hoSo['legalName'] as String?,
+      gender: _docGioiTinh(hoSo['gender'] as String?),
+      dateOfBirth: docMocVn(hoSo['dateOfBirth'] as String?),
+      nationalId: hoSo['nationalId'] as String?,
+      idIssuedPlace: hoSo['idIssuedPlace'] as String?,
+      idIssuedDate: docMocVn(hoSo['idIssuedDate'] as String?),
+      province: hoSo['province'] as String?,
+      addressDetail: hoSo['addressDetail'] as String?,
+    );
+  }
+
+  static Gender? _docGioiTinh(String? ma) => switch (ma) {
+    'MALE' => Gender.male,
+    'FEMALE' => Gender.female,
+    'OTHER' => Gender.other,
+    _ => null,
+  };
 
   // Bước 3 upload ảnh rồi gửi hồ sơ
   Future<void> guiHoSo() async {

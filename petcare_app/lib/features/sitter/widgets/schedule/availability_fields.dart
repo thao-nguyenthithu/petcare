@@ -1,21 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 
+// Mốc nửa đêm cuối ngày, ô giờ đóng cửa nhận thêm giá trị này (bộ luật mục 10)
+const String gioHetNgay = '24:00';
+
 // Các ô nhập dùng chung của cụm Giờ rảnh chọn giờ và đặt số chỗ trông giữ
 TimeOfDay gioTuChuoi(String gio) {
   final phan = gio.split(':');
-  return TimeOfDay(
-    hour: int.tryParse(phan.first) ?? 0,
-    minute: int.tryParse(phan.last) ?? 0,
-  );
+  final gioSo = int.tryParse(phan.first) ?? 0;
+  return TimeOfDay(hour: gioSo % 24, minute: int.tryParse(phan.last) ?? 0);
 }
 
 String chuoiTuGio(TimeOfDay gio) =>
     '${gio.hour.toString().padLeft(2, '0')}:'
     '${gio.minute.toString().padLeft(2, '0')}';
+
+int _phutTuGio(String gio) {
+  final phan = gio.split(':');
+  return (int.tryParse(phan.first) ?? 0) * 60 + (int.tryParse(phan.last) ?? 0);
+}
+
+String _gioTuPhut(int phut) =>
+    '${(phut ~/ 60).toString().padLeft(2, '0')}:'
+    '${(phut % 60).toString().padLeft(2, '0')}';
+
+// Đổi giờ mở cửa mà giờ đóng hoá ngược thì đẩy theo, khỏi bắt sửa lần lượt hai ô
+String dayGioDong(String batDau, String ketThuc) {
+  if (ketThuc.compareTo(batDau) > 0) return ketThuc;
+  final phut = _phutTuGio(batDau) + 60;
+  return phut >= 24 * 60 ? gioHetNgay : _gioTuPhut(phut);
+}
 
 // Ô chọn giờ: nhãn nhỏ trên, giờ xanh to dưới.
 class TimePickField extends StatelessWidget {
@@ -24,18 +42,37 @@ class TimePickField extends StatelessWidget {
     required this.nhan,
     required this.gio,
     required this.onChon,
+    this.laGioDong = false,
+    this.sauGio,
   });
 
   final String nhan;
   final String gio;
   final ValueChanged<String> onChon;
 
+  // Ô giờ đóng cửa: nửa đêm ở đây là hết ngày, không phải đầu ngày
+  final bool laGioDong;
+
+  // Chọn không sau mốc này thì trả lại ngay tại chỗ (bộ luật mục 10)
+  final String? sauGio;
+
   Future<void> _chon(BuildContext context) async {
+    final l10n = context.l10n;
     final chon = await showTimePicker(
       context: context,
       initialTime: gioTuChuoi(gio),
     );
-    if (chon != null) onChon(chuoiTuGio(chon));
+    if (chon == null || !context.mounted) return;
+    final moi = laGioDong && chon.hour == 0 && chon.minute == 0
+        ? gioHetNgay
+        : chuoiTuGio(chon);
+    if (sauGio != null && moi.compareTo(sauGio!) <= 0) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.gioKetThucPhaiSauGioBatDau)));
+      return;
+    }
+    onChon(moi);
   }
 
   @override

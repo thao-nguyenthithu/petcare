@@ -155,6 +155,7 @@ String? _cau(AppLocalizations l10n, String? khoa, Map<String, String> p) {
       _t(p, 'code'),
       _t(p, 'ketLuan'),
       _t(p, 'lyDo'),
-    ),    _ => null,
+    ),
+    _ => null,
   };
 }
