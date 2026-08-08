@@ -64,7 +64,6 @@ export type DonMayTrangThai = Prisma.BookingGetPayload<{
   select: typeof CHON;
 }>;
 
-
 export function loaiDichVu(don: DonMayTrangThai): LoaiDichVuDto {
   return LOAI_RA_APP[don.service.type];
 }

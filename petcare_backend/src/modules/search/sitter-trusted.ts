@@ -1,4 +1,3 @@
-
 export const DON_HOAN_THANH_TOI_THIEU = 20;
 export const DIEM_DANH_GIA_TOI_THIEU = 4.5;
 export const TY_LE_HUY_TOI_DA = 0.05;

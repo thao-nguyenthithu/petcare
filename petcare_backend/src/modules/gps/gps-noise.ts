@@ -1,7 +1,6 @@
 import { khoangCachKm } from '../../common/khoang-cach';
 import { NGUONG_NOISE_KMH } from './gps.constants';
 
-
 export interface DiemGps {
   lat: number;
   lng: number;

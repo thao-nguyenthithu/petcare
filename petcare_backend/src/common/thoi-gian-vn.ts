@@ -4,6 +4,9 @@ export const MAU_NGAY = /^\d{4}-\d{2}-\d{2}$/;
 // Giờ trong ngày dạng HH:mm
 export const MAU_GIO = /^([01]\d|2[0-3]):[0-5]\d$/;
 
+// Giờ đóng cửa nhận thêm 24:00 nghĩa là hết ngày 
+export const MAU_GIO_DONG = /^([01]\d|2[0-3]):[0-5]\d$|^24:00$/;
+
 // Lệch múi giờ Việt Nam so với UTC
 export const LECH_VN_MS = 7 * 60 * 60 * 1000;
 export const MOT_NGAY_MS = 24 * 60 * 60 * 1000;

@@ -1,4 +1,3 @@
-
 export type PhienTraTien = {
   payUrl: string;
 };

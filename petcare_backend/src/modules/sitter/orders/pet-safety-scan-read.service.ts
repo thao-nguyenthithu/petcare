@@ -25,7 +25,7 @@ import {
   type DonMayTrangThai,
 } from './sitter-order-store.service';
 
-// Đọc kết quả quét check-in 
+// Đọc kết quả quét check-in
 @Injectable()
 export class PetSafetyScanReadService {
   constructor(

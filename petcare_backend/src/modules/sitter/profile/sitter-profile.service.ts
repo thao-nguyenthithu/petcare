@@ -60,6 +60,20 @@ export class SitterProfileService {
         message: 'Hồ sơ đã được duyệt, không thể gửi lại',
       });
     }
+    if (daCo?.status === 'PENDING') {
+      const yeuCau = await this.yeuCauSua(
+        daCo.id,
+        daCo.status,
+        daCo.submittedAt,
+      );
+      if (!yeuCau) {
+        throw new ConflictException({
+          code: 'HO_SO_DANG_CHO_DUYET',
+          message:
+            'Hồ sơ đang chờ duyệt, chỉ sửa được khi quản trị viên yêu cầu',
+        });
+      }
+    }
     // Ngày sinh ở đây khớp CCCD nên là số thật, khác lời khai (bộ luật mục 12)
     if (soTuoi(new Date(dto.dateOfBirth)) < TUOI_TOI_THIEU_NCC) {
       throw new BadRequestException({
@@ -131,13 +145,51 @@ export class SitterProfileService {
     return { available: !daCo || daCo.userId === userId };
   }
 
-  // Xem trạng thái hồ sơ của người dùng hiện tại
+  // Yêu cầu sửa còn hiệu lực: bị từ chối, hoặc bị nhắn bổ sung mà chưa nộp lại
+  private async yeuCauSua(
+    sitterId: string,
+    status: string,
+    submittedAt: Date | null,
+  ) {
+    if (status !== 'PENDING' && status !== 'REJECTED') return null;
+    const ban = await this.prisma.adminAuditLog.findFirst({
+      where: {
+        targetType: 'SITTER',
+        targetId: sitterId,
+        action: {
+          in: ['YEU_CAU_BO_SUNG_HO_SO_NCC', 'TU_CHOI_HO_SO_NCC'],
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+      select: { action: true, reason: true, createdAt: true },
+    });
+    if (!ban) return null;
+    const boSung = ban.action === 'YEU_CAU_BO_SUNG_HO_SO_NCC';
+    if (status === 'REJECTED') {
+      return boSung
+        ? null
+        : { kind: 'REJECTED', reason: ban.reason, at: ban.createdAt };
+    }
+    if (!boSung) return null;
+    if (submittedAt && submittedAt > ban.createdAt) return null;
+    return { kind: 'SUPPLEMENT', reason: ban.reason, at: ban.createdAt };
+  }
+
+  // Xem trạng thái hồ sơ của người dùng hiện tại, đủ trường để nạp lại form sửa
   async getMine(userId: string) {
     const hoSo = await this.prisma.sitter.findUnique({
       where: { userId },
       select: {
+        id: true,
         status: true,
         legalName: true,
+        gender: true,
+        dateOfBirth: true,
+        nationalId: true,
+        idIssuedPlace: true,
+        idIssuedDate: true,
+        province: true,
+        addressDetail: true,
         submittedAt: true,
         cccdFrontPath: true,
         cccdBackPath: true,
@@ -149,6 +201,10 @@ export class SitterProfileService {
         message: 'Chưa có hồ sơ nhà cung cấp',
       });
     }
-    return hoSo;
+
+    const { id, ...traVe } = hoSo;
+    const yeuCau = await this.yeuCauSua(id, hoSo.status, hoSo.submittedAt);
+    // Chờ duyệt yên lành thì khoá đường sửa, không thì hồ sơ đổi ngay dưới tay người duyệt
+    return { ...traVe, canEdit: yeuCau !== null, editRequest: yeuCau };
   }
 }

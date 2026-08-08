@@ -62,7 +62,6 @@ export class BookingSweepJob {
         continue;
       }
 
-      // Hai đồng hồ đều đếm từ giờ hẹn, không theo mốc đã tới (bộ luật mục 5)
       const tuLuc = don.scheduledAt.getTime();
 
       if (bayGio >= tuLuc + PHUT_TU_HUY_KHONG_AI_BAT_DAU * MOT_PHUT_MS) {

@@ -20,7 +20,6 @@ import {
   TRANG_THAI_HUY_DUOC,
 } from './owner-booking-select';
 
-
 export function raChiTiet(d: DonChiTiet, kyAnh?: ReadonlyMap<string, string>) {
   const loai = LOAI_RA_APP[d.service.type];
   const dem = soDem(d);

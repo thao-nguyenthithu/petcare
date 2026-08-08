@@ -153,16 +153,16 @@ describe('Danh sách người dùng', () => {
     expect(prisma.loiGoi[0].take).toBe(TRAN_MOI_TRANG);
   });
 
-  it('lọc tỉnh đi qua địa chỉ mặc định', async () => {
+  it('lọc tỉnh bắt cả địa chỉ mặc định lẫn hồ sơ người chăm', async () => {
     const { prisma, service: doc } = service();
     await doc.danhSach({ province: 'Hà Nội' });
     const where = prisma.loiGoi[0].where as {
-      addresses: { some: { isDefault: boolean; province: string } };
+      AND: [{ OR: unknown[] }];
     };
-    expect(where.addresses.some).toEqual({
-      isDefault: true,
-      province: 'Hà Nội',
-    });
+    expect(where.AND[0].OR).toEqual([
+      { addresses: { some: { isDefault: true, province: 'Hà Nội' } } },
+      { sitter: { is: { province: 'Hà Nội' } } },
+    ]);
   });
 
   it('lọc ngày tính hết ngày cuối theo giờ Việt Nam', async () => {

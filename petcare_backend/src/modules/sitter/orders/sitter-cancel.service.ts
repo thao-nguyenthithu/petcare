@@ -130,7 +130,6 @@ export class SitterCancelService {
         message: 'Cần báo đã tới điểm đón trước khi báo chủ nuôi vắng mặt',
       });
     }
-    // Đồng hồ chờ đếm từ giờ hẹn, không theo mốc đã tới (bộ luật mục 5)
     phaiChoDu(don.scheduledAt.getTime(), bayGio);
 
     const tong = don.totalPrice ?? 0;

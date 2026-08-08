@@ -1,7 +1,6 @@
 import { Prisma } from 'generated/prisma/client';
 import { LOAI_RA_APP, MA_TRANG_THAI } from '../bookings/booking-enums';
 
-
 export const CHON_DON_VI = {
   id: true,
   code: true,

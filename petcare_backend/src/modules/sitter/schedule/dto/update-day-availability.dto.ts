@@ -8,7 +8,7 @@ import {
   Min,
 } from 'class-validator';
 import { MAU_NGAY } from './schedule-range.dto';
-import { MAU_GIO } from './update-working-hours.dto';
+import { MAU_GIO, MAU_GIO_DONG } from './update-working-hours.dto';
 
 export const CHE_DO_NGAY = ['default', 'customHours', 'off'] as const;
 export type CheDoNgay = (typeof CHE_DO_NGAY)[number];
@@ -25,7 +25,7 @@ export class UpdateDayAvailabilityDto {
   start?: string;
 
   @IsOptional()
-  @Matches(MAU_GIO, { message: 'end phải dạng HH:mm' })
+  @Matches(MAU_GIO_DONG, { message: 'end phải dạng HH:mm hoặc 24:00' })
   end?: string;
 
   @IsInt()

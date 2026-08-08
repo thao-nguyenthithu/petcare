@@ -32,11 +32,26 @@ export function dichVuTuTuKhoa(tuKhoa: string): ServiceType | null {
   return null;
 }
 
-const LUOT_TOI_THIEU = 5;
+export const LUOT_TOI_THIEU = 5;
 const DIEM_TRUNG_BINH_HE_THONG = 4.5;
 const DON_TOI_DA_TINH = 50;
 const NGAY_NANG_NGUOI_MOI = 30;
 const DON_TOI_THIEU_XET_HUY = 5;
+
+// Cửa vào khối Được đánh giá cao ở trang chủ (bộ luật mục 9)
+export const DIEM_TOI_THIEU_KHOI_NOI_BAT = 4.5;
+
+// 5 sao của một lượt không đáng tin bằng 4,8 sao của trăm lượt (bộ luật mục 9)
+export function diemDanhGiaCoTrongSo(
+  ratingAvg: number,
+  totalReviews: number,
+): number {
+  const v = totalReviews;
+  return (
+    (v / (v + LUOT_TOI_THIEU)) * ratingAvg +
+    (LUOT_TOI_THIEU / (v + LUOT_TOI_THIEU)) * DIEM_TRUNG_BINH_HE_THONG
+  );
+}
 
 export function diemTinh(e: {
   ratingAvg: number;
@@ -46,11 +61,7 @@ export function diemTinh(e: {
   cancelRate: number;
   duMauXetHuy: boolean;
 }): number {
-  const v = e.totalReviews;
-  const diemBayes =
-    (v / (v + LUOT_TOI_THIEU)) * e.ratingAvg +
-    (LUOT_TOI_THIEU / (v + LUOT_TOI_THIEU)) * DIEM_TRUNG_BINH_HE_THONG;
-  const chatLuong = diemBayes / 5;
+  const chatLuong = diemDanhGiaCoTrongSo(e.ratingAvg, e.totalReviews) / 5;
 
   const kinhNghiem =
     Math.log10(1 + Math.min(e.completedOrders, DON_TOI_DA_TINH)) /

@@ -186,8 +186,7 @@ export class SitterMeService {
       if (path) {
         try {
           await this.supabase.deleteFile(BUCKET, path);
-        } catch {
-        }
+        } catch {}
       }
     }
     await this.prisma.sitterPhoto.deleteMany({

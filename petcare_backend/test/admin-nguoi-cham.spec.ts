@@ -302,11 +302,13 @@ describe('Khoá vĩnh viễn và gỡ khoá', () => {
 describe('Duyệt hồ sơ người chăm', () => {
   const CHO_DUYET: HoSo = { ...DA_DUYET, status: 'PENDING' };
 
-  it('duyệt thì ghi luôn mốc vào nghề', async () => {
+  // onboardedAt là mốc người chăm tự bấm nhận đơn, lệnh duyệt không được đụng vào
+  it('duyệt thì ghi mốc duyệt, không đụng mốc bắt đầu nhận đơn', async () => {
     const { service, daCapNhat } = dungGhi(CHO_DUYET);
     await service.duyetHoSo('ncc-1', { status: 'APPROVED' }, ADMIN_ID);
     expect(daCapNhat[0]).toMatchObject({ status: 'APPROVED' });
-    expect(daCapNhat[0].onboardedAt).toBeInstanceOf(Date);
+    expect(daCapNhat[0].approvedAt).toBeInstanceOf(Date);
+    expect(daCapNhat[0].onboardedAt).toBeUndefined();
   });
 
   it('từ chối mà không ghi lý do thì bị chặn', async () => {

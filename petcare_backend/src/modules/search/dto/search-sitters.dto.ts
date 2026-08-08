@@ -22,6 +22,8 @@ export const SORT_KEYS = [
   'completed',
   'price',
   'cancelRate',
+  // Khối trang chủ, kèm cửa vào riêng chứ không chỉ đổi thứ tự (bộ luật mục 9)
+  'topRated',
 ] as const;
 
 const toBool = ({ value }: { value: unknown }) =>

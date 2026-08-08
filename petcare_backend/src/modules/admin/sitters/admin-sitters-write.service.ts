@@ -295,10 +295,10 @@ export class AdminSittersWriteService {
       // Kẹp PENDING vào where, không thì hai lượt duyệt cùng lúc bắn hai lần tin cho người chăm
       const doi = await db.sitter.updateMany({
         where: { id, status: SitterStatus.PENDING },
-        // Mốc duyệt là thứ phân biệt hồ sơ mới với hồ sơ đang kinh doanh
+        // onboardedAt là mốc người chăm tự bấm nhận đơn, lệnh duyệt không được đụng vào
         data: tuChoi
           ? { status: SitterStatus.REJECTED }
-          : { status: SitterStatus.APPROVED, onboardedAt: new Date() },
+          : { status: SitterStatus.APPROVED, approvedAt: new Date() },
       });
       if (doi.count === 0) throw this.loiVuaDoiNoiKhac();
       await this.nhatKy.lenhGhi(

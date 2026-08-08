@@ -1,5 +1,11 @@
-
-export type DonViThamSo = | 'phanTram' | 'gio' | 'ngay' | 'dong' | 'lan' | 'don' | 'km';
+export type DonViThamSo =
+  | 'phanTram'
+  | 'gio'
+  | 'ngay'
+  | 'dong'
+  | 'lan'
+  | 'don'
+  | 'km';
 
 export type DinhNghiaSo = {
   kieu: 'so';

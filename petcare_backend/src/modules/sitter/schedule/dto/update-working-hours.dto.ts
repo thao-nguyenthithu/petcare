@@ -7,16 +7,16 @@ import {
   Min,
 } from 'class-validator';
 
-import { MAU_GIO } from '../../../../common/thoi-gian-vn';
+import { MAU_GIO, MAU_GIO_DONG } from '../../../../common/thoi-gian-vn';
 
-export { MAU_GIO };
+export { MAU_GIO, MAU_GIO_DONG };
 
 // Giờ làm việc mặc định của NCC
 export class UpdateWorkingHoursDto {
   @Matches(MAU_GIO, { message: 'workStart phải dạng HH:mm' })
   workStart!: string;
 
-  @Matches(MAU_GIO, { message: 'workEnd phải dạng HH:mm' })
+  @Matches(MAU_GIO_DONG, { message: 'workEnd phải dạng HH:mm hoặc 24:00' })
   workEnd!: string;
 
   @ArrayMaxSize(7)

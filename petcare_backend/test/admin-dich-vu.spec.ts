@@ -71,6 +71,24 @@ describe('Cửa bật một dịch vụ, mở lại từ trang quản trị đi 
     expect(thieuDeBat(gia)?.message).toContain('sức chứa');
   });
 
+  it('dắt khai quá 5 bé mỗi đơn thì chặn (bộ luật mục 1)', () => {
+    const gia = doiBangGia(ServiceType.WALKING, {
+      ...GIA_DAT_DU,
+      maxPets: 10,
+    });
+
+    expect(thieuDeBat(gia)?.message).toContain('5 bé');
+  });
+
+  it('grooming thời lượng lẻ trong khoảng vẫn qua', () => {
+    const gia = doiBangGia(ServiceType.GROOMING, {
+      ...GIA_GROOMING_DU,
+      durationByPackage: { bath: { duoi5: 100 } },
+    });
+
+    expect(thieuDeBat(gia)).toBeNull();
+  });
+
   it('grooming ô giá nào có giá thì phải có thời lượng đi kèm', () => {
     const gia = doiBangGia(ServiceType.GROOMING, {
       ...GIA_GROOMING_DU,
@@ -80,7 +98,7 @@ describe('Cửa bật một dịch vụ, mở lại từ trang quản trị đi 
     expect(thieuDeBat(gia)?.message).toContain('thời lượng');
   });
 
-  it.each([20, 245, 100])(
+  it.each([20, 245])(
     'grooming thời lượng %i phút nằm ngoài khoảng cho phép thì chặn',
     (phut) => {
       const gia = doiBangGia(ServiceType.GROOMING, {

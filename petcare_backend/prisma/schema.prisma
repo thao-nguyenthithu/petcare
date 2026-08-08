@@ -103,6 +103,7 @@ model Sitter {
   serviceAddress     String?
   serviceAddressNote String?
   serviceRadiusKm    Int?
+  approvedAt         DateTime?    @db.Timestamptz(3)
   onboardedAt        DateTime?    @db.Timestamptz(3)
   workStart          String       @default("07:00")
   workEnd            String       @default("20:00")

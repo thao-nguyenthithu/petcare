@@ -3,7 +3,6 @@ import { LECH_VN_MS } from '../../common/thoi-gian-vn';
 import { PrismaService } from '../../prisma/prisma.service';
 import { TRANG_THAI_GIU_CHO, sucChua } from './sitter-search.helpers';
 
-
 export async function demNgayNghi(
   prisma: PrismaService,
   nccIds: string[],

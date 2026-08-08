@@ -99,8 +99,7 @@ export class PetsCommon {
       if (!path) continue;
       try {
         await this.supabase.deleteFile(BUCKET_PET, path);
-      } catch {
-      }
+      } catch {}
     }
   }
 }

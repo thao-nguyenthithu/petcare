@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Prisma, ServiceType } from '../../../generated/prisma/client';
+import { khuVucHaiCap } from '../../common/khu-vuc';
 import { PrismaService } from '../../prisma/prisma.service';
 import { SystemSettingsService } from '../admin/system-settings.service';
 import {
@@ -8,6 +9,7 @@ import {
 } from '../sitter/public/sitter-public';
 import { SearchSittersDto } from './dto/search-sitters.dto';
 import {
+  coDiemMoc,
   coToaDo,
   dieuKienLoaiBe,
   dieuKienTuKhoa,
@@ -18,8 +20,11 @@ import {
 import { demNgayKinCho, demNgayNghi, tinhTyLeHuy } from './sitter-search-lich';
 import {
   coGoiGrooming,
+  DIEM_TOI_THIEU_KHOI_NOI_BAT,
+  diemDanhGiaCoTrongSo,
   diemDong,
   giaThapNhat,
+  LUOT_TOI_THIEU,
   khoangCachKm,
   loaiBeEpTheoDichVu,
   soBeToiDa,
@@ -141,13 +146,13 @@ export class SitterSearchService {
         trusted: e.trustedBadge,
         staticScore: e.staticScore,
         createdAt: e.createdAt,
-        area: e.province ?? null,
+        area: khuVucHaiCap(e.serviceAddress),
         lat: e.lat,
         lng: e.lng,
         serviceTypes: dichVu.map((s) => s.type.toLowerCase()),
         priceFrom: giaTu ?? null,
         distanceKm:
-          coToaDo(dto) && e.lat !== null && e.lng !== null
+          coDiemMoc(dto) && e.lat !== null && e.lng !== null
             ? Number(khoangCachKm(dto.lat!, dto.lng!, e.lat, e.lng).toFixed(2))
             : null,
       };
@@ -188,6 +193,16 @@ export class SitterSearchService {
       );
     }
 
+    // Khối trang chủ khoe người làm tốt nên có cửa vào riêng (bộ luật mục 9)
+    if (dto.sort === 'topRated') {
+      ketQua = ketQua.filter(
+        (e) =>
+          e.totalReviews >= LUOT_TOI_THIEU &&
+          diemDanhGiaCoTrongSo(e.ratingAvg, e.totalReviews) >=
+            DIEM_TOI_THIEU_KHOI_NOI_BAT,
+      );
+    }
+
     ketQua.sort((a, b) => {
       switch (dto.sort ?? 'recommended') {
         case 'nearest':
@@ -199,7 +214,11 @@ export class SitterSearchService {
         case 'cancelRate':
           return a.cancelRate - b.cancelRate;
         case 'rating':
-          return b.ratingAvg - a.ratingAvg;
+        case 'topRated':
+          return (
+            diemDanhGiaCoTrongSo(b.ratingAvg, b.totalReviews) -
+            diemDanhGiaCoTrongSo(a.ratingAvg, a.totalReviews)
+          );
         case 'recommended':
         default:
           return (

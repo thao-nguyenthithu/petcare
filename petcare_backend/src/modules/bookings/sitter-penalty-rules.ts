@@ -22,10 +22,7 @@ export type MucPhat = {
   treoChoSoat: boolean;
 };
 
-export type NgaCanhBoDon =
-  | 'huyChuaXuatPhat'
-  | 'daXuatPhat'
-  | 'imLang';
+export type NgaCanhBoDon = 'huyChuaXuatPhat' | 'daXuatPhat' | 'imLang';
 
 export function mucPhat(nga: NgaCanhBoDon): MucPhat {
   switch (nga) {

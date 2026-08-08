@@ -87,7 +87,6 @@ export class WalletService {
   }
 }
 
-
 function vn(d: Date): Date {
   return new Date(d.getTime() + LECH_VN_MS);
 }

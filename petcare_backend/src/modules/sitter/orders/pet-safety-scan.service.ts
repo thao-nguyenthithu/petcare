@@ -50,7 +50,6 @@ export class PetSafetyScanService {
     private readonly doc: PetSafetyScanReadService,
   ) {}
 
-
   private choPhepQuet(don: DonMayTrangThai) {
     phaiDangO(don, ['CONFIRMED']);
     chiDichVu(don, 'walking');

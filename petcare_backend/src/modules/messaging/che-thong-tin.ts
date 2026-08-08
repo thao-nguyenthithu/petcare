@@ -1,4 +1,3 @@
-
 const SO_DIEN_THOAI = /(?:\+?84|0)(?:[\s.-]?\d){8,10}/g;
 const DAY_SO_DAI = /\b\d{9,}\b/g;
 const LIEN_KET = /\b(?:https?:\/\/|www\.)\S+/gi;

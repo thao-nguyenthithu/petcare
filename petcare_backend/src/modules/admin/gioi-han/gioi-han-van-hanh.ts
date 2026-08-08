@@ -49,7 +49,6 @@ import {
   TRAN_DON_XEM,
 } from '../../sitter/schedule/schedule-shared';
 import {
-  GROOMING_PHUT_BUOC,
   GROOMING_PHUT_TOI_DA,
   GROOMING_PHUT_TOI_THIEU,
   WALKING_DURATIONS,
@@ -250,11 +249,6 @@ export function nhomVanHanh(): NhomGioiHan[] {
         {
           ma: 'dichVuLich.thoiLuongTamVaCatTia',
           value: `${so(GROOMING_PHUT_TOI_THIEU)} - ${so(GROOMING_PHUT_TOI_DA)}`,
-          unit: 'phut',
-        },
-        {
-          ma: 'dichVuLich.buocChinhThoiLuongTamVaCatTia',
-          value: so(GROOMING_PHUT_BUOC),
           unit: 'phut',
         },
         {

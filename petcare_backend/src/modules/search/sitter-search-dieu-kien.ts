@@ -2,7 +2,6 @@ import { Prisma } from '../../../generated/prisma/client';
 import { SearchSittersDto } from './dto/search-sitters.dto';
 import { dichVuTuTuKhoa, loaiBeEpTheoDichVu } from './sitter-search.helpers';
 
-
 export function khoangNgay(dto: SearchSittersDto) {
   if (!dto.dateFrom || !dto.dateTo) return null;
   const tu = new Date(dto.dateFrom);
@@ -46,10 +45,13 @@ export function dieuKienLoaiBe(
   return { petKind: { in: [loaiBe === 'dog' ? 'DOG' : 'CAT', 'BOTH'] } };
 }
 
+// Đủ để đo khoảng cách; thiếu bán kính thì đo mà không loại ai
+export function coDiemMoc(dto: SearchSittersDto) {
+  return dto.lat !== undefined && dto.lng !== undefined;
+}
+
 export function coToaDo(dto: SearchSittersDto) {
-  return (
-    dto.lat !== undefined && dto.lng !== undefined && dto.radiusKm !== undefined
-  );
+  return coDiemMoc(dto) && dto.radiusKm !== undefined;
 }
 
 export function doLech(km: number) {

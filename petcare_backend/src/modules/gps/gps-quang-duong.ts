@@ -1,7 +1,6 @@
 import { khoangCachKm } from '../../common/khoang-cach';
 import { NGUONG_LECH_KM, NGUONG_LECH_TY_LE } from './gps.constants';
 
-
 export interface ToaDo {
   lat: number;
   lng: number;

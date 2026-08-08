@@ -235,8 +235,11 @@ export class SitterSlotsService {
     for (let i = 0; i < soNgay; i++) {
       const ngay = themNgay(from, i);
       const tl = thietLapTheoNgay.get(ngay);
+      // Giờ riêng mở được cả thứ vốn nghỉ, khỏi phải bật cả 52 chủ nhật (bộ luật mục 10)
       const nghi =
-        tl?.mode === 'OFF' || !ncc.workDays.includes(thuTrongTuanVn(ngay));
+        tl?.mode === 'OFF' ||
+        (tl?.mode !== 'CUSTOM_HOURS' &&
+          !ncc.workDays.includes(thuTrongTuanVn(ngay)));
       const batDau =
         tl?.mode === 'CUSTOM_HOURS' && tl.startTime
           ? tl.startTime

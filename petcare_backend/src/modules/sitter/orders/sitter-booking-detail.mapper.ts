@@ -200,7 +200,6 @@ function mocLui(d: { scheduledAt: Date }, phut: number): Date {
   return new Date(d.scheduledAt.getTime() - phut * MOT_PHUT_MS);
 }
 
-// Mốc đếm từ giờ hẹn, nút chỉ hiện khi đã có mặt bên phải tới (bộ luật mục 5)
 function mocBaoVangMat(d: DonChiTiet, loai: LoaiDichVuDto): Date | null {
   if (loai === 'boarding' ? d.ownerArrivedAt : !d.arrivedAt) return null;
   return new Date(d.scheduledAt.getTime() + NO_SHOW_WAIT * MOT_PHUT_MS);

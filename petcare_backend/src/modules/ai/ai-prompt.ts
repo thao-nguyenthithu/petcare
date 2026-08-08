@@ -1,4 +1,4 @@
-// Prompt viết tiếng Anh 
+// Prompt viết tiếng Anh
 export const TEN_CONG_CU = 'report_safety_gear';
 
 export const MO_TA_CONG_CU =

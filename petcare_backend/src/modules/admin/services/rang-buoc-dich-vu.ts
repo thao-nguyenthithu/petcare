@@ -1,7 +1,7 @@
 import { ServiceType } from '../../../../generated/prisma/enums';
+import { TRAN_BE_WALKING } from '../../bookings/booking-pricing';
 import {
   GROOMING_PACKAGES as GOI_GROOMING,
-  GROOMING_PHUT_BUOC,
   GROOMING_PHUT_TOI_DA,
   GROOMING_PHUT_TOI_THIEU,
   WALKING_DURATIONS as PHUT_MOI_LUOT_DAT,
@@ -22,11 +22,7 @@ export const RANG_BUOC_DICH_VU = [
   { code: 'BAC_CAN', numbers: [] as number[], keys: BAC_CAN },
   {
     code: 'THOI_LUONG_GROOMING',
-    numbers: [
-      GROOMING_PHUT_TOI_THIEU,
-      GROOMING_PHUT_TOI_DA,
-      GROOMING_PHUT_BUOC,
-    ],
+    numbers: [GROOMING_PHUT_TOI_THIEU, GROOMING_PHUT_TOI_DA],
     keys: [] as string[],
   },
 ];
@@ -145,13 +141,9 @@ function thieuGrooming(gia: BangGiaGrooming): LoiBangGia | null {
       if (phut === undefined) {
         return loi('Ô giá nào đã nhập thì phải có thời lượng đi kèm');
       }
-      if (
-        phut < GROOMING_PHUT_TOI_THIEU ||
-        phut > GROOMING_PHUT_TOI_DA ||
-        phut % GROOMING_PHUT_BUOC !== 0
-      ) {
+      if (phut < GROOMING_PHUT_TOI_THIEU || phut > GROOMING_PHUT_TOI_DA) {
         return loi(
-          `Thời lượng phải từ ${GROOMING_PHUT_TOI_THIEU} đến ${GROOMING_PHUT_TOI_DA} phút, bước ${GROOMING_PHUT_BUOC} phút`,
+          `Thời lượng phải từ ${GROOMING_PHUT_TOI_THIEU} đến ${GROOMING_PHUT_TOI_DA} phút`,
         );
       }
     }
@@ -170,6 +162,9 @@ export function thieuDeBat(gia: BangGia): LoiBangGia | null {
     );
     if (thieu.length > 0) {
       return loi(`Bảng giá chưa có giá cho lượt ${thieu.join(' và ')} phút`);
+    }
+    if (gia.maxPets > TRAN_BE_WALKING) {
+      return loi(`Một lượt dắt nhận tối đa ${TRAN_BE_WALKING} bé`);
     }
     return phuPhiSai(gia.additionalPetFee, gia.maxPets);
   }

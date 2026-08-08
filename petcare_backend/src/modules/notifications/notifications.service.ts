@@ -5,6 +5,7 @@ import type {
 } from 'generated/prisma/enums';
 import { PrismaService } from '../../prisma/prisma.service';
 import { FirebaseService } from '../firebase/firebase.service';
+import { NotificationsGateway } from './notifications.gateway';
 import { dungCau, type KhoaTin, type ThamSoTin } from './thong-bao-i18n';
 
 export const TRAN_MOI_TRANG = 30;
@@ -43,6 +44,7 @@ export class NotificationsService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly firebase: FirebaseService,
+    private readonly kenh: NotificationsGateway,
   ) {}
   async tao(tin: TinMoi) {
     const ghi = await this.prisma.notification.create({
@@ -59,7 +61,15 @@ export class NotificationsService {
         targetId: tin.targetId ?? null,
       },
     });
-    void this.dayPush(tin).catch((e: Error) =>
+    this.kenh.phatTinMoi(tin.userId, {
+      id: ghi.id,
+      type: tin.type,
+      role: tin.role,
+      title: ghi.title,
+      body: ghi.body,
+      targetId: tin.targetId,
+    });
+    void this.dayPush(tin, ghi.id).catch((e: Error) =>
       this.logger.error(`Đẩy push thất bại: ${e.message}`),
     );
     return ghi;
@@ -78,7 +88,7 @@ export class NotificationsService {
     return tin.bodyKey ? dungCau(tin.bodyKey, tin.params, locale) : tin.body;
   }
 
-  private async dayPush(tin: TinMoi) {
+  private async dayPush(tin: TinMoi, notifId: string) {
     const thietBi = await this.prisma.deviceToken.findMany({
       where: { userId: tin.userId },
       select: { token: true, locale: true },
@@ -97,6 +107,7 @@ export class NotificationsService {
       ]);
     }
     const data = {
+      notifId,
       type: tin.type,
       role: tin.role,
       ...(tin.targetId ? { targetId: tin.targetId } : {}),

@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { SystemSettingsService } from '../../admin/system-settings.service';
+import { TRAN_BE_WALKING } from '../../bookings/booking-pricing';
 import { UpdateServiceAreaDto } from './dto/update-service-area.dto';
 import {
   GroomingConfigDto,
@@ -20,7 +21,6 @@ export const GROOMING_PACKAGES = ['bath', 'bathAndTrim'];
 export const WEIGHT_TIERS = ['duoi5', 'tu5den10', 'tu10den20', 'tren20'];
 export const GROOMING_PHUT_TOI_THIEU = 30;
 export const GROOMING_PHUT_TOI_DA = 240;
-export const GROOMING_PHUT_BUOC = 15;
 
 function loi(code: string, message: string): never {
   throw new BadRequestException({ code, message });
@@ -160,12 +160,11 @@ export class SitterServicesService {
         if (
           !Number.isInteger(so) ||
           so < GROOMING_PHUT_TOI_THIEU ||
-          so > GROOMING_PHUT_TOI_DA ||
-          so % GROOMING_PHUT_BUOC !== 0
+          so > GROOMING_PHUT_TOI_DA
         ) {
           loi(
             'THOI_LUONG_KHONG_HOP_LE',
-            `Thời lượng phải từ ${GROOMING_PHUT_TOI_THIEU} đến ${GROOMING_PHUT_TOI_DA} phút, bước ${GROOMING_PHUT_BUOC} phút`,
+            `Thời lượng phải từ ${GROOMING_PHUT_TOI_THIEU} đến ${GROOMING_PHUT_TOI_DA} phút`,
           );
         }
         mucPhut[muc] = so;
@@ -179,12 +178,19 @@ export class SitterServicesService {
 
   // Validate luật giá phía server
   private kiemTraCauHinh(dto: UpdateServicesDto) {
-    const kiemTraMaxPets = (maxPets?: number, capacity?: number | null) => {
+    const kiemTraMaxPets = (
+      maxPets?: number,
+      capacity?: number | null,
+      tran?: number,
+    ) => {
       if (maxPets == null || maxPets < 1) {
         loi(
           'SO_BE_TOI_DA_KHONG_HOP_LE',
           'Số bé tối đa mỗi đơn phải từ 1 trở lên',
         );
+      }
+      if (tran != null && maxPets > tran) {
+        loi('VUOT_TRAN_SO_BE', `Một lượt dắt nhận tối đa ${tran} bé`);
       }
       if (capacity != null && maxPets > capacity) {
         loi(
@@ -222,7 +228,7 @@ export class SitterServicesService {
           );
         }
       }
-      kiemTraMaxPets(dto.walking.maxPets);
+      kiemTraMaxPets(dto.walking.maxPets, null, TRAN_BE_WALKING);
       kiemTraPhuPhi(dto.walking.additionalPetFee, dto.walking.maxPets);
     }
     if (dto.boarding?.enabled) {

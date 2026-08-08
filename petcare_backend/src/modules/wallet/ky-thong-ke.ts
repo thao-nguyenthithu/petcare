@@ -5,7 +5,6 @@ import {
 } from '../../common/thoi-gian-vn';
 import { dauNamVn, dauThangVn, dauTuanVn } from './wallet.service';
 
-
 export type Ky = 'week' | 'month' | 'year';
 
 const MOC_KHOI_TUAN = [1, 8, 15, 22];

@@ -204,5 +204,4 @@ export class ScheduleViewService {
     }
     return ketQua;
   }
-
 }

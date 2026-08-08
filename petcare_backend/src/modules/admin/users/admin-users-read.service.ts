@@ -49,8 +49,18 @@ export class AdminUsersReadService {
       dieu.sitter = { isNot: LA_NGUOI_CHAM };
     } else if (loc.role) dieu.role = loc.role;
     if (loc.active !== undefined) dieu.isActive = loc.active;
+    // Người chăm không có sổ địa chỉ nên tỉnh của họ nằm ở hồ sơ định danh
     if (loc.province) {
-      dieu.addresses = { some: { isDefault: true, province: loc.province } };
+      dieu.AND = [
+        {
+          OR: [
+            {
+              addresses: { some: { isDefault: true, province: loc.province } },
+            },
+            { sitter: { is: { province: loc.province } } },
+          ],
+        },
+      ];
     }
     if (loc.from || loc.to) {
       dieu.createdAt = {
@@ -96,7 +106,7 @@ export class AdminUsersReadService {
             select: { province: true },
             take: 1,
           },
-          sitter: { select: { status: true, bannedAt: true } },
+          sitter: { select: { status: true, bannedAt: true, province: true } },
           _count: {
             select: {
               pets: { where: { isActive: true } },
@@ -119,7 +129,7 @@ export class AdminUsersReadService {
       createdAt: u.createdAt,
       petCount: u._count.pets,
       bookingCount: u._count.bookingsAsOwner,
-      province: u.addresses[0]?.province ?? null,
+      province: u.addresses[0]?.province ?? u.sitter?.province ?? null,
       isSitter: u.sitter?.status === 'APPROVED' && u.sitter.bannedAt === null,
     }));
     return dungTrang(items, total, khoang);
@@ -138,14 +148,24 @@ export class AdminUsersReadService {
     return { all: tatCa, owner: chuNuoi, provider: nguoiCham, locked };
   }
 
-  // Danh mục tỉnh dựng từ chính địa chỉ đang có, không nhúng danh sách cứng
+  // Danh mục tỉnh dựng từ dữ liệu đang có, không nhúng danh sách cứng
   async danhSachTinh(): Promise<string[]> {
-    const ds = await this.prisma.address.findMany({
-      where: { isDefault: true },
-      distinct: ['province'],
-      select: { province: true },
-      orderBy: { province: 'asc' },
-    });
-    return ds.map((d) => d.province);
+    const [diaChi, nguoiCham] = await Promise.all([
+      this.prisma.address.findMany({
+        where: { isDefault: true },
+        distinct: ['province'],
+        select: { province: true },
+      }),
+      this.prisma.sitter.findMany({
+        where: { province: { not: null } },
+        distinct: ['province'],
+        select: { province: true },
+      }),
+    ]);
+    const tinh = new Set([
+      ...diaChi.map((d) => d.province),
+      ...nguoiCham.map((d) => d.province as string),
+    ]);
+    return [...tinh].sort((a, b) => a.localeCompare(b, 'vi'));
   }
 }

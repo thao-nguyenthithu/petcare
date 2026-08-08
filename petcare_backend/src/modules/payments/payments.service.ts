@@ -15,7 +15,6 @@ import { KetQuaCong } from './gateways/payment-gateway.interface';
 import { PaymentGatewayResolver } from './gateways/payment-gateway.resolver';
 import { PAYMENT_QUEUE, VIEC_HET_HAN_GIU_CHO } from './payments.constants';
 
-
 type DonTraTien = {
   id: string;
   code: string;
