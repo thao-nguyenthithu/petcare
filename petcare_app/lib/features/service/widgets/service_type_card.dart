@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:petcare_app/core/config/danh_muc_dich_vu_provider.dart';
 import 'package:petcare_app/core/l10n/generated/app_localizations.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/router/app_router.dart';
@@ -10,14 +12,15 @@ import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/shared/data/service_catalog.dart';
 
 // Card mô tả dịch vụ
-class ServiceTypeCard extends StatelessWidget {
+class ServiceTypeCard extends ConsumerWidget {
   const ServiceTypeCard({super.key, required this.loai});
 
   final LoaiDichVu loai;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
+    final moTaTuMayChu = ref.watch(moTaDichVuProvider)[loai];
     return Material(
       color: AppColors.surface,
       elevation: 3,
@@ -54,7 +57,10 @@ class ServiceTypeCard extends StatelessWidget {
                   children: [
                     Text(loai.ten(l10n), style: AppTextStyles.label),
                     const SizedBox(height: AppSpacing.textGap),
-                    Text(_moTa(l10n), style: AppTextStyles.captionSm),
+                    Text(
+                      moTaTuMayChu ?? _moTaMacDinh(l10n),
+                      style: AppTextStyles.captionSm,
+                    ),
                   ],
                 ),
               ),
@@ -70,7 +76,7 @@ class ServiceTypeCard extends StatelessWidget {
     );
   }
 
-  String _moTa(AppLocalizations l10n) => switch (loai) {
+  String _moTaMacDinh(AppLocalizations l10n) => switch (loai) {
     LoaiDichVu.datDiDao => l10n.moTaLoaiDatDiDao,
     LoaiDichVu.trongGiu => l10n.moTaLoaiTrongGiu,
     LoaiDichVu.catTia => l10n.moTaLoaiCatTia,

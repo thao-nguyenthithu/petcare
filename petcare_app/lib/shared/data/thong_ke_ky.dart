@@ -5,9 +5,9 @@ class ThongKeCot {
     this.upcoming = false,
   });
 
-  final String label; 
-  final int amount; 
-  final bool upcoming; 
+  final String label;
+  final int amount;
+  final bool upcoming;
 }
 
 class ThongKeKy {
@@ -22,11 +22,12 @@ class ThongKeKy {
     required this.highlightBar,
   });
 
-  final String rangeLabel; 
+  final String rangeLabel;
   final int total;
-  final int changePercent; 
-  final int ordersDone; 
-  final String hoursWorked; 
-  final String chartTitle; 
+  final int changePercent;
+  final int ordersDone;
+  final String hoursWorked;
+  final String chartTitle;
   final List<ThongKeCot> bars;
-  final int highlightBar; 
+  final int highlightBar;
+}

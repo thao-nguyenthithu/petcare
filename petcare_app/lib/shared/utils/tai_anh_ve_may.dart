@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gal/gal.dart';
@@ -35,7 +34,9 @@ Future<void> taiAnhVeMay(BuildContext context, List<String> url) async {
       if (bytes == null || bytes.isEmpty) continue;
       await Gal.putImageBytes(Uint8List.fromList(bytes), album: _album);
       xong++;
-    } on Exception {}
+    } on Exception {
+      continue;
+    }
   }
   messenger.showSnackBar(
     SnackBar(
