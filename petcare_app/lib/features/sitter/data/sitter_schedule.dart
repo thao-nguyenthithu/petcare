@@ -5,6 +5,9 @@ import 'package:petcare_app/shared/data/sitter_services.dart';
 
 // Lịch làm việc của NCC
 
+const String gioMoMacDinh = '07:00';
+const String gioDongMacDinh = '20:00';
+
 // Vòng đời một đơn trên lịch, suy từ BookingStatus
 enum ScheduleApptStatus { sapToi, dangDienRa, choXacNhan, hoanThanh }
 
@@ -168,8 +171,8 @@ class KhoangLich {
           .toList();
     }
     return KhoangLich(
-      gioBatDau: j['workStart'] as String? ?? '08:00',
-      gioKetThuc: j['workEnd'] as String? ?? '20:00',
+      gioBatDau: j['workStart'] as String? ?? gioMoMacDinh,
+      gioKetThuc: j['workEnd'] as String? ?? gioDongMacDinh,
       ngayLamViec: {
         for (final t in (j['workDays'] as List?) ?? const [])
           (t as num).toInt(),
@@ -184,8 +187,8 @@ class KhoangLich {
 // Toàn bộ lịch NCC đang giữ trong máy, tra theo khoá yyyy-MM-dd
 class SitterSchedule {
   const SitterSchedule({
-    this.gioBatDau = '08:00',
-    this.gioKetThuc = '20:00',
+    this.gioBatDau = gioMoMacDinh,
+    this.gioKetThuc = gioDongMacDinh,
     this.ngayLamViec = const {1, 2, 3, 4, 5, 6},
     this.soChoToiDa = 0,
     this.thietLap = const {},
@@ -206,7 +209,11 @@ class SitterSchedule {
 
   bool nghiTheoTuan(DateTime ngay) => !ngayLamViec.contains(ngay.weekday);
 
-  bool ngayNghi(DateTime ngay) => cuaNgay(ngay).nghi || nghiTheoTuan(ngay);
+  bool ngayNghi(DateTime ngay) {
+    final cai = cuaNgay(ngay);
+    if (cai.nghi) return true;
+    return cai.mode != DayMode.gioRieng && nghiTheoTuan(ngay);
+  }
 
   int soChoConNhan(DateTime ngay) => cuaNgay(ngay).boardingLeft;
 

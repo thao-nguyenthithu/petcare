@@ -5,6 +5,7 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/core/utils/vn_date.dart';
+import 'package:petcare_app/features/sitter/data/sitter_schedule.dart';
 import 'package:petcare_app/features/sitter/providers/sitter_schedule_provider.dart';
 import 'package:petcare_app/features/sitter/widgets/schedule/availability_fields.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
@@ -28,8 +29,8 @@ class _WorkingHoursScreenState extends ConsumerState<WorkingHoursScreen> {
   void initState() {
     super.initState();
     final lich = ref.read(sitterScheduleProvider).value;
-    _batDau = lich?.gioBatDau ?? '08:00';
-    _ketThuc = lich?.gioKetThuc ?? '20:00';
+    _batDau = lich?.gioBatDau ?? gioMoMacDinh;
+    _ketThuc = lich?.gioKetThuc ?? gioDongMacDinh;
     _ngay = {...?lich?.ngayLamViec};
   }
 
@@ -37,11 +38,9 @@ class _WorkingHoursScreenState extends ConsumerState<WorkingHoursScreen> {
   String? get _loi {
     final l10n = context.l10n;
     if (_ngay.isEmpty) return l10n.chuaChonNgayLamViec;
-    final tu = gioTuChuoi(_batDau);
-    final den = gioTuChuoi(_ketThuc);
-    final sauHon =
-        den.hour > tu.hour || (den.hour == tu.hour && den.minute > tu.minute);
-    return sauHon ? null : l10n.gioKetThucPhaiSauGioBatDau;
+    return _ketThuc.compareTo(_batDau) > 0
+        ? null
+        : l10n.gioKetThucPhaiSauGioBatDau;
   }
 
   Future<void> _luu() async {
@@ -94,7 +93,10 @@ class _WorkingHoursScreenState extends ConsumerState<WorkingHoursScreen> {
                       child: TimePickField(
                         nhan: l10n.gioBatDauLabel,
                         gio: _batDau,
-                        onChon: (g) => setState(() => _batDau = g),
+                        onChon: (g) => setState(() {
+                          _batDau = g;
+                          _ketThuc = dayGioDong(g, _ketThuc);
+                        }),
                       ),
                     ),
                     const SizedBox(width: AppSpacing.itemGap),
@@ -102,6 +104,8 @@ class _WorkingHoursScreenState extends ConsumerState<WorkingHoursScreen> {
                       child: TimePickField(
                         nhan: l10n.gioKetThucLabel,
                         gio: _ketThuc,
+                        laGioDong: true,
+                        sauGio: _batDau,
                         onChon: (g) => setState(() => _ketThuc = g),
                       ),
                     ),

@@ -57,8 +57,8 @@ class _DayAvailabilitySheetState extends ConsumerState<_DayAvailabilitySheet> {
     super.initState();
     // Ngày chưa đặt giờ riêng thì mở sẵn khung giờ mặc định để sửa cho nhanh
     final lich = ref.read(sitterScheduleProvider).value;
-    _batDau = widget.hienTai.start ?? lich?.gioBatDau ?? '08:00';
-    _ketThuc = widget.hienTai.end ?? lich?.gioKetThuc ?? '20:00';
+    _batDau = widget.hienTai.start ?? lich?.gioBatDau ?? gioMoMacDinh;
+    _ketThuc = widget.hienTai.end ?? lich?.gioKetThuc ?? gioDongMacDinh;
   }
 
   // Ngày đã qua chỉ xem lại lịch
@@ -73,6 +73,27 @@ class _DayAvailabilitySheetState extends ConsumerState<_DayAvailabilitySheet> {
                 d.endTime.compareTo(_ketThuc) > 0),
       )
       .length;
+
+  void _luu() {
+    if (_mode == DayMode.gioRieng && _ketThuc.compareTo(_batDau) <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.l10n.gioKetThucPhaiSauGioBatDau)),
+      );
+      return;
+    }
+    Navigator.pop(
+      context,
+      DayAvailability(
+        mode: _mode,
+        start: _batDau,
+        end: _ketThuc,
+        boardingSlots: _mode == DayMode.nghi
+            ? 0
+            : widget.hienTai.boardingUsed + _soCho,
+        boardingUsed: widget.hienTai.boardingUsed,
+      ),
+    );
+  }
 
   Future<void> _huyDon(ScheduleAppointment don) async {
     final l10n = context.l10n;
@@ -188,7 +209,10 @@ class _DayAvailabilitySheetState extends ConsumerState<_DayAvailabilitySheet> {
                                   child: TimePickField(
                                     nhan: l10n.tuGio,
                                     gio: _batDau,
-                                    onChon: (g) => setState(() => _batDau = g),
+                                    onChon: (g) => setState(() {
+                                      _batDau = g;
+                                      _ketThuc = dayGioDong(g, _ketThuc);
+                                    }),
                                   ),
                                 ),
                                 const SizedBox(width: AppSpacing.labelGap),
@@ -196,6 +220,8 @@ class _DayAvailabilitySheetState extends ConsumerState<_DayAvailabilitySheet> {
                                   child: TimePickField(
                                     nhan: l10n.denGio,
                                     gio: _ketThuc,
+                                    laGioDong: true,
+                                    sauGio: _batDau,
                                     onChon: (g) => setState(() => _ketThuc = g),
                                   ),
                                 ),
@@ -247,21 +273,7 @@ class _DayAvailabilitySheetState extends ConsumerState<_DayAvailabilitySheet> {
                 nhan: l10n.conNhanCho,
               ),
               const SizedBox(height: AppSpacing.groupGap),
-              AppButton(
-                text: l10n.luu,
-                onTap: () => Navigator.pop(
-                  context,
-                  DayAvailability(
-                    mode: _mode,
-                    start: _batDau,
-                    end: _ketThuc,
-                    boardingSlots: _mode == DayMode.nghi
-                        ? 0
-                        : widget.hienTai.boardingUsed + _soCho,
-                    boardingUsed: widget.hienTai.boardingUsed,
-                  ),
-                ),
-              ),
+              AppButton(text: l10n.luu, onTap: _luu),
             ],
           ],
         ),
