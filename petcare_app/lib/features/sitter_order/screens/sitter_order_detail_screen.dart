@@ -8,6 +8,7 @@ import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/features/sitter_order/data/sitter_absence.dart';
 import 'package:petcare_app/features/messaging/mo_chat_cua_don.dart';
+import 'package:petcare_app/features/sitter_order/providers/sitter_orders_provider.dart';
 import 'package:petcare_app/features/sitter_order/services/sitter_order_actions.dart';
 import 'package:petcare_app/features/sitter_order/services/sitter_orders_api_service.dart';
 import 'package:petcare_app/features/sitter_order/data/sitter_order_detail.dart';
@@ -34,6 +35,7 @@ import 'package:petcare_app/shared/utils/khoang_cach.dart';
 import 'package:petcare_app/shared/utils/mo_chi_duong.dart';
 import 'package:petcare_app/shared/widgets/flat_section.dart';
 import 'package:petcare_app/shared/widgets/map_preview.dart';
+import 'package:petcare_app/shared/widgets/app_refresh_indicator.dart';
 import 'package:petcare_app/shared/widgets/app_screen.dart';
 
 // Chi tiết đơn, các tình huống dùng chung một bố cục
@@ -162,222 +164,230 @@ class _SitterOrderDetailScreenState
               don: don,
               onXemBe: () => _moDanhSachBe(context, don),
             )
-          : ListView(
-              padding: const EdgeInsets.only(top: 14, bottom: 24),
-              children: [
-                FlatSection(
-                  child: BookingDetailHero(
-                    pets: don.pets,
-                    loai: don.loai,
-                    tenDichVu: don.tenDichVu,
-                    onXemBe: () => _moDanhSachBe(context, don),
-                  ),
-                ),
-                if (!don.daBoDangDo &&
-                    !don.choChot &&
-                    !don.daHoanThanh &&
-                    !(don.laTrongGiu && don.dangDat)) ...[
-                  const SizedBox(height: 16),
+          : AppRefreshIndicator(
+              onRefresh: () => ref.read(chiTietDonNccProvider(_id).future),
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.only(top: 14, bottom: 24),
+                children: [
                   FlatSection(
-                    child: SessionStats(cot: soLieuDonNcc(context, don)),
+                    child: BookingDetailHero(
+                      pets: don.pets,
+                      loai: don.loai,
+                      tenDichVu: don.tenDichVu,
+                      onXemBe: () => _moDanhSachBe(context, don),
+                    ),
                   ),
-                ],
-                const FlatDivider(),
-                FlatSection(child: SitterOrderStatus(don: don)),
-                if (don.daBoDangDo || don.choChot || don.daHoanThanh) ...[
-                  const FlatDivider(),
-                  FlatSection(
-                    child: SessionStats(cot: soLieuDonNcc(context, don)),
-                  ),
-                ],
-                if (don.laTrongGiu && don.dangDat) ...[
-                  if (don.dienBien.isNotEmpty) ...[
-                    const FlatDivider(),
-                    FlatSection(child: SessionTimeline(moc: don.dienBien)),
+                  if (!don.daBoDangDo &&
+                      !don.choChot &&
+                      !don.daHoanThanh &&
+                      !(don.laTrongGiu && don.dangDat)) ...[
+                    const SizedBox(height: 16),
+                    FlatSection(
+                      child: SessionStats(cot: soLieuDonNcc(context, don)),
+                    ),
                   ],
-                  const SizedBox(height: 20),
-                  FlatSection(
-                    child: BoardingUpdateBlock(
-                      don: don,
-                      onNhatKy: () =>
-                          context.push(AppRoutes.sitterEvidencePath(_id)),
-                      onGuiCapNhat: () =>
-                          context.push(AppRoutes.sitterDailyUpdatePath(_id)),
-                      onMoManTrong: () =>
-                          context.push(AppRoutes.sitterActiveBoardingPath(_id)),
-                    ),
-                  ),
-                ],
-                if (don.trongGiu case final ky?) ...[
                   const FlatDivider(),
-                  FlatSection(child: BoardingHandoverAlbum(ky: ky)),
-                ],
-                if (chuNuoi != null &&
-                    !don.choChot &&
-                    !don.daHoanThanh &&
-                    (!don.dangDat || don.laTrongGiu)) ...[
-                  const FlatDivider(),
-                  chuNuoi,
-                ],
-                if (don.coKhoiDuongDi) ...[
-                  const SizedBox(height: 16),
-                  FlatSection(
-                    child: SitterOrderRouteBlock(
-                      don: don,
-                      onXuatPhat: _xuatPhat,
-                    ),
-                  ),
-                ],
-                if (don.laGrooming &&
-                    !don.daBoDangDo &&
-                    !don.dangDat &&
-                    !don.choChot) ...[
-                  const FlatDivider(),
-                  FlatSection(
-                    child: SitterGroomingPackages(
-                      goiTungBe: don.grooming?.goiTungBe ?? const [],
-                    ),
-                  ),
-                ],
-                const FlatDivider(),
-                FlatSection(
-                  child: ConfirmDetailRows(
-                    tieuDe: context.l10n.thongTinDon,
-                    dong: dongThongTinDonNcc(context, don),
-                  ),
-                ),
-                if (don.laGrooming && don.dienBien.isNotEmpty) ...[
-                  const SizedBox(height: 20),
-                  FlatSection(child: SessionTimeline(moc: don.dienBien)),
-                ],
-                if (don.laGrooming && don.dangDat) ...[
-                  const SizedBox(height: 20),
-                  FlatSection(
-                    child: GroomingTaskList(
-                      goiTungBe: don.grooming?.goiTungBe ?? const [],
-                      onMoManLam: () =>
-                          context.push(AppRoutes.sitterActiveGroomingPath(_id)),
-                    ),
-                  ),
-                ],
-                if (don.laGrooming && don.tongAnhTruoc > 0) ...[
-                  const SizedBox(height: 20),
-                  FlatSection(
-                    child: SessionPhotoLog(
-                      anh: don.anhTruoc,
-                      tong: don.tongAnhTruoc,
-                      tieuDe: context.l10n.anhTruocKhiLam(
-                        '${don.tongAnhTruoc}',
-                      ),
-                      soCot: 2,
-                      onXemTatCa: () =>
-                          context.push(AppRoutes.sitterEvidencePath(_id)),
-                      onThem: don.dangDat
-                          ? () =>
-                                context.push(AppRoutes.sitterEvidencePath(_id))
-                          : null,
-                    ),
-                  ),
-                ],
-                if (don.laGrooming && don.tongAnhSau > 0) ...[
-                  const SizedBox(height: 20),
-                  FlatSection(
-                    child: SessionPhotoLog(
-                      anh: don.anhSau,
-                      tong: don.tongAnhSau,
-                      tieuDe: context.l10n.anhSauKhiLam('${don.tongAnhSau}'),
-                      soCot: 2,
-                    ),
-                  ),
-                ],
-                if (don.laTrongGiu && don.daHoanThanh) ...[
-                  if (don.trongGiu?.danhGia case final danhGia?) ...[
-                    const FlatDivider(),
-                    FlatSection(child: BoardingReviewBlock(danhGia: danhGia)),
-                  ],
-                  if (don.tongAnhNhatKy > 0) ...[
+                  FlatSection(child: SitterOrderStatus(don: don)),
+                  if (don.daBoDangDo || don.choChot || don.daHoanThanh) ...[
                     const FlatDivider(),
                     FlatSection(
+                      child: SessionStats(cot: soLieuDonNcc(context, don)),
+                    ),
+                  ],
+                  if (don.laTrongGiu && don.dangDat) ...[
+                    if (don.dienBien.isNotEmpty) ...[
+                      const FlatDivider(),
+                      FlatSection(child: SessionTimeline(moc: don.dienBien)),
+                    ],
+                    const SizedBox(height: 20),
+                    FlatSection(
+                      child: BoardingUpdateBlock(
+                        don: don,
+                        onNhatKy: () =>
+                            context.push(AppRoutes.sitterEvidencePath(_id)),
+                        onGuiCapNhat: () =>
+                            context.push(AppRoutes.sitterDailyUpdatePath(_id)),
+                        onMoManTrong: () => context.push(
+                          AppRoutes.sitterActiveBoardingPath(_id),
+                        ),
+                      ),
+                    ),
+                  ],
+                  if (don.trongGiu case final ky?) ...[
+                    const FlatDivider(),
+                    FlatSection(child: BoardingHandoverAlbum(ky: ky)),
+                  ],
+                  if (chuNuoi != null &&
+                      !don.choChot &&
+                      !don.daHoanThanh &&
+                      (!don.dangDat || don.laTrongGiu)) ...[
+                    const FlatDivider(),
+                    chuNuoi,
+                  ],
+                  if (don.coKhoiDuongDi) ...[
+                    const SizedBox(height: 16),
+                    FlatSection(
+                      child: SitterOrderRouteBlock(
+                        don: don,
+                        onXuatPhat: _xuatPhat,
+                      ),
+                    ),
+                  ],
+                  if (don.laGrooming &&
+                      !don.daBoDangDo &&
+                      !don.dangDat &&
+                      !don.choChot) ...[
+                    const FlatDivider(),
+                    FlatSection(
+                      child: SitterGroomingPackages(
+                        goiTungBe: don.grooming?.goiTungBe ?? const [],
+                      ),
+                    ),
+                  ],
+                  const FlatDivider(),
+                  FlatSection(
+                    child: ConfirmDetailRows(
+                      tieuDe: context.l10n.thongTinDon,
+                      dong: dongThongTinDonNcc(context, don),
+                    ),
+                  ),
+                  if (don.laGrooming && don.dienBien.isNotEmpty) ...[
+                    const SizedBox(height: 20),
+                    FlatSection(child: SessionTimeline(moc: don.dienBien)),
+                  ],
+                  if (don.laGrooming && don.dangDat) ...[
+                    const SizedBox(height: 20),
+                    FlatSection(
+                      child: GroomingTaskList(
+                        goiTungBe: don.grooming?.goiTungBe ?? const [],
+                        onMoManLam: () => context.push(
+                          AppRoutes.sitterActiveGroomingPath(_id),
+                        ),
+                      ),
+                    ),
+                  ],
+                  if (don.laGrooming && don.tongAnhTruoc > 0) ...[
+                    const SizedBox(height: 20),
+                    FlatSection(
                       child: SessionPhotoLog(
-                        anh: don.anhNhatKy,
-                        tong: don.tongAnhNhatKy,
-                        nhanAnh: don.trongGiu?.nhanNgayAnh ?? const [],
+                        anh: don.anhTruoc,
+                        tong: don.tongAnhTruoc,
+                        tieuDe: context.l10n.anhTruocKhiLam(
+                          '${don.tongAnhTruoc}',
+                        ),
+                        soCot: 2,
+                        onXemTatCa: () =>
+                            context.push(AppRoutes.sitterEvidencePath(_id)),
+                        onThem: don.dangDat
+                            ? () => context.push(
+                                AppRoutes.sitterEvidencePath(_id),
+                              )
+                            : null,
+                      ),
+                    ),
+                  ],
+                  if (don.laGrooming && don.tongAnhSau > 0) ...[
+                    const SizedBox(height: 20),
+                    FlatSection(
+                      child: SessionPhotoLog(
+                        anh: don.anhSau,
+                        tong: don.tongAnhSau,
+                        tieuDe: context.l10n.anhSauKhiLam('${don.tongAnhSau}'),
+                        soCot: 2,
+                      ),
+                    ),
+                  ],
+                  if (don.laTrongGiu && don.daHoanThanh) ...[
+                    if (don.trongGiu?.danhGia case final danhGia?) ...[
+                      const FlatDivider(),
+                      FlatSection(child: BoardingReviewBlock(danhGia: danhGia)),
+                    ],
+                    if (don.tongAnhNhatKy > 0) ...[
+                      const FlatDivider(),
+                      FlatSection(
+                        child: SessionPhotoLog(
+                          anh: don.anhNhatKy,
+                          tong: don.tongAnhNhatKy,
+                          nhanAnh: don.trongGiu?.nhanNgayAnh ?? const [],
+                          onXemTatCa: () =>
+                              context.push(AppRoutes.sitterEvidencePath(_id)),
+                        ),
+                      ),
+                    ],
+                  ],
+                  if (don.dangDat && !don.laGrooming && !don.laTrongGiu) ...[
+                    const SizedBox(height: 16),
+                    FlatSection(
+                      child: MapPreview(
+                        viTri: don.viTri ?? const LatLng(21.0187, 105.8130),
+                        icon: Icons.route_outlined,
+                        nhan: context.l10n.daDiKmBatDauLuc(
+                          context.l10n.soKm(soLeKm(don.kmDaDi ?? 0)),
+                          don.gioBatDauPhien ?? '',
+                        ),
+                        onDoi: _moManTacNghiep,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    if (don.gioXacMinhDungCu case final gio?)
+                      FlatSection(child: SitterGearVerified(gio: gio)),
+                  ],
+                  if (!don.daBoDangDo &&
+                      !don.laGrooming &&
+                      !(don.laTrongGiu &&
+                          (don.dangDat || don.daHoanThanh))) ...[
+                    const FlatDivider(),
+                    FlatSection(
+                      child: BookingPetNotes(
+                        pets: don.pets,
+                        moTa: don.daNhanDon
+                            ? context.l10n.chamDeXemThongTinVaHoSoBe
+                            : context.l10n.chamDeXemThongTinCanThiet,
+                        ghiChuCuoi: don.daNhanDon
+                            ? context.l10n.banChotLucNhanDon
+                            : null,
+                      ),
+                    ),
+                  ],
+                  if (don.canCamKetAnToan) ...[
+                    const FlatDivider(),
+                    FlatSection(
+                      child: WalkingGearCommitment(
+                        soBe: don.pets.length,
+                        daCam: _daCamKet,
+                        onDoi: (v) => setState(() => _daCamKet = v),
+                        tieuDe: context.l10n.camKetAnToan,
+                        nhan: don.pets.length > 1
+                            ? context.l10n.camKetGiuRoMomDayXichNBe(
+                                '${don.pets.length}',
+                              )
+                            : context.l10n.camKetGiuRoMomDayXich,
+                        moTa: context.l10n.moTaThaoRoMomGiuaChung,
+                      ),
+                    ),
+                  ],
+                  if (don.dangDat && !don.laGrooming && !don.laTrongGiu) ...[
+                    const FlatDivider(),
+                    FlatSection(
+                      child: SitterSessionPhotoLog(
+                        don: don,
+                        onGuiAnh: () =>
+                            context.push(AppRoutes.sitterEvidencePath(_id)),
                         onXemTatCa: () =>
                             context.push(AppRoutes.sitterEvidencePath(_id)),
                       ),
                     ),
                   ],
-                ],
-                if (don.dangDat && !don.laGrooming && !don.laTrongGiu) ...[
-                  const SizedBox(height: 16),
-                  FlatSection(
-                    child: MapPreview(
-                      viTri: don.viTri ?? const LatLng(21.0187, 105.8130),
-                      icon: Icons.route_outlined,
-                      nhan: context.l10n.daDiKmBatDauLuc(
-                        context.l10n.soKm(soLeKm(don.kmDaDi ?? 0)),
-                        don.gioBatDauPhien ?? '',
-                      ),
-                      onDoi: _moManTacNghiep,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  if (don.gioXacMinhDungCu case final gio?)
-                    FlatSection(child: SitterGearVerified(gio: gio)),
-                ],
-                if (!don.daBoDangDo &&
-                    !don.laGrooming &&
-                    !(don.laTrongGiu && (don.dangDat || don.daHoanThanh))) ...[
+                  if (chuNuoi != null &&
+                      ((don.dangDat && !don.laTrongGiu) || don.choChot)) ...[
+                    const FlatDivider(),
+                    chuNuoi,
+                  ],
                   const FlatDivider(),
-                  FlatSection(
-                    child: BookingPetNotes(
-                      pets: don.pets,
-                      moTa: don.daNhanDon
-                          ? context.l10n.chamDeXemThongTinVaHoSoBe
-                          : context.l10n.chamDeXemThongTinCanThiet,
-                      ghiChuCuoi: don.daNhanDon
-                          ? context.l10n.banChotLucNhanDon
-                          : null,
-                    ),
-                  ),
+                  FlatSection(child: SitterOrderEarnings(don: don)),
                 ],
-                if (don.canCamKetAnToan) ...[
-                  const FlatDivider(),
-                  FlatSection(
-                    child: WalkingGearCommitment(
-                      soBe: don.pets.length,
-                      daCam: _daCamKet,
-                      onDoi: (v) => setState(() => _daCamKet = v),
-                      tieuDe: context.l10n.camKetAnToan,
-                      nhan: don.pets.length > 1
-                          ? context.l10n.camKetGiuRoMomDayXichNBe(
-                              '${don.pets.length}',
-                            )
-                          : context.l10n.camKetGiuRoMomDayXich,
-                      moTa: context.l10n.moTaThaoRoMomGiuaChung,
-                    ),
-                  ),
-                ],
-                if (don.dangDat && !don.laGrooming && !don.laTrongGiu) ...[
-                  const FlatDivider(),
-                  FlatSection(
-                    child: SitterSessionPhotoLog(
-                      don: don,
-                      onGuiAnh: () =>
-                          context.push(AppRoutes.sitterEvidencePath(_id)),
-                      onXemTatCa: () =>
-                          context.push(AppRoutes.sitterEvidencePath(_id)),
-                    ),
-                  ),
-                ],
-                if (chuNuoi != null &&
-                    ((don.dangDat && !don.laTrongGiu) || don.choChot)) ...[
-                  const FlatDivider(),
-                  chuNuoi,
-                ],
-                const FlatDivider(),
-                FlatSection(child: SitterOrderEarnings(don: don)),
-              ],
+              ),
             ),
       bottomBar: SitterOrderBottomBar(
         don: don,

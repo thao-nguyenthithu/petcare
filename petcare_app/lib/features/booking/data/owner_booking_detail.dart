@@ -55,6 +55,7 @@ class OwnerBookingDetail {
     this.gioDuKien,
     this.gioKhoiHanh,
     this.gioHen,
+    this.phutKhoiHanhTre,
     this.gioHienTai,
     this.phutQuaHen,
     this.kmLanCuoi,
@@ -218,6 +219,8 @@ class OwnerBookingDetail {
   final String? gioKhoiHanh;
   final String? gioHen;
 
+  final int? phutKhoiHanhTre;
+
   final String? gioHienTai;
   final int? phutQuaHen;
 
@@ -262,6 +265,7 @@ class OwnerBookingDetail {
     String? gioDuKien,
     String? gioKhoiHanh,
     String? gioHen,
+    int? phutKhoiHanhTre,
     String? gioHienTai,
     int? phutQuaHen,
     double? kmLanCuoi,
@@ -337,6 +341,7 @@ class OwnerBookingDetail {
     gioDuKien: gioDuKien ?? this.gioDuKien,
     gioKhoiHanh: gioKhoiHanh ?? this.gioKhoiHanh,
     gioHen: gioHen ?? this.gioHen,
+    phutKhoiHanhTre: phutKhoiHanhTre ?? this.phutKhoiHanhTre,
     gioHienTai: gioHienTai ?? this.gioHienTai,
     phutQuaHen: phutQuaHen ?? this.phutQuaHen,
     kmLanCuoi: kmLanCuoi ?? this.kmLanCuoi,

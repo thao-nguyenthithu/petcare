@@ -230,6 +230,12 @@
   "loiPhuPhiCanNhieuBe": "Chỉ đặt phụ phí khi bạn nhận từ 2 bé mỗi đơn",
   "loiPhuPhiBatBuoc": "Hãy nhập phụ phí mỗi bé thêm khi nhận từ 2 bé mỗi đơn",
   "loiMaxPetVuotSucChua": "Số bé tối đa mỗi đơn không được vượt quá sức chứa",
+  "loiVuotTranBeDat": "Một lượt dắt nhận tối đa {so} bé",
+  "@loiVuotTranBeDat": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
   "tomTatDatDv": "{loai} · {phut} phút · từ {gia}đ/lượt",
   "@tomTatDatDv": {
     "placeholders": {
@@ -251,12 +257,11 @@
   "donViPhut": "phút",
   "thongTinKhongDuocBoTrong": "Thông tin không được bỏ trống",
   "loiGiaPhaiLonHonKhong": "Giá phải lớn hơn 0",
-  "loiThoiLuongGrooming": "Thời lượng từ {min} đến {max} phút, bước {buoc} phút",
+  "loiThoiLuongGrooming": "Thời lượng từ {min} đến {max} phút",
   "@loiThoiLuongGrooming": {
     "placeholders": {
       "min": {"type": "String"},
-      "max": {"type": "String"},
-      "buoc": {"type": "String"}
+      "max": {"type": "String"}
     }
   },
   "chonItNhatMotMucCan": "Chọn ít nhất một mức cân nặng",
@@ -315,6 +320,11 @@
   "trongLucChoDungChuNuoi": "Trong lúc chờ, bạn vẫn có thể dùng app với vai trò Chủ nuôi.",
   "veTrangChu": "Về trang chủ",
   "xemTrangThaiHoSo": "Xem trạng thái hồ sơ",
+  "hoSoCanBoSung": "Hồ sơ cần bổ sung",
+  "hoSoChuaDuocDuyet": "Hồ sơ chưa được duyệt",
+  "suaLaiRoiGuiLai": "Sửa lại rồi gửi hồ sơ một lần nữa. Ảnh giấy tờ phải chụp lại cả hai mặt.",
+  "yeuCauTuQuanTri": "Yêu cầu từ quản trị viên",
+  "suaHoSo": "Sửa hồ sơ",
   "loiKetNoiMayChu": "Không thể kết nối máy chủ, vui lòng thử lại",
   "loiHoSoNccChuaDuyet": "Hồ sơ người chăm của bạn đang chờ duyệt",
   "loiHoSoDaDuyet": "Hồ sơ đã được duyệt, không thể gửi lại",
@@ -335,6 +345,12 @@
   "loiTokenMangXaHoi": "Phiên đăng nhập mạng xã hội không hợp lệ, vui lòng thử lại",
   "loiMangXaHoiThieuEmail": "Tài khoản mạng xã hội không cung cấp email",
   "loiEmailDaDangNhapCachKhac": "Email này đã đăng nhập bằng cách khác. Hãy dùng Google hoặc email và mật khẩu.",
+  "loiSaiTaiKhoanLienKet": "Bạn cần đăng nhập đúng tài khoản {email} để dùng chung một tài khoản cho hai cách đăng nhập",
+  "@loiSaiTaiKhoanLienKet": {
+    "placeholders": {
+      "email": {"type": "String"}
+    }
+  },
   "loiDangNhapMangXaHoiThatBai": "Đăng nhập bằng mạng xã hội không thành công, vui lòng thử lại",
   "loiMaOtpKhongDung": "Mã xác minh không đúng",
   "loiMaOtpHetHan": "Mã xác minh đã hết hạn, vui lòng gửi lại mã",
@@ -2846,6 +2862,15 @@
     "placeholders": {
       "ten": {"type": "String"},
       "gioDi": {"type": "String"},
+      "gioHen": {"type": "String"}
+    }
+  },
+  "moTaKhoiHanhTre": "{ten} khởi hành lúc {gioDi}, trễ {phut} phút so với giờ hẹn {gioHen}.",
+  "@moTaKhoiHanhTre": {
+    "placeholders": {
+      "ten": {"type": "String"},
+      "gioDi": {"type": "String"},
+      "phut": {"type": "String"},
       "gioHen": {"type": "String"}
     }
   },

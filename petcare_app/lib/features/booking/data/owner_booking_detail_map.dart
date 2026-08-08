@@ -63,6 +63,7 @@ OwnerBookingDetail chiTietTuApi(
     mocPhu: _mocPhu(l10n, api, tinhTrang, bayGio),
     gioKhoiHanh: api.xuatPhatLuc == null ? null : gioPhut(api.xuatPhatLuc!),
     gioHen: tinhTrang == TinhTrangDon.dangToi ? gioPhut(api.batDau) : null,
+    phutKhoiHanhTre: _phutKhoiHanhTre(api),
     gioHienTai: tinhTrang == TinhTrangDon.quaGioHen ? gioPhut(bayGio) : null,
     phutQuaHen: tinhTrang == TinhTrangDon.quaGioHen ? phutQuaHen : null,
     gioToiNoi: api.toiNoiLuc == null ? null : gioPhut(api.toiNoiLuc!),
@@ -200,6 +201,13 @@ String? _gioMoChiDuong(ChiTietDonApi api, DateTime bayGio) {
 String? _ngayMoChiDuong(ChiTietDonApi api, DateTime bayGio) {
   final moc = _mocMoChiDuong(api, bayGio);
   return moc == null ? null : ngayThang(moc);
+}
+
+int? _phutKhoiHanhTre(ChiTietDonApi api) {
+  final di = api.xuatPhatLuc;
+  if (di == null || !di.isAfter(api.batDau)) return null;
+  final phut = di.difference(api.batDau).inMinutes;
+  return phut > 0 ? phut : null;
 }
 
 String? _mocPhu(
