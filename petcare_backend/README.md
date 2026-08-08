@@ -1,219 +1,110 @@
-# Smart Pet Care — Backend API (NestJS)
+# Smart Pet Care — Backend (NestJS)
 
-Backend cho ứng dụng Smart Pet Care Service Platform.
-Kiến trúc: NestJS Modular Monolith - Supabase PostgreSQL + PostGIS - Firebase Auth + FCM - Socket.io WebSocket - Redis + BullMQ
+REST API và WebSocket cho nền tảng P2P kết nối chủ nuôi với người chăm thú cưng.
 
----
+Kiến trúc: NestJS modular monolith · Prisma 7 + Supabase PostgreSQL/PostGIS · Redis (BullMQ,
+OTP, Socket.io adapter) · JWT + Firebase Admin · Supabase Storage.
+
+Quy mô hiện tại: 17 cụm module, 39 controller, 197 route, 6 gateway, 5 cron, 49 bộ test.
 
 ## Yêu cầu môi trường
 
-| Tool | Version |
-|---|---|
-| Node.js | v24.x LTS |
-| npm | 11.x |
-| NestJS CLI | Latest |
-
----
+Node.js 24.x · npm 11.x · Docker (chạy Redis tại chỗ).
 
 ## Cài đặt
 
-### 1. Clone và cài dependencies
-
 ```bash
-git clone <repo-url>
-cd petcare_backend
 npm install
-```
-
-### 2. Tạo file môi trường
-
-```bash
 cp .env.example .env
-```
-
-Điền đầy đủ các biến trong `.env`:
-
-```env
-# App
-NODE_ENV=development
-PORT=3000
-
-# Database (Supabase)
-DATABASE_URL=postgresql://postgres.[PROJECT]:[PASSWORD]@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true
-DIRECT_URL=postgresql://postgres.[PROJECT]:[PASSWORD]@db.[PROJECT].supabase.co:5432/postgres
-
-# Redis - dùng cho BullMQ queue VA Socket.io Redis adapter (ADR-004)
-REDIS_URL=redis://localhost:6379
-
-# Supabase Storage
-SUPABASE_URL=https://[PROJECT].supabase.co
-SUPABASE_SERVICE_KEY=your_service_role_key
-
-# JWT
-JWT_SECRET=your_jwt_secret
-JWT_EXPIRES_IN=7d
-JWT_REFRESH_EXPIRES_IN=30d
-
-# Firebase - chi dung cho Social Login VA FCM Push Notification
-# KHONG con FIREBASE_DATABASE_URL vi da thay Firebase RTDB bang WebSocket (ADR-004)
-FIREBASE_PROJECT_ID=your_firebase_project_id
-FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
-FIREBASE_CLIENT_EMAIL=firebase-adminsdk@project.iam.gserviceaccount.com
-
-# AI
-ANTHROPIC_API_KEY=sk-ant-...
-
-# KHONG con GOOGLE_MAPS_API_KEY - da doi sang flutter_map / OpenStreetMap (ADR-005)
-```
-
-### 3. Chạy migration database
-
-```bash
-npx prisma migrate dev
+docker compose up -d
 npx prisma generate
+npm run start:dev
 ```
 
-### 4. Chạy ứng dụng
+Điền `.env` theo `.env.example`. Ba biến bắt buộc mới chạy được: `DATABASE_URL`,
+`DIRECT_URL`, `JWT_SECRET`.
+
+## Database
+
+Toàn bộ lược đồ nằm trong **một** migration nền `prisma/migrations/20260808160000_nen_gop`,
+gồm cả `CREATE EXTENSION postgis` và hai chỉ mục GIST viết tay. Sổ migration trên Supabase
+đã được đánh dấu khớp với file này.
 
 ```bash
-# Development (watch mode)
-npm run start:dev
-
-# Production
-npm run start:prod
+npx prisma migrate deploy   # áp lược đồ lên một database mới
+npx prisma generate         # sinh lại client sau khi sửa schema
+npx prisma studio           # xem dữ liệu
 ```
 
----
+Sửa lược đồ thì tạo migration mới bằng `npx prisma migrate dev --name <ten_khong_dau>`,
+KHÔNG sửa file nền. Cần shadow database riêng (`SHADOW_DATABASE_URL`) vì shadow tạm của
+Prisma không có PostGIS.
 
-## Cấu trúc thư mục
+Nghiệm thu lược đồ khớp database:
 
-```
-src/
-├── app.module.ts
-├── main.ts
-└── modules/
-    ├── admin/          - Quan tri he thong
-    ├── ai/             - Claude Vision API + Owner Override (ADR-001)
-    ├── auth/           - JWT + Firebase Auth (Social Login)
-    ├── bookings/       - Booking State Machine (ADR-003)
-    ├── gateway/        - WebSocket Gateway: GPS Realtime + In-session Chat (ADR-004)
-    ├── location/       - PostGIS geosearch + Geofencing + REST batch GPS history
-    ├── media/          - Supabase Storage (Service Key)
-    ├── notification/   - FCM Push Notification + BullMQ
-    ├── pets/           - Pet CRUD
-    ├── reports/        - Bao cao vi pham
-    ├── reviews/        - Danh gia dich vu
-    ├── services/       - Service Catalog (Walking/Boarding/Grooming)
-    └── users/          - User Profile
+```bash
+npx prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma --script
 ```
 
----
+In ra `-- This is an empty migration.` là khớp.
 
 ## Scripts
 
 ```bash
-# Development
-npm run start:dev       # Chạy với watch mode
-
-# Build
-npm run build           # Build production
-
-# Testing
-npm run test            # Unit tests
-npm run test:cov        # Test coverage
-npm run test:e2e        # E2E tests
-
-# Database
-npx prisma migrate dev  # Tạo và apply migration mới
-npx prisma generate     # Regenerate Prisma Client
-npx prisma studio       # Mở Prisma Studio (GUI)
-npx prisma db seed      # Chạy seed data
+npm run start:dev    # watch mode
+npm run build        # prisma generate + nest build
+npm run start:prod   # chạy dist, dùng cho môi trường thật
+npm run format       # Prettier
+npm run lint         # ESLint kèm --fix
+npm test             # Jest, toàn bộ test ở test/
+npm run test:cov     # coverage cho báo cáo
 ```
 
----
+## Cấu trúc `src/`
 
-## API Documentation
-
-Swagger UI: `http://localhost:3000/api/docs`
-
----
-
-## Lưu ý quan trọng
-
-### GIST Spatial Index - PostGIS
-
-Index `idx_service_provider_location` không thể tạo qua `prisma migrate dev` vì Prisma shadow database là DB tạm tự tạo mới - không có PostGIS extension, dù Supabase Primary Database đã bật PostGIS sẵn.
-
-Đã apply thủ công qua Supabase SQL Editor (task B02.4).
-
-Nếu reset DB, chạy lại SQL trong:
 ```
-prisma/migrations/20260525083625_add_spatial_index/migration.sql
-```
-
-Hoặc chạy thủ công trong Supabase SQL Editor:
-```sql
-CREATE INDEX IF NOT EXISTS idx_service_provider_location
-ON "ServiceProvider"
-USING GIST (ST_SetSRID(ST_MakePoint(lng, lat), 4326));
+common/      tiện ích dùng chung: tiền, khoảng cách, thời gian VN, CORS, Redis, filter lỗi
+config/      configuration.ts đọc biến môi trường
+prisma/      PrismaService (driver adapter pg)
+modules/
+  addresses/     sổ địa chỉ chủ nuôi
+  admin/         13 cụm quản trị, tham số vận hành, nhật ký
+  ai/            quét ảnh check-in, adapter Anthropic và Gemini
+  auth/          đăng ký, đăng nhập, OTP, social login, tài khoản
+  bookings/      máy trạng thái đơn, huỷ, khiếu nại, thanh toán đơn
+  firebase/      Firebase Admin, đẩy thông báo
+  gps/           theo dõi trực tiếp, waypoint, chốt báo cáo lộ trình
+  mail/          nodemailer qua hàng đợi BullMQ
+  media/         tải ảnh lên Supabase Storage, ký đường dẫn riêng tư
+  messaging/     hội thoại trong đơn
+  notifications/ thông báo trong ứng dụng và đẩy
+  payments/      cổng mock và VNPay
+  pets/          hồ sơ bé, lịch phòng bệnh
+  reviews/       đánh giá sau đơn
+  search/        tìm người chăm quanh đây bằng PostGIS
+  sitter/        bảy cụm phía người chăm: hồ sơ, dịch vụ, lịch, đơn, ví, trang chủ, công khai
+  wallet/        ví, rút tiền, tài khoản ngân hàng
 ```
 
-### Supabase Storage
+## Điểm cần biết
 
-- Flutter upload ảnh trực tiếp lên Supabase Storage bằng Firebase JWT - không qua NestJS
-- NestJS chỉ dùng `SUPABASE_SERVICE_KEY` cho admin operations (xóa ảnh vi phạm, seed data)
-- `SUPABASE_SERVICE_KEY` là server-side secret - không bao giờ đưa vào Flutter app
+- **Con số nghiệp vụ** không nằm trong mã nguồn cứng mà tra `.claude/so-lieu-nghiep-vu.md`;
+  ngưỡng vận hành đọc từ bảng `SystemSetting` và đóng băng theo đơn.
+- **Redis**: có `REDIS_URL` thì dùng chuỗi đó (kèm mật khẩu, dành cho môi trường thật),
+  không có mới rơi về `REDIS_HOST`/`REDIS_PORT`.
+- **CORS**: khai `CORS_ORIGINS` phân tách bằng dấu phẩy. Bỏ trống lúc chạy máy là mở hết,
+  bỏ trống ở môi trường thật là chặn mọi trình duyệt. Ứng dụng di động không gửi `Origin`
+  nên không bị ảnh hưởng.
+- **Cổng thanh toán**: `NODE_ENV=production` mà còn `PAYMENT_GATEWAY=mock` thì máy chủ
+  không khởi động (bộ luật mục 15).
+- **Swagger** ở `/api/docs`, tiền tố API là `/api/v1`.
+- Chi tiết Prisma, Railway, GIST, timezone: `.claude/notes-ky-thuat.md`.
 
-### Firebase Auth
-
-- Dự án dùng Firebase Auth cho Social Login (Google/Facebook) và FCM Push Notification
-- Không còn dùng Firebase Realtime Database (đã thay bằng WebSocket theo ADR-004)
-- Supabase đã cấu hình Third-party Auth với Firebase Project ID: `smart-pet-care-vn`
-- RLS policy trên Storage dùng `auth.uid() IS NOT NULL` - hoạt động nhờ Firebase JWT verification qua Google JWKS
-
-### WebSocket Gateway (ADR-004)
-
-- GPS Realtime và In-session Chat đều đi qua NestJS WebSocket Gateway (Socket.io), không qua Firebase RTDB
-- Redis adapter (`@socket.io/redis-adapter`) đảm bảo đồng bộ giữa nhiều instance khi scale
-- Lịch sử GPS (history) vẫn lưu qua REST batch endpoint `POST /gps/waypoints/batch` để query lại sau khi booking COMPLETED
-- Chat history lưu vào bảng `Message` trong PostgreSQL
-
----
-
-## Architecture Decision Records
-
-| ADR | Tóm tắt |
-|---|---|
-| ADR-001 | AI fail 3 lần - Owner Override 5 phút (thay Admin Manual Review) |
-| ADR-002 | (Deprecated bởi ADR-004) GPS Dual Stream Firebase RTDB - đã thay bằng WebSocket |
-| ADR-003 | Optimistic Lock bằng `updatedAt` cho Booking State Machine - tránh Race Condition |
-| ADR-004 | WebSocket (Socket.io + Redis adapter) thay Firebase RTDB cho GPS Realtime và In-session Chat |
-| ADR-005 | flutter_map (OpenStreetMap) thay google_maps_flutter - miễn phí, không cần API key |
-
----
-
-## Docker (Local Development)
+## Deploy
 
 ```bash
-# Khởi động PostgreSQL + Redis + Adminer
-docker-compose up -d
-
-# Dừng
-docker-compose down
-```
-
----
-
-## Deployment
-
-Deploy lên Railway:
-
-```bash
-# Cài Railway CLI
-npm install -g @railway/cli
-
-# Deploy
 railway up --service petcare-backend --detach
 ```
 
-Biến môi trường được cấu hình trong Railway Dashboard - không dùng file `.env` trên server.
+Biến môi trường khai trong Railway Dashboard, không dùng file `.env` trên máy chủ.
+Healthcheck trỏ `/api/docs`.

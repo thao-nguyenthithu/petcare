@@ -9,25 +9,46 @@ datasource db {
 }
 
 model User {
-  id               String            @id @default(uuid())
+  id               String                 @id @default(uuid())
   fullName         String
-  email            String            @unique
-  phone            String?           @unique
+  email            String                 @unique
+  phone            String?                @unique
   passwordHash     String?
-  firebaseUid      String?           @unique
-  role             UserRole          @default(OWNER)
+  dateOfBirth      DateTime?              @db.Date
+  firebaseUid      String?                @unique
+  passwordChangedAt DateTime?             @db.Timestamptz(3)
+  role             UserRole               @default(OWNER)
   avatarUrl        String?
-  isVerified       Boolean           @default(false)
-  isActive         Boolean           @default(true)
-  createdAt        DateTime          @default(now()) @db.Timestamptz(3)
-  updatedAt        DateTime          @updatedAt @db.Timestamptz(3)
-  bookingsAsOwner  Booking[]         @relation("OwnerBookings")
+  isVerified       Boolean                @default(false)
+  isActive         Boolean                @default(true)
+  createdAt        DateTime               @default(now()) @db.Timestamptz(3)
+  updatedAt        DateTime               @updatedAt @db.Timestamptz(3)
+  bookingsAsOwner  Booking[]              @relation("OwnerBookings")
   pets             Pet[]
   reviews          Review[]
   sitter           Sitter?
   violationReports ViolationReport[]
   messages         Message[]
   addresses        Address[]
+  searchHistory    SearchHistory[]
+  notifications    Notification[]
+  deviceTokens     DeviceToken[]
+  auditLogs        AdminAuditLog[]
+  campaigns        NotificationCampaign[]
+
+  @@index([role, createdAt])
+  @@index([createdAt])
+}
+
+model SearchHistory {
+  id        String   @id @default(uuid())
+  userId    String
+  keyword   String
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, keyword])
+  @@index([userId, createdAt])
 }
 
 model Address {
@@ -45,8 +66,10 @@ model Address {
   createdAt   DateTime     @default(now()) @db.Timestamptz(3)
   updatedAt   DateTime     @updatedAt @db.Timestamptz(3)
   user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookings    Booking[]
 
   @@index([userId])
+  @@index([isDefault, province])
 }
 
 enum AddressLabel {
@@ -56,37 +79,96 @@ enum AddressLabel {
 }
 
 model Sitter {
-  id                 String          @id @default(uuid())
-  userId             String          @unique
+  id                 String       @id @default(uuid())
+  userId             String       @unique
   bio                String?
-  ratingAvg          Float           @default(0)
-  totalReviews       Int             @default(0)
-  backgroundChecked  Boolean         @default(false)
+  ratingAvg          Float        @default(0)
+  totalReviews       Int          @default(0)
   lat                Float?
   lng                Float?
-  createdAt          DateTime        @default(now()) @db.Timestamptz(3)
+  createdAt          DateTime     @default(now()) @db.Timestamptz(3)
   // Hồ sơ đăng ký NCC (bước xác minh danh tính)
-  status             SitterStatus    @default(PENDING)
+  status             SitterStatus @default(PENDING)
   legalName          String?
   gender             Gender?
-  dateOfBirth        DateTime?       @db.Date
-  nationalId         String?         @unique
+  dateOfBirth        DateTime?    @db.Date
+  nationalId         String?      @unique
   idIssuedPlace      String?
-  idIssuedDate       DateTime?       @db.Date
+  idIssuedDate       DateTime?    @db.Date
   province           String?
   addressDetail      String?
   cccdFrontPath      String?
   cccdBackPath       String?
-  submittedAt        DateTime?       @db.Timestamptz(3)
+  submittedAt        DateTime?    @db.Timestamptz(3)
   serviceAddress     String?
   serviceAddressNote String?
   serviceRadiusKm    Int?
-  onboardedAt        DateTime?       @db.Timestamptz(3)
-  services           SitterService[]
-  bookings           Booking[]       @relation("SitterBookings")
-  photos             SitterPhoto[]
-  daysOff            SitterDayOff[]
-  user               User            @relation(fields: [userId], references: [id])
+  onboardedAt        DateTime?    @db.Timestamptz(3)
+  workStart          String       @default("07:00")
+  workEnd            String       @default("20:00")
+  workDays           Int[]        @default([1, 2, 3, 4, 5, 6])
+  hiddenUntil        DateTime?    @db.Timestamptz(3)
+  hiddenCount        Int          @default(0)
+  bannedAt           DateTime?    @db.Timestamptz(3)
+  lastHiddenAt       DateTime?    @db.Timestamptz(3)
+  staticScore        Float        @default(0)
+  trustedBadge       Boolean      @default(false)
+
+  services    SitterService[]
+  bookings    Booking[]          @relation("SitterBookings")
+  photos      SitterPhoto[]
+  daySettings SitterDaySetting[]
+  penalties   SitterPenalty[]
+  wallet      Wallet?
+  bankAccount BankAccount?
+  withdrawals Withdrawal[]
+  user        User               @relation(fields: [userId], references: [id])
+
+  @@index([staticScore])
+  @@index([status, createdAt])
+  @@index([hiddenUntil])
+  @@index([bannedAt])
+}
+
+model SitterPenalty {
+  id         String        @id @default(uuid())
+  sitterId   String
+  bookingId  String?
+  kind       PenaltyKind
+  status     PenaltyStatus @default(ACTIVE)
+  reason     String?
+  createdAt  DateTime      @default(now()) @db.Timestamptz(3)
+  reviewedAt DateTime?     @db.Timestamptz(3)
+  sitter     Sitter        @relation(fields: [sitterId], references: [id], onDelete: Cascade)
+  booking    Booking?      @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+
+  @@index([sitterId, createdAt])
+  @@index([sitterId, kind, status])
+  @@index([status, createdAt])
+}
+
+model BoardingUpdate {
+  id         String   @id @default(uuid())
+  bookingId  String
+  message    String?
+  conditions String[] @default([])
+  photoUrls  String[] @default([])
+  createdAt  DateTime @default(now()) @db.Timestamptz(3)
+  booking    Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@index([bookingId, createdAt])
+}
+
+enum PenaltyKind {
+  CANCEL_RATE
+  WARNING
+  HIDE
+}
+
+enum PenaltyStatus {
+  ACTIVE
+  PENDING_REVIEW
+  WAIVED
 }
 
 model SitterPhoto {
@@ -100,14 +182,26 @@ model SitterPhoto {
   @@index([sitterId])
 }
 
-model SitterDayOff {
-  id       String   @id @default(uuid())
-  sitterId String
-  date     DateTime @db.Date
-  sitter   Sitter   @relation(fields: [sitterId], references: [id], onDelete: Cascade)
+model SitterDaySetting {
+  id            String        @id @default(uuid())
+  sitterId      String
+  date          DateTime      @db.Date
+  mode          SitterDayMode @default(DEFAULT)
+  startTime     String?
+  endTime       String?
+  boardingSlots Int?
+  reason        String?
+  createdAt     DateTime      @default(now()) @db.Timestamptz(3)
+  updatedAt     DateTime      @updatedAt @db.Timestamptz(3)
+  sitter        Sitter        @relation(fields: [sitterId], references: [id], onDelete: Cascade)
 
   @@unique([sitterId, date])
-  @@index([sitterId])
+}
+
+enum SitterDayMode {
+  DEFAULT
+  CUSTOM_HOURS
+  OFF
 }
 
 model SitterService {
@@ -122,7 +216,6 @@ model SitterService {
   sitter    Sitter      @relation(fields: [sitterId], references: [id], onDelete: Cascade)
 
   @@unique([sitterId, type])
-  @@index([sitterId])
 }
 
 enum PetSpecies {
@@ -218,11 +311,14 @@ model PreventionDose {
   cycleValue Int?
   cycleUnit  CycleUnit?
   place      String?
+  nextDueAt  DateTime?             @db.Date
+  remindedDays Int[]               @default([])
   createdAt  DateTime              @default(now()) @db.Timestamptz(3)
   photos     PreventionDosePhoto[]
   record     PreventionRecord      @relation(fields: [recordId], references: [id], onDelete: Cascade)
 
   @@index([recordId])
+  @@index([nextDueAt])
 }
 
 // Ảnh phiếu hoặc hoá đơn của một lần thực hiện
@@ -236,52 +332,190 @@ model PreventionDosePhoto {
   @@index([doseId])
 }
 
+// Danh mục loại dịch vụ
 model Service {
   id               String      @id @default(uuid())
-  type             ServiceType
+  type             ServiceType @unique
   name             String
   description      String?
-  basePricePerHour Float
+  basePricePerHour Int
   durationMinutes  Int?
   bookings         Booking[]
 }
 
 model Booking {
   id                 String            @id @default(uuid())
+  code               String            @unique
   ownerId            String
   sitterId           String
   serviceId          String
   status             BookingStatus     @default(PENDING)
   scheduledAt        DateTime          @db.Timestamptz(3)
+  scheduledEndAt     DateTime?         @db.Timestamptz(3)
+  acceptedAt         DateTime?         @db.Timestamptz(3)
+  paidAt             DateTime?         @db.Timestamptz(3)
+  departedAt         DateTime?         @db.Timestamptz(3)
+  ownerDepartedAt    DateTime?         @db.Timestamptz(3)
+  ownerReturnDepartedAt DateTime?      @db.Timestamptz(3)
+  arriveRemindedAt   DateTime?         @db.Timestamptz(3)
+  arrivedAt          DateTime?         @db.Timestamptz(3)
   startedAt          DateTime?         @db.Timestamptz(3)
   endedAt            DateTime?         @db.Timestamptz(3)
-  totalPrice         Float?
+  completedAt        DateTime?         @db.Timestamptz(3)
+  totalPrice         Int?
   specialNotes       String?
-  cancellationFee    Float?
-  cancelledBy        String?
+  cancellationFee    Int?
+  cancelledAt        DateTime?         @db.Timestamptz(3)
   cancellationReason String?
+  cancellationNote   String?
+  sitterPayout       Int?
+  lateMinutes        Int?
+  etaAt              DateTime?         @db.Timestamptz(3)
+  lateReportedAt     DateTime?         @db.Timestamptz(3)
+  gearReportedAt     DateTime?         @db.Timestamptz(3)
+  ownerArrivedAt     DateTime?         @db.Timestamptz(3)
+  arriveDistanceM    Int?
+  noShowProofUrls    String[]          @default([])
+  sitterNote         String?
+  handoverNote       String?
+  distanceKm         Float?
+  pickupDistanceKm   Float?
+  durationMinutes    Int?
+  platformFee        Int?
+  platformFeePercent Int?
+  cancelFeePercent   Int?
+  escrowReleaseAt    DateTime?         @db.Timestamptz(3)
+  priceBreakdown     Json?
+  gearCommittedAt    DateTime?         @db.Timestamptz(3)
+  addressId          String?
+  addressText        String?
+  addressLat         Float?
+  addressLng         Float?
   createdAt          DateTime          @default(now()) @db.Timestamptz(3)
   updatedAt          DateTime          @updatedAt @db.Timestamptz(3)
   owner              User              @relation("OwnerBookings", fields: [ownerId], references: [id])
   pets               BookingPet[]
   sitter             Sitter            @relation("SitterBookings", fields: [sitterId], references: [id])
   service            Service           @relation(fields: [serviceId], references: [id])
+  address            Address?          @relation(fields: [addressId], references: [id], onDelete: SetNull)
   gpsReport          BookingGpsReport?
   locationTracks     LocationTrack[]
   review             Review?
   sessionPhotos      SessionPhoto[]
   reports            ViolationReport[]
   messages           Message[]
+  conversation       Conversation?
+  penalties          SitterPenalty[]
+  boardingUpdates    BoardingUpdate[]
+  payments           Payment[]
+  safetyScans        PetSafetyScan[]
+  scanBatches        CheckinScanBatch[]
+  slotXacNhan        CheckinSlotXacNhan[]
+
+  @@index([sitterId, scheduledAt])
+  @@index([ownerId, scheduledAt])
+  @@index([ownerId, createdAt])
+  @@index([status, createdAt])
+  @@index([scheduledAt])
+  @@index([createdAt])
 }
 
 model BookingPet {
-  bookingId String
-  petId     String
-  booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
-  pet       Pet     @relation(fields: [petId], references: [id])
+  bookingId       String
+  petId           String
+  packageCode     String?
+  durationMinutes Int?
+  price           Int?
+  booking         Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  pet             Pet     @relation(fields: [petId], references: [id])
 
   @@id([bookingId, petId])
   @@index([petId])
+}
+
+model SystemSetting {
+  key       String   @id
+  value     String
+  updatedBy String?
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+}
+
+model Payment {
+  id             String        @id @default(uuid())
+  bookingId      String
+  txnRef         String        @unique
+  amount         Int
+  status         PaymentStatus @default(PENDING)
+  gateway        String
+  gatewayTxnNo   String?
+  gatewayPayDate String?
+  bankCode       String?
+  cardType       String?
+  responseCode   String?
+  paidAt         DateTime?     @db.Timestamptz(3)
+  releasedAt     DateTime?     @db.Timestamptz(3)
+  expiresAt      DateTime      @db.Timestamptz(3)
+  rawReturn      Json?
+  refundReference String?
+  refundNote      String?
+  refundedAt      DateTime?    @db.Timestamptz(3)
+  createdAt      DateTime      @default(now()) @db.Timestamptz(3)
+  updatedAt      DateTime      @updatedAt @db.Timestamptz(3)
+  booking        Booking       @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@index([bookingId, createdAt])
+  @@index([status])
+}
+
+model CheckinScanBatch {
+  id        String          @id @default(uuid())
+  bookingId String
+  trangThai String          @default("PROCESSING")
+  anhCaDanUrl String?
+  taoLuc    DateTime        @default(now()) @db.Timestamptz(3)
+  xongLuc   DateTime?       @db.Timestamptz(3)
+  booking   Booking         @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  scans     PetSafetyScan[]
+
+  @@index([bookingId])
+}
+
+model PetSafetyScan {
+  id          String           @id @default(uuid())
+  bookingId   String
+  batchId     String
+  slotIndex   Int
+  soLan       Int
+  photoUrl    String
+  canhDaiPx   Int?
+  lat         Float?
+  lng         Float?
+  chupLuc     DateTime         @default(now()) @db.Timestamptz(3)
+  trangThai   String?
+  code        String?
+  confidence  Float?
+  provider    String
+  tinhLuot    Boolean          @default(false)
+  rawResponse Json?
+  ketLuanLuc  DateTime?        @db.Timestamptz(3)
+  booking     Booking          @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  batch       CheckinScanBatch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+
+  @@unique([bookingId, slotIndex, soLan])
+  @@index([batchId])
+}
+
+model CheckinSlotXacNhan {
+  id        String   @id @default(uuid())
+  bookingId String
+  slotIndex Int
+  boiUserId String
+  lat       Float?
+  lng       Float?
+  luc       DateTime @default(now()) @db.Timestamptz(3)
+  booking   Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@unique([bookingId, slotIndex])
 }
 
 model SessionPhoto {
@@ -289,19 +523,19 @@ model SessionPhoto {
   bookingId         String
   photoUrl          String
   phase             PhotoPhase
+  slotIndex         Int?
+  anhVanXa          Boolean    @default(false)
+  anhDoDung         Boolean    @default(false)
   photoLat          Float?
   photoLng          Float?
-  aiRawResponse     Json?
   aiProvider        String?
   aiConfidenceScore Float?
   aiPassed          Boolean?
-  aiFailCount       Int?
-  ownerOverrideAt   DateTime?  @db.Timestamptz(3)
-  ownerOverrideNote String?
-  ownerRejectedAt   DateTime?  @db.Timestamptz(3)
-  overrideTimeoutAt DateTime?  @db.Timestamptz(3)
   takenAt           DateTime   @default(now()) @db.Timestamptz(3)
   booking           Booking    @relation(fields: [bookingId], references: [id])
+
+  @@index([bookingId, takenAt])
+  @@index([takenAt(sort: Desc), id])
 }
 
 model LocationTrack {
@@ -314,7 +548,7 @@ model LocationTrack {
   driftMs    Int?
   batchSeq   Int?
   isNoise    Boolean  @default(false)
-  recordedAt DateTime @default(now()) @db.Timestamptz(3)
+  isMocked   Boolean  @default(false)
   booking    Booking  @relation(fields: [bookingId], references: [id])
 
   @@index([bookingId, clientTs])
@@ -329,52 +563,185 @@ model BookingGpsReport {
   totalDistanceM   Float
   durationMinutes  Int
   avgSpeedKmh      Float
-  suspicionScore   Float    @default(0)
+  suspicionScore   Float?
   flaggedForReview Boolean  @default(false)
   suspicionNote    String?
+  mockedCount      Int      @default(0)
+  speedFlag        Boolean  @default(false)
+  reviewedAt       DateTime? @db.Timestamptz(3)
   createdAt        DateTime @default(now()) @db.Timestamptz(3)
   booking          Booking  @relation(fields: [bookingId], references: [id])
 
   @@index([flaggedForReview])
   @@index([suspicionScore])
+  @@index([reviewedAt])
 }
 
 model Review {
-  id         String   @id @default(uuid())
-  bookingId  String   @unique
+  id         String    @id @default(uuid())
+  bookingId  String    @unique
   reviewerId String
   rating     Int
   comment    String?
-  createdAt  DateTime @default(now()) @db.Timestamptz(3)
-  booking    Booking  @relation(fields: [bookingId], references: [id])
-  reviewer   User     @relation(fields: [reviewerId], references: [id])
+  photos     String[]  @default([])
+  praiseTags String[]  @default([])
+  reply      String?
+  replyAt    DateTime? @db.Timestamptz(3)
+  createdAt  DateTime  @default(now()) @db.Timestamptz(3)
+  booking    Booking   @relation(fields: [bookingId], references: [id])
+  reviewer   User      @relation(fields: [reviewerId], references: [id])
+
+  @@index([createdAt])
+  @@index([reviewerId])
 }
 
 model ViolationReport {
+  id                String       @id @default(uuid())
+  code              String       @unique
+  bookingId         String
+  reporterId        String
+  description       String
+  reasonCode        String?
+  evidenceUrls      Json?
+  status            ReportStatus @default(OPEN)
+  sitterReply       String?
+  sitterReplyAt     DateTime?    @db.Timestamptz(3)
+  sitterReplyPhotos String[]     @default([])
+  replyDeadline     DateTime?    @db.Timestamptz(3)
+  resolution        String?
+  resolutionReason  String?
+  refundAmount      Int?
+  resolvedAt        DateTime?    @db.Timestamptz(3)
+  createdAt         DateTime     @default(now()) @db.Timestamptz(3)
+  booking           Booking      @relation(fields: [bookingId], references: [id])
+  reporter          User         @relation(fields: [reporterId], references: [id])
+
+  @@index([bookingId])
+  @@index([reporterId, createdAt])
+  @@index([reasonCode])
+}
+
+model Wallet {
+  id           String              @id @default(uuid())
+  sitterId     String              @unique
+  balance      Int                 @default(0)
+  createdAt    DateTime            @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime            @updatedAt @db.Timestamptz(3)
+  sitter       Sitter              @relation(fields: [sitterId], references: [id], onDelete: Cascade)
+  transactions WalletTransaction[]
+}
+
+enum WalletTxKind {
+  TIEN_VAO
+  RUT_RA
+  DIEU_CHINH
+}
+
+model WalletTransaction {
   id           String       @id @default(uuid())
-  bookingId    String
-  reporterId   String
-  description  String
-  evidenceUrls Json?
-  status       ReportStatus @default(OPEN)
-  adminNote    String?
+  walletId     String
+  code         String       @unique
+  kind         WalletTxKind
+  title        String
+  amount       Int
+  balanceAfter Int
+  bookingId    String?
+  withdrawalId String?
+  disputeCode  String?
+  reference    String?
   createdAt    DateTime     @default(now()) @db.Timestamptz(3)
-  booking      Booking      @relation(fields: [bookingId], references: [id])
-  reporter     User         @relation(fields: [reporterId], references: [id])
+  wallet       Wallet       @relation(fields: [walletId], references: [id], onDelete: Cascade)
+
+  @@index([walletId, createdAt])
+}
+
+// Tài khoản nhận tiền
+model BankAccount {
+  id            String   @id @default(uuid())
+  sitterId      String   @unique
+  bankName      String
+  accountNumber String
+  accountHolder String
+  verified      Boolean  @default(false)
+  createdAt     DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt     DateTime @updatedAt @db.Timestamptz(3)
+  sitter        Sitter   @relation(fields: [sitterId], references: [id], onDelete: Cascade)
+}
+
+enum WithdrawalStatus {
+  PENDING
+  SENT
+  DONE
+  REJECTED
+}
+
+model Withdrawal {
+  id            String           @id @default(uuid())
+  sitterId      String
+  amount        Int
+  fee           Int              @default(0)
+  status        WithdrawalStatus @default(PENDING)
+  bankName      String
+  accountNumber String
+  accountHolder String
+  reference     String?
+  rejectReason  String?
+  createdAt     DateTime         @default(now()) @db.Timestamptz(3)
+  sentAt        DateTime?        @db.Timestamptz(3)
+  doneAt        DateTime?        @db.Timestamptz(3)
+  sitter        Sitter           @relation(fields: [sitterId], references: [id], onDelete: Cascade)
+
+  @@index([sitterId, createdAt])
+}
+
+model Conversation {
+  id            String    @id @default(uuid())
+  bookingId     String    @unique
+  lastMessage   String    @default("")
+  lastMessageAt DateTime? @db.Timestamptz(3)
+  unreadOwner   Int       @default(0)
+  unreadSitter  Int       @default(0)
+  createdAt     DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt     DateTime  @updatedAt @db.Timestamptz(3)
+  booking       Booking   @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  messages      Message[]
+
+  @@index([lastMessageAt])
+}
+
+enum MessageKind {
+  TEXT
+  IMAGE
+  LOCATION
+  SYSTEM
 }
 
 model Message {
-  id        String   @id @default(uuid())
-  bookingId String
-  senderId  String
-  role      String // OWNER | PROVIDER
-  text      String
-  isRead    Boolean  @default(false)
-  createdAt DateTime @default(now()) @db.Timestamptz(3)
-  booking   Booking  @relation(fields: [bookingId], references: [id])
-  sender    User     @relation(fields: [senderId], references: [id])
+  id                String       @id @default(uuid())
+  bookingId         String
+  conversationId    String
+  senderId          String?
+  role              String // OWNER | PROVIDER | SYSTEM
+  kind              MessageKind  @default(TEXT)
+  text              String
+  textSitter        String?
+  actionLabel       String?
+  actionLabelSitter String?
+  canGap            Boolean      @default(false)
+  masked            Boolean      @default(false)
+  images            String[]     @default([])
+  soAnhThem         Int?
+  caption           String?
+  lat               Float?
+  lng               Float?
+  isRead            Boolean      @default(false)
+  createdAt         DateTime     @default(now()) @db.Timestamptz(3)
+  booking           Booking      @relation(fields: [bookingId], references: [id])
+  conversation      Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender            User?        @relation(fields: [senderId], references: [id])
 
   @@index([bookingId, createdAt])
+  @@index([conversationId, createdAt])
 }
 
 enum UserRole {
@@ -402,15 +769,33 @@ enum ServiceType {
   GROOMING
 }
 
+// Vòng đời một đơn
 enum BookingStatus {
+  AWAITING_PAYMENT
   PENDING
   CONFIRMED
-  AWAITING_OWNER_APPROVAL
   IN_PROGRESS
+  AWAITING_OWNER_CONFIRM
   COMPLETED
-  CANCELLED
+  CANCELLED_BY_OWNER
+  CANCELLED_BY_SITTER
+  CANCELLED_EXPIRED
+  CANCELLED_UNPAID
+  CANCELLED_NO_SHOW
+  CANCELLED_BY_ADMIN
   DISPUTED
   RESOLVED
+}
+
+// Vòng đời một lần trả tiền
+enum PaymentStatus {
+  PENDING
+  HELD
+  FAILED
+  EXPIRED
+  RELEASED
+  REFUNDING
+  REFUNDED
 }
 
 enum PhotoPhase {
@@ -423,4 +808,93 @@ enum ReportStatus {
   OPEN
   REVIEWING
   RESOLVED
+}
+
+model Notification {
+  id         String                @id @default(uuid())
+  userId     String
+  type       NotificationType
+  role       NotificationRole
+  title      String
+  body       String
+  urgent     Boolean               @default(false)
+  targetId   String?
+  isRead     Boolean               @default(false)
+  campaignId String?
+  createdAt  DateTime              @default(now()) @db.Timestamptz(3)
+  user       User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  campaign   NotificationCampaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([userId, isRead])
+  @@index([campaignId])
+}
+
+enum NotificationType {
+  DON_HANG
+  DON_HUY
+  DON_MOI
+  BANG_CHUNG
+  NHAC_LICH
+  HO_SO
+  DANH_GIA
+  TIN_NHAN
+  NOI_DUNG
+  TIEN_VI
+  PHONG_BENH
+  KHIEU_NAI
+}
+
+enum NotificationRole {
+  CHU_NUOI
+  NGUOI_CHAM
+}
+
+model DeviceToken {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  platform  String
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model NotificationCampaign {
+  id             String           @id @default(uuid())
+  adminId        String
+  title          String
+  body           String
+  role           NotificationRole
+  audienceKind   String
+  audienceValue  String?
+  urgent         Boolean          @default(false)
+  recipientCount Int              @default(0)
+  sentAt         DateTime?        @db.Timestamptz(3)
+  scheduledAt    DateTime?        @db.Timestamptz(3)
+  createdAt      DateTime         @default(now()) @db.Timestamptz(3)
+  admin          User             @relation(fields: [adminId], references: [id])
+  notifications  Notification[]
+
+  @@index([createdAt])
+}
+
+// Nhật ký thao tác của quản trị viên
+model AdminAuditLog {
+  id         String   @id @default(uuid())
+  adminId    String
+  action     String
+  targetType String
+  targetId   String?
+  targetCode String?
+  reason     String?
+  oldValue   String?
+  newValue   String?
+  createdAt  DateTime @default(now()) @db.Timestamptz(3)
+  admin      User     @relation(fields: [adminId], references: [id])
+
+  @@index([createdAt])
+  @@index([targetType, targetId])
 }
