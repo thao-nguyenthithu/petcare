@@ -1,0 +1,1853 @@
+{
+  "chung": {
+    "tenSanPham": "Pet Care",
+    "bangQuanTri": "Bảng quản trị",
+    "quanTriVien": "Quản trị viên",
+    "timKiem": "Tìm kiếm",
+    "timNhanh": "Tìm nhanh",
+    "xoaTuKhoa": "Xoá từ khoá",
+    "huy": "Huỷ",
+    "xacNhan": "Xác nhận",
+    "dong": "Đóng",
+    "thuLai": "Thử lại",
+    "xoaBoLoc": "Xoá bộ lọc",
+    "dangXuat": "Đăng xuất",
+    "doiNgonNgu": "Đổi ngôn ngữ",
+    "vieccanLam": "Việc cần làm",
+    "trangTruoc": "Trang trước",
+    "trangSau": "Trang sau",
+    "khongTaiDuocDuLieu": "Không tải được dữ liệu",
+    "chuaCoDuLieu": "Chưa có dữ liệu nào",
+    "khongKhopBoLoc": "Không có bản ghi nào khớp bộ lọc đang chọn",
+    "phanTrang": "Hiển thị {{from}} tới {{to}} trong {{total}} bản ghi",
+    "khongTimThayTrang": "Không tìm thấy trang",
+    "duongDanKhongTonTai": "Đường dẫn không tồn tại hoặc đã bị đổi",
+    "veTrangTongQuan": "Về trang tổng quan",
+    "phienHetHan": "Phiên đăng nhập đã hết hạn",
+    "dangTai": "Đang tải",
+    "soTrieu": "{{value}} triệu",
+    "soNghin": "{{value}} nghìn",
+    "coLoi": "Có lỗi xảy ra, vui lòng thử lại",
+    "matMang": "Không kết nối được máy chủ",
+    "quayLai": "Quay lại",
+    "khongCoDuLieu": "Chưa có",
+    "co": "Có",
+    "khong": "Không",
+    "xuatCsv": {
+      "xong": "Đã tải về tệp gồm {{count}} dòng",
+      "khongCoDong": "Bộ lọc đang chọn không có dòng nào để xuất",
+      "vuotTran": "Có {{total}} dòng khớp bộ lọc, vượt mức {{tran}} dòng một tệp. Hãy thu hẹp bộ lọc rồi xuất lại."
+    }
+  },
+  "xemAnh": {
+    "tieuDe": "Xem ảnh",
+    "moAnh": "Mở ảnh để xem lớn",
+    "viTri": "Ảnh {{index}} trên {{total}}",
+    "phongTo": "Phóng to",
+    "thuNho": "Thu nhỏ",
+    "coGoc": "Về cỡ gốc",
+    "anhTruoc": "Ảnh trước",
+    "anhSau": "Ảnh sau",
+    "dong": "Đóng chế độ xem ảnh"
+  },
+  "nhom": {
+    "tongQuan": "TỔNG QUAN",
+    "nguoiDung": "NGƯỜI DÙNG",
+    "vanHanh": "VẬN HÀNH",
+    "anToan": "AN TOÀN",
+    "taiChinh": "TÀI CHÍNH",
+    "heThong": "HỆ THỐNG"
+  },
+  "man": {
+    "tongQuan": {
+      "title": "Tổng quan",
+      "desc": "Số liệu tính đến {{time}} · {{date}}",
+      "descChoTai": "Đang lấy số liệu"
+    },
+    "nguoiDung": {
+      "title": "Người dùng",
+      "desc": "Toàn bộ tài khoản chủ nuôi và người chăm"
+    },
+    "hoSoChoDuyet": {
+      "title": "Hồ sơ người chăm",
+      "desc": "Duyệt hồ sơ mới và tra trạng thái hồ sơ đã duyệt"
+    },
+    "kyLuat": {
+      "title": "Kỷ luật người chăm",
+      "desc": "Đơn xin miễn phạt và các ghi phạt đang áp"
+    },
+    "dichVu": {
+      "title": "Dịch vụ",
+      "desc": "Danh mục dịch vụ và cấu hình giá"
+    },
+    "donDatLich": {
+      "title": "Đơn đặt lịch",
+      "desc": "Tra soát đơn theo trạng thái và dịch vụ"
+    },
+    "anhBangChung": {
+      "title": "Ảnh bằng chứng",
+      "desc": "Thư viện ảnh check-in của các đơn"
+    },
+    "khieuNai": {
+      "title": "Khiếu nại đơn",
+      "desc": "Khiếu nại đang chờ kết luận"
+    },
+    "danhGia": {
+      "title": "Đánh giá",
+      "desc": "Đánh giá và phản hồi của người chăm"
+    },
+    "doanhThu": {
+      "title": "Doanh thu và đối soát",
+      "desc": "Tiền tạm giữ, hoa hồng và lệnh rút"
+    },
+    "giaoDich": {
+      "title": "Giao dịch thanh toán",
+      "desc": "Giao dịch qua cổng thanh toán"
+    },
+    "hoanTien": {
+      "title": "Duyệt hoàn tiền",
+      "desc": "Lệnh hoàn tiền chờ duyệt"
+    },
+    "guiThongBao": {
+      "title": "Gửi thông báo hệ thống",
+      "desc": "Soạn và gửi thông báo hàng loạt"
+    },
+    "loaiThongBao": {
+      "title": "Quản lý thông báo",
+      "desc": "Bật tắt từng loại thông báo tự động"
+    },
+    "caiDat": {
+      "title": "Cài đặt hệ thống",
+      "desc": "Cấu hình vận hành và công tắc"
+    },
+    "gioiHan": {
+      "title": "Giới hạn và hạn mức",
+      "desc": "Hằng số nghiệp vụ toàn hệ thống"
+    }
+  },
+  "auth": {
+    "gioiThieu": {
+      "tieuDe": "Bảng quản trị nền tảng chăm sóc thú cưng",
+      "moTa": "Theo dõi đơn dắt chó, trông giữ và tắm tỉa theo thời gian thực. Duyệt người chăm, kiểm ảnh bằng chứng và đối soát doanh thu ở cùng một nơi.",
+      "diemGps": "Giám sát GPS thời gian thực từng buổi dịch vụ",
+      "diemAnh": "Ảnh bằng chứng của mọi đơn dịch vụ",
+      "diemDoiSoat": "Đối soát hoa hồng và chi trả cho người chăm"
+    },
+    "dangNhap": {
+      "tieuDe": "Đăng nhập",
+      "moTa": "Dành riêng cho tài khoản có vai trò quản trị",
+      "email": "EMAIL",
+      "matKhau": "MẬT KHẨU",
+      "ghiNho": "Ghi nhớ đăng nhập",
+      "quenMatKhau": "Quên mật khẩu?",
+      "nut": "Đăng nhập",
+      "hienMatKhau": "Hiện mật khẩu",
+      "anMatKhau": "Ẩn mật khẩu"
+    },
+    "quenMatKhau": {
+      "tieuDe": "Quên mật khẩu",
+      "moTa": "Nhập email quản trị, hệ thống gửi mã xác minh 6 số qua email",
+      "email": "EMAIL QUẢN TRỊ",
+      "nhac": "Mã chỉ được gửi nếu email đúng là tài khoản quản trị",
+      "nut": "Gửi mã xác minh",
+      "quayLai": "Quay lại đăng nhập"
+    },
+    "nhapMa": {
+      "tieuDe": "Nhập mã xác minh",
+      "moTa": "Mã 6 số đã gửi tới {{email}}, có hạn 5 phút",
+      "nhan": "MÃ XÁC MINH",
+      "guiLaiSau": "Gửi lại mã sau {{time}}",
+      "guiLai": "Gửi lại mã",
+      "doiEmail": "Đổi email",
+      "nut": "Xác minh",
+      "thuLaiSau": "Thử lại sau {{time}}"
+    },
+    "datLai": {
+      "tieuDe": "Đặt mật khẩu mới",
+      "moTa": "Mật khẩu tối thiểu 6 ký tự. Sau khi đổi, hãy đăng nhập lại bằng mật khẩu mới",
+      "matKhauMoi": "MẬT KHẨU MỚI",
+      "nhapLai": "NHẬP LẠI MẬT KHẨU",
+      "conLai": "Phiên đặt lại còn {{time}}",
+      "nut": "Đặt lại mật khẩu"
+    },
+    "loi": {
+      "emailTrong": "Nhập email quản trị",
+      "emailSaiDinhDang": "Email không đúng định dạng",
+      "matKhauTrong": "Nhập mật khẩu",
+      "saiThongTin": "Email hoặc mật khẩu không đúng",
+      "khongPhaiAdmin": "Tài khoản này không có quyền vào trang quản trị",
+      "chuaXacMinh": "Tài khoản chưa xác minh email",
+      "matMang": "Không kết nối được máy chủ",
+      "otpCooldown": "Đợi hết 30 giây rồi gửi lại",
+      "otpThieuSo": "Mã xác minh phải gồm 6 chữ số",
+      "otpSai": "Mã không đúng, còn {{count}} lần thử",
+      "otpHetHan": "Mã đã hết hạn, bấm gửi lại mã mới",
+      "otpKhoa": "Sai quá 5 lần, thử lại sau {{count}} phút",
+      "matKhauNgan": "Mật khẩu tối thiểu 6 ký tự",
+      "matKhauKhongKhop": "Mật khẩu nhập lại không khớp",
+      "resetTokenHetHan": "Phiên đặt lại đã hết hạn, làm lại từ bước nhập email"
+    },
+    "datLaiThanhCong": "Đã đổi mật khẩu, đăng nhập lại"
+  },
+  "dashboard": {
+    "doanhThu12Thang": "Doanh thu 12 tháng",
+    "donViTrieu": "Đơn vị: triệu đồng",
+    "nccThucNhan": "Người chăm thực nhận",
+    "hoaHongNenTang": "Hoa hồng nền tảng",
+    "coCauDichVu": "Cơ cấu dịch vụ",
+    "theoSoDonThang": "Theo số đơn trong tháng",
+    "don": "đơn",
+    "donVaPhanTram": "{{count}} đơn · {{percent}}%",
+    "donGanDay": "Đơn đặt lịch gần đây",
+    "donGanDayPhu": "Làm mới mỗi 60 giây, không tính đơn chủ nuôi chưa trả tiền",
+    "xemTatCa": "Xem tất cả",
+    "chuaCoDuLieu": "Chưa có dữ liệu trong kỳ",
+    "chuaCoDon": "Chưa có đơn nào đã qua cổng thanh toán",
+    "cot": {
+      "maDon": "MÃ ĐƠN",
+      "chuNuoi": "CHỦ NUÔI",
+      "dichVu": "DỊCH VỤ",
+      "trangThai": "TRẠNG THÁI",
+      "giaTri": "GIÁ TRỊ"
+    },
+    "chiSo": {
+      "nguoiDung": "TỔNG NGƯỜI DÙNG",
+      "nccHoatDong": "NGƯỜI CHĂM ĐANG HOẠT ĐỘNG",
+      "donThang": "ĐƠN TRONG THÁNG",
+      "doanhThuThang": "DOANH THU THÁNG",
+      "soVoiThangTruoc": "so với tháng trước",
+      "hoSoChoDuyet": "{{count}} hồ sơ chờ duyệt",
+      "donDangDienRa": "{{count}} đơn đang diễn ra",
+      "hoaHongEscrow": "hoa hồng {{commission}} · tạm giữ {{escrow}}"
+    },
+    "dichVu": {
+      "WALKING": "Dắt đi dạo",
+      "BOARDING": "Trông giữ",
+      "GROOMING": "Tắm và cắt tỉa"
+    }
+  },
+  "queue": {
+    "tieuDe": "Việc cần làm",
+    "demViec": "{{count}} việc",
+    "moTrangTongQuan": "Mở trang Tổng quan để xem đầy đủ",
+    "canXuLy": "Cần xử lý ngay",
+    "canXuLyPhu": "Hàng chờ của quản trị viên"
+  },
+  "nguoiDung": {
+    "timKiem": "Tìm theo tên, số điện thoại, email",
+    "thamGia": "Tham gia {{date}}",
+    "xuatCsv": "Xuất tệp đối soát",
+    "csv": {
+      "hoTen": "HỌ VÀ TÊN",
+      "email": "EMAIL",
+      "soDienThoai": "SỐ ĐIỆN THOẠI",
+      "vaiTro": "VAI TRÒ",
+      "tinhThanh": "TỈNH THÀNH",
+      "trangThai": "TRẠNG THÁI",
+      "daXacMinh": "ĐÃ XÁC MINH",
+      "soThuCung": "SỐ THÚ CƯNG",
+      "soDon": "SỐ ĐƠN",
+      "taoLuc": "TẠO LÚC",
+      "dangHoatDong": "Đang hoạt động",
+      "daKhoa": "Đã khoá"
+    },
+    "chuaCoTaiKhoan": "Chưa có tài khoản nào",
+    "tab": {
+      "tatCa": "Tất cả",
+      "chuNuoi": "Chủ nuôi",
+      "nhaCungCap": "Người chăm",
+      "biKhoa": "Bị khoá"
+    },
+    "cot": {
+      "nguoiDung": "NGƯỜI DÙNG",
+      "lienHe": "LIÊN HỆ",
+      "vaiTro": "VAI TRÒ",
+      "thuCung": "THÚ CƯNG",
+      "soDon": "SỐ ĐƠN",
+      "trangThai": "TRẠNG THÁI",
+      "nhaCungCap": "NGƯỜI CHĂM"
+    },
+    "vaiTro": {
+      "OWNER": "Chủ nuôi",
+      "PROVIDER": "Người chăm",
+      "ADMIN": "Quản trị viên"
+    },
+    "trangThai": {
+      "hoatDong": "Hoạt động",
+      "biKhoa": "Bị khoá",
+      "choXacThuc": "Chờ xác thực"
+    },
+    "loc": {
+      "vaiTro": "Vai trò",
+      "moiVaiTro": "Mọi vai trò",
+      "trangThai": "Trạng thái",
+      "moiTrangThai": "Mọi trạng thái",
+      "tinhThanh": "Tỉnh hoặc thành phố",
+      "moiTinhThanh": "Mọi tỉnh thành",
+      "ngayTao": "Ngày tạo",
+      "moiThoiGian": "Mọi thời gian",
+      "bayNgay": "7 ngày gần đây",
+      "baMuoiNgay": "30 ngày gần đây",
+      "chinMuoiNgay": "90 ngày gần đây"
+    },
+    "thaoTac": {
+      "xemChiTiet": "Xem chi tiết",
+      "khoa": "Khoá tài khoản",
+      "moKhoa": "Mở khoá tài khoản"
+    },
+    "dialog": {
+      "khoaTieuDe": "Khoá tài khoản này",
+      "moKhoaTieuDe": "Mở khoá tài khoản này",
+      "khoaMoTa": "{{name}} sẽ không đăng nhập được nữa. Mọi đơn và đánh giá cũ vẫn giữ nguyên, tài khoản không bị xoá.",
+      "khoaMoTaNcc": "{{name}} sẽ không đăng nhập được nữa và hồ sơ người chăm cũng ngừng nhận đơn. Mọi đơn và đánh giá cũ vẫn giữ nguyên, tài khoản không bị xoá.",
+      "moKhoaMoTa": "{{name}} đăng nhập lại được ngay sau khi mở khoá.",
+      "canhBaoDonDangChay": "Người này còn {{count}} đơn đang chạy. Khoá xong họ không vào ứng dụng để bấm tiếp được, đơn sẽ dừng lại và tiền tạm giữ chưa về ví ai. Bạn phải tự xử lý từng đơn đó ở mục Đơn đặt lịch.",
+      "dangKiemDonDangChay": "Đang kiểm xem người này còn đơn nào đang chạy không",
+      "khongKiemDuocDonDangChay": "Không kiểm được số đơn đang chạy của người này. Nếu họ còn đơn dở dang thì khoá xong đơn sẽ dừng lại và tiền tạm giữ chưa về ví ai, cân nhắc trước khi khoá.",
+      "khoaNut": "Khoá tài khoản",
+      "moKhoaNut": "Mở khoá",
+      "lyDo": "Lý do",
+      "lyDoGoiY": "Ghi rõ lý do, nội dung này vào nhật ký thao tác",
+      "daKhoa": "Đã khoá tài khoản",
+      "daMoKhoa": "Đã mở khoá tài khoản"
+    },
+    "chiTiet": {
+      "guiThongBao": "Gửi thông báo",
+      "daKhoaKhongGuiDuoc": "Tài khoản đang bị khoá nên không nhận được thông báo",
+      "khoaTaiKhoan": "Khoá tài khoản",
+      "moKhoaTaiKhoan": "Mở khoá tài khoản",
+      "lichSuDon": "Lịch sử đơn đặt lịch",
+      "lichSuDonPhu": "{{total}} đơn · {{open}} đơn đang mở",
+      "nhatKy": "Nhật ký hoạt động",
+      "nhatKyPhu": "Ghi nhận tự động từ hệ thống",
+      "chuaCoDon": "Người dùng này chưa có đơn nào",
+      "chuaCoHoatDong": "Chưa có hoạt động nào được ghi"
+    },
+    "chiSo": {
+      "tongDon": "TỔNG ĐƠN",
+      "donDangMo": "{{count}} đơn đang mở",
+      "daChiTieu": "ĐÃ CHI TIÊU",
+      "trungBinhMoiDon": "trung bình {{value}} mỗi đơn",
+      "danhGiaDaGui": "ĐÁNH GIÁ ĐÃ GỬI",
+      "diemTrungBinh": "điểm trung bình {{value}}",
+      "baoCaoLienQuan": "KHIẾU NẠI LIÊN QUAN",
+      "daXuLy": "{{count}} đã xử lý"
+    },
+    "dialogThongBao": {
+      "tieuDe": "Gửi thông báo riêng",
+      "moTa": "Tin vào hộp thông báo của {{name}} và đẩy lên điện thoại họ, không thu hồi được.",
+      "truongTieuDe": "Tiêu đề",
+      "tieuDeGoiY": "Ví dụ: Nhắc cập nhật số điện thoại",
+      "truongNoiDung": "Nội dung",
+      "noiDungGoiY": "Viết bằng lời người nhận đọc hiểu ngay, nêu rõ họ cần làm gì",
+      "daGui": "Đã gửi thông báo cho người này"
+    },
+    "hoSo": {
+      "soDienThoai": "Số điện thoại",
+      "email": "Email",
+      "diaChiMacDinh": "Địa chỉ mặc định",
+      "ngayThamGia": "Ngày tham gia",
+      "thuCung": "Thú cưng",
+      "hoSoDangHoatDong": "{{count}} hồ sơ đang hoạt động",
+      "chiTiet": "Chi tiết",
+      "soDiaChi": "Sổ địa chỉ",
+      "soDiaChiPhu": "{{count}} địa chỉ đã lưu",
+      "macDinh": "Mặc định",
+      "chuaCoBe": "Người dùng này chưa lập hồ sơ thú cưng nào",
+      "chuaCoDiaChi": "Người dùng này chưa lưu địa chỉ nào"
+    },
+    "nhanDiaChi": {
+      "HOME": "Nhà riêng",
+      "WORK": "Cơ quan",
+      "OTHER": "Khác"
+    }
+  },
+  "thuCung": {
+    "tieuDe": "Thú cưng",
+    "danhSach": "Danh sách thú cưng",
+    "soBe": "{{count}} thú cưng",
+    "timTheoTen": "Tìm theo tên thú cưng",
+    "khongKhopTen": "Không có thú cưng nào khớp tên đang tìm",
+    "chuaCoBe": "Chủ nuôi này chưa có hồ sơ thú cưng nào",
+    "anHoSo": "Ẩn hồ sơ này",
+    "hienHoSo": "Hiện lại hồ sơ",
+    "hangMucLa": "Hạng mục khác",
+    "daAn": "Đã ẩn hồ sơ thú cưng",
+    "daHien": "Đã hiện lại hồ sơ thú cưng",
+    "daTrietSan": "đã triệt sản",
+    "soPhongBenh": "Sổ phòng bệnh",
+    "soMuiDaTiem": "{{count}} lần đã thực hiện",
+    "chuaCoMui": "Thú cưng này chưa có lần phòng bệnh nào được ghi",
+    "badge": {
+      "dangHoatDong": "Đang hoạt động",
+      "thieuSoTiem": "Thiếu sổ tiêm",
+      "daAn": "Đã ẩn"
+    },
+    "gioiTinh": {
+      "MALE": "đực",
+      "FEMALE": "cái"
+    },
+    "loai": {
+      "DOG": "Chó",
+      "CAT": "Mèo"
+    },
+    "truong": {
+      "ngaySinh": "NGÀY SINH",
+      "canNang": "CÂN NẶNG",
+      "dangDieuTri": "ĐANG ĐIỀU TRỊ",
+      "benhMan": "BỆNH MẠN TÍNH",
+      "thuocDangDung": "THUỐC ĐANG DÙNG",
+      "ghiChu": "GHI CHÚ CHĂM SÓC"
+    },
+    "cot": {
+      "hangMuc": "HẠNG MỤC",
+      "ngayThucHien": "NGÀY THỰC HIỆN",
+      "coSo": "CƠ SỞ",
+      "nhacLai": "NHẮC LẠI"
+    },
+    "hangMuc": {
+      "benh3": "Vắc xin 3 bệnh (FVRCP)",
+      "benh4": "Vắc xin 4 bệnh (FVRCP + Chlamydia)",
+      "benh5": "Vắc xin 5 bệnh (Care, Parvo...)",
+      "benh7": "Vắc xin 7 bệnh (Care, Parvo...)",
+      "dai": "Vắc xin dại",
+      "felv": "Vắc xin bạch cầu FeLV",
+      "tayGiun": "Tẩy giun",
+      "veRan": "Phòng ve rận",
+      "ghe": "Phòng ghẻ",
+      "khac": "Hạng mục khác"
+    },
+    "hinhThuc": {
+      "VACCINE": "Tiêm",
+      "ORAL": "Uống",
+      "SPOT_ON": "Nhỏ gáy",
+      "OTHER": "Cách khác"
+    },
+    "loiSoPhongBenh": "Không tải được sổ phòng bệnh của thú cưng này",
+    "dialog": {
+      "anTieuDe": "Ẩn hồ sơ thú cưng này",
+      "hienTieuDe": "Hiện lại hồ sơ thú cưng này",
+      "anMoTa": "{{name}} sẽ biến khỏi ứng dụng của chủ nuôi. Lịch sử đơn vẫn giữ nguyên, hồ sơ không bị xoá.",
+      "hienMoTa": "{{name}} sẽ hiện lại trong ứng dụng của chủ nuôi."
+    }
+  },
+  "dichVu": {
+    "tab": {
+      "danhMuc": "Danh mục dịch vụ",
+      "cauHinh": "Cấu hình của người chăm",
+      "hangSo": "Ràng buộc trong code"
+    },
+    "danhMuc": {
+      "tieuDe": "Danh mục dịch vụ",
+      "moTa": "Ba loại dịch vụ cố định của nền tảng, không thêm hoặc bớt được ở màn này"
+    },
+    "cauHinh": {
+      "tieuDe": "Cấu hình giá của người chăm",
+      "moTa": "Quản trị viên chỉ xem và khoá, người chăm tự đặt giá trong ứng dụng"
+    },
+    "hangSo": {
+      "tieuDe": "Ràng buộc cố định của hệ thống",
+      "moTa": "Các ràng buộc này không chỉnh được từ trang quản trị, danh sách đầy đủ ở màn Giới hạn và hạn mức"
+    },
+    "cot": {
+      "loai": "LOẠI",
+      "moTa": "MÔ TẢ",
+      "nccDangBat": "NGƯỜI CHĂM ĐANG BẬT",
+      "nguoiCham": "NGƯỜI CHĂM",
+      "capNhat": "CẬP NHẬT",
+      "hangSo": "RÀNG BUỘC",
+      "giaTri": "GIÁ TRỊ HIỆN TẠI",
+      "anhHuong": "ẢNH HƯỞNG KHI ĐỔI",
+      "trangThai": "TRẠNG THÁI",
+      "loaiThuCung": "LOÀI NHẬN",
+      "bangGia": "BẢNG GIÁ",
+      "soBeToiDa": "SỐ BÉ TỐI ĐA"
+    },
+    "ghiChuEnum": "Nền tảng chạy đúng ba loại dịch vụ nên màn này chỉ sửa được tên và mô tả. Giá và thời lượng là của từng người chăm, nền tảng không đặt giá chung. Mở thêm một loại dịch vụ mới là thay đổi lớn, phải dựng luồng đặt lịch riêng ở cả ứng dụng lẫn hệ thống chứ không bật được từ đây.",
+    "timKiem": "Tìm theo tên người chăm",
+    "chuaCoCauHinh": "Chưa có cấu hình dịch vụ nào",
+    "loc": {
+      "trangThai": "Trạng thái bật",
+      "dangBat": "Đang bật",
+      "dangTat": "Đang tắt"
+    },
+    "thaoTac": {
+      "sua": "Sửa loại dịch vụ",
+      "khoa": "Khoá cấu hình này",
+      "moKhoa": "Mở lại cấu hình này"
+    },
+    "dialogSua": {
+      "tieuDe": "Sửa loại dịch vụ",
+      "moTa": "Đơn đọc tên theo quan hệ nên đổi tên ở đây là đổi luôn tên hiện trên các đơn cũ.",
+      "nut": "Lưu thay đổi",
+      "ten": "Tên hiển thị",
+      "moTaTruong": "Mô tả",
+      "moTaGoiY": "Mô tả ngắn cho quản trị viên, để trống là xoá",
+      "khongDoiGia": "Giá và thời lượng không sửa được ở đây: mỗi người chăm tự khai bảng giá của mình, và số tiền của một đơn đã chốt lúc đặt nên không đổi theo.",
+      "daLuu": "Đã lưu thay đổi loại dịch vụ"
+    },
+    "dialogKhoa": {
+      "tieuDe": "Khoá cấu hình giá này",
+      "tieuDeMo": "Mở lại cấu hình giá này",
+      "moTa": "{{name}} sẽ biến khỏi kết quả tìm kiếm cho loại dịch vụ này. Đơn đang chạy không bị ảnh hưởng.",
+      "moTaMo": "{{name}} nhận đơn lại cho loại dịch vụ này ngay sau khi mở. Bảng giá còn thiếu ô nào thì hệ thống chặn, người chăm phải khai lại trong ứng dụng.",
+      "nut": "Khoá cấu hình",
+      "nutMo": "Mở lại",
+      "daKhoa": "Đã khoá cấu hình giá",
+      "daMo": "Đã mở lại cấu hình giá"
+    },
+    "loaiThuCung": {
+      "DOG": "Chó",
+      "CAT": "Mèo",
+      "BOTH": "Chó và mèo"
+    },
+    "nhanKhoa": {
+      "bath": "Tắm",
+      "bathAndTrim": "Tắm và cắt tỉa",
+      "duoi5": "dưới 5 kg",
+      "tu5den10": "5 đến 10 kg",
+      "tu10den20": "10 đến 20 kg",
+      "tren20": "trên 20 kg"
+    },
+    "bangGia": {
+      "luotDat": "{{phut}} phút {{gia}}",
+      "beThem": "thêm bé {{gia}}",
+      "moiDem": "{{gia}} mỗi đêm",
+      "sucChua": "nhận tối đa {{count}} bé mỗi ngày",
+      "bacVaGia": "{{bac}} {{gia}}",
+      "goiVaBac": "{{goi}}: {{bac}}"
+    },
+    "rangBuoc": {
+      "MUC_THOI_LUONG_DAT": {
+        "ten": "Mức thời lượng một lượt dắt",
+        "giaTri": "{{list}} phút",
+        "anhHuong": "Người chăm phải khai giá cho cả hai mức, thiếu mức nào là không bật được dịch vụ dắt"
+      },
+      "GOI_GROOMING": {
+        "ten": "Gói tắm và cắt tỉa",
+        "giaTri": "{{list}}",
+        "anhHuong": "Thêm gói mới là phải dựng lại luồng đặt lịch tắm và cắt tỉa trong ứng dụng"
+      },
+      "BAC_CAN": {
+        "ten": "Bậc cân nặng tính giá",
+        "giaTri": "{{list}}",
+        "anhHuong": "Bé rơi vào bậc người chăm chưa khai giá thì chủ nuôi không chọn được bé đó"
+      },
+      "THOI_LUONG_GROOMING": {
+        "ten": "Thời lượng một ô giá tắm và cắt tỉa",
+        "giaTri": "{{min}} đến {{max}} phút, bước {{step}} phút",
+        "anhHuong": "Người chăm khai ngoài khoảng này là hệ thống chặn ngay lúc lưu bảng giá"
+      }
+    }
+  },
+  "don": {
+    "timKiem": "Tìm theo mã đơn, tên chủ nuôi, người chăm",
+    "chuaCoDon": "Chưa có đơn nào",
+    "xuatCsv": "Xuất tệp đối soát",
+    "csv": {
+      "maDon": "MÃ ĐƠN",
+      "chuNuoi": "CHỦ NUÔI",
+      "nguoiCham": "NGƯỜI CHĂM",
+      "dichVu": "DỊCH VỤ",
+      "loaiDichVu": "LOẠI DỊCH VỤ",
+      "batDau": "BẮT ĐẦU",
+      "ketThuc": "KẾT THÚC",
+      "giaTri": "GIÁ TRỊ",
+      "trangThai": "TRẠNG THÁI",
+      "taoLuc": "TẠO LÚC"
+    },
+    "chuaCoDanhGia": "chưa có đánh giá",
+    "diemSao": "{{value}} sao",
+    "nhanLuc": "nhận {{time}}",
+    "canNang": "{{value}} kg",
+    "thoiLuongPhut": "{{count}} phút",
+    "thoiLuongGio": "{{count}} giờ",
+    "tuoiThang": "{{count}} tháng tuổi",
+    "tuoiNam": "{{count}} tuổi",
+    "ghiChuEnum": "Đơn đi qua 15 trạng thái. Đơn Chờ trả tiền là đơn đã giữ chỗ nhưng chưa thanh toán: chủ nuôi và người chăm đều không nhìn thấy, quản trị viên vẫn thấy vì đơn đang khoá lịch của thú cưng. Trạng thái Huỷ khi chưa trả tiền tách riêng khỏi Hết hạn nhận vì không tính vào uy tín của bên nào.",
+    "tab": {
+      "all": "Tất cả",
+      "awaitingPayment": "Chờ trả tiền",
+      "pending": "Chờ nhận",
+      "confirmed": "Đã nhận",
+      "running": "Đang chạy",
+      "awaitingConfirm": "Chờ xác nhận",
+      "completed": "Hoàn thành",
+      "cancelled": "Đã huỷ",
+      "disputed": "Khiếu nại"
+    },
+    "cot": {
+      "maDon": "MÃ ĐƠN",
+      "chuNuoi": "CHỦ NUÔI",
+      "nhaCungCap": "NGƯỜI CHĂM",
+      "dichVu": "DỊCH VỤ",
+      "lichHen": "LỊCH HẸN",
+      "giaTri": "GIÁ TRỊ",
+      "trangThai": "TRẠNG THÁI"
+    },
+    "loc": {
+      "dichVu": "Dịch vụ",
+      "moiDichVu": "Mọi dịch vụ",
+      "khoangNgay": "Khoảng ngày"
+    },
+    "thaoTac": {
+      "xemChiTiet": "Xem chi tiết đơn",
+      "xemAnh": "Xem album ảnh của đơn"
+    },
+    "trangThai": {
+      "AWAITING_PAYMENT": "Chờ trả tiền",
+      "PENDING": "Chờ người chăm nhận",
+      "CONFIRMED": "Người chăm đã nhận",
+      "PAUSED_WAITING_OWNER": "Tạm dừng chờ chủ nuôi",
+      "IN_PROGRESS": "Đang diễn ra",
+      "AWAITING_OWNER_CONFIRM": "Chờ xác nhận",
+      "COMPLETED": "Hoàn thành",
+      "CANCELLED_BY_OWNER": "Chủ nuôi huỷ",
+      "CANCELLED_BY_SITTER": "Người chăm huỷ",
+      "CANCELLED_EXPIRED": "Hết hạn nhận",
+      "CANCELLED_UNPAID": "Huỷ, chưa trả tiền",
+      "CANCELLED_NO_SHOW": "Chủ nuôi vắng mặt",
+      "CANCELLED_BY_ADMIN": "Quản trị viên huỷ",
+      "DISPUTED": "Có khiếu nại",
+      "RESOLVED": "Đã xử lý xong"
+    },
+    "hanhDong": {
+      "xemHoiThoai": "Xem hội thoại",
+      "taiLogGps": "Tải log GPS",
+      "canThiepHuy": "Can thiệp huỷ đơn"
+    },
+    "thongTin": {
+      "tieuDe": "Thông tin đơn",
+      "taoLuc": "Tạo lúc {{value}}",
+      "dichVu": "Dịch vụ",
+      "thoiLuong": "Thời lượng",
+      "lichHen": "Lịch hẹn",
+      "diemDon": "Điểm đón",
+      "giaDichVu": "Giá dịch vụ",
+      "phiHuy": "Phí huỷ đơn",
+      "hoaHong": "Hoa hồng nền tảng",
+      "nccThucNhan": "Người chăm thực nhận"
+    },
+    "thanhToan": {
+      "PENDING": "Chưa trả tiền, đang chờ qua cổng",
+      "HELD": "Đã trả qua cổng, tiền đang giữ ở nền tảng",
+      "RELEASED": "Đã chuyển vào ví người chăm",
+      "REFUNDING": "Lệnh hoàn đã gửi, cổng đang xử lý",
+      "REFUNDED": "Đã hoàn tiền cho chủ nuôi",
+      "FAILED": "Cổng thanh toán từ chối",
+      "EXPIRED": "Hết hạn trả tiền, giao dịch đã đóng",
+      "chuaCo": "Chưa có bản ghi thanh toán",
+      "maCong": "mã cổng {{value}}",
+      "daNha": "đã chuyển vào ví lúc {{value}}",
+      "duKienNha": "dự kiến chuyển vào ví {{value}}",
+      "hetHan": "hết hạn trả tiền {{value}}",
+      "maGiaoDich": "mã giao dịch {{value}}"
+    },
+    "cacBen": {
+      "tieuDe": "Các bên liên quan",
+      "thuCung": "Thú cưng trong đơn ({{count}})"
+    },
+    "hoiThoai": {
+      "tieuDe": "Hội thoại của đơn",
+      "chiDoc": "Quản trị viên chỉ đọc lại hội thoại để tra soát. Muốn liên hệ hai bên thì gửi thông báo hệ thống hoặc ghi kết luận trong hồ sơ khiếu nại.",
+      "chuaCoTin": "Đơn này chưa có tin nhắn nào",
+      "soAnh": "{{count}} ảnh gửi kèm",
+      "daChe": "Tin có số điện thoại hoặc liên kết đã bị che",
+      "daKhoa": "Hội thoại đã khoá lúc {{value}}",
+      "moLuc": "Mở lúc {{value}}",
+      "viTri": "Đã gửi vị trí",
+      "daCat": "Hội thoại đã bị cắt ở mức tối đa của một lượt đọc, đây chưa phải toàn bộ tin của đơn."
+    },
+    "tienTrinh": {
+      "tieuDe": "Tiến trình đơn",
+      "moTa": "Ghi nhận tự động theo tiến trình đơn",
+      "chuaXayRa": "chưa tới",
+      "datCho": "Chủ nuôi bấm đặt, hệ giữ chỗ",
+      "datChoPhu": "Lịch của thú cưng bị khoá ngay để giữ chỗ",
+      "traTien": "Trả tiền qua cổng",
+      "traTienPhu": "Tiền đã trả qua cổng và được nền tảng tạm giữ",
+      "nhanDon": "Người chăm nhận đơn",
+      "nhanDonPhu": "Hạn nhận đơn tính từ mốc chủ nuôi trả tiền, co theo thời gian còn lại tới giờ hẹn",
+      "nhanDonPhuHan": "Hạn nhận đơn tới {{value}}, quá hạn thì đơn tự huỷ và hoàn đủ tiền",
+      "xuatPhat": "Người chăm xuất phát",
+      "xuatPhatPhu": "Chỉ đường và địa chỉ đầy đủ mở cho người chăm lúc {{value}}, trước giờ hẹn {{gio}} giờ. Đã xuất phát thì người chăm không huỷ được, chủ nuôi muốn dừng thì chịu phí 50%",
+      "chuNuoiXuatPhat": "Chủ nuôi mang thú cưng đi gửi",
+      "chuNuoiXuatPhatPhu": "Chỉ đường tới nhà người chăm mở cho chủ nuôi lúc {{value}}, trước giờ nhận bé {{gio}} giờ. Chủ nuôi đã lên đường thì người chăm không huỷ được, chủ nuôi muốn dừng thì chịu phí 50%",
+      "toiNoi": "Tới điểm hẹn",
+      "toiNhaNguoiCham": "Tới nhà người chăm",
+      "toiNoiPhu": "Ghi nhận trong bán kính 200 m quanh điểm hẹn",
+      "toiNoiPhuLech": "Ghi nhận trong bán kính 200 m quanh điểm hẹn, lệch {{met}} m",
+      "batDau": "Bắt đầu phiên",
+      "batDauPhu": "Toạ độ lộ trình gửi về hệ thống theo lô",
+      "baoXong": "Người chăm báo xong, tải ảnh",
+      "baoXongPhu": "Đơn chuyển sang chờ chủ nuôi xác nhận",
+      "chuNuoiXacNhan": "Chủ nuôi xác nhận hoàn thành",
+      "chuNuoiXacNhanPhu": "Quá 48 giờ không bấm thì hệ thống tự chốt đơn",
+      "nhaEscrow": "Chuyển tiền vào ví người chăm",
+      "nhaEscrowPhu": "48 giờ sau khi đơn kết thúc; đơn còn khiếu nại thì giữ lại tới khi có kết luận",
+      "baoTre": "Người chăm báo tới muộn",
+      "baoTrePhu": "Muộn {{phut}} phút so với giờ hẹn",
+      "baoThieuDungCu": "Người chăm báo thiếu dụng cụ",
+      "baoThieuDungCuPhu": "Chờ chủ nuôi bổ sung dụng cụ",
+      "chuNuoiCoMat": "Chủ nuôi có mặt tại điểm hẹn",
+      "chuNuoiCoMatPhu": "Gỡ đếm ngược báo vắng mặt"
+    },
+    "gps": {
+      "tieuDe": "Hành trình GPS thời gian thực",
+      "moTa": "Lộ trình dựng từ dữ liệu định vị gửi về trong phiên",
+      "chuaCoLoTrinh": "Đơn này chưa có lộ trình GPS",
+      "quangDuongServer": "Quãng đường hệ thống cộng",
+      "thoiGianPhien": "Thời gian phiên",
+      "tocDoTrungBinh": "Tốc độ trung bình",
+      "diemNghiNgo": "Điểm nghi ngờ",
+      "km": "{{value}} km",
+      "phut": "{{value}} phút",
+      "kmh": "{{value}} km/h",
+      "daGanCo": "đã gắn cờ",
+      "chuaGanCo": "chưa gắn cờ",
+      "dangTruyen": "Đang truyền",
+      "appKhai": "Ứng dụng của người chăm khai {{value}} km, chỉ dùng để đối chiếu chứ không phải số chốt.",
+      "appChuaKhai": "Đơn này chưa có số km do ứng dụng khai để đối chiếu.",
+      "khongDoiChieuDuoc": "chưa đối chiếu được",
+      "daCatLoTrinh": "Lộ trình đã bị cắt ở mức tối đa của một lượt đọc, đây chưa phải toàn bộ điểm của đơn. Tệp CSV cắt ở cùng mức và ghi rõ điều đó ở dòng cuối."
+    },
+    "anhVangMat": {
+      "tieuDe": "Ảnh báo chủ nuôi vắng mặt",
+      "moTa": "Người chăm chụp tại điểm hẹn, là căn cứ chia tiền khi hai bên không gặp nhau"
+    },
+    "dialogHuy": {
+      "tieuDe": "Can thiệp huỷ đơn",
+      "moTa": "Đơn {{code}} sẽ bị huỷ bởi quản trị viên. Thao tác này ghi vào nhật ký và không hoàn tác được.",
+      "nut": "Huỷ đơn này",
+      "lyDo": "Lý do can thiệp",
+      "lyDoGoiY": "Ghi rõ lý do, nội dung này vào nhật ký thao tác",
+      "daHuy": "Đã huỷ đơn {{code}} và gửi lệnh hoàn tiền"
+    }
+  },
+  "gps": {
+    "tab": {
+      "flagged": "Chờ soát",
+      "reviewed": "Đã soát",
+      "noClaim": "Chưa khai số km",
+      "all": "Tất cả phiên dắt"
+    },
+    "cot": {
+      "nguoiCham": "NGƯỜI CHĂM",
+      "diemNghiNgo": "ĐIỂM NGHI NGỜ",
+      "quangDuong": "QUÃNG ĐƯỜNG",
+      "doLech": "ĐỘ LỆCH",
+      "waypoint": "SỐ ĐIỂM GHI",
+      "trangThai": "TRẠNG THÁI"
+    },
+    "xuatCsv": "Xuất tệp đối soát",
+    "csv": {
+      "maDon": "MÃ ĐƠN",
+      "nguoiCham": "NGƯỜI CHĂM",
+      "diemNghiNgo": "ĐIỂM NGHI NGỜ",
+      "quangDuongServerM": "QUÃNG ĐƯỜNG HỆ THỐNG (M)",
+      "appKhaiKm": "ỨNG DỤNG KHAI (KM)",
+      "waypoint": "SỐ ĐIỂM GHI",
+      "tocDoTb": "TỐC ĐỘ TRUNG BÌNH (KM/H)",
+      "viTriGia": "SỐ ĐIỂM VỊ TRÍ GIẢ",
+      "co": "CỜ SOÁT",
+      "soatLuc": "SOÁT LÚC",
+      "ghiChuSoat": "GHI CHÚ SOÁT"
+    },
+    "doLech": {
+      "twoThresholds": "Vượt 2 mốc",
+      "ratioOnly": "Chỉ vượt tỉ lệ",
+      "withinError": "Trong sai số",
+      "trackingOff": "Tắt định vị",
+      "noClaim": "App chưa khai số km"
+    },
+    "nguong": "ngưỡng {{value}}",
+    "serverKm": "hệ thống {{value}} km",
+    "appKhaiKm": "ứng dụng khai {{value}} km",
+    "appChuaKhaiKm": "ứng dụng chưa khai số km",
+    "khongDoiChieuDuoc": "không có số app khai để đối chiếu",
+    "locDiemBoQuaChuaKhai": "Đang lọc theo mức điểm nên nhóm đơn chưa khai số km không hiện ở đây, những đơn đó không có điểm để so. Xem tab Chưa khai số km.",
+    "viTriGia": "{{so}} điểm vị trí giả",
+    "nghiDiXe": "Tốc độ như đi xe",
+    "khongTuPhat": "Hai chỉ số chống gian lận chỉ gắn cờ để người soát xem lại, hệ thống không tự phạt hay trừ tiền của ai. Gỡ cờ hay giữ cờ đều không đổi trạng thái đơn và không đụng tới tiền; muốn phạt thì đi đường khiếu nại hoặc kỷ luật người chăm.",
+    "dangGanCo": "Đang gắn cờ",
+    "khongCoCo": "Không gắn cờ",
+    "daSoatLuc": "Đã soát lúc {{time}}",
+    "chuaAiSoat": "Chưa ai soát",
+    "timKiem": "Tìm theo tên người chăm hoặc mã đơn",
+    "chuaCoPhien": "Chưa có phiên dắt nào khớp điều kiện",
+    "ghiChuNguon": "Quãng đường ở cột giữa là số hệ thống tự cộng từ lộ trình đã lọc nhiễu, đối chiếu với quãng đường do ứng dụng của người chăm gửi lên. Phiên chỉ bị gắn cờ khi lệch vượt cả hai mốc: hơn 0,3 km và hơn 20% so với số của hệ thống. Điểm nhiễu là hai điểm liên tiếp suy ra tốc độ trên 40 km/h ở cả chiều vào lẫn chiều ra.",
+    "daGoCo": "Đã gỡ cờ phiên này",
+    "daGiuCo": "Đã giữ cờ và ghi chú lại",
+    "loc": {
+      "mucDiem": "Mức điểm",
+      "moiMucDiem": "Mọi mức điểm",
+      "tu05": "Từ 0,50 trở lên",
+      "tu07": "Từ 0,70 trở lên",
+      "tu09": "Từ 0,90 trở lên"
+    },
+    "thaoTac": {
+      "goCo": "Gỡ cờ phiên này",
+      "giuCo": "Giữ cờ và ghi chú"
+    },
+    "dialog": {
+      "goCoTieuDe": "Gỡ cờ phiên dắt này",
+      "giuCoTieuDe": "Giữ cờ phiên dắt này",
+      "goCoMoTa": "Phiên {{code}} sẽ hết gắn cờ. Việc này không đổi trạng thái đơn và không đụng tới tiền.",
+      "giuCoMoTa": "Phiên {{code}} vẫn giữ cờ, ghi chú được lưu lại để dùng khi có khiếu nại.",
+      "goCoNut": "Gỡ cờ",
+      "giuCoNut": "Giữ cờ",
+      "ghiChu": "Ghi chú soát",
+      "ghiChuGoiY": "Ghi rõ kết luận, nội dung này lưu kèm hồ sơ phiên dắt"
+    }
+  },
+  "anh": {
+    "tab": {
+      "session": "Ảnh phiên dịch vụ",
+      "boarding": "Nhật ký kỳ trông giữ",
+      "noShow": "Ảnh người chăm báo sự cố",
+      "gpsFlagged": "Đơn bị gắn cờ GPS"
+    },
+    "thuVien": {
+      "tieuDe": "Thư viện ảnh bằng chứng",
+      "moTa": "Gộp ảnh phiên dịch vụ, nhật ký kỳ trông giữ và ảnh người chăm báo sự cố, mới nhất trước"
+    },
+    "dangXem": {
+      "tieuDe": "Ảnh đang xem",
+      "chuaChon": "Chọn một ảnh ở lưới bên trái để xem chi tiết"
+    },
+    "pha": {
+      "CHECK_IN": "Check-in",
+      "IN_PROGRESS": "Giữa phiên",
+      "CHECK_OUT": "Check-out",
+      "kyGiu": "Kỳ giữ",
+      "doDung": "Đồ dùng",
+      "suCo": "Sự cố"
+    },
+    "tinhTrang": {
+      "anNguTot": "Ăn ngủ tốt",
+      "choiNhieu": "Chơi nhiều",
+      "boAnMotBua": "Bỏ ăn một bữa",
+      "nhoNha": "Nhớ nhà",
+      "veSinhBinhThuong": "Đi vệ sinh bình thường",
+      "nonHoacTieuChay": "Có nôn hoặc tiêu chảy",
+      "uongThuocDu": "Đã uống thuốc đủ",
+      "khac": "Ghi chú khác của người chăm"
+    },
+    "suCo": {
+      "GEAR": "Báo thiếu rọ mõm hoặc dây xích",
+      "NO_SHOW": "Báo chủ nuôi vắng mặt",
+      "SITTER_ABANDON": "Người chăm bỏ đơn giữa chừng",
+      "khac": "Ảnh người chăm gửi kèm khi báo sự cố"
+    },
+    "nhom": {
+      "CHECK_IN": "Check-in",
+      "IN_PROGRESS": "Giữa phiên",
+      "CHECK_OUT": "Check-out",
+      "nhanBe": "Ảnh lúc nhận bé",
+      "traBe": "Ảnh lúc trả bé",
+      "supplyIn": "Đồ dùng chủ nuôi gửi kèm",
+      "supplyOut": "Đồ dùng trả lại chủ nuôi",
+      "doDung": "Đồ dùng gửi kèm",
+      "suCo": "Ảnh người chăm báo sự cố",
+      "ngay": "Ngày {{n}}",
+      "khac": "Nhóm ảnh khác"
+    },
+    "ai": {
+      "chuaCham": "Chưa chấm điểm tự động",
+      "chuaChamMoTa": "Ảnh này không đi qua bước soi tự động nên không có điểm tin cậy nào để đọc.",
+      "doTinCay": "Máy soi đạt độ tin cậy {{value}}",
+      "dat": "Máy nhìn rõ bé đã có đủ rọ mõm và dây xích",
+      "tuXacNhan": "Máy chưa đủ chắc nên người chăm đã tự xác nhận và chịu trách nhiệm",
+      "khongDat": "Máy không xác nhận được bé có đủ rọ mõm và dây xích",
+      "chuaKetLuan": "Lượt soi này chưa chốt được kết luận nào",
+      "cachTraSoat": "Muốn tra soát thì đối chiếu giờ chụp và toạ độ của ảnh với lộ trình của chính đơn đó."
+    },
+    "chuaCoAnh": "Chưa có ảnh nào ở nguồn này",
+    "xemAlbum": "Xem album ảnh của đơn",
+    "toaDo": "Toạ độ",
+    "khongCoToaDo": "không có toạ độ",
+    "thoiDiemChup": "Thời điểm chụp",
+    "lechMet": "lệch {{value}} m",
+    "viTriAnh": "Ảnh {{index}} / {{total}}",
+    "album": {
+      "tieuDe": "Ảnh theo mốc thời gian",
+      "moTaTrongGiu": "Kỳ trông giữ không gửi ảnh lẻ, mỗi ngày đúng một bản cập nhật",
+      "moTaPhien": "Ảnh phiên dịch vụ gom theo ba pha check-in, giữa phiên và check-out",
+      "tongSoAnh": "TỔNG SỐ ẢNH",
+      "soNgayCoBan": "SỐ NGÀY CÓ BẢN",
+      "nhanTinhTrang": "NHÃN TÌNH TRẠNG",
+      "ngayThieuAnh": "NGÀY THIẾU ẢNH",
+      "ghiChuNcc": "GHI CHÚ CỦA NGƯỜI CHĂM",
+      "soAnh": "{{count}} ảnh",
+      "soNgay": "{{count}} ngày",
+      "soNhan": "{{count}} nhãn",
+      "soLoiNhan": "{{count}} lời nhắn",
+      "nhomChuaCoAnh": "Nhóm này chưa có ảnh nào"
+    }
+  },
+  "khieuNai": {
+    "tab": {
+      "waitingSitter": "Chờ người chăm đáp",
+      "waitingSupport": "Chờ quản trị viên xử lý",
+      "resolved": "Đã kết luận"
+    },
+    "xuatCsv": "Xuất tệp đối soát",
+    "csv": {
+      "ma": "MÃ KHIẾU NẠI",
+      "maDon": "MÃ ĐƠN",
+      "nguoiKhieuNai": "NGƯỜI KHIẾU NẠI",
+      "vaiTro": "VAI",
+      "nguoiCham": "NGƯỜI CHĂM",
+      "dichVu": "DỊCH VỤ",
+      "moLuc": "MỞ LÚC",
+      "hanDap": "HẠN NGƯỜI CHĂM ĐÁP",
+      "dapLuc": "NGƯỜI CHĂM ĐÁP LÚC",
+      "trangThai": "TRẠNG THÁI",
+      "tienHoan": "TIỀN HOÀN"
+    },
+    "tinhTrang": {
+      "waitingSitter": "Chờ người chăm đáp",
+      "waitingSupport": "Chờ xử lý",
+      "refunded": "Đã hoàn một phần",
+      "rejected": "Không chấp nhận"
+    },
+    "status": {
+      "OPEN": "Chờ người chăm đáp",
+      "REVIEWING": "Đang được xem xét",
+      "RESOLVED": "Đã kết luận"
+    },
+    "hanDap": {
+      "daDap": "đã đáp",
+      "conHan": "còn {{soGio}} giờ",
+      "hetHan": "hết hạn",
+      "khongCo": "không có lượt đáp"
+    },
+    "hanKetLuan": {
+      "conHan": "còn {{soNgay}} ngày",
+      "quaHan": "trễ {{soNgay}} ngày"
+    },
+    "vaiTro": {
+      "OWNER": "Chủ nuôi",
+      "PROVIDER": "Người chăm"
+    },
+    "cot": {
+      "ma": "MÃ",
+      "nguoiKhieuNai": "NGƯỜI KHIẾU NẠI",
+      "nguoiCham": "NGƯỜI CHĂM",
+      "noiDung": "NỘI DUNG PHẢN ÁNH",
+      "hanDap": "HẠN NGƯỜI CHĂM ĐÁP",
+      "hanKetLuan": "HẠN KẾT LUẬN",
+      "trangThai": "TRẠNG THÁI"
+    },
+    "thaoTac": {
+      "moHoSo": "Mở hồ sơ khiếu nại",
+      "xemAnh": "Xem ảnh bằng chứng của đơn",
+      "xemHoiThoai": "Xem hội thoại của đơn"
+    },
+    "loc": {
+      "trangThai": "Trạng thái",
+      "moiTrangThai": "Mọi trạng thái",
+      "dichVu": "Dịch vụ"
+    },
+    "ketLuan": {
+      "khongToi": "Xác nhận người chăm không tới",
+      "treGio": "Xác nhận người chăm trễ giờ hẹn",
+      "anhKhongHopLe": "Xác nhận ảnh bằng chứng không hợp lệ",
+      "thuThemTien": "Xác nhận thu thêm tiền ngoài ứng dụng",
+      "khongDuCanCu": "Không đủ căn cứ, giữ nguyên đơn"
+    },
+    "mucPhat": {
+      "NONE": "Không ghi gì thêm",
+      "WARNING": "Ghi một cảnh cáo vào hồ sơ",
+      "CANCEL_RATE": "Cộng vào tỷ lệ huỷ của người chăm",
+      "HIDE": "Tạm ẩn hồ sơ khỏi tìm kiếm"
+    },
+    "mucPhatMoTa": {
+      "HIDE": "Số ngày ẩn theo bậc tái phạm của chính người chăm đó, hệ thống tự tính"
+    },
+    "timKiem": "Tìm theo mã khiếu nại, mã đơn hoặc tên...",
+    "chuaCoKhieuNai": "Chưa có hồ sơ khiếu nại nào trong nhóm này",
+    "ghiChuEnum": "Hồ sơ khiếu nại có ba trạng thái gốc, bốn tình trạng hiển thị ở đây suy thêm từ dữ liệu: chờ người chăm đáp là hồ sơ còn trong hạn đáp, chờ xử lý là hồ sơ quá hạn đáp hoặc đang được xem xét, còn hồ sơ đã kết luận tách hai theo có hoàn tiền hay không.",
+    "ghiChuGiuTien": "Chủ nuôi mở khiếu nại là giữ tiền: khoản của đơn không chuyển vào ví người chăm cho tới khi hồ sơ được kết luận, không có mốc nào tự nhả. Người chăm được đáp đúng một lần trong 24 giờ; hết hạn mà im lặng thì hồ sơ chuyển sang quản trị viên xử lý với phần phản hồi để trống.",
+    "ghiChuHanKetLuan": "Hạn {{soNgay}} ngày là chỉ tiêu xử lý, không phải mốc chuyển tiền. Quá hạn thì hồ sơ nhảy lên đầu danh sách và hiện đỏ, tiền vẫn giữ nguyên và bạn vẫn kết luận được như thường. Danh sách xếp theo thời gian còn lại, hồ sơ gấp nhất nằm trên.",
+    "hoSo": {
+      "nhacSapHetHan": "Còn {{soNgay}} ngày là hồ sơ này quá chỉ tiêu {{hanNgay}} ngày. Quá hạn không mất quyền kết luận và tiền vẫn giữ nguyên, nhưng chủ nuôi và người chăm đã chờ khá lâu.",
+      "nhacQuaHan": "Hồ sơ đã trễ {{soNgay}} ngày so với chỉ tiêu {{hanNgay}} ngày. Tiền của đơn vẫn đang giữ và bạn vẫn kết luận được như thường, hệ thống không tự làm gì cả.",
+      "noiDungPhanAnh": "Nội dung chủ nuôi phản ánh",
+      "noiDungPhanAnhMoTa": "Nội dung và ảnh do chủ nuôi gửi kèm",
+      "nguoiKhieuNai": "NGƯỜI KHIẾU NẠI",
+      "nguoiCham": "NGƯỜI CHĂM",
+      "donLienQuan": "ĐƠN LIÊN QUAN",
+      "hanNguoiChamDap": "HẠN NGƯỜI CHĂM ĐÁP",
+      "soGioHan": "{{soGio}} giờ",
+      "daDapLuc": "đã đáp lúc {{luc}}",
+      "conHanDap": "còn {{soGio}} giờ",
+      "hetHanDap": "đã hết hạn đáp",
+      "khongCoLuotDap": "hồ sơ này không có lượt đáp nào",
+      "anhDinhKem": "{{soAnh}} ảnh đính kèm từ người báo cáo",
+      "anhNguoiBaoCao": "Ảnh người báo cáo gửi kèm",
+      "anhNguoiChamGuiKem": "Ảnh người chăm gửi kèm",
+      "phanHoiNguoiCham": "Phản hồi của người chăm",
+      "phanHoiNguoiChamMoTa": "Người chăm được đáp đúng một lần",
+      "dapLuc": "Đáp lúc {{luc}}",
+      "anhNguoiChamGui": "{{soAnh}} ảnh người chăm gửi kèm",
+      "chuaDapConHan": "Người chăm chưa đáp, hạn cuối là {{han}}",
+      "chuaDapHetHan": "Hết hạn đáp, hồ sơ chuyển sang quản trị viên với phần phản hồi để trống",
+      "chuaDapKhongCoLuot": "Hồ sơ do chính người chăm mở nên không có lượt đáp nào, xử ngay",
+      "bangChungHeThong": "Bằng chứng hệ thống ghi nhận",
+      "bangChungHeThongMoTa": "Đối chiếu tự động từ đơn {{code}}",
+      "logGps": "Log GPS",
+      "khongCoGps": "Đơn này không có log GPS để đối chiếu",
+      "doLechDiemHen": "Ghi nhận cách điểm hẹn {{met}} m",
+      "chuaGhiDoLech": "Đơn chưa ghi được độ lệch lúc tới nơi",
+      "anhNccTaiLen": "Ảnh bằng chứng người chăm tải lên",
+      "chuaCoDiemAi": "Ở đây chỉ có giờ chụp và toạ độ, điểm AI xem ở album ảnh của đơn",
+      "hoiThoaiCuaDon": "Hội thoại của đơn",
+      "hoiThoaiMoTa": "Đọc trọn dòng thời gian ở màn riêng, cắt vài tin ở đây là hỏng bằng chứng",
+      "moHoiThoai": "Mở hội thoại của đơn",
+      "khongCoKetLuan": "Hồ sơ chưa ghi nội dung kết luận",
+      "daHoan": "hoàn {{tien}}",
+      "khongHoan": "không hoàn tiền",
+      "lichSuViPham": "Lịch sử vi phạm của người chăm",
+      "lichSuViPhamMoTa": "{{ten}} · {{soLan}} hồ sơ khác trong 6 tháng",
+      "chuaCoViPhamCu": "Người chăm này chưa có hồ sơ vi phạm nào trước đó",
+      "ketLuanTieuDe": "Kết luận của quản trị viên",
+      "ketLuanMoTa": "Ghi vào hồ sơ khiếu nại cùng số tiền hoàn cho chủ nuôi",
+      "daKetLuanMoTa": "Hồ sơ đã chốt, kết luận không lùi được",
+      "oKetLuan": "KẾT LUẬN",
+      "chonKetLuan": "Chọn kết luận",
+      "boChonKetLuan": "Chưa chọn kết luận",
+      "ghiHoSoNguoiCham": "GHI VÀO HỒ SƠ NGƯỜI CHĂM",
+      "hoanTienChoChuNuoi": "Hoàn tiền cho chủ nuôi",
+      "hoanTienMoTa": "Đảo ngược chính giao dịch cũ, chủ nuôi không phải khai tài khoản",
+      "soTienHoan": "SỐ TIỀN HOÀN",
+      "tranHoan": "tối đa {{tran}}",
+      "soTienGoiY": "Nhập số tiền hoàn",
+      "loiVuotTran": "Số tiền hoàn không được vượt giá trị đơn",
+      "lyDoKetLuan": "LÝ DO",
+      "lyDoGoiY": "Nhập lý do, nội dung này gửi kèm thông báo cho người chăm",
+      "loiThieuLyDo": "Hoàn 0 đồng nghĩa là bác khiếu nại, vẫn phải ghi lý do",
+      "banThongBaoHaiVai": "Gửi thông báo kết luận cho cả hai bên",
+      "nhaEscrowSauKhiResolved": "Tiền của đơn chỉ được chuyển đi sau khi hồ sơ có kết luận",
+      "boQua": "Bỏ qua",
+      "xacNhanXuLy": "Xác nhận xử lý",
+      "dialogTieuDe": "Chốt kết luận, thao tác không lùi được",
+      "dialogMoTa": "Hồ sơ {{code}} sẽ được chốt, tiền của đơn xử lý theo kết luận dưới đây.",
+      "tomTatKetLuan": "Kết luận",
+      "tomTatHoanTien": "Số tiền hoàn cho chủ nuôi",
+      "tomTatPhat": "Ghi vào hồ sơ người chăm",
+      "daGhiKetLuan": "Đã chốt kết luận cho hồ sơ khiếu nại",
+      "loiGhiKetLuan": "Không ghi được kết luận, vui lòng thử lại",
+      "chotLuc": "Chốt lúc",
+      "khongCoLyDo": "Hồ sơ này không ghi lý do kết luận",
+      "chuaCoAnhHeThong": "Đơn này chưa có ảnh bằng chứng nào"
+    }
+  },
+  "danhGia": {
+    "tab": {
+      "all": "Tất cả",
+      "lowRating": "1-2 sao",
+      "hasPhotos": "Có ảnh kèm",
+      "noReply": "Chưa ai đáp"
+    },
+    "xuatCsv": "Xuất tệp đối soát",
+    "csv": {
+      "maDon": "MÃ ĐƠN",
+      "nguoiDanhGia": "NGƯỜI ĐÁNH GIÁ",
+      "nguoiCham": "NGƯỜI CHĂM",
+      "dichVu": "DỊCH VỤ",
+      "soSao": "SỐ SAO",
+      "soAnh": "SỐ ẢNH",
+      "daDap": "ĐÃ ĐÁP",
+      "danhGiaLuc": "ĐÁNH GIÁ LÚC",
+      "hanDap": "HẠN ĐÁP",
+      "dapLuc": "ĐÁP LÚC"
+    },
+    "cot": {
+      "nguoiDanhGia": "NGƯỜI ĐÁNH GIÁ",
+      "nguoiCham": "NGƯỜI CHĂM",
+      "dichVu": "DỊCH VỤ",
+      "diem": "ĐIỂM",
+      "noiDung": "NỘI DUNG VÀ ẢNH",
+      "phanHoi": "PHẢN HỒI CỦA NGƯỜI CHĂM"
+    },
+    "phanHoi": {
+      "daDap": "Đã đáp {{ngay}}",
+      "conNgay": "Còn {{soNgay}} ngày",
+      "hetHan": "Hết hạn đáp"
+    },
+    "loc": {
+      "soSao": "Số sao",
+      "moiSoSao": "Mọi mức sao",
+      "nSao": "{{soSao}} sao"
+    },
+    "thaoTac": {
+      "xemChiTiet": "Xem đánh giá"
+    },
+    "timKiem": "Tìm theo nội dung, tên người chăm hoặc mã đơn...",
+    "soAnh": "{{soAnh}} ảnh",
+    "chuaCoDanhGia": "Chưa có đánh giá nào trong nhóm này",
+    "diemTrungBinh": "Điểm trung bình của {{soLuong}} đánh giá đang lọc: {{diem}} trên 5.",
+    "ghiChuThieuModel": "Mỗi đánh giá gồm số sao, nội dung, tối đa 6 ảnh và một lượt phản hồi của người chăm. Màn này chỉ đọc, quản trị viên chưa gỡ được đánh giá vi phạm. Chủ nuôi có 7 ngày để đánh giá kể từ khi đơn hoàn thành, người chăm có 7 ngày để đáp lại đúng một lần; hết hạn thì đánh giá chốt luôn.",
+    "chiTiet": {
+      "tieuDe": "Đánh giá của chủ nuôi",
+      "moTa": "Đơn {{code}} · màn này chỉ đọc, không sửa và không gỡ được đánh giá",
+      "phanHoiNcc": "PHẢN HỒI CỦA NGƯỜI CHĂM",
+      "chuaDap": "Người chăm chưa đáp đánh giá này"
+    }
+  },
+  "taiChinh": {
+    "chiSo": {
+      "tongGiaTriDon": "TỔNG GIÁ TRỊ ĐƠN",
+      "hoaHongNenTang": "HOA HỒNG NỀN TẢNG",
+      "dangGiuEscrow": "TIỀN ĐANG TẠM GIỮ",
+      "daNhaVaoVi": "ĐÃ CHUYỂN VÀO VÍ NGƯỜI CHĂM",
+      "donDaTraTien": "{{count}} đơn đã trả tiền",
+      "tyLeNenTang": "phí nền tảng {{value}}",
+      "escrowPhu": "Nền tảng đang giữ · {{count}} đơn",
+      "daNhaPhu": "Đã chuyển cho người chăm"
+    },
+    "doanhThuTheoTuan": "Doanh thu theo tuần",
+    "topNcc": "Top người chăm theo doanh thu",
+    "topKy": "Kỳ {{period}}",
+    "lenhRut": "Lệnh rút tiền của người chăm",
+    "lenhRutPhu": "Số dư bị trừ ngay lúc tạo lệnh, quản trị viên chuyển khoản tay rồi nhập mã tham chiếu",
+    "xuatFile": "Xuất file chuyển khoản",
+    "csv": {
+      "nganHang": "NGÂN HÀNG",
+      "soTaiKhoan": "SỐ TÀI KHOẢN",
+      "chuTaiKhoan": "CHỦ TÀI KHOẢN",
+      "soTien": "SỐ TIỀN",
+      "noiDung": "NỘI DUNG CHUYỂN",
+      "noiDungChuyen": "PETCARE RUT {{id}}",
+      "nguoiCham": "NGƯỜI CHĂM",
+      "taoLuc": "TẠO LÚC"
+    },
+    "chuaCoLenhRut": "Chưa có lệnh rút nào",
+    "chuaCoMa": "chưa có",
+    "hoanSoDu": "hoàn số dư",
+    "cot": {
+      "nguoiCham": "NGƯỜI CHĂM",
+      "taiKhoanNhan": "TÀI KHOẢN NHẬN",
+      "soTien": "SỐ TIỀN",
+      "phiChuyen": "PHÍ CHUYỂN",
+      "taoLuc": "TẠO LÚC",
+      "maThamChieu": "MÃ THAM CHIẾU",
+      "trangThai": "TRẠNG THÁI"
+    },
+    "trangThaiRut": {
+      "PENDING": "Chờ chuyển",
+      "SENT": "Đã chuyển",
+      "DONE": "Xong",
+      "REJECTED": "Bị từ chối"
+    },
+    "dialog": {
+      "tieuDe": "Xử lý lệnh rút tiền",
+      "chiXem": "Lệnh này đã đóng, chỉ xem lại chứ không đổi trạng thái được nữa.",
+      "lyDo": "Lý do từ chối",
+      "maThamChieu": "Mã tham chiếu chuyển khoản",
+      "maGoiY": "Nhập đúng mã ngân hàng trả về, mã này dùng để đối soát sau này",
+      "maGoiYNhap": "Ví dụ FT26080512",
+      "lyDoGoiY": "Số dư sẽ được hoàn lại bằng một dòng sổ mới, dòng trừ tiền cũ vẫn giữ nguyên",
+      "lyDoGoiYNhap": "Ví dụ tên chủ tài khoản không khớp hồ sơ",
+      "moTa": {
+        "SENT": "Đánh dấu đã chuyển khoản, lệnh chuyển sang chờ ngân hàng báo có.",
+        "DONE": "Ngân hàng đã báo có, lệnh rút này kết thúc.",
+        "REJECTED": "Từ chối lệnh rút và hoàn số dư về ví người chăm."
+      },
+      "nut": {
+        "SENT": "Đã chuyển khoản",
+        "DONE": "Đánh dấu xong",
+        "REJECTED": "Từ chối lệnh"
+      },
+      "xong": {
+        "SENT": "Đã đánh dấu lệnh rút là đã chuyển",
+        "DONE": "Đã đánh dấu lệnh rút hoàn tất",
+        "REJECTED": "Đã từ chối lệnh rút và hoàn số dư"
+      }
+    },
+    "ghiChuEnum": "Lệnh rút có bốn trạng thái: chờ chuyển khoản, đã chuyển và đang chờ ngân hàng báo có, hoàn tất và bị từ chối. Số dư bị trừ ngay khi người chăm tạo lệnh chứ không đợi ngân hàng, nên khi từ chối phải hoàn lại bằng một dòng sổ mới chứ không xoá dòng cũ. Mức rút tối thiểu và phí chuyển đặt ở màn Cấu hình vận hành."
+  },
+  "thanhToan": {
+    "timKiem": "Tìm theo mã đơn hoặc mã giao dịch cổng",
+    "chuaCoGiaoDich": "Chưa có giao dịch nào",
+    "chuaCoMa": "chưa có",
+    "khongCoMa": "không có",
+    "chuaQuaCong": "chưa qua cổng",
+    "hetHanGiuCho": "hết hạn giữ chỗ",
+    "congKhongTra": "cổng không trả",
+    "chuaTra": "chưa trả",
+    "quaMuoiPhut": "quá 10 phút",
+    "saoChep": "Sao chép",
+    "daSaoChep": "Đã sao chép",
+    "khongSaoChepDuoc": "Không sao chép được, hãy chọn tay",
+    "xuatCsv": "Xuất tệp đối soát",
+    "csv": {
+      "maDon": "MÃ ĐƠN",
+      "chuNuoi": "CHỦ NUÔI",
+      "nganHang": "NGÂN HÀNG",
+      "loaiThe": "LOẠI THẺ",
+      "soTien": "SỐ TIỀN",
+      "cong": "CỔNG",
+      "trangThai": "TRẠNG THÁI",
+      "traLuc": "TRẢ LÚC"
+    },
+    "tab": {
+      "escrow": "Đang tạm giữ",
+      "released": "Đã chuyển vào ví",
+      "refunding": "Đang hoàn",
+      "failed": "Hỏng và hết hạn"
+    },
+    "cot": {
+      "chuNuoi": "CHỦ NUÔI",
+      "donVaTxnRef": "ĐƠN VÀ MÃ GIAO DỊCH",
+      "maCongTraVe": "MÃ CỔNG TRẢ VỀ",
+      "soTien": "SỐ TIỀN",
+      "traLuc": "TRẢ LÚC",
+      "trangThai": "TRẠNG THÁI"
+    },
+    "trangThai": {
+      "PENDING": "Chờ trả",
+      "HELD": "Đang giữ",
+      "RELEASED": "Đã chuyển ví",
+      "REFUNDING": "Đang hoàn",
+      "REFUNDED": "Đã hoàn",
+      "FAILED": "Cổng từ chối",
+      "EXPIRED": "Hết hạn"
+    },
+    "cong": {
+      "vnpay": "VNPay",
+      "mock": "Giả lập",
+      "auto": "Tự chốt, VNPay đang tắt"
+    },
+    "loc": {
+      "cong": "Cổng",
+      "moiCong": "Mọi cổng",
+      "nganHang": "Ngân hàng",
+      "moiNganHang": "Mọi ngân hàng"
+    },
+    "truong": {
+      "maGiaoDich": "Mã giao dịch",
+      "gatewayTxnNo": "Mã cổng trả về",
+      "gatewayPayDate": "Thời điểm cổng ghi nhận",
+      "bankCode": "Ngân hàng và loại thẻ",
+      "responseCode": "Mã kết quả cổng trả"
+    },
+    "thaoTac": {
+      "xemPayload": "Xem dữ liệu cổng trả về",
+      "moDon": "Mở đơn đặt lịch",
+      "chepTxnRef": "Sao chép mã giao dịch"
+    },
+    "dialogRaw": {
+      "tieuDe": "Dữ liệu nguyên văn cổng trả về",
+      "moTa": "Chỉ đọc. Khi đối soát với sao kê của cổng thì đây là bằng chứng duy nhất.",
+      "payload": "Dữ liệu nguyên văn",
+      "chuaCoPayload": "Bản ghi này chưa có dữ liệu trả về, giao dịch chưa từng qua cổng"
+    },
+    "ghiChuEnum": "Giao dịch có bảy trạng thái: chờ trả, đang giữ ở nền tảng, đã chuyển vào ví người chăm, đang hoàn, đã hoàn, cổng từ chối và hết hạn giữ chỗ sau 10 phút. Cột Cổng cho biết giao dịch phát sinh ở chế độ nào, cổng thật hay chế độ giả lập bật tắt ở màn Cài đặt hệ thống, cả hai đều đi qua cùng một luồng xử lý. Một đơn có thể có nhiều giao dịch vì trả hỏng rồi thử lại sẽ mang mã giao dịch mới, nhưng chỉ được tối đa một giao dịch đang giữ tiền."
+  },
+  "hoanTien": {
+    "timKiem": "Tìm theo mã đơn hoặc mã giao dịch cổng",
+    "chuaCoLenh": "Chưa có lệnh hoàn nào",
+    "hoanToanPhan": "hoàn toàn phần",
+    "hoanMotPhan": "hoàn một phần",
+    "thieuMaCong": "thiếu mã cổng",
+    "khongRoNganHang": "không rõ ngân hàng",
+    "thieuDuLieu": "thiếu, không chạy lệnh hoàn được",
+    "congKhongTraNganHang": "cổng không trả",
+    "nguonNhan": "Tiền hoàn về {{bank}}, đúng nguồn chủ nuôi đã thanh toán. Cổng không trả số thẻ nên màn này không hiện số thẻ.",
+    "nguonNhanKhongRo": "Tiền hoàn về nguồn bạn đã thanh toán. Bản ghi này không có mã ngân hàng và cổng cũng không trả số thẻ.",
+    "daDanhDauTay": "Đã đánh dấu hoàn xong cho chủ nuôi",
+    "maQuaNgan": "Mã tham chiếu phải có ít nhất {{count}} ký tự",
+    "tab": {
+      "refunding": "Đang hoàn",
+      "refunded": "Đã hoàn"
+    },
+    "cot": {
+      "chuNuoi": "CHỦ NUÔI",
+      "donVaGiaoDich": "ĐƠN VÀ GIAO DỊCH",
+      "lyDo": "LÝ DO HOÀN",
+      "soTienHoan": "SỐ TIỀN HOÀN",
+      "choTu": "CHỜ TỪ",
+      "trangThai": "TRẠNG THÁI"
+    },
+    "trangThai": {
+      "REFUNDING": "Đang hoàn",
+      "REFUNDED": "Đã hoàn"
+    },
+    "lyDo": {
+      "DISPUTE_RESOLUTION": "Kết luận khiếu nại",
+      "LATE_CANCEL": "Huỷ muộn, đã trừ phí huỷ",
+      "FULL_CANCEL": "Huỷ đơn, hoàn toàn bộ"
+    },
+    "loc": {
+      "lyDo": "Lý do hoàn",
+      "moiLyDo": "Mọi lý do"
+    },
+    "truong": {
+      "chuNuoi": "Chủ nuôi",
+      "maDon": "Mã đơn",
+      "nganHang": "Ngân hàng",
+      "daTra": "Số tiền đã trả",
+      "choTu": "Phát sinh lúc",
+      "lyDoHuy": "Lý do người huỷ ghi",
+      "maHoanTay": "Mã hoàn tại cổng thanh toán",
+      "ghiChu": "Ghi chú của quản trị viên",
+      "hoanLuc": "Chốt hoàn lúc"
+    },
+    "thaoTac": {
+      "xemGiaoDich": "Xem giao dịch gốc",
+      "danhDauTay": "Đánh dấu đã hoàn tay"
+    },
+    "dialog": {
+      "tieuDe": {
+        "view": "Giao dịch gốc của lệnh hoàn",
+        "manual": "Đánh dấu đã hoàn trên trang quản trị của cổng"
+      },
+      "moTa": {
+        "view": "Mã giao dịch, mã cổng trả về và thời điểm cổng ghi nhận phải còn đủ thì lệnh hoàn mới chạy được.",
+        "manual": "Hoàn tay trên trang quản trị của cổng trước rồi về đây đánh dấu kèm mã tham chiếu. Mỗi giao dịch chỉ đánh dấu được đúng một lượt, không sửa lại được."
+      },
+      "nut": {
+        "manual": "Đánh dấu đã hoàn"
+      },
+      "maGoiY": "Nhập mã tham chiếu lệnh hoàn tại cổng để đối soát sau này",
+      "maGoiYNhap": "Ví dụ HOAN-26080201",
+      "ghiChuGoiY": "Không bắt buộc, dùng để ghi lại tình huống của lượt chuyển tay",
+      "ghiChuGoiYNhap": "Ví dụ cổng khoá lệnh hoàn tự động nên chuyển tay"
+    },
+    "ghiChuNguon": "Hoàn tiền là đảo ngược chính giao dịch cũ nên bản ghi phải còn đủ mã giao dịch, mã cổng trả về và thời điểm cổng ghi nhận, thiếu một trong ba thì không chạy được lệnh hoàn. Chủ nuôi không có ví và không phải khai tài khoản nhận, tiền đi ngược về đúng nguồn đã thanh toán. Cổng chỉ trả mã ngân hàng và loại thẻ, không trả số thẻ. Khi cổng không cho gọi lệnh hoàn tự động thì quản trị viên hoàn tay trên trang quản trị của cổng rồi về đây đánh dấu."
+  },
+  "thongBao": {
+    "lichSu": {
+      "tieuDe": "Lịch sử các lượt gửi",
+      "moTa": "Mỗi dòng là một lượt gửi thủ công của quản trị viên"
+    },
+    "soanTinMoi": "Soạn tin mới",
+    "cot": {
+      "tieuDe": "TIÊU ĐỀ",
+      "doiTuong": "ĐỐI TƯỢNG",
+      "nguoiNhan": "NGƯỜI NHẬN",
+      "daDoc": "ĐÃ ĐỌC"
+    },
+    "guiLuc": "Gửi {{time}}",
+    "henLuc": "Hẹn gửi {{time}}",
+    "taoLuc": "Xếp hàng {{time}}",
+    "trangThai": {
+      "dangGui": "Đang gửi",
+      "henGio": "Hẹn giờ"
+    },
+    "doiTuong": {
+      "ALL_OWNERS": "Chủ nuôi",
+      "ALL_SITTERS": "Người chăm",
+      "BOTH": "Cả hai vai",
+      "OWNERS_BY_PROVINCE": "Chủ nuôi theo tỉnh",
+      "SINGLE_USER": "Một người cụ thể"
+    },
+    "thaoTac": {
+      "soanLai": "Soạn lại nội dung này",
+      "huyLich": "Huỷ lượt gửi đang hẹn giờ"
+    },
+    "huyLich": {
+      "tieuDe": "Huỷ lượt gửi đang hẹn giờ",
+      "moTa": "Lượt gửi hẹn lúc {{time}} sẽ bị bỏ, không ai nhận được tin này.",
+      "nut": "Huỷ lượt gửi"
+    },
+    "daHuyLich": "Đã huỷ lượt gửi đang hẹn giờ",
+    "chuaCoLuot": "Chưa có lượt gửi nào",
+    "soan": {
+      "tieuDe": "Soạn thông báo hệ thống",
+      "moTa": "Tin hiện trong ứng dụng và đẩy tới thiết bị của người nhận"
+    },
+    "truong": {
+      "tieuDe": "TIÊU ĐỀ",
+      "tieuDeGoiY": "Bảo trì hệ thống 02:00 tới 03:00 ngày 08/08",
+      "noiDung": "NỘI DUNG",
+      "noiDungGoiY": "Câu chữ gửi đi lưu cứng, gửi rồi không sửa được nữa",
+      "doiTuong": "ĐỐI TƯỢNG NHẬN",
+      "tinh": "TỈNH THÀNH",
+      "chonTinh": "Chọn tỉnh thành",
+      "nguoiNhan": "TÀI KHOẢN NHẬN",
+      "timNguoiNhan": "Tìm theo tên, email hoặc số điện thoại",
+      "goiYTimNguoiNhan": "Gõ ít nhất 2 ký tự để tìm tài khoản",
+      "khongThayNguoiNhan": "Không tìm thấy tài khoản nào đang hoạt động",
+      "thoiDiem": "THỜI ĐIỂM GỬI",
+      "gap": "Đánh dấu gấp",
+      "gapMoTa": "Tin gấp nổi lên đầu danh sách thông báo trong ứng dụng"
+    },
+    "thoiDiem": {
+      "ngay": "Gửi ngay",
+      "henGio": "Hẹn giờ"
+    },
+    "nut": {
+      "gui": "Gửi thông báo",
+      "lenLich": "Lên lịch gửi"
+    },
+    "seGuiToi": "Sẽ gửi tới {{so}} tài khoản",
+    "dangDem": "Đang đếm số tài khoản sẽ nhận tin",
+    "demHong": "Chưa đếm được số người nhận, tải lại trang rồi hãy gửi",
+    "nhomRong": "Nhóm này chưa có tài khoản nào để nhận tin",
+    "chonXongMoiDem": "Chọn xong đối tượng nhận rồi mới biết tin tới bao nhiêu người",
+    "xacNhan": {
+      "tieuDe": "Xác nhận số người nhận",
+      "moTa": "Tin sẽ tới {{so}} tài khoản thuộc nhóm {{audience}}. Gửi nhầm toàn hệ thống không thu hồi được.",
+      "henLuc": "Hẹn gửi lúc {{time}}"
+    },
+    "daGui": "Đã gửi thông báo hệ thống",
+    "daLenLich": "Đã lên lịch gửi",
+    "ganNhat": "Ba lượt gửi gần nhất",
+    "dongGanNhat": "{{date}} · {{so}} người · đã đọc {{percent}}",
+    "loai": {
+      "tieuDe": "Loại thông báo",
+      "moTa": "Mỗi loại quyết định biểu tượng và màn được mở khi bấm vào tin. Cột cuối cho biết loại đó đã phát sinh tự động hay chưa",
+      "daCo": "Đã có",
+      "chuaCo": "Chưa có",
+      "cot": {
+        "suKien": "SỰ KIỆN KÍCH HOẠT",
+        "nguoiNhan": "NGƯỜI NHẬN",
+        "moMan": "BẤM MỞ MÀN",
+        "inApp": "TRONG ỨNG DỤNG",
+        "push": "PUSH",
+        "tinhTrang": "TÌNH TRẠNG",
+        "loai": "LOẠI THÔNG BÁO"
+      }
+    },
+    "nguoiNhan": {
+      "OWNER": "Chủ nuôi",
+      "SITTER": "Người chăm",
+      "BOTH": "Cả hai"
+    },
+    "phongBenh": {
+      "tieuDe": "Phòng bệnh định kỳ do ứng dụng lo",
+      "moTa": "Không có tham số nào ở trang quản trị"
+    },
+    "chuaTrigger": {
+      "tieuDe": "{{so}} loại chưa có trigger",
+      "moTa": "Các loại này chưa được hệ thống phát sinh tự động",
+      "ly": {
+        "NHAC_LICH": "Chưa có tác vụ nhắc trước giờ hẹn",
+        "TIN_NHAN": "Tin nhắn mới chưa phát sinh thông báo",
+        "TIEN_VI": "Chuyển tiền vào ví và lệnh rút chưa gửi tin"
+      }
+    },
+    "guiTay": {
+      "tieuDe": "Gửi thủ công",
+      "moTa": "Chỉ dùng cho thông báo chung, không thay được trigger tự động",
+      "chiNoiDung": "Thông báo hệ thống là loại duy nhất quản trị viên tự soạn và gửi",
+      "y": {
+        "dinhNghia": "Dùng cho thông báo chung của nền tảng, ví dụ bảo trì hay cập nhật điều khoản",
+        "khongTrigger": "Không phát sinh tự động và cũng không cần",
+        "khongTargetId": "Bấm vào tin gửi tay chỉ mở màn thông báo trong ứng dụng"
+      },
+      "nut": "Sang màn gửi thông báo hệ thống"
+    },
+    "ghiChuModel": "Thông báo gửi tới người nhận theo vai chủ nuôi hoặc người chăm, có cờ đánh dấu tin gấp và mở đúng màn tương ứng khi bấm vào. Mỗi thiết bị nhận thông báo đẩy gắn với một tài khoản, đăng nhập tài khoản khác trên máy cũ sẽ chuyển thiết bị sang tài khoản mới.",
+    "tenLoai": {
+      "DON_HANG": "Đơn đặt lịch",
+      "DON_HUY": "Đơn bị huỷ",
+      "DON_MOI": "Đơn mới",
+      "BANG_CHUNG": "Ảnh bằng chứng",
+      "DANH_GIA": "Đánh giá",
+      "NHAC_LICH": "Nhắc lịch hẹn",
+      "HO_SO": "Hồ sơ người chăm",
+      "TIN_NHAN": "Tin nhắn",
+      "NOI_DUNG": "Thông báo hệ thống",
+      "TIEN_VI": "Tiền và ví",
+      "PHONG_BENH": "Phòng bệnh",
+      "KHIEU_NAI": "Khiếu nại"
+    }
+  },
+  "caiDat": {
+    "tab": {
+      "chung": "Cấu hình chung",
+      "gioiHan": "Giới hạn và hạn mức",
+      "nhatKy": "Nhật ký thao tác"
+    },
+    "donVi": {
+      "phanTram": "%",
+      "gio": "giờ",
+      "ngay": "ngày",
+      "dong": "đồng",
+      "lan": "lần",
+      "don": "đơn",
+      "km": "km"
+    },
+    "vanHanh": {
+      "tieuDe": "Cấu hình vận hành",
+      "moTa": "Tham số quản trị viên đổi được, đổi xong áp ngay cho đơn tạo mới",
+      "capNhatLuc": "Lần đổi gần nhất {{time}}",
+      "luu": "Lưu thay đổi",
+      "goiYKhoang": "Nhận từ {{min}} đến {{max}} · Mặc định {{macDinh}}",
+      "goiYCongTac": "Mặc định {{macDinh}}",
+      "chuaAiDoi": "Chưa ai đổi, đang chạy giá trị mặc định",
+      "doiBoi": "Đổi lần cuối bởi {{ten}} lúc {{time}}",
+      "loiKhongNguyen": "Chỉ nhận số nguyên",
+      "loiNgoaiKhoang": "Chỉ nhận giá trị từ {{min}} đến {{max}}",
+      "daLuu": "Đã lưu {{so}} tham số",
+      "hongHet": "Chưa lưu được tham số nào, xem câu báo ngay dưới từng ô",
+      "luuMotPhan": "Đã lưu {{soXong}} tham số và có hiệu lực ngay từ bây giờ, còn {{soLoi}} tham số chưa lưu được, xem câu báo ngay dưới ô đó"
+    },
+    "xacNhanSo": {
+      "tieuDe": "Xác nhận đổi tham số ảnh hưởng tiền và kỷ luật",
+      "moTa": "Số mới chỉ áp cho đơn phát sinh từ lúc đổi. Đơn đã có giữ nguyên con số đã chốt của nó.",
+      "lyDo": "Lý do đổi",
+      "lyDoGoiY": "Ghi để người đọc nhật ký sau này hiểu vì sao đổi",
+      "nut": "Đổi và lưu"
+    },
+    "congTac": {
+      "bat": "bật",
+      "tat": "tắt",
+      "daBat": "Đã bật {{nhan}}",
+      "daTat": "Đã tắt {{nhan}}"
+    },
+    "congTacXacNhan": {
+      "batTieuDe": "Bật {{nhan}}",
+      "tatTieuDe": "Tắt {{nhan}}",
+      "batNut": "Bật",
+      "tatNut": "Tắt",
+      "batMoTaChung": "Công tắc áp ngay từ lượt thao tác kế tiếp.",
+      "tatMoTaChung": "Công tắc áp ngay từ lượt thao tác kế tiếp.",
+      "rieng": {
+        "payment_vnpay_enabled": {
+          "bat": "Từ lượt đặt kế tiếp, chủ nuôi rời ứng dụng sang VNPay và kết quả cổng trả về quyết định trạng thái đơn. Đơn đang chờ trả tiền giữ nguyên cổng đã chọn lúc mở.",
+          "tat": "Mọi đơn từ đây trở đi được ghi nhận là đã trả tiền mà không thu đồng nào. Chỉ dùng khi chạy thử hoặc trình diễn."
+        },
+        "sitter_auto_approve": {
+          "bat": "Hồ sơ người chăm nộp mới sẽ tự được duyệt, không ai đối chiếu ảnh căn cước nữa.",
+          "tat": "Hồ sơ người chăm nộp mới quay lại chờ quản trị viên duyệt tay."
+        }
+      }
+    },
+    "luaChon": {
+      "goiY": "Mặc định {{macDinh}} · Đổi xong áp ngay, không cần triển khai lại",
+      "daDoi": "Đã đổi {{nhan}} sang {{giaTri}}",
+      "giaTri": {
+        "anthropic": "Anthropic",
+        "gemini": "Gemini"
+      },
+      "rieng": {
+        "ai_vision_provider": "Lượt quét ảnh kế tiếp đã gửi sang nhà cung cấp mới, ảnh đã quét giữ nguyên kết quả cũ."
+      }
+    },
+    "taiKhoan": {
+      "tieuDe": "Tài khoản quản trị viên",
+      "moTa": "Trang quản trị dùng chung một tài khoản, chưa phân quyền nhiều cấp",
+      "vaiTro": "Quản trị viên",
+      "matKhau": "Mật khẩu",
+      "doiGanNhat": "Đổi lần gần nhất {{date}}",
+      "chuaDoiLanNao": "Chưa đổi lần nào kể từ khi lập tài khoản ngày {{date}}",
+      "doiMatKhau": "Đổi mật khẩu",
+      "nhatKyCuaToi": "Thao tác tài khoản này đã làm",
+      "soThaoTac": "{{so}} thao tác đã ghi lại · gần nhất {{time}}",
+      "chuaCoThaoTac": "Chưa làm thao tác nào được ghi lại"
+    },
+    "nhatKy": {
+      "tieuDe": "Nhật ký thao tác",
+      "moTa": "30 ngày gần nhất",
+      "xemTatCa": "Xem tất cả",
+      "chuaCo": "Chưa có thao tác nào được ghi",
+      "locHanhDong": "Hành động",
+      "moiHanhDong": "Mọi hành động",
+      "locDoiTuong": "Loại đối tượng",
+      "moiDoiTuong": "Mọi loại đối tượng",
+      "giuLai": "Nhật ký được giữ lại vĩnh viễn, không xoá được",
+      "cot": {
+        "hanhDong": "HÀNH ĐỘNG",
+        "loaiDoiTuong": "LOẠI ĐỐI TƯỢNG",
+        "doiTuong": "ĐỐI TƯỢNG",
+        "thayDoi": "TRƯỚC VÀ SAU",
+        "lyDo": "LÝ DO",
+        "thoiDiem": "THỜI ĐIỂM"
+      }
+    },
+    "hanhDong": {
+      "KHOA_TAI_KHOAN": "Khoá tài khoản",
+      "MO_KHOA_TAI_KHOAN": "Mở khoá tài khoản",
+      "AN_HO_SO_THU_CUNG": "Ẩn hồ sơ thú cưng",
+      "HIEN_HO_SO_THU_CUNG": "Hiện lại hồ sơ thú cưng",
+      "DUYET_HO_SO_NCC": "Duyệt hồ sơ người chăm",
+      "TU_CHOI_HO_SO_NCC": "Từ chối hồ sơ người chăm",
+      "YEU_CAU_BO_SUNG_HO_SO_NCC": "Yêu cầu bổ sung hồ sơ người chăm",
+      "TAM_AN_HO_SO_NCC": "Tạm ẩn hồ sơ người chăm",
+      "KHOA_HO_SO_NCC": "Khoá hồ sơ người chăm",
+      "GO_KHOA_HO_SO_NCC": "Gỡ khoá hồ sơ người chăm",
+      "MIEN_PHAT_NCC": "Miễn ghi phạt cho người chăm",
+      "GIU_PHAT_NCC": "Giữ nguyên ghi phạt",
+      "CAN_THIEP_HUY_DON": "Can thiệp huỷ đơn",
+      "GO_CO_GPS": "Gỡ cờ lộ trình",
+      "GIU_CO_GPS": "Giữ cờ lộ trình",
+      "KET_LUAN_KHIEU_NAI": "Kết luận khiếu nại",
+      "CAP_NHAT_THAM_SO": "Đổi tham số vận hành",
+      "CAP_NHAT_DANH_MUC_DICH_VU": "Đổi tên loại dịch vụ",
+      "KHOA_CAU_HINH_DICH_VU": "Khoá bảng giá của người chăm",
+      "MO_CAU_HINH_DICH_VU": "Mở lại bảng giá của người chăm",
+      "CHUYEN_TIEN_RUT": "Chuyển khoản lệnh rút",
+      "HOAN_TAT_LENH_RUT": "Hoàn tất lệnh rút",
+      "TU_CHOI_LENH_RUT": "Từ chối lệnh rút",
+      "DANH_DAU_HOAN_TIEN": "Đánh dấu đã hoàn tiền cho chủ nuôi",
+      "GUI_THONG_BAO_HE_THONG": "Gửi thông báo hệ thống",
+      "HUY_LICH_THONG_BAO": "Huỷ lượt gửi đang hẹn giờ"
+    },
+    "loaiDoiTuong": {
+      "USER": "Tài khoản",
+      "PET": "Hồ sơ thú cưng",
+      "SITTER": "Người chăm",
+      "BOOKING": "Đơn đặt lịch",
+      "DISPUTE": "Khiếu nại",
+      "WITHDRAWAL": "Lệnh rút tiền",
+      "PAYMENT": "Giao dịch",
+      "PENALTY": "Kỷ luật",
+      "SETTING": "Cấu hình",
+      "NOTIFICATION": "Thông báo hệ thống"
+    }
+  },
+  "gioiHan": {
+    "ghiChuChiDeTra": "Màn này là bản kê để tra: mọi giá trị dưới đây nằm trong mã nguồn, đổi được thì đã nằm ở màn Cấu hình vận hành.",
+    "xemThamSoSuaDuoc": "Xem tham số sửa được"
+  },
+  "hoSoNcc": {
+    "timKiem": "Tìm theo tên hoặc địa chỉ làm việc",
+    "nopNgay": "Nộp hồ sơ {{date}}",
+    "duyetNgay": "Duyệt {{date}}",
+    "soLuot": "{{count}} lượt đánh giá",
+    "xemHoSo": "Xem hồ sơ người chăm",
+    "ghiChu": "Hồ sơ bị khoá vĩnh viễn không nằm trong bốn tab trên, tìm theo tên để mở lại. Duyệt hồ sơ là người chăm lên kết quả tìm kiếm ngay, nên đối chiếu đủ hai mặt giấy tờ trước khi bấm.",
+    "daYeuCauBoSung": "Đã gửi yêu cầu bổ sung, hồ sơ vẫn nằm ở tab Chờ duyệt",
+    "daDuyet": "Đã duyệt hồ sơ, người chăm bắt đầu nhận được đơn",
+    "daTuChoi": "Đã từ chối hồ sơ và gửi lý do cho người chăm",
+    "daTamAn": "Đã tạm ẩn hồ sơ {{ngay}} ngày",
+    "daTamAnThanhKhoa": "Người chăm này đã đủ số lần bị ẩn nên hồ sơ chuyển sang khoá vĩnh viễn",
+    "daKhoa": "Đã khoá vĩnh viễn hồ sơ này",
+    "daGoKhoa": "Đã mở lại hồ sơ người chăm này",
+    "daGoKhoaKemMien": "Đã mở lại hồ sơ và miễn {{so}} mốc tạm ẩn cũ, người chăm bắt đầu lại từ đầu",
+    "dangTrongHanAn": "Hồ sơ đang trong hạn tạm ẩn tới {{den}}, chờ hết hạn rồi mới ẩn tiếp được",
+    "tab": {
+      "pending": "Chờ duyệt",
+      "active": "Đang hoạt động",
+      "rejected": "Từ chối",
+      "hidden": "Đang tạm ẩn"
+    },
+    "rong": {
+      "pending": "Không có hồ sơ nào đang chờ duyệt",
+      "active": "Chưa có người chăm nào đang hoạt động",
+      "rejected": "Chưa có hồ sơ nào bị từ chối",
+      "hidden": "Không có hồ sơ nào đang bị tạm ẩn"
+    },
+    "cot": {
+      "nguoiCham": "NGƯỜI CHĂM",
+      "dichVu": "DỊCH VỤ ĐĂNG KÝ",
+      "khuVuc": "KHU VỰC",
+      "giayTo": "GIẤY TỜ",
+      "danhGia": "ĐÁNH GIÁ",
+      "trangThai": "TRẠNG THÁI",
+      "noiO": "NƠI Ở",
+      "daCho": "ĐÃ CHỜ"
+    },
+    "loc": {
+      "dichVu": "Dịch vụ",
+      "moiDichVu": "Mọi dịch vụ",
+      "tinhThanh": "Tỉnh hoặc thành phố",
+      "moiTinhThanh": "Mọi tỉnh thành"
+    },
+    "trangThai": {
+      "pending": "Chờ duyệt",
+      "active": "Đang hoạt động",
+      "rejected": "Đã từ chối",
+      "hidden": "Đang tạm ẩn",
+      "banned": "Đã khoá"
+    },
+    "giayTo": {
+      "dem": "Đủ {{so}}/2",
+      "matTruoc": "Mặt trước",
+      "matSau": "Mặt sau",
+      "thieu": "Chưa nộp ảnh này",
+      "daDoiChieu": "Đã đối chiếu",
+      "moTa": "Đối chiếu số và họ tên trên hai mặt giấy tờ",
+      "riengTu": "Ảnh giấy tờ là dữ liệu định danh: chỉ xem tại đây, không tải hàng loạt và không đưa vào tệp xuất."
+    },
+    "hanhDong": {
+      "yeuCauBoSung": "Yêu cầu bổ sung",
+      "tuChoi": "Từ chối hồ sơ",
+      "duyet": "Duyệt hồ sơ",
+      "tamAn": "Tạm ẩn hồ sơ",
+      "khoa": "Khoá vĩnh viễn",
+      "goKhoa": "Mở lại hồ sơ"
+    },
+    "card": {
+      "hoSo": "Hồ sơ cá nhân",
+      "giayTo": "Giấy tờ định danh",
+      "vungPhucVu": "Vùng phục vụ",
+      "dichVu": "Dịch vụ đăng ký",
+      "kyLuat": "Lịch sử kỷ luật"
+    },
+    "truong": {
+      "hoTen": "Họ và tên",
+      "gioiTinh": "Giới tính",
+      "ngaySinh": "Ngày sinh",
+      "soDinhDanh": "Số định danh",
+      "noiCap": "Nơi cấp",
+      "ngayCap": "Ngày cấp",
+      "dienThoai": "Điện thoại",
+      "thuongTru": "Nơi ở",
+      "nopHoSo": "Nộp hồ sơ",
+      "taiKhoanGoc": "Tài khoản gốc",
+      "daNhanBoSung": "Đã nhắn bổ sung",
+      "diaChiLamViec": "Địa chỉ làm việc",
+      "ghiChuDiaChi": "Ghi chú địa chỉ",
+      "banKinh": "Bán kính nhận đơn"
+    },
+    "gioiTinh": {
+      "MALE": "Nam",
+      "FEMALE": "Nữ",
+      "OTHER": "Khác"
+    },
+    "loaiThuCung": {
+      "DOG": "Nhận chó",
+      "CAT": "Nhận mèo",
+      "BOTH": "Nhận chó và mèo"
+    },
+    "vung": {
+      "km": "{{km}} km",
+      "tranBanKinh": "Bán kính tối đa {{km}} km",
+      "chuaCoToaDo": "Hồ sơ này chưa có toạ độ điểm làm việc",
+      "bamDeXemLon": "Bấm vào bản đồ để xem địa chỉ và toạ độ chính xác",
+      "moBanDoLon": "Mở bản đồ vùng phục vụ",
+      "banDoTieuDe": "Vùng phục vụ",
+      "banDoTuongTac": "Bản đồ vùng phục vụ, kéo thả và phóng to được",
+      "chiDuong": "Chỉ đường",
+      "moBanDoNgoai": "Mở OpenStreetMap",
+      "toaDo": "Toạ độ"
+    },
+    "gia": {
+      "moTaThamKhao": "Giá do người chăm tự đặt, nền tảng không chặn theo khung giá",
+      "chuaDangKy": "Chưa đăng ký dịch vụ nào",
+      "dangBat": "Đang bật",
+      "dangTat": "Đang tắt",
+      "theoPhut": "Gói {{phut}} phút",
+      "moiDem": "Một đêm",
+      "sucChua": "Sức chứa mỗi ngày",
+      "goiVaCan": "{{goi}} · {{can}}",
+      "giaKemPhut": "{{gia}} · {{phut}} phút",
+      "beThem": "Mỗi thú cưng thêm",
+      "toiDaBe": "Nhận tối đa",
+      "soBe": "{{count}} thú cưng",
+      "can": {
+        "duoi5": "Dưới 5 kg",
+        "tu5den10": "Từ 5 đến 10 kg",
+        "tu10den20": "Từ 10 đến 20 kg",
+        "tren20": "Trên 20 kg"
+      },
+      "goi": {
+        "bath": "Gói tắm",
+        "bathAndTrim": "Gói tắm và cắt tỉa"
+      }
+    },
+    "kyLuat": {
+      "tyLeHuy": "Tỷ lệ huỷ {{value}}",
+      "tyLeHuyChuaDuMau": "Tỷ lệ huỷ chưa đủ mẫu",
+      "soLanTamAn": "Số lần bị tạm ẩn ({{thang}} tháng)",
+      "lanTrenNguong": "{{lan}} trên {{nguong}} lần",
+      "soLanTamAnTronDoi": "Số lần bị tạm ẩn từ trước tới nay",
+      "hetTamAn": "Hết tạm ẩn",
+      "soDonHoanThanh": "Số đơn đã hoàn thành",
+      "chuaCoGhi": "Chưa có ghi phạt nào"
+    },
+    "dialogBoSung": {
+      "tieuDe": "Yêu cầu bổ sung hồ sơ",
+      "moTa": "Hồ sơ vẫn nằm ở tab Chờ duyệt, người chăm nhận được tin và sửa rồi nộp lại.",
+      "thieuGi": "Cần bổ sung gì",
+      "thieuGiGoiY": "Ví dụ: ảnh mặt sau giấy tờ bị mờ, chụp lại rõ số"
+    },
+    "dialogDuyet": {
+      "tieuDe": "Duyệt hồ sơ người chăm",
+      "moTa": "Duyệt xong là {{ten}} lên kết quả tìm kiếm và nhận được đơn ngay."
+    },
+    "dialogTuChoi": {
+      "tieuDe": "Từ chối hồ sơ",
+      "moTa": "Hồ sơ không bị xoá, người chăm sửa rồi nộp lại được. Lý do sẽ gửi cho họ.",
+      "lyDo": "Lý do từ chối",
+      "lyDoGoiY": "Ví dụ: ảnh mặt sau giấy tờ bị mờ, không đọc được số"
+    },
+    "dialogTamAn": {
+      "tieuDe": "Tạm ẩn hồ sơ người chăm",
+      "moTa": "Hồ sơ biến mất khỏi tìm kiếm và không nhận được đơn mới cho tới hết hạn ẩn. Đơn đã nhận vẫn phải hoàn thành, hết hạn thì hồ sơ tự hiện lại.",
+      "canhBaoLanThu": "Đây sẽ là lần tạm ẩn thứ {{lan}} của người chăm này. Đủ {{nguong}} lần trong {{thang}} tháng là hồ sơ bị khoá vĩnh viễn.",
+      "soNgay": "Ẩn trong bao lâu",
+      "lyDoGoiY": "Ghi rõ lý do, người chăm sẽ đọc được nội dung này",
+      "nNgay": "{{ngay}} ngày"
+    },
+    "dialogKhoa": {
+      "tieuDe": "Khoá vĩnh viễn hồ sơ",
+      "moTa": "Người này mất quyền nhận đơn và không tự mở lại được, nhưng vẫn đăng nhập và đặt dịch vụ như một chủ nuôi bình thường. Cần mở lại thì dùng nút Mở lại hồ sơ ở màn này.",
+      "goTuKhoa": "Gõ {{tuKhoa}} để xác nhận",
+      "lyDoGoiY": "Ghi rõ lý do, người chăm sẽ đọc được nội dung này"
+    },
+    "dialogGoKhoa": {
+      "tieuDe": "Mở lại hồ sơ người chăm",
+      "moTa": "Hồ sơ nhận đơn lại được ngay. Hồ sơ còn trong hạn tạm ẩn thì hạn đó cũng được gỡ luôn.",
+      "lyDoGoiY": "Ghi rõ căn cứ mở lại, nội dung này vào nhật ký thao tác"
+    },
+    "lyDo": "Lý do"
+  },
+  "kyLuat": {
+    "timKiem": "Tìm theo tên người chăm hoặc mã đơn",
+    "tyLeHuyHienTai": "Tỷ lệ huỷ hiện tại {{value}}",
+    "tyLeHuyChuaDuMau": "Tỷ lệ huỷ chưa đủ đơn để tính",
+    "soCanhCao": "{{count}} cảnh cáo",
+    "lanTamAn": "Đã tạm ẩn {{lan}}/{{nguong}} lần",
+    "conLaiGio": "Còn {{gio}} giờ",
+    "quaHanSoat": "Quá hạn soát",
+    "daMien": "Đã miễn hình phạt cho lần huỷ này",
+    "daGiuPhat": "Đã giữ nguyên ghi phạt",
+    "ghiChu": "Quá 24 giờ mà chưa ai soát thì đơn xin miễn tự thành áp chính thức, hệ thống không tự miễn. Miễn một ghi vượt tỷ lệ huỷ sẽ miễn luôn ghi cảnh cáo sinh cùng lần huỷ đó. Tạm ẩn thủ công và khoá vĩnh viễn làm ở màn hồ sơ người chăm.",
+    "tab": {
+      "pendingReview": "Chờ soát",
+      "active": "Đang áp",
+      "waived": "Đã miễn",
+      "hidden": "Đang tạm ẩn"
+    },
+    "rong": {
+      "pendingReview": "Không có đơn xin miễn phạt nào đang chờ",
+      "active": "Không có ghi phạt nào đang áp",
+      "waived": "Chưa miễn ghi phạt nào",
+      "hidden": "Không có người chăm nào đang bị tạm ẩn"
+    },
+    "cot": {
+      "nguoiCham": "NGƯỜI CHĂM",
+      "loaiGhi": "LOẠI GHI",
+      "donLienQuan": "ĐƠN LIÊN QUAN",
+      "trangThai": "TRẠNG THÁI",
+      "hanSoat": "HẠN SOÁT",
+      "heQua": "HỆ QUẢ"
+    },
+    "loc": {
+      "loaiGhi": "Loại ghi",
+      "moiLoaiGhi": "Mọi loại ghi"
+    },
+    "loai": {
+      "CANCEL_RATE": "Vượt tỷ lệ huỷ",
+      "WARNING": "Cảnh cáo",
+      "HIDE": "Tạm ẩn hồ sơ"
+    },
+    "trangThai": {
+      "ACTIVE": "Đang áp",
+      "PENDING_REVIEW": "Chờ soát",
+      "WAIVED": "Đã miễn"
+    },
+    "hanhDong": {
+      "soat": "Soát đơn",
+      "xemHoSo": "Xem hồ sơ"
+    },
+    "dialogSoat": {
+      "tieuDe": "Soát đơn xin miễn phạt",
+      "moTa": "{{ten}} trình bày: {{lyDo}}",
+      "nut": "Ghi kết luận",
+      "mien": "Miễn ghi phạt này",
+      "mienMoTa": "Gỡ ghi phạt khỏi hồ sơ, kể cả ghi phạt sinh cùng lần huỷ đó. Không giới hạn số lần được miễn.",
+      "giu": "Giữ nguyên ghi phạt",
+      "giuMoTa": "Ghi phạt chuyển sang áp chính thức, hệ quả tính như bình thường.",
+      "ketLuan": "Kết luận",
+      "ketLuanGoiY": "Ghi rõ căn cứ, nội dung này vào nhật ký thao tác"
+    }
+  }
+}
