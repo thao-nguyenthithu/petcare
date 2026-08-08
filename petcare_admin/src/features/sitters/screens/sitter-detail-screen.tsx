@@ -67,7 +67,7 @@ export function SitterDetailScreen() {
   const trangThai = data ? trangThaiCuaNcc(data.sitter) : null;
   const choDuyet = trangThai === 'pending';
   const dangHoatDong = trangThai === 'active' || trangThai === 'hidden';
-  const chuaDuyet = data ? !data.sitter.onboardedAt : false;
+  const chuaDuyet = data ? !data.sitter.approvedAt : false;
 
   const dongDialog = () => {
     setMoBoSung(false);

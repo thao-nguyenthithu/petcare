@@ -147,8 +147,8 @@ export function SitterApprovalsScreen() {
           <div className="min-w-0">
             <p className="truncate text-label">{row.fullName}</p>
             <p className="truncate text-caption-sm text-text-secondary">
-              {row.onboardedAt
-                ? t('hoSoNcc.duyetNgay', { date: formatDate(row.onboardedAt) })
+              {row.approvedAt
+                ? t('hoSoNcc.duyetNgay', { date: formatDate(row.approvedAt) })
                 : row.submittedAt
                   ? t('hoSoNcc.nopNgay', { date: formatDate(row.submittedAt) })
                   : <KhongCoDuLieu />}

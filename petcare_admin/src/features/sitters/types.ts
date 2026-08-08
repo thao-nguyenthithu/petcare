@@ -17,6 +17,7 @@ export type SitterRow = {
   fullName: string;
   avatarUrl: string | null;
   submittedAt: string | null;
+  approvedAt: string | null;
   onboardedAt: string | null;
   status: SitterStatus;
   province: string | null;
@@ -79,6 +80,7 @@ export type SitterDetail = {
     province: string | null;
     addressDetail: string | null;
     submittedAt: string | null;
+    approvedAt: string | null;
     onboardedAt: string | null;
     serviceAddress: string | null;
     serviceAddressNote: string | null;

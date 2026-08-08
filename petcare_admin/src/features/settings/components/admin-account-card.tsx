@@ -28,6 +28,8 @@ export function AdminAccountCard() {
           <img
             src={taiKhoan.avatarUrl}
             alt={tenHienThi}
+            // Ảnh Google/Facebook trả 403 khi kèm Referer lạ
+            referrerPolicy="no-referrer"
             className="h-11 w-11 rounded-card object-cover"
           />
         ) : (

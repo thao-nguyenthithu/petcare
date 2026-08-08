@@ -2086,10 +2086,6 @@
           "nhan": "Thời lượng tắm và cắt tỉa",
           "mo": "Tính riêng cho từng bé theo gói và mức cân"
         },
-        "buocChinhThoiLuongTamVaCatTia": {
-          "nhan": "Bước chỉnh thời lượng tắm và cắt tỉa",
-          "mo": "Chỉ chọn được bội số của bước"
-        },
         "khoangNgayMoiLanHoiLich": {
           "nhan": "Khoảng ngày mỗi lần hỏi lịch",
           "mo": "Xem xa hơn thì hỏi tiếp khoảng sau, màn phải nói rõ"
@@ -2273,7 +2269,6 @@
       "matTruoc": "Mặt trước",
       "matSau": "Mặt sau",
       "thieu": "Chưa nộp ảnh này",
-      "daDoiChieu": "Đã đối chiếu",
       "moTa": "Đối chiếu số và họ tên trên hai mặt giấy tờ",
       "riengTu": "Ảnh giấy tờ là dữ liệu định danh: chỉ xem tại đây, không tải hàng loạt và không đưa vào tệp xuất."
     },

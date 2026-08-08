@@ -73,6 +73,8 @@ export function Topbar() {
             <img
               src={admin.avatarUrl}
               alt={tenHienThi}
+              // Ảnh Google/Facebook trả 403 khi kèm Referer lạ
+              referrerPolicy="no-referrer"
               className="h-8 w-8 rounded-card object-cover"
             />
           ) : (

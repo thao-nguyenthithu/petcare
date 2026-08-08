@@ -140,6 +140,7 @@ export function ImageViewer({ anh, moTai, onDong }: ImageViewerProps) {
             <img
               src={dangXem.url}
               alt={dangXem.nhan ?? ''}
+              referrerPolicy="no-referrer"
               draggable={false}
               onPointerDown={(su) => {
                 if (tyLe <= TY_LE_MIN) return;

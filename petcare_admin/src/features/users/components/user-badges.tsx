@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Activity, Check, Clock, X } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -67,11 +68,15 @@ export function UserAvatar({
   size?: number;
 }) {
   const chuCai = name.trim().charAt(0).toUpperCase();
-  if (url) {
+  const [urlHong, setUrlHong] = useState<string | null>(null);
+  if (url && urlHong !== url) {
     return (
       <img
         src={url}
         alt={name}
+        // Ảnh Google/Facebook trả 403 khi kèm Referer lạ, Flutter không gửi nên app không dính
+        referrerPolicy="no-referrer"
+        onError={() => setUrlHong(url)}
         className="shrink-0 rounded-full object-cover"
         style={{ width: size, height: size }}
       />

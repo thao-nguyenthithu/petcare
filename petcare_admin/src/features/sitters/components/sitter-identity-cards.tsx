@@ -79,7 +79,6 @@ export function HoSoCard({ data }: { data: SitterDetail }) {
 export function GiayToCard({ data }: { data: SitterDetail }) {
   const { t } = useTranslation();
   const xem = useImageViewer();
-  const [daDoiChieu, setDaDoiChieu] = useState<Record<string, boolean>>({});
   const o = [
     { key: 'front', label: t('hoSoNcc.giayTo.matTruoc'), url: data.documents.frontUrl },
     { key: 'back', label: t('hoSoNcc.giayTo.matSau'), url: data.documents.backUrl },
@@ -116,18 +115,6 @@ export function GiayToCard({ data }: { data: SitterDetail }) {
                 </span>
               )}
             </div>
-            <label className="flex cursor-pointer items-center gap-label text-caption-sm text-text-secondary">
-              <input
-                type="checkbox"
-                disabled={!item.url}
-                checked={Boolean(daDoiChieu[item.key])}
-                onChange={(event) =>
-                  setDaDoiChieu((cu) => ({ ...cu, [item.key]: event.target.checked }))
-                }
-                className="h-4 w-4 rounded-[4px] accent-primary disabled:opacity-40"
-              />
-              {t('hoSoNcc.giayTo.daDoiChieu')}
-            </label>
           </div>
         ))}
       </div>
