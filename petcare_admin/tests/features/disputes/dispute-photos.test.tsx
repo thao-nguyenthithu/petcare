@@ -30,7 +30,6 @@ function hoSo() {
       resolutionReason: null,
       refundAmount: null,
       resolvedAt: null,
-      adminNote: null,
     },
     reporter: { id: 'user-1', fullName: 'Nguyễn Hải Yến', role: 'OWNER' },
     sitter: {

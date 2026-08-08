@@ -29,7 +29,6 @@ function hoSo(ghiDe: Record<string, unknown> = {}) {
       resolutionReason: null,
       refundAmount: null,
       resolvedAt: null,
-      adminNote: null,
       ...ghiDe,
     },
     reporter: { id: 'user-1', fullName: 'Nguyễn Hải Yến', role: 'OWNER' },
