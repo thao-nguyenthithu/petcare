@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString, MinLength } from 'class-validator';
+import { MAT_KHAU_TOI_THIEU } from '../auth.constants';
 
 export class LoginDto {
   @ApiProperty({ example: 'user@example.com' })
@@ -8,6 +9,8 @@ export class LoginDto {
 
   @ApiProperty({ example: 'password123' })
   @IsString({ message: 'Mật khẩu không hợp lệ' })
-  @MinLength(6, { message: 'Mật khẩu tối thiểu 6 ký tự' })
+  @MinLength(MAT_KHAU_TOI_THIEU, {
+    message: `Mật khẩu tối thiểu ${MAT_KHAU_TOI_THIEU} ký tự`,
+  })
   password!: string;
 }

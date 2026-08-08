@@ -4,7 +4,9 @@ import { JwtModule, JwtSignOptions } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { FirebaseModule } from '../firebase/firebase.module';
 import { MailModule } from '../mail/mail.module';
+import { MediaModule } from '../media/media.module';
 import { AuthController } from './auth.controller';
+import { AccountService } from './account.service';
 import { AuthService } from './auth.service';
 import { OtpService } from './otp.service';
 import { UserCleanupService } from './user-cleanup.service';
@@ -14,6 +16,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
   imports: [
     MailModule,
     FirebaseModule,
+    MediaModule,
     PassportModule,
     JwtModule.registerAsync({
       inject: [ConfigService],
@@ -27,7 +30,13 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, OtpService, UserCleanupService, JwtStrategy],
+  providers: [
+    AuthService,
+    AccountService,
+    OtpService,
+    UserCleanupService,
+    JwtStrategy,
+  ],
   exports: [AuthService, JwtModule],
 })
 export class AuthModule {}

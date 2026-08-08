@@ -13,6 +13,7 @@ import * as admin from 'firebase-admin';
 export class FirebaseService implements OnModuleInit {
   private readonly logger = new Logger(FirebaseService.name);
   private daKhoiTao = false;
+  private daCanhBaoPush = false;
 
   constructor(private readonly config: ConfigService) {}
 
@@ -30,7 +31,7 @@ export class FirebaseService implements OnModuleInit {
       !projectId || !clientEmail || !privateKey || privateKey.includes('...');
     if (chuaCauHinh) {
       this.logger.warn(
-        'Chưa cấu hình đủ FIREBASE_CLIENT_EMAIL/FIREBASE_PRIVATE_KEY trong .env — đăng nhập Google/Facebook sẽ không hoạt động',
+        'Chưa cấu hình đủ FIREBASE_CLIENT_EMAIL/FIREBASE_PRIVATE_KEY trong .env — đăng nhập Google/Facebook và push đều không hoạt động',
       );
       return;
     }
@@ -48,6 +49,46 @@ export class FirebaseService implements OnModuleInit {
       this.logger.error(
         `Khởi tạo Firebase Admin thất bại: ${(error as Error).message}`,
       );
+    }
+  }
+
+  // Đẩy push tới nhiều thiết bị của cùng một người
+  async guiPush(
+    tokens: string[],
+    tin: { title: string; body: string; data?: Record<string, string> },
+  ): Promise<string[]> {
+    if (tokens.length === 0) return [];
+    if (!this.daKhoiTao) {
+      if (!this.daCanhBaoPush) {
+        this.daCanhBaoPush = true;
+        this.logger.warn(
+          'Firebase Admin chưa khởi tạo nên mọi push đang bị bỏ qua',
+        );
+      }
+      return [];
+    }
+    try {
+      const ketQua = await admin.messaging().sendEachForMulticast({
+        tokens,
+        notification: { title: tin.title, body: tin.body },
+        data: tin.data,
+      });
+      const tokenChet: string[] = [];
+      ketQua.responses.forEach((r, i) => {
+        if (r.success) return;
+        const ma = (r.error as { code?: string } | undefined)?.code ?? '';
+        if (
+          ma === 'messaging/registration-token-not-registered' ||
+          ma === 'messaging/invalid-registration-token' ||
+          ma === 'messaging/invalid-argument'
+        ) {
+          tokenChet.push(tokens[i]);
+        }
+      });
+      return tokenChet;
+    } catch (error) {
+      this.logger.error(`Gửi push thất bại: ${(error as Error).message}`);
+      return [];
     }
   }
 

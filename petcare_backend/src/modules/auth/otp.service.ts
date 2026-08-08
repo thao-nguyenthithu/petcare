@@ -8,13 +8,25 @@ import { createHash, randomBytes, randomInt } from 'crypto';
 import Redis from 'ioredis';
 import { REDIS_CLIENT } from '../../common/redis/redis.module';
 import { MailService, OtpPurpose } from '../mail/mail.service';
+import {
+  KHOA_DANG_NHAP_PHUT,
+  OTP_MOI_GIO,
+  SAI_MAT_KHAU_TOI_DA,
+} from './auth.constants';
+
+export type GoiDangKy = {
+  fullName: string;
+  email: string;
+  phone: string;
+  passwordHash: string;
+};
 
 // Cấu hình OTP
-const OTP_TTL_SECONDS = 5 * 60;
-const MAX_ATTEMPTS = 5;
-const RESEND_COOLDOWN_SECONDS = 30;
-const LOCK_SECONDS = 5 * 60;
-const RESET_TOKEN_TTL_SECONDS = 10 * 60;
+export const OTP_TTL_SECONDS = 5 * 60;
+export const MAX_ATTEMPTS = 5;
+export const RESEND_COOLDOWN_SECONDS = 30;
+export const LOCK_SECONDS = 5 * 60;
+export const RESET_TOKEN_TTL_SECONDS = 10 * 60;
 
 @Injectable()
 export class OtpService {
@@ -36,6 +48,12 @@ export class OtpService {
   }
   private lockKey(purpose: OtpPurpose, email: string) {
     return `otp:lock:${purpose}:${email}`;
+  }
+  private quotaKey(email: string) {
+    return `otp:quota:${email}`;
+  }
+  private pendingKey(email: string) {
+    return `dangky:${email}`;
   }
 
   private hash(otp: string) {
@@ -68,6 +86,17 @@ export class OtpService {
       });
     }
 
+    const daGui = await this.redis.incr(this.quotaKey(email));
+    if (daGui === 1) await this.redis.expire(this.quotaKey(email), 3600);
+    if (daGui > OTP_MOI_GIO) {
+      const conLai = await this.redis.ttl(this.quotaKey(email));
+      throw new BadRequestException({
+        code: 'OTP_QUA_NHIEU',
+        message: `Email này đã nhận ${OTP_MOI_GIO} mã trong một giờ, vui lòng thử lại sau`,
+        meta: { seconds: conLai > 0 ? conLai : 3600, limit: OTP_MOI_GIO },
+      });
+    }
+
     const otp = randomInt(0, 1000000).toString().padStart(6, '0');
     await this.redis.set(
       this.otpKey(purpose, email),
@@ -75,6 +104,7 @@ export class OtpService {
       'EX',
       OTP_TTL_SECONDS,
     );
+    await this.redis.expire(this.pendingKey(email), OTP_TTL_SECONDS);
     await this.redis.del(this.attemptsKey(purpose, email));
     await this.redis.set(
       this.cooldownKey(purpose, email),
@@ -90,7 +120,6 @@ export class OtpService {
     }
   }
 
-  //sai quá số lần hoặc hết hạn đều phải gửi lại mã mới
   async verify(email: string, purpose: OtpPurpose, otp: string) {
     await this.assertNotLocked(email, purpose);
 
@@ -136,6 +165,63 @@ export class OtpService {
       this.otpKey(purpose, email),
       this.attemptsKey(purpose, email),
     );
+  }
+
+  async luuDangKyCho(email: string, goi: GoiDangKy) {
+    await this.redis.set(
+      this.pendingKey(email),
+      JSON.stringify(goi),
+      'EX',
+      OTP_TTL_SECONDS,
+    );
+  }
+
+  async docDangKyCho(email: string): Promise<GoiDangKy | null> {
+    const chuoi = await this.redis.get(this.pendingKey(email));
+    return chuoi ? (JSON.parse(chuoi) as GoiDangKy) : null;
+  }
+
+  async xoaDangKyCho(email: string) {
+    await this.redis.del(this.pendingKey(email));
+  }
+
+  private loginLockKey(email: string) {
+    return `login:lock:${email}`;
+  }
+  private loginFailKey(email: string) {
+    return `login:fail:${email}`;
+  }
+
+  async chanNeuDangBiKhoa(email: string) {
+    const conLai = await this.redis.ttl(this.loginLockKey(email));
+    if (conLai > 0) {
+      const phut = Math.ceil(conLai / 60);
+      throw new BadRequestException({
+        code: 'DANG_NHAP_BI_KHOA',
+        message: `Bạn đã nhập sai quá ${SAI_MAT_KHAU_TOI_DA} lần. Vui lòng thử lại sau ${phut} phút`,
+        meta: { minutes: phut, seconds: conLai },
+      });
+    }
+  }
+
+  async ghiNhanSaiMatKhau(email: string): Promise<number> {
+    const soLan = await this.redis.incr(this.loginFailKey(email));
+    await this.redis.expire(this.loginFailKey(email), KHOA_DANG_NHAP_PHUT * 60);
+    if (soLan >= SAI_MAT_KHAU_TOI_DA) {
+      await this.redis.set(
+        this.loginLockKey(email),
+        '1',
+        'EX',
+        KHOA_DANG_NHAP_PHUT * 60,
+      );
+      await this.redis.del(this.loginFailKey(email));
+      return 0;
+    }
+    return SAI_MAT_KHAU_TOI_DA - soLan;
+  }
+
+  async xoaDemSaiMatKhau(email: string) {
+    await this.redis.del(this.loginFailKey(email), this.loginLockKey(email));
   }
 
   private resetTokenKey(token: string) {

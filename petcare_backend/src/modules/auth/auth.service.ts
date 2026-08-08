@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   ConflictException,
   ForbiddenException,
   Injectable,
@@ -12,12 +11,18 @@ import { UserRole } from '../../../generated/prisma/enums';
 import { Prisma } from '../../../generated/prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 import { FirebaseService } from '../firebase/firebase.service';
+import { SupabaseService } from '../media/supabase.service';
 import { OtpService } from './otp.service';
 import { RegisterDto } from './dto/register.dto';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { LoginDto } from './dto/login.dto';
+import {
+  BCRYPT_ROUNDS,
+  KHOA_DANG_NHAP_PHUT,
+  SAI_MAT_KHAU_TOI_DA,
+} from './auth.constants';
 
-const BCRYPT_ROUNDS = 10;
+export type { AuthScope } from './auth.constants';
 
 @Injectable()
 export class AuthService {
@@ -26,71 +31,19 @@ export class AuthService {
     private readonly otpService: OtpService,
     private readonly jwt: JwtService,
     private readonly firebase: FirebaseService,
+    private readonly supabase: SupabaseService,
   ) {}
 
   async register(dto: RegisterDto) {
     const email = dto.email.toLowerCase().trim();
-
-    const daTonTai = await this.prisma.user.findUnique({ where: { email } });
-    if (daTonTai?.isVerified) {
-      throw new ConflictException({
-        code: 'EMAIL_ALREADY_USED',
-        message: 'Email đã được sử dụng',
-      });
-    }
-
-    const trungPhone = await this.prisma.user.findUnique({
-      where: { phone: dto.phone },
-    });
-    if (trungPhone && trungPhone.email !== email) {
-      if (trungPhone.isVerified) {
-        throw new ConflictException({
-          code: 'PHONE_ALREADY_USED',
-          message: 'Số điện thoại đã được sử dụng',
-        });
-      }
-      await this.prisma.user.update({
-        where: { id: trungPhone.id },
-        data: { phone: null },
-      });
-    }
-
+    await this.kiemTrung(email, dto.phone);
     const passwordHash = await bcrypt.hash(dto.password, BCRYPT_ROUNDS);
-    const data = {
+    await this.otpService.luuDangKyCho(email, {
       fullName: dto.fullName.trim(),
       email,
       phone: dto.phone,
       passwordHash,
-    };
-
-    try {
-      if (daTonTai) {
-        await this.prisma.user.update({ where: { email }, data });
-      } else {
-        await this.prisma.user.create({ data });
-      }
-    } catch (e) {
-      if (
-        e instanceof Prisma.PrismaClientKnownRequestError &&
-        e.code === 'P2002'
-      ) {
-        const trungEmail = await this.prisma.user.findUnique({
-          where: { email },
-        });
-        if (trungEmail) {
-          throw new ConflictException({
-            code: 'EMAIL_ALREADY_USED',
-            message: 'Email đã được sử dụng',
-          });
-        }
-        throw new ConflictException({
-          code: 'PHONE_ALREADY_USED',
-          message: 'Số điện thoại đã được sử dụng',
-        });
-      }
-      throw e;
-    }
-
+    });
     await this.otpService.generateAndSend(email, 'verify');
     return {
       message: 'Đăng ký thành công, mã xác minh đã được gửi tới email của bạn',
@@ -99,47 +52,80 @@ export class AuthService {
 
   async verifyEmail(dto: VerifyEmailDto) {
     const email = dto.email.toLowerCase().trim();
-
-    const user = await this.prisma.user.findUnique({ where: { email } });
-    if (!user) {
+    const goi = await this.otpService.docDangKyCho(email);
+    if (!goi) {
+      const daCo = await this.prisma.user.findUnique({ where: { email } });
+      if (daCo) return { message: 'Email đã được xác minh trước đó' };
       throw new NotFoundException({
-        code: 'USER_NOT_FOUND',
-        message: 'Tài khoản không tồn tại',
+        code: 'DANG_KY_HET_HAN',
+        message: 'Thông tin đăng ký đã hết hạn, vui lòng đăng ký lại',
       });
     }
-    if (user.isVerified) return { message: 'Email đã được xác minh trước đó' };
 
     await this.otpService.verify(email, 'verify', dto.otp);
-    await this.prisma.user.update({
-      where: { email },
-      data: { isVerified: true },
-    });
+    await this.kiemTrung(email, goi.phone);
+    try {
+      await this.prisma.user.create({
+        data: {
+          fullName: goi.fullName,
+          email: goi.email,
+          phone: goi.phone,
+          passwordHash: goi.passwordHash,
+          isVerified: true,
+        },
+      });
+    } catch (e) {
+      if (
+        e instanceof Prisma.PrismaClientKnownRequestError &&
+        e.code === 'P2002'
+      ) {
+        throw new ConflictException({
+          code: 'EMAIL_ALREADY_USED',
+          message: 'Email hoặc số điện thoại vừa được người khác đăng ký',
+        });
+      }
+      throw e;
+    }
+    await this.otpService.xoaDangKyCho(email);
     return { message: 'Xác minh email thành công' };
   }
 
   async resendVerifyOtp(email: string) {
     email = email.toLowerCase().trim();
-
-    const user = await this.prisma.user.findUnique({ where: { email } });
-    if (!user) {
+    const goi = await this.otpService.docDangKyCho(email);
+    if (!goi) {
       throw new NotFoundException({
-        code: 'USER_NOT_FOUND',
-        message: 'Tài khoản không tồn tại',
+        code: 'DANG_KY_HET_HAN',
+        message: 'Thông tin đăng ký đã hết hạn, vui lòng đăng ký lại',
       });
     }
-    if (user.isVerified) {
-      throw new BadRequestException({
-        code: 'EMAIL_ALREADY_VERIFIED',
-        message: 'Email đã được xác minh, vui lòng đăng nhập',
-      });
-    }
-
     await this.otpService.generateAndSend(email, 'verify');
     return { message: 'Đã gửi lại mã xác minh tới email của bạn' };
   }
 
+  // Email và số điện thoại phải chưa thuộc về tài khoản nào
+  private async kiemTrung(email: string, phone: string) {
+    const [trungEmail, trungPhone] = await Promise.all([
+      this.prisma.user.findUnique({ where: { email }, select: { id: true } }),
+      this.prisma.user.findUnique({ where: { phone }, select: { id: true } }),
+    ]);
+    if (trungEmail) {
+      throw new ConflictException({
+        code: 'EMAIL_ALREADY_USED',
+        message: 'Email đã được sử dụng',
+      });
+    }
+    if (trungPhone) {
+      throw new ConflictException({
+        code: 'PHONE_ALREADY_USED',
+        message: 'Số điện thoại đã được sử dụng',
+      });
+    }
+  }
+
   async login(dto: LoginDto) {
     const email = dto.email.toLowerCase().trim();
+    await this.otpService.chanNeuDangBiKhoa(email);
 
     const user = await this.prisma.user.findUnique({ where: { email } });
     if (!user || !user.passwordHash) {
@@ -151,9 +137,13 @@ export class AuthService {
 
     const dungMatKhau = await bcrypt.compare(dto.password, user.passwordHash);
     if (!dungMatKhau) {
+      const conLai = await this.otpService.ghiNhanSaiMatKhau(email);
       throw new UnauthorizedException({
         code: 'INVALID_CREDENTIALS',
-        message: 'Email hoặc mật khẩu không đúng',
+        message:
+          conLai > 0
+            ? `Email hoặc mật khẩu không đúng, còn ${conLai} lần thử`
+            : `Bạn đã nhập sai quá ${SAI_MAT_KHAU_TOI_DA} lần, tài khoản tạm khoá ${KHOA_DANG_NHAP_PHUT} phút`,
       });
     }
 
@@ -164,6 +154,7 @@ export class AuthService {
       });
     }
 
+    await this.otpService.xoaDemSaiMatKhau(email);
     return this.signToken(user.id, user.email, user.role);
   }
 
@@ -205,66 +196,6 @@ export class AuthService {
     }
 
     return this.signToken(user.id, user.email, user.role);
-  }
-
-  // Gửi OTP đặt lại mật khẩu
-  async forgotPassword(email: string) {
-    email = email.toLowerCase().trim();
-
-    const user = await this.prisma.user.findUnique({ where: { email } });
-    if (!user) {
-      throw new NotFoundException({
-        code: 'USER_NOT_FOUND',
-        message: 'Email chưa được đăng ký',
-      });
-    }
-
-    await this.otpService.generateAndSend(email, 'reset');
-    return { message: 'Mã xác minh đã được gửi tới email của bạn' };
-  }
-
-  async verifyResetOtp(email: string, otp: string) {
-    email = email.toLowerCase().trim();
-
-    const user = await this.prisma.user.findUnique({ where: { email } });
-    if (!user) {
-      throw new NotFoundException({
-        code: 'USER_NOT_FOUND',
-        message: 'Tài khoản không tồn tại',
-      });
-    }
-
-    await this.otpService.verify(email, 'reset', otp);
-    const resetToken = await this.otpService.createResetToken(email);
-    return { resetToken };
-  }
-
-  async resetPassword(resetToken: string, newPassword: string) {
-    const email = await this.otpService.consumeResetToken(resetToken);
-    const passwordHash = await bcrypt.hash(newPassword, BCRYPT_ROUNDS);
-    await this.prisma.user.update({
-      where: { email },
-      data: { passwordHash },
-    });
-    return { message: 'Đặt lại mật khẩu thành công' };
-  }
-
-  async getMe(userId: string) {
-    const user = await this.prisma.user.findUnique({
-      where: { id: userId },
-      select: {
-        id: true,
-        fullName: true,
-        email: true,
-        phone: true,
-        role: true,
-        avatarUrl: true,
-        isVerified: true,
-        createdAt: true,
-      },
-    });
-    if (!user) throw new NotFoundException('Tài khoản không tồn tại');
-    return user;
   }
 
   private signToken(userId: string, email: string, role: UserRole) {
