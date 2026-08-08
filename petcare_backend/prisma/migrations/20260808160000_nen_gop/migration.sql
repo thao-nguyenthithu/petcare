@@ -663,6 +663,9 @@ CREATE TABLE "Notification" (
     "role" "NotificationRole" NOT NULL,
     "title" TEXT NOT NULL,
     "body" TEXT NOT NULL,
+    "titleKey" TEXT,
+    "bodyKey" TEXT,
+    "params" JSONB,
     "urgent" BOOLEAN NOT NULL DEFAULT false,
     "targetId" TEXT,
     "isRead" BOOLEAN NOT NULL DEFAULT false,
@@ -678,6 +681,7 @@ CREATE TABLE "DeviceToken" (
     "userId" TEXT NOT NULL,
     "token" TEXT NOT NULL,
     "platform" TEXT NOT NULL,
+    "locale" TEXT NOT NULL DEFAULT 'vi',
     "createdAt" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMPTZ(3) NOT NULL,
 

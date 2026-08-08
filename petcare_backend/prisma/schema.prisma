@@ -9,32 +9,32 @@ datasource db {
 }
 
 model User {
-  id               String                 @id @default(uuid())
-  fullName         String
-  email            String                 @unique
-  phone            String?                @unique
-  passwordHash     String?
-  dateOfBirth      DateTime?              @db.Date
-  firebaseUid      String?                @unique
-  passwordChangedAt DateTime?             @db.Timestamptz(3)
-  role             UserRole               @default(OWNER)
-  avatarUrl        String?
-  isVerified       Boolean                @default(false)
-  isActive         Boolean                @default(true)
-  createdAt        DateTime               @default(now()) @db.Timestamptz(3)
-  updatedAt        DateTime               @updatedAt @db.Timestamptz(3)
-  bookingsAsOwner  Booking[]              @relation("OwnerBookings")
-  pets             Pet[]
-  reviews          Review[]
-  sitter           Sitter?
-  violationReports ViolationReport[]
-  messages         Message[]
-  addresses        Address[]
-  searchHistory    SearchHistory[]
-  notifications    Notification[]
-  deviceTokens     DeviceToken[]
-  auditLogs        AdminAuditLog[]
-  campaigns        NotificationCampaign[]
+  id                String                 @id @default(uuid())
+  fullName          String
+  email             String                 @unique
+  phone             String?                @unique
+  passwordHash      String?
+  dateOfBirth       DateTime?              @db.Date
+  firebaseUid       String?                @unique
+  passwordChangedAt DateTime?              @db.Timestamptz(3)
+  role              UserRole               @default(OWNER)
+  avatarUrl         String?
+  isVerified        Boolean                @default(false)
+  isActive          Boolean                @default(true)
+  createdAt         DateTime               @default(now()) @db.Timestamptz(3)
+  updatedAt         DateTime               @updatedAt @db.Timestamptz(3)
+  bookingsAsOwner   Booking[]              @relation("OwnerBookings")
+  pets              Pet[]
+  reviews           Review[]
+  sitter            Sitter?
+  violationReports  ViolationReport[]
+  messages          Message[]
+  addresses         Address[]
+  searchHistory     SearchHistory[]
+  notifications     Notification[]
+  deviceTokens      DeviceToken[]
+  auditLogs         AdminAuditLog[]
+  campaigns         NotificationCampaign[]
 
   @@index([role, createdAt])
   @@index([createdAt])
@@ -305,17 +305,17 @@ model PreventionRecord {
 }
 
 model PreventionDose {
-  id         String                @id @default(uuid())
-  recordId   String
-  doneAt     DateTime              @db.Date
-  cycleValue Int?
-  cycleUnit  CycleUnit?
-  place      String?
-  nextDueAt  DateTime?             @db.Date
-  remindedDays Int[]               @default([])
-  createdAt  DateTime              @default(now()) @db.Timestamptz(3)
-  photos     PreventionDosePhoto[]
-  record     PreventionRecord      @relation(fields: [recordId], references: [id], onDelete: Cascade)
+  id           String                @id @default(uuid())
+  recordId     String
+  doneAt       DateTime              @db.Date
+  cycleValue   Int?
+  cycleUnit    CycleUnit?
+  place        String?
+  nextDueAt    DateTime?             @db.Date
+  remindedDays Int[]                 @default([])
+  createdAt    DateTime              @default(now()) @db.Timestamptz(3)
+  photos       PreventionDosePhoto[]
+  record       PreventionRecord      @relation(fields: [recordId], references: [id], onDelete: Cascade)
 
   @@index([recordId])
   @@index([nextDueAt])
@@ -344,73 +344,73 @@ model Service {
 }
 
 model Booking {
-  id                 String            @id @default(uuid())
-  code               String            @unique
-  ownerId            String
-  sitterId           String
-  serviceId          String
-  status             BookingStatus     @default(PENDING)
-  scheduledAt        DateTime          @db.Timestamptz(3)
-  scheduledEndAt     DateTime?         @db.Timestamptz(3)
-  acceptedAt         DateTime?         @db.Timestamptz(3)
-  paidAt             DateTime?         @db.Timestamptz(3)
-  departedAt         DateTime?         @db.Timestamptz(3)
-  ownerDepartedAt    DateTime?         @db.Timestamptz(3)
-  ownerReturnDepartedAt DateTime?      @db.Timestamptz(3)
-  arriveRemindedAt   DateTime?         @db.Timestamptz(3)
-  arrivedAt          DateTime?         @db.Timestamptz(3)
-  startedAt          DateTime?         @db.Timestamptz(3)
-  endedAt            DateTime?         @db.Timestamptz(3)
-  completedAt        DateTime?         @db.Timestamptz(3)
-  totalPrice         Int?
-  specialNotes       String?
-  cancellationFee    Int?
-  cancelledAt        DateTime?         @db.Timestamptz(3)
-  cancellationReason String?
-  cancellationNote   String?
-  sitterPayout       Int?
-  lateMinutes        Int?
-  etaAt              DateTime?         @db.Timestamptz(3)
-  lateReportedAt     DateTime?         @db.Timestamptz(3)
-  gearReportedAt     DateTime?         @db.Timestamptz(3)
-  ownerArrivedAt     DateTime?         @db.Timestamptz(3)
-  arriveDistanceM    Int?
-  noShowProofUrls    String[]          @default([])
-  sitterNote         String?
-  handoverNote       String?
-  distanceKm         Float?
-  pickupDistanceKm   Float?
-  durationMinutes    Int?
-  platformFee        Int?
-  platformFeePercent Int?
-  cancelFeePercent   Int?
-  escrowReleaseAt    DateTime?         @db.Timestamptz(3)
-  priceBreakdown     Json?
-  gearCommittedAt    DateTime?         @db.Timestamptz(3)
-  addressId          String?
-  addressText        String?
-  addressLat         Float?
-  addressLng         Float?
-  createdAt          DateTime          @default(now()) @db.Timestamptz(3)
-  updatedAt          DateTime          @updatedAt @db.Timestamptz(3)
-  owner              User              @relation("OwnerBookings", fields: [ownerId], references: [id])
-  pets               BookingPet[]
-  sitter             Sitter            @relation("SitterBookings", fields: [sitterId], references: [id])
-  service            Service           @relation(fields: [serviceId], references: [id])
-  address            Address?          @relation(fields: [addressId], references: [id], onDelete: SetNull)
-  gpsReport          BookingGpsReport?
-  locationTracks     LocationTrack[]
-  review             Review?
-  sessionPhotos      SessionPhoto[]
-  reports            ViolationReport[]
-  messages           Message[]
-  conversation       Conversation?
-  penalties          SitterPenalty[]
-  boardingUpdates    BoardingUpdate[]
-  payments           Payment[]
-  safetyScans        PetSafetyScan[]
-  scanBatches        CheckinScanBatch[]
-  slotXacNhan        CheckinSlotXacNhan[]
+  id                    String               @id @default(uuid())
+  code                  String               @unique
+  ownerId               String
+  sitterId              String
+  serviceId             String
+  status                BookingStatus        @default(PENDING)
+  scheduledAt           DateTime             @db.Timestamptz(3)
+  scheduledEndAt        DateTime?            @db.Timestamptz(3)
+  acceptedAt            DateTime?            @db.Timestamptz(3)
+  paidAt                DateTime?            @db.Timestamptz(3)
+  departedAt            DateTime?            @db.Timestamptz(3)
+  ownerDepartedAt       DateTime?            @db.Timestamptz(3)
+  ownerReturnDepartedAt DateTime?            @db.Timestamptz(3)
+  arriveRemindedAt      DateTime?            @db.Timestamptz(3)
+  arrivedAt             DateTime?            @db.Timestamptz(3)
+  startedAt             DateTime?            @db.Timestamptz(3)
+  endedAt               DateTime?            @db.Timestamptz(3)
+  completedAt           DateTime?            @db.Timestamptz(3)
+  totalPrice            Int?
+  specialNotes          String?
+  cancellationFee       Int?
+  cancelledAt           DateTime?            @db.Timestamptz(3)
+  cancellationReason    String?
+  cancellationNote      String?
+  sitterPayout          Int?
+  lateMinutes           Int?
+  etaAt                 DateTime?            @db.Timestamptz(3)
+  lateReportedAt        DateTime?            @db.Timestamptz(3)
+  gearReportedAt        DateTime?            @db.Timestamptz(3)
+  ownerArrivedAt        DateTime?            @db.Timestamptz(3)
+  arriveDistanceM       Int?
+  noShowProofUrls       String[]             @default([])
+  sitterNote            String?
+  handoverNote          String?
+  distanceKm            Float?
+  pickupDistanceKm      Float?
+  durationMinutes       Int?
+  platformFee           Int?
+  platformFeePercent    Int?
+  cancelFeePercent      Int?
+  escrowReleaseAt       DateTime?            @db.Timestamptz(3)
+  priceBreakdown        Json?
+  gearCommittedAt       DateTime?            @db.Timestamptz(3)
+  addressId             String?
+  addressText           String?
+  addressLat            Float?
+  addressLng            Float?
+  createdAt             DateTime             @default(now()) @db.Timestamptz(3)
+  updatedAt             DateTime             @updatedAt @db.Timestamptz(3)
+  owner                 User                 @relation("OwnerBookings", fields: [ownerId], references: [id])
+  pets                  BookingPet[]
+  sitter                Sitter               @relation("SitterBookings", fields: [sitterId], references: [id])
+  service               Service              @relation(fields: [serviceId], references: [id])
+  address               Address?             @relation(fields: [addressId], references: [id], onDelete: SetNull)
+  gpsReport             BookingGpsReport?
+  locationTracks        LocationTrack[]
+  review                Review?
+  sessionPhotos         SessionPhoto[]
+  reports               ViolationReport[]
+  messages              Message[]
+  conversation          Conversation?
+  penalties             SitterPenalty[]
+  boardingUpdates       BoardingUpdate[]
+  payments              Payment[]
+  safetyScans           PetSafetyScan[]
+  scanBatches           CheckinScanBatch[]
+  slotXacNhan           CheckinSlotXacNhan[]
 
   @@index([sitterId, scheduledAt])
   @@index([ownerId, scheduledAt])
@@ -441,41 +441,41 @@ model SystemSetting {
 }
 
 model Payment {
-  id             String        @id @default(uuid())
-  bookingId      String
-  txnRef         String        @unique
-  amount         Int
-  status         PaymentStatus @default(PENDING)
-  gateway        String
-  gatewayTxnNo   String?
-  gatewayPayDate String?
-  bankCode       String?
-  cardType       String?
-  responseCode   String?
-  paidAt         DateTime?     @db.Timestamptz(3)
-  releasedAt     DateTime?     @db.Timestamptz(3)
-  expiresAt      DateTime      @db.Timestamptz(3)
-  rawReturn      Json?
+  id              String        @id @default(uuid())
+  bookingId       String
+  txnRef          String        @unique
+  amount          Int
+  status          PaymentStatus @default(PENDING)
+  gateway         String
+  gatewayTxnNo    String?
+  gatewayPayDate  String?
+  bankCode        String?
+  cardType        String?
+  responseCode    String?
+  paidAt          DateTime?     @db.Timestamptz(3)
+  releasedAt      DateTime?     @db.Timestamptz(3)
+  expiresAt       DateTime      @db.Timestamptz(3)
+  rawReturn       Json?
   refundReference String?
   refundNote      String?
-  refundedAt      DateTime?    @db.Timestamptz(3)
-  createdAt      DateTime      @default(now()) @db.Timestamptz(3)
-  updatedAt      DateTime      @updatedAt @db.Timestamptz(3)
-  booking        Booking       @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  refundedAt      DateTime?     @db.Timestamptz(3)
+  createdAt       DateTime      @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime      @updatedAt @db.Timestamptz(3)
+  booking         Booking       @relation(fields: [bookingId], references: [id], onDelete: Cascade)
 
   @@index([bookingId, createdAt])
   @@index([status])
 }
 
 model CheckinScanBatch {
-  id        String          @id @default(uuid())
-  bookingId String
-  trangThai String          @default("PROCESSING")
+  id          String          @id @default(uuid())
+  bookingId   String
+  trangThai   String          @default("PROCESSING")
   anhCaDanUrl String?
-  taoLuc    DateTime        @default(now()) @db.Timestamptz(3)
-  xongLuc   DateTime?       @db.Timestamptz(3)
-  booking   Booking         @relation(fields: [bookingId], references: [id], onDelete: Cascade)
-  scans     PetSafetyScan[]
+  taoLuc      DateTime        @default(now()) @db.Timestamptz(3)
+  xongLuc     DateTime?       @db.Timestamptz(3)
+  booking     Booking         @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  scans       PetSafetyScan[]
 
   @@index([bookingId])
 }
@@ -539,17 +539,17 @@ model SessionPhoto {
 }
 
 model LocationTrack {
-  id         String   @id @default(uuid())
-  bookingId  String
-  latitude   Float
-  longitude  Float
-  clientTs   DateTime @db.Timestamptz(3)
-  serverTs   DateTime @db.Timestamptz(3)
-  driftMs    Int?
-  batchSeq   Int?
-  isNoise    Boolean  @default(false)
-  isMocked   Boolean  @default(false)
-  booking    Booking  @relation(fields: [bookingId], references: [id])
+  id        String   @id @default(uuid())
+  bookingId String
+  latitude  Float
+  longitude Float
+  clientTs  DateTime @db.Timestamptz(3)
+  serverTs  DateTime @db.Timestamptz(3)
+  driftMs   Int?
+  batchSeq  Int?
+  isNoise   Boolean  @default(false)
+  isMocked  Boolean  @default(false)
+  booking   Booking  @relation(fields: [bookingId], references: [id])
 
   @@index([bookingId, clientTs])
   @@index([bookingId, serverTs])
@@ -557,20 +557,20 @@ model LocationTrack {
 }
 
 model BookingGpsReport {
-  id               String   @id @default(uuid())
-  bookingId        String   @unique
+  id               String    @id @default(uuid())
+  bookingId        String    @unique
   totalWaypoints   Int
   totalDistanceM   Float
   durationMinutes  Int
   avgSpeedKmh      Float
   suspicionScore   Float?
-  flaggedForReview Boolean  @default(false)
+  flaggedForReview Boolean   @default(false)
   suspicionNote    String?
-  mockedCount      Int      @default(0)
-  speedFlag        Boolean  @default(false)
+  mockedCount      Int       @default(0)
+  speedFlag        Boolean   @default(false)
   reviewedAt       DateTime? @db.Timestamptz(3)
-  createdAt        DateTime @default(now()) @db.Timestamptz(3)
-  booking          Booking  @relation(fields: [bookingId], references: [id])
+  createdAt        DateTime  @default(now()) @db.Timestamptz(3)
+  booking          Booking   @relation(fields: [bookingId], references: [id])
 
   @@index([flaggedForReview])
   @@index([suspicionScore])
@@ -817,6 +817,9 @@ model Notification {
   role       NotificationRole
   title      String
   body       String
+  titleKey   String?
+  bodyKey    String?
+  params     Json?
   urgent     Boolean               @default(false)
   targetId   String?
   isRead     Boolean               @default(false)
@@ -855,6 +858,7 @@ model DeviceToken {
   userId    String
   token     String   @unique
   platform  String
+  locale    String   @default("vi")
   createdAt DateTime @default(now()) @db.Timestamptz(3)
   updatedAt DateTime @updatedAt @db.Timestamptz(3)
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
