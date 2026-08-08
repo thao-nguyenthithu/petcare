@@ -6,6 +6,8 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 export class SupabaseService {
   private client: SupabaseClient;
 
+  private readonly khoDaSan = new Set<string>();
+
   constructor(private config: ConfigService) {
     const supabaseUrl = this.config.get<string>('SUPABASE_URL');
     const supabaseKey = this.config.get<string>('SUPABASE_SERVICE_KEY');
@@ -41,12 +43,31 @@ export class SupabaseService {
   }
 
   async ensurePublicBucket(bucket: string): Promise<void> {
+    if (this.khoDaSan.has(bucket)) return;
     const { error } = await this.client.storage.createBucket(bucket, {
       public: true,
     });
     if (error && !/exist|duplicate/i.test(error.message)) {
       throw new Error(error.message);
     }
+    this.khoDaSan.add(bucket);
+  }
+
+  async ensurePrivateBucket(bucket: string): Promise<void> {
+    if (this.khoDaSan.has(bucket)) return;
+    const { error } = await this.client.storage.createBucket(bucket, {
+      public: false,
+    });
+    if (error) {
+      if (!/exist|duplicate/i.test(error.message)) {
+        throw new Error(error.message);
+      }
+      const { error: loi } = await this.client.storage.updateBucket(bucket, {
+        public: false,
+      });
+      if (loi) throw new Error(loi.message);
+    }
+    this.khoDaSan.add(bucket);
   }
 
   async deleteFile(bucket: string, path: string): Promise<void> {
