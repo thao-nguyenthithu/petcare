@@ -157,7 +157,7 @@
   "nenTangTrungGian": "Smart Pet Care is a connecting platform, not the service provider.",
   "dongYDieuKhoan": "I agree to the Commitments, Terms of Service and Privacy Policy.",
   "batBuoc": "* Required",
-  "hoanTatGuiHoSo": "Finish & submit profile",
+  "hoanTatGuiHoSo": "Submit profile",
   "hoSoDuyet24h": "Profiles are reviewed within 24 hours. You will get a notification to update your profile once approved.",
   "vuiLongDongY": "Please agree to the terms to continue",
   "daGuiHoSo": "Profile submitted!",
@@ -171,7 +171,6 @@
   "loiTaiKhoanKhongTonTai": "Account does not exist",
   "loiEmailDaXacMinh": "Email already verified, please sign in",
   "trangChu": "Home",
-  "manTamHome": "Temporary screen — Home Owner is coming in a later task",
   "dangXuat": "Sign out",
   "loiThongTinDangNhap": "Incorrect email or password",
   "loiEmailChuaXacMinh": "Email not verified yet",
@@ -199,6 +198,58 @@
   "@loiNhapSaiQuaSoLan": {
     "placeholders": {
       "soLan": {"type": "int"}
+    }
+  },
+  "timDichVuNguoiCham": "Search services, caregivers...",
+  "nguoiChamDaXacMinh": "Connect with caregivers",
+  "timNgay": "Find now",
+  "dichVuPhoBien": "Popular services",
+  "datDiDao": "Dog walking",
+  "tamVaTia": "Bath & Grooming",
+  "trongQuaDem": "Overnight Boarding",
+  "khamThuY": "Vet Visit",
+  "tuGia": "from {gia}",
+  "@tuGia": {
+    "placeholders": {
+      "gia": {"type": "String"}
+    }
+  },
+  "nguoiCungCapGanBan": "Providers near you",
+  "datLaiLanNua": "Book again",
+  "thuCungCuaBan": "Your pets",
+  "them": "Add",
+  "duocDanhGiaCao": "Top rated",
+  "troThanhNguoiCungCap": "Become a service provider",
+  "xacMinhDeNhanDon": "Get verified to receive bookings and earn extra income",
+  "dangKyLamNcc": "Apply now",
+  "xemThem": "See all",
+  "donCuaToi": "My bookings",
+  "tinNhan": "Messages",
+  "taiKhoan": "Account",
+  "chonDiaChi": "Choose address",
+  "themDiaChiDeTimNguoiCham": "Add an address to find services near you",
+  "themDiaChi": "Add address",
+  "dungViTriHienTai": "Use current location",
+  "themHoSoThuCung": "Add your pet's profile to book services faster and more accurately",
+  "meoChamSoc": "Pet care tips",
+  "noiBat": "Featured",
+  "baiVietMoi": "Latest articles",
+  "truocSoPhut": "{minutes} minutes ago",
+  "@truocSoPhut": {
+    "placeholders": {
+      "minutes": {"type": "String"}
+    }
+  },
+  "truocSoGio": "{hours} hours ago",
+  "@truocSoGio": {
+    "placeholders": {
+      "hours": {"type": "String"}
+    }
+  },
+  "truocSoNgay": "{days} days ago",
+  "@truocSoNgay": {
+    "placeholders": {
+      "days": {"type": "String"}
     }
   }
 }

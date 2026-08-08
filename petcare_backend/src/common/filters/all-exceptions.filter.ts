@@ -1,4 +1,4 @@
-﻿import {
+import {
   ExceptionFilter,
   Catch,
   ArgumentsHost,
@@ -36,9 +36,9 @@ export class AllExceptionsFilter implements ExceptionFilter {
         message = res;
       }
     } else {
-      message = 'Internal server error';
+      code = 'LOI_HE_THONG';
+      message = 'Hệ thống đang bận, vui lòng thử lại';
     }
-
 
     if (status === HttpStatus.INTERNAL_SERVER_ERROR) {
       this.logger.error(exception);
@@ -47,8 +47,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
     response.status(status).json({
       success: false,
       statusCode: status,
-      code, 
-      message, 
+      code,
+      message,
       meta, // tham số cho câu dịch
       path: request.url,
       timestamp: new Date().toISOString(),

@@ -1,11 +1,21 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/router/app_router.dart';
+import 'package:petcare_app/core/storage/locale_storage.dart';
+import 'package:petcare_app/core/storage/token_storage.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
+import 'package:petcare_app/core/theme/app_text_styles.dart';
+
+const List<Shadow> _bongChu = [
+  Shadow(
+    color: Color.fromRGBO(0, 0, 0, 0.25),
+    offset: Offset(0, 4),
+    blurRadius: 4,
+  ),
+];
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,22 +25,32 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  Timer? _timer;
+  static const _toiThieu = Duration(milliseconds: 250);
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _timer = Timer(const Duration(seconds: 5), () {
-        if (mounted) context.go(AppRoutes.language);
-      });
-    });
+    _moManDau();
   }
 
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
+  Future<void> _moManDau() async {
+    final dich = _manTiepTheo();
+    await Future.delayed(_toiThieu);
+    final duongDan = await dich;
+    if (!mounted) return;
+    context.go(duongDan);
+  }
+
+  // Chưa chọn ngôn ngữ lần nào là máy mới cài nên đi từ đầu
+  Future<String> _manTiepTheo() async {
+    try {
+      if (await TokenStorageService().hasToken()) return AppRoutes.home;
+      final ngonNgu = await const LocaleStorage().readLanguageCode();
+      return ngonNgu == null ? AppRoutes.language : AppRoutes.login;
+    } catch (e) {
+      debugPrint('Không đọc được phiên đã lưu: $e');
+      return AppRoutes.login;
+    }
   }
 
   @override
@@ -69,39 +89,22 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                const Text(
+                Text(
                   'Smart Pet Care',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'Inter',
+                  style: AppTextStyles.h1.copyWith(
                     fontSize: 30,
-                    fontWeight: FontWeight.w700,
                     color: AppColors.textWhite,
-                    shadows: [
-                      Shadow(
-                        color: Color.fromRGBO(0, 0, 0, 0.25),
-                        offset: Offset(0, 4),
-                        blurRadius: 4,
-                      ),
-                    ],
+                    shadows: _bongChu,
                   ),
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'Hệ thống chăm sóc thú cưng',
+                Text(
+                  context.l10n.khauHieuUngDung,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'Inter',
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
+                  style: AppTextStyles.body.copyWith(
                     color: AppColors.textWhite,
-                    shadows: [
-                      Shadow(
-                        color: Color.fromRGBO(0, 0, 0, 0.25),
-                        offset: Offset(0, 4),
-                        blurRadius: 4,
-                      ),
-                    ],
+                    shadows: _bongChu,
                   ),
                 ),
                 const Spacer(flex: 30),

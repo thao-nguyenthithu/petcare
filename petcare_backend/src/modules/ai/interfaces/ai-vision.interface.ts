@@ -1,7 +1,11 @@
-﻿export interface AiVerifyResult {
-  isSafe:      boolean;
-  confidence:  number;
-  reason:      string;
+export type TrangThaiXacMinh = 'DAT' | 'KHONG_DAT' | 'CHUA_XAC_MINH_DUOC';
+
+export interface AiVerifyResult {
+  trangThai: TrangThaiXacMinh;
+  isSafe: boolean;
+  confidence: number;
+  code: string;
+  reason: string;
   rawResponse: Record<string, unknown>;
 }
 

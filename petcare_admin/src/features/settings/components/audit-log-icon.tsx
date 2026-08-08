@@ -1,0 +1,55 @@
+import {
+  Ban,
+  BellRing,
+  CalendarX,
+  Check,
+  CreditCard,
+  Eye,
+  EyeOff,
+  FileWarning,
+  Flag,
+  FlagOff,
+  Gavel,
+  KeyRound,
+  RotateCcw,
+  Settings2,
+  ShieldCheck,
+  UserCog,
+  X,
+  type LucideIcon,
+} from 'lucide-react';
+
+const ICON_THEO_ACTION: Record<string, LucideIcon> = {
+  KHOA_TAI_KHOAN: Ban,
+  MO_KHOA_TAI_KHOAN: ShieldCheck,
+  AN_HO_SO_THU_CUNG: EyeOff,
+  HIEN_HO_SO_THU_CUNG: Eye,
+  DUYET_HO_SO_NCC: Check,
+  TU_CHOI_HO_SO_NCC: X,
+  YEU_CAU_BO_SUNG_HO_SO_NCC: FileWarning,
+  TAM_AN_HO_SO_NCC: EyeOff,
+  KHOA_HO_SO_NCC: Ban,
+  GO_KHOA_HO_SO_NCC: ShieldCheck,
+  MIEN_PHAT_NCC: ShieldCheck,
+  GIU_PHAT_NCC: Gavel,
+  CAN_THIEP_HUY_DON: Ban,
+  GO_CO_GPS: FlagOff,
+  GIU_CO_GPS: Flag,
+  KET_LUAN_KHIEU_NAI: Gavel,
+  CAP_NHAT_THAM_SO: Settings2,
+  CAP_NHAT_DANH_MUC_DICH_VU: Settings2,
+  KHOA_CAU_HINH_DICH_VU: Ban,
+  MO_CAU_HINH_DICH_VU: ShieldCheck,
+  CHUYEN_TIEN_RUT: CreditCard,
+  HOAN_TAT_LENH_RUT: Check,
+  TU_CHOI_LENH_RUT: Ban,
+  DANH_DAU_HOAN_TIEN: RotateCcw,
+  DOI_MAT_KHAU: KeyRound,
+  GUI_THONG_BAO_HE_THONG: BellRing,
+  HUY_LICH_THONG_BAO: CalendarX,
+};
+
+export function AuditLogIcon({ action, className }: { action: string; className?: string }) {
+  const Icon = ICON_THEO_ACTION[action] ?? UserCog;
+  return <Icon className={className} strokeWidth={1.8} />;
+}

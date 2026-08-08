@@ -23,6 +23,46 @@ class AppTheme {
         textStyle: AppTextStyles.button,
       ),
     ),
+    navigationBarTheme: NavigationBarThemeData(
+      backgroundColor: AppColors.surface,
+      height: 60,
+      indicatorColor: Colors.transparent,
+      iconTheme: WidgetStateProperty.resolveWith(
+        (states) => IconThemeData(
+          color: states.contains(WidgetState.selected)
+              ? AppColors.primaryColor
+              : AppColors.textSecondary,
+        ),
+      ),
+      labelTextStyle: WidgetStateProperty.resolveWith(
+        (states) => AppTextStyles.captionSm.copyWith(
+          color: states.contains(WidgetState.selected)
+              ? AppColors.primaryColor
+              : AppColors.textSecondary,
+        ),
+      ),
+    ),
+    chipTheme: ChipThemeData(
+      backgroundColor: AppColors.surface,
+      selectedColor: AppColors.primaryColor,
+      showCheckmark: false,
+      // Không viền — chip nổi bằng bóng, cùng độ nổi với card trong màn
+      side: BorderSide.none,
+      shape: const StadiumBorder(),
+      elevation: 2,
+      pressElevation: 4,
+      shadowColor: AppColors.shadow,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      labelPadding: const EdgeInsets.symmetric(horizontal: 2),
+      labelStyle: AppTextStyles.label.copyWith(
+        fontWeight: FontWeight.w400,
+        color: WidgetStateColor.resolveWith(
+          (states) => states.contains(WidgetState.selected)
+              ? AppColors.textWhite
+              : AppColors.textPrimary,
+        ),
+      ),
+    ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: AppColors.textPrimary,

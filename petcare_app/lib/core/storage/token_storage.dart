@@ -7,44 +7,32 @@ class TokenStorageService {
   );
 
   static const _accessTokenKey = 'access_token';
-  static const _refreshTokenKey = 'refresh_token';
-  static const _languageKey = 'app_language';
+  static String? _accessTokenRam;
+  static bool _daDocAccessToken = false;
 
-  // JWT Tokens
-  Future<void> saveTokens({
-    required String accessToken,
-    required String refreshToken,
-  }) async {
-    await Future.wait([
-      _storage.write(key: _accessTokenKey, value: accessToken),
-      _storage.write(key: _refreshTokenKey, value: refreshToken),
-    ]);
+  Future<void> saveAccessToken(String accessToken) {
+    _datAccessTokenRam(accessToken);
+    return _storage.write(key: _accessTokenKey, value: accessToken);
   }
 
-  Future<void> saveAccessToken(String accessToken) =>
-      _storage.write(key: _accessTokenKey, value: accessToken);
-
-  Future<String?> getAccessToken() => _storage.read(key: _accessTokenKey);
-  Future<String?> getRefreshToken() => _storage.read(key: _refreshTokenKey);
+  Future<String?> getAccessToken() async {
+    if (_daDocAccessToken) return _accessTokenRam;
+    _datAccessTokenRam(await _storage.read(key: _accessTokenKey));
+    return _accessTokenRam;
+  }
 
   Future<void> clearTokens() async {
-    await Future.wait([
-      _storage.delete(key: _accessTokenKey),
-      _storage.delete(key: _refreshTokenKey),
-    ]);
+    _datAccessTokenRam(null);
+    await _storage.delete(key: _accessTokenKey);
+  }
+
+  static void _datAccessTokenRam(String? token) {
+    _accessTokenRam = token;
+    _daDocAccessToken = true;
   }
 
   Future<bool> hasToken() async {
     final token = await getAccessToken();
     return token != null && token.isNotEmpty;
-  }
-
-  // Language Preference
-  Future<void> saveLanguage(String languageCode) =>
-      _storage.write(key: _languageKey, value: languageCode);
-
-  Future<String> getLanguage() async {
-    final lang = await _storage.read(key: _languageKey);
-    return lang ?? 'vi'; // mặc định tiếng Việt
   }
 }

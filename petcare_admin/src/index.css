@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* AppColors */
+    --color-primary: 45 138 110; 
+    --color-surface: 255 255 255; 
+    --color-background: 250 250 248; 
+    --color-card-mint: 233 244 239; 
+    --color-accent: 232 116 79; 
+    --color-honey: 240 169 62; 
+    --color-error: 232 116 79; 
+    --color-neutral: 224 224 224; 
+    --color-neutral-light: 230 233 232;
+    --color-text-white: 255 255 255; 
+    --color-text-primary: 26 26 26; 
+    --color-text-secondary: 107 114 128; 
+    --color-shadow: 145 248 217;
+
+    --color-canvas: var(--color-background);
+
+    /* AppRadius */
+    --radius-14: 14px;
+    --radius-20: 20px;
+
+    /* AppSpacing */
+    --space-text: 4px;
+    --space-label: 8px;
+    --space-item: 12px;
+    --space-title: 12px;
+    --space-screen: 16px;
+    --space-card: 16px;
+    --space-stack: 16px;
+    --space-block: 20px;
+    --space-screen-wide: 24px;
+    --space-group: 24px;
+    --space-section: 28px;
+    --space-edge: 32px;
+
+    --size-sidebar: 248px;
+    --size-topbar: 76px;
+    --size-content: 1192px;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply overflow-hidden bg-canvas font-sans text-body text-text-primary antialiased;
+  }
+
+  input[type='search']::-webkit-search-cancel-button,
+  input[type='search']::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hidden {
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+}

@@ -1,13 +1,7 @@
-﻿export default () => ({
-  port: parseInt(process.env.PORT ?? '3000', 10),
-
-  database: {
-    url: process.env.DATABASE_URL,
-  },
-
+export default () => ({
   jwt: {
     secret: process.env.JWT_SECRET,
-    expiresIn: process.env.JWT_EXPIRES_IN || '7d',
+    expiresIn: process.env.JWT_EXPIRES_IN || '30d',
   },
 
   supabase: {
@@ -23,27 +17,31 @@
 
   mail: {
     user: process.env.MAIL_USER,
-    appPassword: process.env.MAIL_APP_PASSWORD,
+    appPassword: process.env.MAIL_APP_PASSWORD?.replace(/\s/g, ''),
   },
 
   ai: {
-    activeProvider: process.env.ACTIVE_AI_PROVIDER || 'anthropic',
     anthropicApiKey: process.env.ANTHROPIC_API_KEY,
-    openaiApiKey: process.env.OPENAI_API_KEY,
-  },
-
-  google: {
-    clientId: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  },
-
-  facebook: {
-    appId: process.env.FACEBOOK_APP_ID,
-    appSecret: process.env.FACEBOOK_APP_SECRET,
+    geminiApiKey: process.env.GEMINI_API_KEY,
   },
 
   redis: {
+    url: process.env.REDIS_URL,
     host: process.env.REDIS_HOST || 'localhost',
     port: parseInt(process.env.REDIS_PORT ?? '6379', 10),
+  },
+
+  payment: {
+    gateway: process.env.PAYMENT_GATEWAY || 'mock',
+    vnpay: {
+      tmnCode: process.env.VNPAY_TMN_CODE ?? '',
+      hashSecret: process.env.VNPAY_HASH_SECRET ?? '',
+      payUrl:
+        process.env.VNPAY_PAY_URL ||
+        'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html',
+      returnUrl:
+        process.env.VNPAY_RETURN_URL ||
+        'http://localhost:3000/api/v1/payments/vnpay/return',
+    },
   },
 });

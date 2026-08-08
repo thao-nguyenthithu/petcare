@@ -4,13 +4,16 @@ import {
   IsNotEmpty,
   IsString,
   Matches,
+  MaxLength,
   MinLength,
 } from 'class-validator';
+import { MAT_KHAU_TOI_THIEU } from '../auth.constants';
 
 export class RegisterDto {
   @ApiProperty({ example: 'Nguyễn Văn An' })
   @IsString({ message: 'Họ và tên không hợp lệ' })
   @IsNotEmpty({ message: 'Vui lòng nhập họ và tên' })
+  @MaxLength(80, { message: 'Họ và tên quá dài' })
   fullName!: string;
 
   @ApiProperty({ example: 'user@example.com' })
@@ -21,8 +24,10 @@ export class RegisterDto {
   @Matches(/^(0|\+84)[35789]\d{8}$/, { message: 'Số điện thoại không hợp lệ' })
   phone!: string;
 
-  @ApiProperty({ example: 'password123', minLength: 6 })
+  @ApiProperty({ example: 'password123', minLength: MAT_KHAU_TOI_THIEU })
   @IsString({ message: 'Mật khẩu không hợp lệ' })
-  @MinLength(6, { message: 'Mật khẩu tối thiểu 6 ký tự' })
+  @MinLength(MAT_KHAU_TOI_THIEU, {
+    message: `Mật khẩu tối thiểu ${MAT_KHAU_TOI_THIEU} ký tự`,
+  })
   password!: string;
 }

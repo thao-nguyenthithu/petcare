@@ -5,6 +5,7 @@
       "name": "smart_pet_care_app (dev)",
       "request": "launch",
       "type": "dart",
+      "preLaunchTask": "adb reverse 3000",
       "toolArgs": ["--dart-define-from-file=secrets.env"]
     }
   ]

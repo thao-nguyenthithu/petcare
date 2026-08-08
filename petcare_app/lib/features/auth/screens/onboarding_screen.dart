@@ -7,6 +7,7 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
+import 'package:petcare_app/shared/widgets/page_dots.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -121,24 +122,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
             // Dots báo trang hiện tại
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(pages.length, (index) {
-                final active = index == _currentPage;
-                return AnimatedContainer(
-                  duration: const Duration(milliseconds: 250),
-                  margin: const EdgeInsets.symmetric(horizontal: 5),
-                  width: active ? 22 : 8,
-                  height: 8,
-                  decoration: BoxDecoration(
-                    color: active
-                        ? AppColors.primaryColor
-                        : AppColors.neutral,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                );
-              }),
-            ),
+            PageDots(count: pages.length, current: _currentPage),
             const Flexible(child: SizedBox(height: 88)),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),

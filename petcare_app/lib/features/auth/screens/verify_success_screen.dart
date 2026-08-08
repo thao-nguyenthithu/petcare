@@ -4,10 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
-import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/success_badge.dart';
+import 'package:petcare_app/shared/widgets/app_card.dart';
 
 class VerifySuccessScreen extends StatelessWidget {
   const VerifySuccessScreen({super.key});
@@ -37,12 +37,10 @@ class VerifySuccessScreen extends StatelessWidget {
                 style: AppTextStyles.caption,
               ),
               const SizedBox(height: 24),
-              Container(
+              AppCard(
+                nen: AppColors.cardMint,
+                vien: false,
                 padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: AppColors.cardMint,
-                  borderRadius: BorderRadius.circular(AppRadius.radius14),
-                ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

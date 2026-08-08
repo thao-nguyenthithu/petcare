@@ -1,7 +1,29 @@
+import 'dart:async';
+import 'package:petcare_app/core/storage/token_storage.dart';
+import 'package:petcare_app/core/services/push_service.dart';
+import 'package:petcare_app/features/auth/services/auth_api_service.dart';
+import 'package:petcare_app/features/auth/services/social_auth_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../core/storage/token_storage.dart';
-import '../services/auth_api_service.dart';
-import '../services/social_auth_service.dart';
+import 'package:petcare_app/features/address/providers/saved_addresses_provider.dart';
+import 'package:petcare_app/features/booking/providers/owner_booking_detail_provider.dart';
+import 'package:petcare_app/features/sitter_order/providers/sitter_orders_provider.dart';
+import 'package:petcare_app/features/booking/providers/owner_bookings_provider.dart';
+import 'package:petcare_app/features/pets/providers/my_pets_provider.dart';
+import 'package:petcare_app/features/auth/providers/current_user_provider.dart';
+import 'package:petcare_app/features/sitter/providers/sitter_profile_provider.dart';
+import 'package:petcare_app/features/sitter/providers/sitter_schedule_provider.dart';
+import 'package:petcare_app/features/sitter/providers/sitter_services_provider.dart';
+import 'package:petcare_app/features/dksitter/providers/dksitter_provider.dart';
+import 'package:petcare_app/features/messaging/providers/conversations_provider.dart';
+import 'package:petcare_app/features/notification/providers/notifications_provider.dart';
+import 'package:petcare_app/features/home/providers/owner_home_provider.dart';
+import 'package:petcare_app/features/sitter/providers/sitter_home_provider.dart';
+import 'package:petcare_app/features/wallet/providers/wallet_provider.dart';
+import 'package:petcare_app/features/owner_wallet/providers/owner_payments_provider.dart';
+import 'package:petcare_app/features/reviews/providers/reviews_provider.dart';
+import 'package:petcare_app/features/search/providers/search_history_provider.dart';
+import 'package:petcare_app/features/sitter_order/services/walk_tracking_controller.dart';
 
 part 'auth_provider.g.dart';
 
@@ -13,7 +35,11 @@ class AuthNotifier extends _$AuthNotifier {
   final _tokenStorage = TokenStorageService();
 
   @override
-  Future<bool> build() => _tokenStorage.hasToken();
+  Future<bool> build() async {
+    final coPhien = await _tokenStorage.hasToken();
+    if (coPhien) unawaited(PushService.instance.dangKy());
+    return coPhien;
+  }
 
   // Đăng ký tài khoản mới
   Future<void> register({
@@ -63,7 +89,10 @@ class AuthNotifier extends _$AuthNotifier {
 
   // Đăng xuất
   Future<void> logout() async {
+    await WalkTrackingController.dungPhien();
+    await PushService.instance.huyDangKy();
     await _tokenStorage.clearTokens();
+    _resetPhienNguoiDung();
     state = const AsyncData(false);
   }
 
@@ -72,7 +101,49 @@ class AuthNotifier extends _$AuthNotifier {
     final token = res['accessToken'] as String?;
     if (token != null) {
       await _tokenStorage.saveAccessToken(token);
+      _resetPhienNguoiDung();
       state = const AsyncData(true);
+      unawaited(PushService.instance.dangKy());
     }
   }
+
+  void _resetPhienNguoiDung() => ref.refreshUserData();
+}
+
+final _providerNguoiDung = <ProviderOrFamily>[
+  currentUserProvider,
+  savedAddressesProvider,
+  myPetsProvider,
+  ownerBookingsProvider,
+  bookingDetailProvider,
+  sitterBookingsProvider,
+  tomTatDonNccProvider,
+  chiTietDonNccProvider,
+  sitterStatusProvider,
+  thongBaoCuaToiProvider,
+  sitterMeProvider,
+  sitterServicesProvider,
+  sitterServiceAreaProvider,
+  sitterScheduleProvider,
+  hoiThoaiChuNuoiProvider,
+  hoiThoaiNguoiChamProvider,
+  trangChuCuaToiProvider,
+  trangChuNguoiChamProvider,
+  viCuaToiProvider,
+  taiKhoanNhanTienProvider,
+  tienDangTamGiuProvider,
+  danhGiaVeToiProvider,
+  danhGiaCuaToiProvider,
+  donChoDanhGiaCuaToiProvider,
+  lichSuTimProvider,
+  dkSitterProvider,
+];
+
+// Làm mới dữ liệu gắn với người dùng đang đăng nhập
+extension UserDataRefreshRef on Ref {
+  void refreshUserData() => _providerNguoiDung.forEach(invalidate);
+}
+
+extension UserDataRefreshWidgetRef on WidgetRef {
+  void refreshUserData() => _providerNguoiDung.forEach(invalidate);
 }

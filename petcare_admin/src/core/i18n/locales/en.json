@@ -1,0 +1,1182 @@
+{
+  "chung": {
+    "tenSanPham": "Pet Care",
+    "bangQuanTri": "Admin console",
+    "quanTriVien": "Administrator",
+    "timKiem": "Search",
+    "timNhanh": "Quick search",
+    "xoaTuKhoa": "Clear keyword",
+    "huy": "Cancel",
+    "xacNhan": "Confirm",
+    "dong": "Close",
+    "thuLai": "Try again",
+    "xoaBoLoc": "Clear filters",
+    "dangXuat": "Sign out",
+    "doiNgonNgu": "Change language",
+    "vieccanLam": "Pending tasks",
+    "trangTruoc": "Previous page",
+    "trangSau": "Next page",
+    "khongTaiDuocDuLieu": "Could not load data",
+    "chuaCoDuLieu": "No data yet",
+    "khongKhopBoLoc": "No records match the selected filters",
+    "phanTrang": "Showing {{from}} to {{to}} of {{total}} records",
+    "khongTimThayTrang": "Page not found",
+    "duongDanKhongTonTai": "This path does not exist or has been changed",
+    "veTrangTongQuan": "Back to overview",
+    "phienHetHan": "Your session has expired",
+    "dangTai": "Loading",
+    "soTrieu": "{{value}} million",
+    "soNghin": "{{value}} thousand",
+    "coLoi": "Something went wrong, please try again",
+    "matMang": "Cannot reach the server",
+    "quayLai": "Back"
+  },
+  "nhom": {
+    "tongQuan": "OVERVIEW",
+    "nguoiDung": "USERS",
+    "vanHanh": "OPERATIONS",
+    "anToan": "SAFETY",
+    "taiChinh": "FINANCE",
+    "heThong": "SYSTEM"
+  },
+  "man": {
+    "tongQuan": {
+      "title": "Overview",
+      "desc": "Figures as of {{time}} · {{date}}",
+      "descChoTai": "Loading figures"
+    },
+    "nguoiDung": {
+      "title": "Users",
+      "desc": "All owner and sitter accounts"
+    },
+    "hoSoChoDuyet": {
+      "title": "Pending profiles",
+      "desc": "Sitter profiles awaiting review"
+    },
+    "kyLuat": {
+      "title": "Sitter penalties",
+      "desc": "Penalties and waiver requests"
+    },
+    "dichVu": {
+      "title": "Services",
+      "desc": "Service catalogue and pricing"
+    },
+    "donDatLich": {
+      "title": "Bookings",
+      "desc": "Audit bookings by status and service"
+    },
+    "anhBangChung": {
+      "title": "Evidence photos",
+      "desc": "Check-in photo library of bookings"
+    },
+    "khieuNai": {
+      "title": "Disputes",
+      "desc": "Disputes awaiting a decision"
+    },
+    "danhGia": {
+      "title": "Reviews",
+      "desc": "Reviews and sitter replies"
+    },
+    "doanhThu": {
+      "title": "Revenue and settlement",
+      "desc": "Money on hold, commission and withdrawals"
+    },
+    "giaoDich": {
+      "title": "Payment transactions",
+      "desc": "Transactions through the payment gateway"
+    },
+    "hoanTien": {
+      "title": "Refund approvals",
+      "desc": "Refund requests awaiting approval"
+    },
+    "guiThongBao": {
+      "title": "System broadcast",
+      "desc": "Compose and send bulk notifications"
+    },
+    "loaiThongBao": {
+      "title": "Notification types",
+      "desc": "Toggle each automatic notification"
+    },
+    "caiDat": {
+      "title": "System settings",
+      "desc": "Operating configuration and switches"
+    },
+    "gioiHan": {
+      "title": "Limits and quotas",
+      "desc": "Business constants of the whole system"
+    }
+  },
+  "auth": {
+    "gioiThieu": {
+      "tieuDe": "Admin console for the pet care platform",
+      "moTa": "Track dog walking, boarding and grooming bookings live. Approve sitters, review evidence photos and settle revenue in one place.",
+      "diemGps": "Live GPS tracking for every service session",
+      "diemAnh": "Evidence photos for every booking",
+      "diemDoiSoat": "Commission settlement and sitter payouts"
+    },
+    "dangNhap": {
+      "tieuDe": "Sign in",
+      "moTa": "For administrator accounts only",
+      "email": "EMAIL",
+      "matKhau": "PASSWORD",
+      "ghiNho": "Remember me",
+      "quenMatKhau": "Forgot password?",
+      "nut": "Sign in",
+      "hienMatKhau": "Show password",
+      "anMatKhau": "Hide password"
+    },
+    "quenMatKhau": {
+      "tieuDe": "Forgot password",
+      "moTa": "Enter the admin email, we will send a 6 digit verification code",
+      "email": "ADMIN EMAIL",
+      "nhac": "The code is only sent if the email belongs to an administrator",
+      "nut": "Send verification code",
+      "quayLai": "Back to sign in"
+    },
+    "nhapMa": {
+      "tieuDe": "Enter verification code",
+      "moTa": "A 6 digit code was sent to {{email}}, valid for 5 minutes",
+      "nhan": "VERIFICATION CODE",
+      "guiLaiSau": "Resend code in {{time}}",
+      "guiLai": "Resend code",
+      "doiEmail": "Change email",
+      "nut": "Verify",
+      "thuLaiSau": "Try again in {{time}}"
+    },
+    "datLai": {
+      "tieuDe": "Set a new password",
+      "moTa": "At least 6 characters. After changing it, sign in again with the new password",
+      "matKhauMoi": "NEW PASSWORD",
+      "nhapLai": "CONFIRM PASSWORD",
+      "conLai": "This reset session ends in {{time}}",
+      "nut": "Reset password"
+    },
+    "loi": {
+      "emailTrong": "Enter the admin email",
+      "emailSaiDinhDang": "Invalid email format",
+      "matKhauTrong": "Enter your password",
+      "saiThongTin": "Incorrect email or password",
+      "khongPhaiAdmin": "This account has no access to the admin console",
+      "chuaXacMinh": "This account has not verified its email",
+      "matMang": "Could not reach the server",
+      "otpCooldown": "Wait 30 seconds before resending",
+      "otpThieuSo": "The verification code must have 6 digits",
+      "otpSai": "Wrong code, {{count}} attempts left",
+      "otpHetHan": "The code has expired, tap resend for a new one",
+      "otpKhoa": "Too many wrong attempts, try again in {{count}} minutes",
+      "matKhauNgan": "Password must be at least 6 characters",
+      "matKhauKhongKhop": "The confirmation does not match",
+      "resetTokenHetHan": "The reset session has expired, start again from the email step"
+    },
+    "datLaiThanhCong": "Password changed, please sign in again"
+  },
+  "dashboard": {
+    "doanhThu12Thang": "Revenue over 12 months",
+    "donViTrieu": "Unit: million VND",
+    "nccThucNhan": "Sitter payout",
+    "hoaHongNenTang": "Platform commission",
+    "coCauDichVu": "Service mix",
+    "theoSoDonThang": "By bookings this month",
+    "don": "bookings",
+    "donVaPhanTram": "{{count}} bookings · {{percent}}%",
+    "donGanDay": "Recent bookings",
+    "donGanDayPhu": "Refreshes every 60 seconds, bookings the owner has not paid for are excluded",
+    "xemTatCa": "View all",
+    "chuaCoDuLieu": "No data for this period",
+    "chuaCoDon": "No booking has gone through the payment gateway yet",
+    "cot": {
+      "maDon": "CODE",
+      "chuNuoi": "OWNER",
+      "dichVu": "SERVICE",
+      "trangThai": "STATUS",
+      "giaTri": "AMOUNT"
+    },
+    "chiSo": {
+      "nguoiDung": "TOTAL USERS",
+      "nccHoatDong": "ACTIVE SITTERS",
+      "donThang": "BOOKINGS THIS MONTH",
+      "doanhThuThang": "REVENUE THIS MONTH",
+      "soVoiThangTruoc": "versus last month",
+      "hoSoChoDuyet": "{{count}} profiles awaiting review",
+      "donDangDienRa": "{{count}} bookings in progress",
+      "hoaHongEscrow": "commission {{commission}} · on hold {{escrow}}"
+    },
+    "dichVu": {
+      "WALKING": "Dog walking",
+      "BOARDING": "Boarding",
+      "GROOMING": "Grooming"
+    }
+  },
+  "queue": {
+    "tieuDe": "Pending tasks",
+    "demViec": "{{count}} tasks",
+    "moTrangTongQuan": "Open the overview page for the full list",
+    "canXuLy": "Needs action now",
+    "canXuLyPhu": "Administrator work queue"
+  },
+  "nguoiDung": {
+    "timKiem": "Search by name, phone or email",
+    "thamGia": "Joined {{date}}",
+    "chuaCoTaiKhoan": "No accounts yet",
+    "tab": {
+      "tatCa": "All",
+      "chuNuoi": "Owners",
+      "nhaCungCap": "Sitters",
+      "biKhoa": "Locked"
+    },
+    "cot": {
+      "nguoiDung": "USER",
+      "lienHe": "CONTACT",
+      "vaiTro": "ROLE",
+      "thuCung": "PETS",
+      "soDon": "BOOKINGS",
+      "trangThai": "STATUS",
+      "nhaCungCap": "SITTER"
+    },
+    "vaiTro": {
+      "OWNER": "Owner",
+      "PROVIDER": "Sitter",
+      "ADMIN": "Administrator"
+    },
+    "trangThai": {
+      "hoatDong": "Active",
+      "biKhoa": "Locked",
+      "choXacThuc": "Unverified"
+    },
+    "loc": {
+      "vaiTro": "Role",
+      "moiVaiTro": "Any role",
+      "trangThai": "Status",
+      "moiTrangThai": "Any status",
+      "tinhThanh": "Province or city",
+      "moiTinhThanh": "Anywhere",
+      "ngayTao": "Created",
+      "moiThoiGian": "Any time",
+      "bayNgay": "Last 7 days",
+      "baMuoiNgay": "Last 30 days",
+      "chinMuoiNgay": "Last 90 days"
+    },
+    "thaoTac": {
+      "xemChiTiet": "View details",
+      "khoa": "Lock account",
+      "moKhoa": "Unlock account"
+    },
+    "dialog": {
+      "khoaTieuDe": "Lock this account",
+      "moKhoaTieuDe": "Unlock this account",
+      "khoaMoTa": "{{name}} will no longer be able to sign in. Past bookings and reviews stay untouched, the account is not deleted.",
+      "khoaMoTaNcc": "{{name}} will no longer be able to sign in and the sitter profile stops accepting bookings. Past bookings and reviews stay untouched, the account is not deleted.",
+      "moKhoaMoTa": "{{name}} can sign in again right after unlocking.",
+      "khoaNut": "Lock account",
+      "moKhoaNut": "Unlock",
+      "lyDo": "Reason",
+      "lyDoGoiY": "State the reason, it goes into the action log",
+      "daKhoa": "Account locked",
+      "daMoKhoa": "Account unlocked"
+    },
+    "chiTiet": {
+      "guiThongBao": "Send notification",
+      "khoaTaiKhoan": "Lock account",
+      "moKhoaTaiKhoan": "Unlock account",
+      "lichSuDon": "Booking history",
+      "lichSuDonPhu": "{{total}} bookings · {{open}} still open",
+      "nhatKy": "Activity log",
+      "nhatKyPhu": "Recorded automatically by the system",
+      "chuaCoDon": "This user has no bookings yet",
+      "chuaCoHoatDong": "No activity recorded yet"
+    },
+    "chiSo": {
+      "tongDon": "TOTAL BOOKINGS",
+      "donDangMo": "{{count}} still open",
+      "daChiTieu": "TOTAL SPENT",
+      "trungBinhMoiDon": "{{value}} per booking on average",
+      "danhGiaDaGui": "REVIEWS SENT",
+      "diemTrungBinh": "average score {{value}}",
+      "baoCaoLienQuan": "RELATED REPORTS",
+      "daXuLy": "{{count}} resolved"
+    },
+    "hoSo": {
+      "soDienThoai": "Phone",
+      "email": "Email",
+      "diaChiMacDinh": "Default address",
+      "ngayThamGia": "Joined",
+      "thuCung": "Pets",
+      "hoSoDangHoatDong": "{{count}} active profiles",
+      "chiTiet": "Details",
+      "soDiaChi": "Address book",
+      "soDiaChiPhu": "{{count}} saved addresses",
+      "macDinh": "Default"
+    },
+    "nhanDiaChi": {
+      "HOME": "Home",
+      "WORK": "Work",
+      "OTHER": "Other"
+    }
+  },
+  "thuCung": {
+    "tieuDe": "Pets",
+    "danhSach": "Pet list",
+    "soBe": "{{count}} pets",
+    "timTheoTen": "Search by pet name",
+    "khongKhopTen": "No pet matches that name",
+    "chuaCoBe": "This owner has no pet profile yet",
+    "anHoSo": "Hide this profile",
+    "hienHoSo": "Show profile again",
+    "daAn": "Pet profile hidden",
+    "daHien": "Pet profile restored",
+    "daTrietSan": "neutered",
+    "soPhongBenh": "Prevention record",
+    "soMuiDaTiem": "{{count}} entries recorded",
+    "chuaCoMui": "No prevention entry recorded for this pet",
+    "badge": {
+      "dangHoatDong": "Active",
+      "thieuSoTiem": "No vaccine record",
+      "daAn": "Hidden"
+    },
+    "gioiTinh": {
+      "MALE": "male",
+      "FEMALE": "female"
+    },
+    "truong": {
+      "ngaySinh": "BIRTH DATE",
+      "canNang": "WEIGHT",
+      "benhMan": "CHRONIC ILLNESS",
+      "thuocDangDung": "MEDICATION",
+      "ghiChu": "CARE NOTE"
+    },
+    "cot": {
+      "hangMuc": "ITEM",
+      "ngayThucHien": "DONE ON",
+      "coSo": "PLACE",
+      "nhacLai": "NEXT DUE"
+    },
+    "dialog": {
+      "anTieuDe": "Hide this pet profile",
+      "hienTieuDe": "Show this pet profile again",
+      "anMoTa": "{{name}} will disappear from the owner's app. Booking history stays untouched, the profile is not deleted.",
+      "hienMoTa": "{{name}} will appear again in the owner's app."
+    }
+  },
+  "dichVu": {
+    "tab": {
+      "danhMuc": "Service catalog",
+      "cauHinh": "Sitter pricing setup",
+      "hangSo": "Constraints in code"
+    },
+    "danhMuc": {
+      "tieuDe": "Service catalog",
+      "moTa": "Three fixed platform services, none can be added or removed here"
+    },
+    "cauHinh": {
+      "tieuDe": "Sitter pricing setup",
+      "moTa": "Admin can only view and disable, sitters set their own prices in the app"
+    },
+    "hangSo": {
+      "tieuDe": "Fixed system constraints",
+      "moTa": "These constraints cannot be changed from the admin site, the full list is on the Limits and quotas screen"
+    },
+    "cot": {
+      "loai": "TYPE",
+      "moTa": "DESCRIPTION",
+      "nccDangBat": "SITTERS ENABLED",
+      "nguoiCham": "SITTER",
+      "capNhat": "UPDATED",
+      "hangSo": "CONSTRAINT",
+      "giaTri": "CURRENT VALUE",
+      "anhHuong": "IMPACT WHEN CHANGED",
+      "trangThai": "STATUS",
+      "loaiThuCung": "PETS ACCEPTED",
+      "bangGia": "PRICING",
+      "soBeToiDa": "MAX PETS"
+    },
+    "ghiChuEnum": "The platform runs exactly three services, so this screen only edits the name, description, reference price and duration. Adding a fourth service is a major change that needs its own booking flow in both the app and the system, not a button here.",
+    "timKiem": "Search by sitter name",
+    "chuaCoCauHinh": "No pricing setup yet",
+    "loc": {
+      "trangThai": "Enabled state",
+      "dangBat": "Enabled",
+      "dangTat": "Disabled"
+    },
+    "thaoTac": {
+      "sua": "Edit service type",
+      "khoa": "Disable this setup",
+      "moKhoa": "Enable this setup again"
+    },
+    "dialogSua": {
+      "tieuDe": "Edit service type",
+      "moTa": "Bookings read the name through the relation, so renaming here also renames it on every past booking.",
+      "nut": "Save changes",
+      "ten": "Display name",
+      "moTaTruong": "Description",
+      "daLuu": "Service type saved"
+    },
+    "dialogKhoa": {
+      "tieuDe": "Disable this pricing setup",
+      "tieuDeMo": "Enable this pricing setup again",
+      "moTa": "{{name}} will disappear from search results for this service type. Running bookings are not affected.",
+      "moTaMo": "{{name}} will take bookings for this service type again right away.",
+      "nut": "Disable setup",
+      "nutMo": "Enable again",
+      "daKhoa": "Pricing setup disabled",
+      "daMo": "Pricing setup enabled again"
+    },
+    "loaiThuCung": {
+      "DOG": "Dogs",
+      "CAT": "Cats",
+      "BOTH": "Dogs and cats"
+    }
+  },
+  "don": {
+    "timKiem": "Search by booking code, owner or sitter name",
+    "chuaCoDon": "No bookings yet",
+    "diemSao": "{{value}} stars",
+    "nhanLuc": "drop off {{time}}",
+    "canNang": "{{value}} kg",
+    "ghiChuEnum": "A booking moves through 14 states. Awaiting payment means the slot is already held but not paid for: neither the owner nor the sitter can see it, the admin can because it is locking the pet calendar. Cancelled unpaid is kept apart from Expired because it counts against nobody.",
+    "tab": {
+      "all": "All",
+      "awaitingPayment": "Awaiting payment",
+      "pending": "Awaiting sitter",
+      "confirmed": "Accepted",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "disputed": "Disputes"
+    },
+    "cot": {
+      "maDon": "CODE",
+      "chuNuoi": "OWNER",
+      "nhaCungCap": "SITTER",
+      "dichVu": "SERVICE",
+      "lichHen": "SCHEDULE",
+      "giaTri": "AMOUNT",
+      "trangThai": "STATUS"
+    },
+    "loc": {
+      "dichVu": "Service",
+      "moiDichVu": "Every service",
+      "khoangNgay": "Date range"
+    },
+    "thaoTac": {
+      "xemChiTiet": "View booking detail",
+      "xemAnh": "View photo album of the booking"
+    },
+    "trangThai": {
+      "AWAITING_PAYMENT": "Awaiting payment",
+      "PENDING": "Awaiting sitter",
+      "CONFIRMED": "Sitter accepted",
+      "PAUSED_WAITING_OWNER": "Paused, waiting for owner",
+      "IN_PROGRESS": "In progress",
+      "AWAITING_OWNER_CONFIRM": "Awaiting confirmation",
+      "COMPLETED": "Completed",
+      "CANCELLED_BY_OWNER": "Cancelled by owner",
+      "CANCELLED_BY_SITTER": "Cancelled by sitter",
+      "CANCELLED_EXPIRED": "Acceptance expired",
+      "CANCELLED_UNPAID": "Cancelled, never paid",
+      "CANCELLED_NO_SHOW": "Owner no show",
+      "DISPUTED": "Disputed",
+      "RESOLVED": "Resolved"
+    },
+    "hanhDong": {
+      "xemHoiThoai": "View conversation",
+      "taiLogGps": "Download GPS log",
+      "canThiepHuy": "Force cancel booking"
+    },
+    "thongTin": {
+      "tieuDe": "Booking information",
+      "taoLuc": "Created {{value}}",
+      "dichVu": "Service",
+      "thoiLuong": "Duration",
+      "lichHen": "Schedule",
+      "diemDon": "Pickup point",
+      "giaDichVu": "Service price",
+      "hoaHong": "Platform commission",
+      "nccThucNhan": "Sitter payout"
+    },
+    "thanhToan": {
+      "PENDING": "Not paid yet, waiting for the gateway",
+      "HELD": "Paid through the gateway, held by the platform",
+      "RELEASED": "Moved into the sitter wallet",
+      "REFUNDED": "Refunded to the owner",
+      "FAILED": "Rejected by the payment gateway",
+      "chuaCo": "No payment record yet",
+      "maCong": "gateway ref {{value}}",
+      "daNha": "moved to the wallet at {{value}}",
+      "duKienNha": "wallet transfer due {{value}}",
+      "hetHan": "payment expires {{value}}",
+      "maGiaoDich": "transaction {{value}}"
+    },
+    "cacBen": {
+      "tieuDe": "Parties involved"
+    },
+    "tienTrinh": {
+      "tieuDe": "Booking progress",
+      "moTa": "Recorded automatically as the booking progresses",
+      "chuaXayRa": "not yet",
+      "datCho": "Owner books, the system holds the slot",
+      "datChoPhu": "The pet calendar is locked right away to hold the slot",
+      "traTien": "Paid through the gateway",
+      "traTienPhu": "Paid through the gateway and held by the platform",
+      "toiNoi": "Arrived at the meeting point",
+      "toiNoiPhu": "Recorded within 200 m of the meeting point",
+      "toiNoiPhuLech": "Recorded within 200 m of the meeting point, {{met}} m off",
+      "batDau": "Session started",
+      "batDauPhu": "Route coordinates are sent to the system in batches",
+      "baoXong": "Sitter reports the session done and uploads photos",
+      "baoXongPhu": "The booking moves to awaiting owner confirmation",
+      "chuNuoiXacNhan": "Owner confirms completion",
+      "chuNuoiXacNhanPhu": "The system settles automatically after 48 hours",
+      "nhaEscrow": "Money moved into the sitter wallet",
+      "baoTre": "Sitter reports running late",
+      "baoTrePhu": "{{phut}} minutes past the appointment time",
+      "baoThieuDungCu": "Sitter reports missing gear",
+      "baoThieuDungCuPhu": "Waiting for the owner to hand over the gear",
+      "chuNuoiCoMat": "Owner present at the meeting point",
+      "chuNuoiCoMatPhu": "Clears the no-show countdown"
+    },
+    "gps": {
+      "tieuDe": "Live GPS route",
+      "moTa": "Route drawn from the location data sent during the session",
+      "chuaCoLoTrinh": "This booking has no GPS route",
+      "quangDuongServer": "Distance summed by the system",
+      "thoiGianPhien": "Session length",
+      "tocDoTrungBinh": "Average speed",
+      "diemNghiNgo": "Suspicion score",
+      "km": "{{value}} km",
+      "phut": "{{value}} minutes",
+      "kmh": "{{value}} km/h",
+      "daGanCo": "flagged",
+      "chuaGanCo": "not flagged",
+      "dangTruyen": "Streaming",
+      "appKhai": "The sitter app reports {{value}} km, used only for comparison and never as the final number.",
+      "appChuaKhai": "This booking has no app-reported distance to compare against."
+    },
+    "dialogHuy": {
+      "tieuDe": "Force cancel booking",
+      "moTa": "Booking {{code}} will be cancelled by the admin. This is written to the audit log and cannot be undone.",
+      "nut": "Cancel this booking",
+      "lyDo": "Reason",
+      "lyDoGoiY": "State the reason, it goes into the audit log"
+    }
+  },
+  "gps": {
+    "tab": {
+      "flagged": "Flagged",
+      "reviewed": "Reviewed",
+      "all": "All walking sessions"
+    },
+    "cot": {
+      "nguoiCham": "SITTER",
+      "diemNghiNgo": "SUSPICION",
+      "quangDuong": "DISTANCE",
+      "doLech": "DEVIATION",
+      "waypoint": "POINTS LOGGED",
+      "trangThai": "STATUS"
+    },
+    "doLech": {
+      "twoThresholds": "Both thresholds",
+      "ratioOnly": "One threshold",
+      "withinError": "Within margin",
+      "trackingOff": "Tracking off"
+    },
+    "nguong": "threshold {{value}}",
+    "serverKm": "system {{value}} km",
+    "appKhaiKm": "app reports {{value}} km",
+    "dangGanCo": "Flagged",
+    "timKiem": "Search by sitter name or booking code",
+    "chuaCoPhien": "No walking session matches these filters",
+    "ghiChuNguon": "The middle column is the distance the system sums from the denoised track, compared with the distance reported by the sitter app. A session is flagged only when the gap passes both thresholds: more than 0.3 km and more than 20% of the system figure. A noise point is a pair of consecutive points implying more than 40 km/h both inbound and outbound.",
+    "daGoCo": "Flag cleared",
+    "daGiuCo": "Flag kept with a note",
+    "loc": {
+      "mucDiem": "Score level",
+      "moiMucDiem": "Every score",
+      "tu05": "0.50 and above",
+      "tu07": "0.70 and above",
+      "tu09": "0.90 and above"
+    },
+    "thaoTac": {
+      "goCo": "Clear the flag",
+      "giuCo": "Keep the flag and add a note"
+    },
+    "dialog": {
+      "goCoTieuDe": "Clear the flag on this session",
+      "giuCoTieuDe": "Keep the flag on this session",
+      "goCoMoTa": "Session {{code}} will no longer be flagged. This does not change the booking status and does not touch any money.",
+      "giuCoMoTa": "Session {{code}} keeps its flag, the note is stored for future disputes.",
+      "goCoNut": "Clear flag",
+      "giuCoNut": "Keep flag",
+      "ghiChu": "Review note",
+      "ghiChuGoiY": "State the conclusion, it is stored with the walk record"
+    }
+  },
+  "anh": {
+    "tab": {
+      "session": "Session photos",
+      "boarding": "Boarding updates",
+      "noShow": "No show proof",
+      "gpsFlagged": "GPS flagged bookings"
+    },
+    "thuVien": {
+      "tieuDe": "Evidence photo library",
+      "moTa": "Session photos, boarding updates and no-show proofs merged, newest first"
+    },
+    "dangXem": {
+      "tieuDe": "Selected photo",
+      "chuaChon": "Pick a photo from the grid on the left to see its details"
+    },
+    "pha": {
+      "CHECK_IN": "Check-in",
+      "IN_PROGRESS": "Mid session",
+      "CHECK_OUT": "Check-out",
+      "kyGiu": "Boarding"
+    },
+    "chuaCoAnh": "No photo from this source yet",
+    "xemAlbum": "View photo album of the booking",
+    "toaDo": "Coordinates",
+    "khongCoToaDo": "no coordinates",
+    "thoiDiemChup": "Captured at",
+    "lechMet": "{{value}} m off",
+    "viTriAnh": "Photo {{index}} / {{total}}",
+    "album": {
+      "tieuDe": "Photos by time",
+      "moTaTrongGiu": "A boarding stay never sends loose photos, exactly one update per day",
+      "moTaPhien": "Session photos grouped into check-in, mid session and check-out",
+      "tongSoAnh": "TOTAL PHOTOS",
+      "soNgayCoBan": "DAYS WITH AN UPDATE",
+      "nhanTinhTrang": "CONDITION TAGS",
+      "ngayThieuAnh": "DAYS WITHOUT PHOTOS",
+      "ghiChuNcc": "SITTER NOTES",
+      "soAnh": "{{count}} photos",
+      "soNgay": "{{count}} days",
+      "soNhan": "{{count}} tags",
+      "soLoiNhan": "{{count}} notes",
+      "nhomChuaCoAnh": "This group has no photo yet"
+    }
+  },
+  "khieuNai": {
+    "tab": {
+      "waitingSitter": "Waiting on the sitter",
+      "waitingSupport": "Waiting on the admin",
+      "resolved": "Closed"
+    },
+    "tinhTrang": {
+      "waitingSitter": "Sitter to reply",
+      "waitingSupport": "Waiting to be handled",
+      "refunded": "Partially refunded",
+      "rejected": "Not upheld"
+    },
+    "status": {
+      "OPEN": "Waiting on the sitter",
+      "REVIEWING": "Under review",
+      "RESOLVED": "Decision recorded"
+    },
+    "hanDap": {
+      "daDap": "replied",
+      "conHan": "{{soGio}}h left",
+      "hetHan": "past due"
+    },
+    "vaiTro": {
+      "OWNER": "Owner",
+      "PROVIDER": "Sitter"
+    },
+    "cot": {
+      "ma": "CODE",
+      "nguoiKhieuNai": "REPORTED BY",
+      "nguoiCham": "SITTER",
+      "noiDung": "WHAT WAS REPORTED",
+      "hanDap": "REPLY DUE",
+      "trangThai": "STATUS"
+    },
+    "thaoTac": {
+      "moHoSo": "Open the dispute file",
+      "xemAnh": "View evidence photos of the booking",
+      "xemHoiThoai": "View the booking conversation"
+    },
+    "loc": {
+      "trangThai": "Status",
+      "moiTrangThai": "Any status",
+      "dichVu": "Service"
+    },
+    "ketLuan": {
+      "khongToi": "Confirmed the sitter never showed up",
+      "treGio": "Confirmed the sitter arrived late",
+      "anhKhongHopLe": "Confirmed the evidence photos are invalid",
+      "thuThemTien": "Confirmed extra cash was charged off app",
+      "khongDuCanCu": "Not enough evidence, booking stands"
+    },
+    "mucPhat": {
+      "NONE": "Record nothing further",
+      "WARNING": "Record a warning on the profile",
+      "CANCEL_RATE": "Add to the sitter cancel rate"
+    },
+    "timKiem": "Search by dispute code, booking code or name...",
+    "chuaCoKhieuNai": "No dispute in this group yet",
+    "ghiChuEnum": "A dispute file has three underlying states; the four shown here are derived from data: waiting on the sitter is a file still within the reply window, waiting for handling is a file past that window or under review, and resolved files split by whether money was refunded.",
+    "ghiChuGiuTien": "Opening a dispute holds the money: the booking payout stays out of the sitter wallet until the file is resolved. The sitter replies exactly once within 48 hours; if that window passes in silence the file moves to the admin with an empty reply.",
+    "hoSo": {
+      "noiDungPhanAnh": "What the owner reported",
+      "noiDungPhanAnhMoTa": "Text and photos submitted by the owner",
+      "nguoiKhieuNai": "REPORTED BY",
+      "nguoiCham": "SITTER",
+      "donLienQuan": "RELATED BOOKING",
+      "hanNguoiChamDap": "SITTER REPLY DUE",
+      "soGioHan": "{{soGio}} hours",
+      "daDapLuc": "replied on {{luc}}",
+      "conHanDap": "{{soGio}} hours left",
+      "hetHanDap": "reply window closed",
+      "anhDinhKem": "{{soAnh}} photos attached by the reporter",
+      "phanHoiNguoiCham": "Sitter reply",
+      "phanHoiNguoiChamMoTa": "The sitter may reply exactly once",
+      "dapLuc": "Replied at {{luc}}",
+      "anhNguoiChamGui": "{{soAnh}} photos sent by the sitter",
+      "chuaDapConHan": "The sitter has not replied, deadline is {{han}}",
+      "chuaDapHetHan": "Reply window closed, the file moved to the admin with an empty reply",
+      "bangChungHeThong": "Evidence recorded by the system",
+      "bangChungHeThongMoTa": "Cross-checked automatically from booking {{code}}",
+      "logGps": "GPS log",
+      "khongCoGps": "This booking has no GPS log to cross-check",
+      "anhNccTaiLen": "Evidence photos uploaded by the sitter",
+      "chuaCoDiemAi": "No AI score yet, only capture time and coordinates",
+      "lichSuViPham": "Sitter violation history",
+      "lichSuViPhamMoTa": "{{ten}} · {{soLan}} times in 6 months",
+      "chuaCoViPhamCu": "This sitter has no earlier violation file",
+      "ketLuanTieuDe": "Admin decision",
+      "ketLuanMoTa": "Recorded on the dispute file with the refund amount",
+      "daKetLuanMoTa": "File is closed, the decision cannot be undone",
+      "oKetLuan": "DECISION",
+      "chonKetLuan": "Pick a decision",
+      "boChonKetLuan": "No decision picked",
+      "ghiHoSoNguoiCham": "RECORD ON THE SITTER PROFILE",
+      "hoanTienChoChuNuoi": "Refund the owner",
+      "hoanTienMoTa": "Reverses the original transaction, the owner files no bank details",
+      "soTienHoan": "REFUND AMOUNT",
+      "tranHoan": "up to {{tran}}",
+      "soTienGoiY": "Enter the refund amount",
+      "loiVuotTran": "The refund cannot exceed the booking value",
+      "lyDoKetLuan": "REASON",
+      "lyDoGoiY": "Write the reason, this text goes to the sitter with the notification",
+      "loiThieuLyDo": "A zero refund means the dispute is rejected, a reason is still required",
+      "banThongBaoHaiVai": "Notify both sides of the decision",
+      "nhaEscrowSauKhiResolved": "The booking money moves only after the file is decided",
+      "boQua": "Skip",
+      "xacNhanXuLy": "Confirm the decision",
+      "dialogTieuDe": "Close the file, this cannot be undone",
+      "dialogMoTa": "File {{code}} will be closed and the booking money follows the decision below.",
+      "tomTatKetLuan": "Decision",
+      "tomTatHoanTien": "Refund to the owner",
+      "tomTatPhat": "Recorded on the sitter profile",
+      "daGhiKetLuan": "The dispute decision has been recorded",
+      "loiGhiKetLuan": "Could not record the decision, please try again",
+      "chotLuc": "Closed at",
+      "khongCoLyDo": "This file has no recorded reason",
+      "chuaCoAnhHeThong": "No evidence photo on this booking"
+    }
+  },
+  "danhGia": {
+    "tab": {
+      "all": "All",
+      "lowRating": "1-2 stars",
+      "hasPhotos": "With photos",
+      "noReply": "No reply yet"
+    },
+    "cot": {
+      "nguoiDanhGia": "REVIEWER",
+      "nguoiCham": "SITTER",
+      "dichVu": "SERVICE",
+      "diem": "RATING",
+      "noiDung": "TEXT AND PHOTOS",
+      "phanHoi": "SITTER REPLY"
+    },
+    "phanHoi": {
+      "daDap": "Replied {{ngay}}",
+      "conNgay": "{{soNgay}} days left",
+      "hetHan": "Reply window closed"
+    },
+    "loc": {
+      "soSao": "Stars",
+      "moiSoSao": "Any rating",
+      "nSao": "{{soSao}} stars"
+    },
+    "thaoTac": {
+      "xemChiTiet": "View the review"
+    },
+    "timKiem": "Search by text, sitter name or booking code...",
+    "soAnh": "{{soAnh}} photos",
+    "chuaCoDanhGia": "No review in this group yet",
+    "ghiChuThieuModel": "Each review holds a rating, a comment, up to 6 photos and one sitter reply. This screen is read only, an admin cannot take a review down yet. The owner has 7 days to review once the booking is completed and the sitter has 7 days to reply exactly once; after that the review is final.",
+    "chiTiet": {
+      "tieuDe": "Owner review",
+      "moTa": "Booking {{code}} · this screen is read only, reviews cannot be edited or removed",
+      "phanHoiNcc": "SITTER REPLY",
+      "chuaDap": "The sitter has not replied to this review"
+    }
+  },
+  "taiChinh": {
+    "chiSo": {
+      "tongGiaTriDon": "TOTAL ORDER VALUE",
+      "hoaHongNenTang": "PLATFORM COMMISSION",
+      "dangGiuEscrow": "MONEY ON HOLD",
+      "daNhaVaoVi": "MOVED TO SITTER WALLETS",
+      "donDaTraTien": "{{count}} paid bookings",
+      "tyLeNenTang": "platform fee {{value}}",
+      "escrowPhu": "Held by the platform · {{count}} bookings",
+      "daNhaPhu": "Already paid out to sitters"
+    },
+    "doanhThuTheoTuan": "Revenue by week",
+    "topNcc": "Top sitters by revenue",
+    "topKy": "Period {{period}}",
+    "lenhRut": "Sitter withdrawal requests",
+    "lenhRutPhu": "The balance is deducted when the request is created, the admin transfers manually then enters the reference",
+    "xuatFile": "Export transfer file",
+    "chuaCoLenhRut": "No withdrawal requests yet",
+    "chuaCoMa": "none yet",
+    "hoanSoDu": "balance returned",
+    "cot": {
+      "nguoiCham": "SITTER",
+      "taiKhoanNhan": "RECEIVING ACCOUNT",
+      "soTien": "AMOUNT",
+      "phiChuyen": "TRANSFER FEE",
+      "taoLuc": "CREATED AT",
+      "maThamChieu": "REFERENCE",
+      "trangThai": "STATUS"
+    },
+    "trangThaiRut": {
+      "PENDING": "Awaiting transfer",
+      "SENT": "Transferred",
+      "DONE": "Done",
+      "REJECTED": "Rejected"
+    },
+    "dialog": {
+      "tieuDe": "Process withdrawal request",
+      "chiXem": "This request is closed, you can only review it.",
+      "lyDo": "Rejection reason",
+      "maThamChieu": "Transfer reference",
+      "maGoiY": "Enter the exact bank reference, it is used for settlement later",
+      "maGoiYNhap": "For example FT26080512",
+      "lyDoGoiY": "The balance is returned with a new ledger entry, the original deduction stays",
+      "lyDoGoiYNhap": "For example account holder does not match the profile",
+      "moTa": {
+        "SENT": "Mark as transferred, the request now waits for the bank confirmation.",
+        "DONE": "The bank confirmed, this withdrawal is complete.",
+        "REJECTED": "Reject the request and return the balance to the sitter wallet."
+      },
+      "nut": {
+        "SENT": "Mark transferred",
+        "DONE": "Mark done",
+        "REJECTED": "Reject request"
+      },
+      "xong": {
+        "SENT": "Withdrawal marked as transferred",
+        "DONE": "Withdrawal marked as complete",
+        "REJECTED": "Withdrawal rejected and balance returned"
+      }
+    },
+    "ghiChuEnum": "A withdrawal has four states: waiting for the transfer, transferred and waiting for the bank, complete, and rejected. The balance is deducted the moment the sitter creates the request rather than when the bank confirms, so a rejection must return it with a new ledger entry instead of deleting the old one. Minimum withdrawal is 50,000 VND, the transfer fee is currently 0."
+  },
+  "thanhToan": {
+    "timKiem": "Search by booking code or gateway transaction id",
+    "chuaCoGiaoDich": "No transactions yet",
+    "chuaCoMa": "none yet",
+    "khongCoMa": "none",
+    "chuaQuaCong": "never reached the gateway",
+    "hetHanGiuCho": "hold window expired",
+    "congKhongTra": "not returned by gateway",
+    "chuaTra": "not paid",
+    "quaMuoiPhut": "over 10 minutes",
+    "saoChep": "Copy",
+    "daSaoChep": "Copied",
+    "khongSaoChepDuoc": "Could not copy, please select manually",
+    "tab": {
+      "escrow": "On hold",
+      "released": "Moved to wallet",
+      "refunding": "Refunding",
+      "failed": "Failed and expired"
+    },
+    "cot": {
+      "chuNuoi": "OWNER",
+      "donVaTxnRef": "BOOKING AND TRANSACTION",
+      "maCongTraVe": "GATEWAY TRANSACTION",
+      "soTien": "AMOUNT",
+      "traLuc": "PAID AT",
+      "trangThai": "STATUS"
+    },
+    "trangThai": {
+      "PENDING": "Awaiting payment",
+      "HELD": "Held",
+      "RELEASED": "Moved to wallet",
+      "REFUNDING": "Refunding",
+      "REFUNDED": "Refunded",
+      "FAILED": "Gateway declined",
+      "EXPIRED": "Expired"
+    },
+    "cong": {
+      "vnpay": "VNPay",
+      "mock": "Simulated"
+    },
+    "loc": {
+      "cong": "Gateway",
+      "moiCong": "All gateways",
+      "nganHang": "Bank",
+      "moiNganHang": "All banks"
+    },
+    "truong": {
+      "gatewayTxnNo": "Gateway transaction id",
+      "gatewayPayDate": "Gateway pay date",
+      "bankCode": "Bank and card type"
+    },
+    "thaoTac": {
+      "xemPayload": "View gateway response",
+      "moDon": "Open booking",
+      "chepTxnRef": "Copy transaction reference"
+    },
+    "dialogRaw": {
+      "tieuDe": "Raw gateway response",
+      "moTa": "Read only. It is the only proof when reconciling with the gateway statement.",
+      "payload": "Raw response",
+      "chuaCoPayload": "This record has no gateway response, the transaction never reached the gateway"
+    },
+    "ghiChuEnum": "A payment has seven states: awaiting payment, held by the platform, released to the sitter wallet, refunding, refunded, declined by the gateway, and expired after the 10 minute hold. The Gateway column shows which mode created the record, the real gateway or the simulated mode toggled in System settings, and both follow the same flow. One booking can have several payments because a retry carries a new transaction reference, but only one payment may hold money at a time."
+  },
+  "hoanTien": {
+    "timKiem": "Search by booking code or gateway transaction id",
+    "chuaCoLenh": "No refund requests yet",
+    "hoanToanPhan": "full refund",
+    "hoanMotPhan": "partial refund",
+    "thieuMaCong": "missing gateway id",
+    "khongRoNganHang": "bank unknown",
+    "thieuDuLieu": "missing, refund cannot run",
+    "congKhongTraNganHang": "not returned by gateway",
+    "nguonNhan": "The money goes back to {{bank}}, the exact source the owner paid from. The gateway never returns card numbers so none is shown here.",
+    "nguonNhanKhongRo": "The money goes back to the source you paid from. This record has no bank code and the gateway never returns card numbers.",
+    "daDanhDauTay": "Marked as refunded manually",
+    "tab": {
+      "refunding": "Sent to gateway",
+      "refunded": "Refunded"
+    },
+    "cot": {
+      "chuNuoi": "OWNER",
+      "donVaGiaoDich": "BOOKING AND TRANSACTION",
+      "lyDo": "REFUND REASON",
+      "soTienHoan": "REFUND AMOUNT",
+      "choTu": "WAITING FOR",
+      "trangThai": "STATUS"
+    },
+    "trangThai": {
+      "REFUNDING": "Sent to gateway",
+      "REFUNDED": "Refunded"
+    },
+    "lyDo": {
+      "DISPUTE_RESOLUTION": "Dispute resolution"
+    },
+    "loc": {
+      "lyDo": "Refund reason",
+      "moiLyDo": "All reasons"
+    },
+    "truong": {
+      "chuNuoi": "Owner",
+      "maDon": "Booking code",
+      "nganHang": "Bank",
+      "daTra": "Amount paid",
+      "choTu": "Created at",
+      "maHoanTay": "Refund reference at the gateway"
+    },
+    "thaoTac": {
+      "xemGiaoDich": "View original transaction",
+      "danhDauTay": "Mark refunded manually"
+    },
+    "dialog": {
+      "tieuDe": {
+        "view": "Original transaction of this refund",
+        "manual": "Mark as refunded on the gateway portal"
+      },
+      "moTa": {
+        "view": "The transaction reference, the gateway reference and the gateway timestamp must all be intact for the refund to run.",
+        "manual": "Use this when the gateway blocks automatic refunds: refund on the gateway portal first, then mark it here with the reference."
+      },
+      "nut": {
+        "manual": "Mark refunded"
+      },
+      "maGoiY": "Enter the gateway refund reference for later reconciliation",
+      "maGoiYNhap": "For example HOAN-26080201"
+    },
+    "ghiChuNguon": "A refund reverses the original transaction, so the record must still carry the transaction reference, the gateway reference and the gateway timestamp; if any of the three is missing the refund cannot run. Owners have no wallet and never enter a bank account, the money goes back to the source they paid from. The gateway returns only the bank code and card type, never the card number. When the gateway blocks automatic refunds the admin refunds on the gateway portal and marks it here."
+  },
+  "thongBao": {
+    "lichSu": {
+      "tieuDe": "Broadcast history",
+      "moTa": "Each row is one broadcast sent manually by an admin"
+    },
+    "soanTinMoi": "New message",
+    "cot": {
+      "tieuDe": "TITLE",
+      "doiTuong": "AUDIENCE",
+      "nguoiNhan": "RECIPIENTS",
+      "daDoc": "READ"
+    },
+    "guiLuc": "Sent {{time}}",
+    "henLuc": "Scheduled {{time}}",
+    "taoLuc": "Draft created {{time}}",
+    "trangThai": {
+      "henGio": "Scheduled"
+    },
+    "doiTuong": {
+      "ALL_OWNERS": "Owners",
+      "ALL_SITTERS": "Sitters",
+      "BOTH": "Both roles",
+      "OWNERS_BY_PROVINCE": "Owners by province",
+      "SINGLE_USER": "A single user"
+    },
+    "thaoTac": {
+      "soanLai": "Reuse this content"
+    },
+    "chuaCoLuot": "No broadcast yet",
+    "soan": {
+      "tieuDe": "Compose system broadcast",
+      "moTa": "The message appears in the app and is pushed to the recipient device"
+    },
+    "truong": {
+      "tieuDe": "TITLE",
+      "tieuDeGoiY": "System maintenance 02:00 to 03:00 on 08/08",
+      "noiDung": "BODY",
+      "noiDungGoiY": "The wording is stored as sent and cannot be edited afterwards",
+      "doiTuong": "AUDIENCE",
+      "tinh": "PROVINCE",
+      "chonTinh": "Select a province",
+      "thoiDiem": "SEND TIME",
+      "gap": "Mark as urgent",
+      "gapMoTa": "Urgent messages sit on top of the app notification list"
+    },
+    "thoiDiem": {
+      "ngay": "Send now",
+      "henGio": "Schedule"
+    },
+    "nut": {
+      "gui": "Send broadcast",
+      "lenLich": "Schedule"
+    },
+    "xacNhan": {
+      "tieuDe": "Confirm the recipient count",
+      "moTa": "This message reaches {{so}} accounts in the {{audience}} group. A wrong system-wide broadcast cannot be recalled.",
+      "henLuc": "Scheduled for {{time}}"
+    },
+    "daGui": "System broadcast sent",
+    "daLenLich": "Broadcast scheduled",
+    "ganNhat": "Three latest broadcasts",
+    "dongGanNhat": "{{date}} · {{so}} users · read {{percent}}",
+    "loai": {
+      "tieuDe": "Notification types",
+      "moTa": "Each type drives the icon and the screen opened on tap. The last column shows whether the type is raised automatically yet",
+      "cot": {
+        "suKien": "TRIGGERING EVENT",
+        "nguoiNhan": "RECIPIENT",
+        "moMan": "OPENS",
+        "inApp": "IN APP",
+        "push": "PUSH",
+        "loai": "NOTIFICATION TYPE"
+      }
+    },
+    "nguoiNhan": {
+      "OWNER": "Owner",
+      "SITTER": "Sitter",
+      "BOTH": "Both"
+    },
+    "phongBenh": {
+      "tieuDe": "Preventive care handled by the app",
+      "moTa": "No setting for it on the admin site"
+    },
+    "chuaTrigger": {
+      "tieuDe": "{{so}} types without a trigger",
+      "moTa": "These types are not raised automatically yet",
+      "ly": {
+        "NHAC_LICH": "No job reminds before the appointment time",
+        "HO_SO": "Approving or rejecting a sitter profile sends nothing",
+        "TIN_NHAN": "A new message raises no notification",
+        "TIEN_VI": "Wallet payouts and withdrawals send nothing",
+        "PHONG_BENH": "No job scans due dates, the app already shows the status in the record",
+        "KHIEU_NAI": "Opening, replying and resolving a dispute all send nothing"
+      }
+    },
+    "guiTay": {
+      "tieuDe": "Manual broadcast",
+      "moTa": "For general announcements only, never a replacement for an automatic trigger",
+      "chiNoiDung": "A system announcement is the only type an admin composes and sends",
+      "y": {
+        "dinhNghia": "Used for platform-wide notices such as maintenance or updated terms",
+        "khongTrigger": "It is never raised automatically and does not need to be",
+        "khongTargetId": "Tapping a manual message only opens the app notification screen"
+      },
+      "nut": "Go to the broadcast screen"
+    },
+    "ghiChuModel": "Notifications reach recipients by role, owner or sitter, carry an urgent flag and open the matching screen when tapped. Each push device belongs to one account, so signing in with another account on an old device moves that device to the new account.",
+    "tenLoai": {
+      "DON_HANG": "Booking",
+      "DON_HUY": "Cancellation",
+      "DON_MOI": "New booking",
+      "BANG_CHUNG": "Evidence photos",
+      "DANH_GIA": "Reviews",
+      "NHAC_LICH": "Appointment reminder",
+      "HO_SO": "Sitter profile",
+      "TIN_NHAN": "Messages",
+      "NOI_DUNG": "System announcement",
+      "TIEN_VI": "Wallet",
+      "PHONG_BENH": "Preventive care",
+      "KHIEU_NAI": "Disputes"
+    }
+  },
+  "caiDat": {
+    "tab": {
+      "chung": "General",
+      "gioiHan": "Limits and quotas",
+      "nhatKy": "Audit log"
+    },
+    "vanHanh": {
+      "tieuDe": "Operating configuration",
+      "moTa": "The parameters changed most often plus three mode switches, full list on the Limits screen",
+      "luu": "Save changes"
+    },
+    "taiKhoan": {
+      "tieuDe": "Admin account",
+      "moTa": "The admin site runs on a single shared account, with no multi-level roles",
+      "matKhau": "Password",
+      "doiGanNhat": "Last changed {{date}}",
+      "doiMatKhau": "Change password"
+    },
+    "nhatKy": {
+      "tieuDe": "Audit log",
+      "moTa": "Last 30 days",
+      "xemTatCa": "View all",
+      "chuaCo": "No action recorded yet",
+      "locHanhDong": "Action",
+      "moiHanhDong": "Every action",
+      "locDoiTuong": "Target type",
+      "moiDoiTuong": "Every target type",
+      "giuLai": "The audit log is kept permanently and cannot be deleted",
+      "cot": {
+        "hanhDong": "ACTION",
+        "loaiDoiTuong": "TARGET TYPE",
+        "doiTuong": "TARGET",
+        "thayDoi": "BEFORE AND AFTER",
+        "lyDo": "REASON",
+        "thoiDiem": "TIME"
+      }
+    },
+    "hanhDong": {
+      "KHOA_TAI_KHOAN": "Locked account",
+      "MO_KHOA_TAI_KHOAN": "Unlocked account",
+      "KET_LUAN_KHIEU_NAI": "Resolved dispute"
+    },
+    "loaiDoiTuong": {
+      "USER": "Account",
+      "SITTER": "Sitter",
+      "BOOKING": "Booking",
+      "DISPUTE": "Dispute",
+      "WITHDRAWAL": "Withdrawal",
+      "PAYMENT": "Payment",
+      "PENALTY": "Penalty",
+      "SETTING": "Setting"
+    }
+  },
+  "gioiHan": {
+    "ghiChuChiDeTra": "Every value below is a fixed system constraint; this screen is a reference table, not an editor."
+  }
+}

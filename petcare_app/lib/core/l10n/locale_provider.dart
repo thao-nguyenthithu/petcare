@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:petcare_app/core/services/push_service.dart';
 import 'package:petcare_app/core/storage/locale_storage.dart';
 
 final savedLanguageCodeProvider = Provider<String?>((ref) => null);
@@ -19,6 +20,7 @@ class LocaleNotifier extends Notifier<Locale> {
   Future<void> setLocale(String languageCode) async {
     state = Locale(languageCode);
     await ref.read(localeStorageProvider).saveLanguageCode(languageCode);
+    await PushService.instance.doiNgonNgu(languageCode);
   }
 }
 
