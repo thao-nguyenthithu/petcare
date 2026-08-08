@@ -4,22 +4,30 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CycleUnit } from 'generated/prisma/enums';
+import { MOT_NGAY_MS } from '../../common/thoi-gian-vn';
 import { PrismaService } from '../../prisma/prisma.service';
 import { SupabaseService } from '../media/supabase.service';
 import { CreateDoseDto } from './dto/create-dose.dto';
-import { CreatePreventionDto } from './dto/create-prevention.dto';
+import {
+  CHU_KY_NGAY_TOI_DA,
+  CreatePreventionDto,
+  chuKyRaNgay,
+} from './dto/create-prevention.dto';
 import { UpdateDoseDto } from './dto/update-dose.dto';
 import { PetsCommon, type UploadedImage } from './pets.shared';
 
 // Ảnh phiếu tối đa mỗi lần ghi
-const MAX_DOSE_PHOTOS = 5;
+export const MAX_DOSE_PHOTOS = 5;
 
 // Mã hạng mục tự đặt tên
 const MA_HANG_MUC_KHAC = 'khac';
 
 // Danh mục dựng sẵn
-const MAX_HANG_MUC_MOI_BE = 30;
-const MAX_LAN_MOI_HANG_MUC = 100;
+export const MAX_HANG_MUC_MOI_BE = 30;
+export const MAX_LAN_MOI_HANG_MUC = 100;
+
+// Số năm lùi được khi nhập một mũi đã tiêm từ trước
+export const SO_NAM_LUI_TOI_DA = 30;
 
 // Sổ phòng bệnh của bé
 @Injectable()
@@ -85,7 +93,6 @@ export class PreventionsService extends PetsCommon {
     return this.layHoSo(userId, id);
   }
 
-  // POST .../doses ghi một lần đã làm
   async createDose(
     userId: string,
     id: string,
@@ -94,6 +101,7 @@ export class PreventionsService extends PetsCommon {
   ) {
     await this.timHangMuc(userId, id, recordId);
     this.kiemTraChuKy(dto.cycleValue, dto.cycleUnit);
+    this.kiemTraNgayLam(dto.doneAt);
     const soLan = await this.prisma.preventionDose.count({
       where: { recordId },
     });
@@ -103,19 +111,24 @@ export class PreventionsService extends PetsCommon {
         message: `Mỗi hạng mục chỉ giữ tối đa ${MAX_LAN_MOI_HANG_MUC} lần ghi`,
       });
     }
+    const doneAt = new Date(dto.doneAt);
     await this.prisma.preventionDose.create({
       data: {
         recordId,
-        doneAt: new Date(dto.doneAt),
+        doneAt,
         cycleValue: dto.cycleValue ?? null,
         cycleUnit: dto.cycleUnit ?? null,
         place: dto.place?.trim() || null,
+        nextDueAt: this.hanKeTiep(doneAt, dto.cycleValue, dto.cycleUnit),
       },
+    });
+    await this.prisma.preventionDose.updateMany({
+      where: { recordId, nextDueAt: { not: null }, doneAt: { lt: doneAt } },
+      data: { nextDueAt: null, remindedDays: [] },
     });
     return this.layHoSo(userId, id);
   }
 
-  // PUT .../doses/:doseId sửa một lần đã ghi
   async updateDose(
     userId: string,
     id: string,
@@ -123,27 +136,28 @@ export class PreventionsService extends PetsCommon {
     doseId: string,
     dto: UpdateDoseDto,
   ) {
-    await this.timLan(userId, id, recordId, doseId);
+    const lan = await this.timLan(userId, id, recordId, doseId);
     this.kiemTraChuKy(dto.cycleValue, dto.cycleUnit);
+    if (dto.doneAt !== undefined) this.kiemTraNgayLam(dto.doneAt);
+    const doneAt = dto.doneAt === undefined ? lan.doneAt : new Date(dto.doneAt);
+    const so = dto.cycleValue === undefined ? lan.cycleValue : dto.cycleValue;
+    const donVi = dto.cycleUnit === undefined ? lan.cycleUnit : dto.cycleUnit;
     await this.prisma.preventionDose.update({
       where: { id: doseId },
       data: {
-        ...(dto.doneAt === undefined ? {} : { doneAt: new Date(dto.doneAt) }),
-        ...(dto.cycleValue === undefined
-          ? {}
-          : { cycleValue: dto.cycleValue ?? null }),
-        ...(dto.cycleUnit === undefined
-          ? {}
-          : { cycleUnit: dto.cycleUnit ?? null }),
+        doneAt,
+        cycleValue: so ?? null,
+        cycleUnit: donVi ?? null,
         ...(dto.place === undefined
           ? {}
           : { place: dto.place?.trim() || null }),
+        nextDueAt: this.hanKeTiep(doneAt, so, donVi),
+        remindedDays: [],
       },
     });
     return this.layHoSo(userId, id);
   }
 
-  // DELETE .../doses/:doseId xoá riêng một lần, hạng mục vẫn còn
   async removeDose(
     userId: string,
     id: string,
@@ -160,7 +174,6 @@ export class PreventionsService extends PetsCommon {
     return this.layHoSo(userId, id);
   }
 
-  // POST .../doses/:doseId/photos thêm ảnh phiếu hoặc hoá đơn
   async addDosePhotos(
     userId: string,
     id: string,
@@ -183,7 +196,6 @@ export class PreventionsService extends PetsCommon {
     return this.layHoSo(userId, id);
   }
 
-  // DELETE .../doses/:doseId/photos xoá ảnh phiếu
   async deleteDosePhotos(
     userId: string,
     id: string,
@@ -227,7 +239,7 @@ export class PreventionsService extends PetsCommon {
     await this.timHangMuc(userId, id, recordId);
     const lan = await this.prisma.preventionDose.findFirst({
       where: { id: doseId, recordId },
-      select: { id: true },
+      select: { id: true, doneAt: true, cycleValue: true, cycleUnit: true },
     });
     if (!lan) {
       throw new NotFoundException({
@@ -238,7 +250,6 @@ export class PreventionsService extends PetsCommon {
     return lan;
   }
 
-  // Đặt nhắc lại thì phải có đủ cả số và đơn vị
   private kiemTraChuKy(so?: number, donVi?: CycleUnit) {
     if ((so == null) !== (donVi == null)) {
       throw new BadRequestException({
@@ -246,5 +257,38 @@ export class PreventionsService extends PetsCommon {
         message: 'Chu kỳ nhắc lại phải có cả số và đơn vị',
       });
     }
+    if (so == null || donVi == null) return;
+    if (chuKyRaNgay(so, donVi) > CHU_KY_NGAY_TOI_DA) {
+      throw new BadRequestException({
+        code: 'CHU_KY_QUA_DAI',
+        message: `Chu kỳ nhắc lại tối đa ${CHU_KY_NGAY_TOI_DA} ngày`,
+      });
+    }
+  }
+
+  private kiemTraNgayLam(doneAt: string) {
+    const luc = new Date(doneAt).getTime();
+    const somNhat = Date.now() - SO_NAM_LUI_TOI_DA * 365 * MOT_NGAY_MS;
+    if (!Number.isFinite(luc) || luc < somNhat) {
+      throw new BadRequestException({
+        code: 'NGAY_THUC_HIEN_QUA_XA',
+        message: `Chỉ nhập được ngày thực hiện trong vòng ${SO_NAM_LUI_TOI_DA} năm trở lại`,
+      });
+    }
+    if (luc > Date.now()) {
+      throw new BadRequestException({
+        code: 'NGAY_THUC_HIEN_O_TUONG_LAI',
+        message: 'Ngày thực hiện không thể ở tương lai',
+      });
+    }
+  }
+
+  private hanKeTiep(
+    doneAt: Date,
+    so?: number | null,
+    donVi?: CycleUnit | null,
+  ) {
+    if (so == null || donVi == null) return null;
+    return new Date(doneAt.getTime() + chuKyRaNgay(so, donVi) * MOT_NGAY_MS);
   }
 }

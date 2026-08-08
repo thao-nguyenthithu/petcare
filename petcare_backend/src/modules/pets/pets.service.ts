@@ -4,22 +4,23 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { BookingStatus } from 'generated/prisma/enums';
+import { soTuoi } from '../../common/thoi-gian-vn';
 import { PrismaService } from '../../prisma/prisma.service';
 import { SupabaseService } from '../media/supabase.service';
-import { CreatePetDto } from './dto/create-pet.dto';
+import { CreatePetDto, TUOI_BE_TOI_DA } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
 import { HO_SO_DAY_DU, PetsCommon, type UploadedImage } from './pets.shared';
 
 // Dải ảnh của bé tối đa
-const MAX_PET_PHOTOS = 10;
+export const MAX_PET_PHOTOS = 10;
 
-const MAX_PET_MOI_CHU = 20;
+export const MAX_PET_MOI_CHU = 20;
 
 // Đơn chưa kết thúc thì chặn xoá hồ sơ bé
 const DON_CHUA_XONG: BookingStatus[] = [
   BookingStatus.PENDING,
   BookingStatus.CONFIRMED,
-  BookingStatus.AWAITING_OWNER_APPROVAL,
+  BookingStatus.AWAITING_OWNER_CONFIRM,
   BookingStatus.IN_PROGRESS,
 ];
 
@@ -55,6 +56,7 @@ export class PetsService extends PetsCommon {
       });
     }
     const { birthDate, ...conLai } = dto;
+    this.kiemTraNgaySinh(birthDate);
     return this.prisma.pet.create({
       data: {
         ownerId: userId,
@@ -65,10 +67,28 @@ export class PetsService extends PetsCommon {
     });
   }
 
+  private kiemTraNgaySinh(birthDate?: string) {
+    if (!birthDate) return;
+    const luc = new Date(birthDate);
+    if (Number.isNaN(luc.getTime()) || luc.getTime() > Date.now()) {
+      throw new BadRequestException({
+        code: 'NGAY_SINH_KHONG_HOP_LE',
+        message: 'Ngày sinh của bé phải là một ngày đã qua',
+      });
+    }
+    if (soTuoi(luc) > TUOI_BE_TOI_DA) {
+      throw new BadRequestException({
+        code: 'TUOI_BE_QUA_LON',
+        message: `Tuổi của bé không quá ${TUOI_BE_TOI_DA}`,
+      });
+    }
+  }
+
   // PUT /pets/:id sửa hồ sơ
   async update(userId: string, id: string, dto: UpdatePetDto) {
     await this.timCuaToi(userId, id);
     const { birthDate, ...conLai } = dto;
+    this.kiemTraNgaySinh(birthDate);
     return this.prisma.pet.update({
       where: { id },
       data: {

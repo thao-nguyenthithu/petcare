@@ -12,8 +12,14 @@ import {
 } from 'class-validator';
 import { CycleUnit, PreventionForm } from 'generated/prisma/enums';
 
-// Chu kỳ dài nhất cho phép khai
-export const CHU_KY_TOI_DA = 999;
+export const CHU_KY_NGAY_TOI_DA = 1095;
+export const CHU_KY_TOI_DA = CHU_KY_NGAY_TOI_DA;
+
+export function chuKyRaNgay(so: number, donVi: string): number {
+  if (donVi === 'WEEK') return so * 7;
+  if (donVi === 'MONTH') return so * 30;
+  return so;
+}
 
 export class CreatePreventionDto {
   @ApiProperty({

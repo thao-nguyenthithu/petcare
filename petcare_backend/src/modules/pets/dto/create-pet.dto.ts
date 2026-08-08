@@ -13,7 +13,8 @@ import {
 } from 'class-validator';
 import { PetGender, PetSpecies } from 'generated/prisma/enums';
 
-const CAN_NANG_TOI_DA = 200;
+export const CAN_NANG_TOI_DA = 100;
+export const TUOI_BE_TOI_DA = 30;
 
 export class CreatePetDto {
   @ApiProperty({ example: 'Bông' })
