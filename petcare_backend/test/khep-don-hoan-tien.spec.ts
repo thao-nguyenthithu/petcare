@@ -217,8 +217,8 @@ function dungHuy(loai: 'WALKING' | 'BOARDING') {
   const don = {
     id: 'don-1',
     status: 'CONFIRMED',
-    scheduledAt: new Date(luc.getTime() - 40 * 60_000),
-    arrivedAt: new Date(luc.getTime() - 20 * 60_000),
+    scheduledAt: new Date(luc.getTime() - 20 * 60_000),
+    arrivedAt: new Date(luc.getTime() - 10 * 60_000),
     ownerArrivedAt: null,
     gearReportedAt: new Date(luc.getTime() - 20 * 60_000),
     totalPrice: TONG,

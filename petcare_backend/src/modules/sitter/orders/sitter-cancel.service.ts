@@ -124,19 +124,14 @@ export class SitterCancelService {
           message: 'Chủ nuôi đã tới nơi nên không báo vắng mặt được',
         });
       }
-      phaiChoDu(don.scheduledAt.getTime(), bayGio);
-    } else {
-      if (!don.arrivedAt) {
-        throw new ConflictException({
-          code: 'CHUA_TOI_DIEM_DON',
-          message: 'Cần báo đã tới điểm đón trước khi báo chủ nuôi vắng mặt',
-        });
-      }
-      phaiChoDu(
-        Math.max(don.scheduledAt.getTime(), don.arrivedAt.getTime()),
-        bayGio,
-      );
+    } else if (!don.arrivedAt) {
+      throw new ConflictException({
+        code: 'CHUA_TOI_DIEM_DON',
+        message: 'Cần báo đã tới điểm đón trước khi báo chủ nuôi vắng mặt',
+      });
     }
+    // Đồng hồ chờ đếm từ giờ hẹn, không theo mốc đã tới (bộ luật mục 5)
+    phaiChoDu(don.scheduledAt.getTime(), bayGio);
 
     const tong = don.totalPrice ?? 0;
     const chuNuoiChiu = phiHuyCuaDon(

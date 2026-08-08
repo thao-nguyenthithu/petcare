@@ -62,9 +62,8 @@ export class BookingSweepJob {
         continue;
       }
 
-      const tuLuc = coDiemDon
-        ? Math.max(don.scheduledAt.getTime(), don.arrivedAt?.getTime() ?? 0)
-        : don.scheduledAt.getTime();
+      // Hai đồng hồ đều đếm từ giờ hẹn, không theo mốc đã tới (bộ luật mục 5)
+      const tuLuc = don.scheduledAt.getTime();
 
       if (bayGio >= tuLuc + PHUT_TU_HUY_KHONG_AI_BAT_DAU * MOT_PHUT_MS) {
         if (!coDiemDon && don.ownerArrivedAt) continue;
