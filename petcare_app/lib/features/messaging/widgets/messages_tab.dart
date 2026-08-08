@@ -41,8 +41,6 @@ class MessagesTab extends StatefulWidget {
   final bool lightHeader;
   final ValueChanged<Conversation>? onOpen; // đánh dấu đã đọc khi mở
   final Future<void> Function()? onRefresh;
-
-  // Lượt tải đầu đừng nhá "chưa có tin nhắn nào" rồi đổi thành danh sách
   final bool dangTai;
 
   @override

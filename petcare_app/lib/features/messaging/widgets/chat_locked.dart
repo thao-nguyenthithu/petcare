@@ -7,7 +7,6 @@ import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/shared/utils/placeholder_action.dart';
 import 'package:petcare_app/shared/widgets/app_card.dart';
 
-// Pill mint cuối luồng khi chat đã khoá, kèm lối vào trung tâm hỗ trợ
 class ChatEndedNotice extends StatefulWidget {
   const ChatEndedNotice({super.key, this.onHelpTap});
 

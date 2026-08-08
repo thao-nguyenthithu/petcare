@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:petcare_app/features/messaging/data/chat_message.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
-// Client Socket.io namespace /chat, chỉ để NGHE; tin gửi đi vẫn qua REST
 class ChatSocketService {
   ChatSocketService({required String serverGoc, required String token})
     : _serverGoc = serverGoc,
@@ -20,7 +19,6 @@ class ChatSocketService {
 
   Stream<ChatMessage> get tinMoi => _tinMoiCtrl.stream;
 
-  // userId của người vừa đọc hết, để đổi trạng thái bong bóng của mình
   Stream<String> get daDoc => _daDocCtrl.stream;
 
   void ketNoi({required String conversationId}) {
@@ -36,7 +34,6 @@ class ChatSocketService {
     );
     _socket = socket;
 
-    // Mỗi lần nối lại phải join lại room — server không nhớ socket cũ
     socket.onConnect((_) {
       socket.emit('chat:join', {'conversationId': _conversationId});
     });
@@ -53,7 +50,6 @@ class ChatSocketService {
     socket.connect();
   }
 
-  // Sự kiện socket có thể còn rơi rớt sau khi đóng — không đẩy vào stream chết
   void _bao<T>(StreamController<T> ctrl, T giaTri) {
     if (!ctrl.isClosed) ctrl.add(giaTri);
   }

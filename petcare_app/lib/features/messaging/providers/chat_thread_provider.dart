@@ -7,7 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'chat_thread_provider.g.dart';
 
-// Luồng tin của một hội thoại; không keepAlive vì rời màn chat là đóng socket
+// Luồng tin của một hội thoại
 @riverpod
 class LuongChat extends _$LuongChat {
   final _service = MessagingApiService();
@@ -30,7 +30,6 @@ class LuongChat extends _$LuongChat {
     socket.ketNoi(conversationId: conversationId);
   }
 
-  // Bỏ qua tin của CHÍNH MÌNH, bản lạc quan đã nằm sẵn nên nhận là đúp
   void _nhanTin(ChatMessage tin) {
     if (tin.fromMe) return;
     final cu = state.value;
@@ -45,7 +44,6 @@ class LuongChat extends _$LuongChat {
     );
   }
 
-  // Cuộn ngược lên đầu luồng, nối trang cũ vào TRƯỚC danh sách đang hiện
   Future<void> taiThem() async {
     final cu = state.value;
     if (cu?.truocTiep == null) return;
@@ -59,7 +57,6 @@ class LuongChat extends _$LuongChat {
     );
   }
 
-  // Hiện LẠC QUAN ngay, chờ mạng mới hiện là cảm giác đơ
   Future<void> guiChu(String noiDung) async {
     await _gui(
       ChatMessage(
@@ -93,7 +90,6 @@ class LuongChat extends _$LuongChat {
       ChatMessage(
         kind: ChatMessageKind.image,
         fromMe: true,
-        // Hiện tạm từ đường dẫn trên máy cho tới khi server trả URL
         images: duongDan,
         caption: ghiChu,
         status: ChatSendStatus.sending,
@@ -120,7 +116,6 @@ class LuongChat extends _$LuongChat {
       final that = await goiApi();
       _thay(viTri, that);
     } catch (_) {
-      // Xoá tin hỏng là mất nội dung vừa gõ, nút Thử lại không còn gì để gửi
       _thay(viTri, tamThoi.copyWith(status: ChatSendStatus.failed));
     }
   }
@@ -139,7 +134,6 @@ class LuongChat extends _$LuongChat {
     );
   }
 
-  // Gửi lại một tin hỏng
   Future<void> guiLai(int viTri) async {
     final tin = state.value?.messages[viTri];
     if (tin == null) return;

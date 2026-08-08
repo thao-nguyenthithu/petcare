@@ -240,7 +240,6 @@ class _Photo extends StatelessWidget {
   }
 }
 
-// Ô cuối phủ lớp tối kèm "+n" thay vì kéo dài lưới
 class _PhotoGrid extends StatelessWidget {
   const _PhotoGrid({required this.images, this.soAnhThem});
 

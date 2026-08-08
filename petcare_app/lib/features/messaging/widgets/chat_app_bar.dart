@@ -24,10 +24,8 @@ class ChatAppBar extends StatelessWidget {
   });
 
   final Conversation conversation;
-
-  // Vai của người đang đọc: quyết định menu mở màn của chủ nuôi hay người chăm
   final bool isOwner;
-  final String? countdown; // null = không hiện badge đếm ngược
+  final String? countdown;
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +107,6 @@ class ChatAppBar extends StatelessWidget {
                 position: PopupMenuPosition.under,
                 onSelected: (chon) => _chon(context, chon),
                 itemBuilder: (context) => [
-                  // Chủ nuôi không có trang hồ sơ công khai nên bỏ hẳn mục này
                   if (isOwner)
                     _menuItem(
                       ChatMenuAction.xemHoSo,
@@ -136,7 +133,6 @@ class ChatAppBar extends StatelessWidget {
     );
   }
 
-  // Ba lối ra của menu; "Cần trợ giúp" dẫn về đúng màn xử lý sự cố của vai
   void _chon(BuildContext context, ChatMenuAction chon) {
     final donId = conversation.bookingId;
     switch (chon) {

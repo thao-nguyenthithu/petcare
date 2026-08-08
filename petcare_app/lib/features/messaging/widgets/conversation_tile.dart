@@ -91,7 +91,6 @@ class ConversationTile extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(width: AppSpacing.labelGap),
-                              // Phiên chạy thì đếm ngược thay nhãn
                               AppStatusBadge(
                                 label: switch (c.state) {
                                   ConversationState.dangDienRa

@@ -61,12 +61,10 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
 
   String get _id => widget.conversation.id;
 
-  // Vào từ màn đơn thì không ai tắt badge hộ, màn chat phải tự đánh dấu
   @override
   void initState() {
     super.initState();
     if (!widget.conversation.chuaDoc) return;
-    // Sửa provider khác ngay trong initState là lỗi lúc cây widget đang dựng
     WidgetsBinding.instance.addPostFrameCallback((_) => _danhDauDaDoc());
   }
 
@@ -74,7 +72,6 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
       ? ref.read(hoiThoaiChuNuoiProvider.notifier).danhDauDaDoc(_id)
       : ref.read(hoiThoaiNguoiChamProvider.notifier).danhDauDaDoc(_id);
 
-  // Chuỗi xem trước ngoài tab đổi ngay, chờ tới lượt tải sau là thấy tin cũ
   void _tinCuoiCuaToi(String noiDung) {
     if (widget.isOwner) {
       ref.read(hoiThoaiChuNuoiProvider.notifier).capNhatTinCuoi(_id, noiDung);
@@ -83,12 +80,10 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     }
   }
 
-  // Ảnh và vị trí: chuỗi xem trước do server dựng nên phải hỏi lại danh sách
   Future<void> _taiLaiDanhSach() => widget.isOwner
       ? ref.read(hoiThoaiChuNuoiProvider.notifier).taiLai()
       : ref.read(hoiThoaiNguoiChamProvider.notifier).taiLai();
 
-  // Gửi hỏng thì đừng đổi dòng ngoài tab, tin đó chưa tới server
   bool get _tinCuoiDaGui {
     final tin = ref.read(luongChatProvider(_id)).value?.messages.lastOrNull;
     return tin != null && tin.status != ChatSendStatus.failed;
@@ -110,7 +105,6 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     );
   }
 
-  // Mở màn phải thấy ngay tin mới nhất; cuộn mượt ở đây chỉ tổ nhá tin cũ
   void _xuongDay() {
     if (!_scrollController.hasClients) return;
     _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
@@ -168,7 +162,6 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     }
   }
 
-  // Ảnh đi bằng multipart nên đọc bytes trước chỉ tốn RAM
   Future<void> _guiAnh(List<XFile> files) async {
     await _luong.guiAnh([for (final f in files) f.path]);
     if (!mounted) return;
@@ -250,10 +243,8 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         WidgetsBinding.instance.addPostFrameCallback((_) => _xuongDay());
         return;
       }
-      // Trang tin cũ nối vào ĐẦU danh sách nên không được kéo màn đi theo
       if (moi.length <= cu.length || identical(moi.last, cu.last)) return;
       WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToEnd());
-      // Tin tới lúc đang mở màn cũng là đã đọc, bỏ qua là badge sống dậy khi ra
       if (!moi.last.fromMe) _danhDauDaDoc();
     });
     return _than(ref.watch(luongChatProvider(_id)));
@@ -327,7 +318,6 @@ class _DanhSachTin extends StatelessWidget {
         AppSpacing.screenPadding,
         AppSpacing.itemGap,
       ),
-      // Chat khoá: pill kết thúc nằm cuối danh sách
       itemCount: messages.length + (ended ? 1 : 0),
       separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.itemGap),
       itemBuilder: (context, i) {
@@ -336,7 +326,6 @@ class _DanhSachTin extends StatelessWidget {
         }
         final m = messages[i];
         if (m.kind == ChatMessageKind.system) {
-          // Chip pill chỉ cho mốc mở phiên và nhắc an toàn
           return m.systemKind == ChatSystemKind.suKien
               ? ChatSystemMessage(message: m)
               : ChatSystemChip(message: m);

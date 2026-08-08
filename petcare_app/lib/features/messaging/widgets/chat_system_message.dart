@@ -5,7 +5,7 @@ import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/messaging/data/chat_message.dart';
 import 'package:petcare_app/shared/utils/placeholder_action.dart';
 
-// Tin sự kiện của đơn trong luồng chat: dòng chữ trần căn giữa, không khung
+// Tin sự kiện của đơn trong luồng chat
 class ChatSystemMessage extends StatelessWidget {
   const ChatSystemMessage({super.key, required this.message});
 
@@ -26,7 +26,6 @@ class ChatSystemMessage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (gap) ...[
-                // Icon ngang hàng với DÒNG ĐẦU, không trôi ra giữa khối
                 const Padding(
                   padding: EdgeInsets.only(top: 2),
                   child: Icon(

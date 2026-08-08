@@ -18,7 +18,6 @@ void showImageViewer(
   );
 }
 
-// Ảnh trong chat có hai nguồn: URL đã lên server và ảnh vừa chọn trên máy
 Widget anhChat(
   BuildContext context,
   String nguon, {
@@ -32,7 +31,6 @@ Widget anhChat(
       width: width,
       height: height,
       fit: fit,
-      // Bỏ trống bề ngang là ảnh xem toàn màn, lấy đúng bề ngang màn hình
       memCacheWidth: beRongCache(
         context,
         width ?? MediaQuery.sizeOf(context).width,

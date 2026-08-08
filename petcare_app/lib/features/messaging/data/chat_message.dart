@@ -1,15 +1,10 @@
 import 'package:latlong2/latlong.dart';
 import 'package:petcare_app/core/utils/vn_date.dart';
 
-// Model tin nhắn nội dung bên trong một cuộc trò chuyện
-
-// nội dung một dòng trong luồng chat
 enum ChatMessageKind { system, text, image, location }
 
-// Chip hệ thống và tin sự kiện của đơn; suKien là nhật ký việc đã xảy ra
 enum ChatSystemKind { sessionStart, safety, suKien }
 
-// Trạng thái gửi của tin do mình gửi
 enum ChatSendStatus { sent, read, sending, failed }
 
 // Một dòng trong luồng chat
@@ -31,7 +26,6 @@ class ChatMessage {
     this.soAnhThem,
   });
 
-  // Tin sự kiện của đơn; canGap cho tin có hệ quả tiền hoặc cần làm gấp
   const ChatMessage.suKien(
     String noiDung, {
     this.canGap = false,
@@ -66,7 +60,6 @@ class ChatMessage {
       actionLabel = null,
       soAnhThem = null;
 
-  // Chip nhắc giao dịch an toàn trong app
   const ChatMessage.safety()
     : kind = ChatMessageKind.system,
       systemKind = ChatSystemKind.safety,
@@ -83,7 +76,6 @@ class ChatMessage {
       actionLabel = null,
       soAnhThem = null;
 
-  // Server đã chọn sẵn bản chữ theo vai người đọc, khỏi phân nhánh lại
   factory ChatMessage.fromJson(Map<String, dynamic> json) {
     final kieu = json['kind'] as String? ?? 'TEXT';
     final laHeThong = kieu == 'SYSTEM';
@@ -104,7 +96,6 @@ class ChatMessage {
       systemKind: laHeThong ? ChatSystemKind.suKien : null,
       fromMe: json['fromMe'] as bool? ?? false,
       text: json['text'] as String? ?? '',
-      // Tin hệ thống không hiện giờ riêng: giờ đã ghép sẵn cuối câu
       timeLabel: laHeThong ? null : _gio(tao),
       status: (json['fromMe'] as bool? ?? false)
           ? ((json['isRead'] as bool? ?? false)
@@ -126,18 +117,16 @@ class ChatMessage {
   final ChatSystemKind? systemKind;
   final bool fromMe;
   final String text;
-  final String? timeLabel; // giờ hiển thị dưới bong bóng
-  final ChatSendStatus? status; // trạng thái gửi
+  final String? timeLabel;
+  final ChatSendStatus? status;
 
-  final String? caption; // dòng mô tả dưới khối vị trí
-
-  // URL http là ảnh đã lên server, đường dẫn thường là ảnh còn trên máy
+  final String? caption;
   final List<String>? images;
-  final LatLng? location; // toạ độ tin vị trí hiện bản đồ thu nhỏ
-  final bool masked; // tin bị ẩn số điện thoại kèm cảnh báo
-  final bool canGap; // tin sự kiện có hệ quả tiền hoặc cần làm gấp
-  final String? actionLabel; // nhãn link, null là tin không dẫn đi đâu
-  final int? soAnhThem; // số ảnh còn lại, phủ "+n" lên ô cuối của lô ảnh
+  final LatLng? location;
+  final bool masked;
+  final bool canGap;
+  final String? actionLabel;
+  final int? soAnhThem;
 
   ChatMessage copyWith({ChatSendStatus? status}) => ChatMessage(
     id: id,
@@ -166,7 +155,5 @@ class ChatThread {
 
   final List<ChatMessage> messages;
   final String? countdown;
-
-  // Con trỏ xin trang tin cũ hơn; null là đã tới đầu luồng
   final String? truocTiep;
 }

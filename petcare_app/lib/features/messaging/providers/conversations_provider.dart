@@ -17,7 +17,6 @@ class HoiThoaiChuNuoi extends _$HoiThoaiChuNuoi {
     state = await AsyncValue.guard(() => _service.danhSach(laChuNuoi: true));
   }
 
-  // Badge phải tắt ngay lúc mở, chờ server là thấy số chưa đọc nhấp nháy
   Future<void> danhDauDaDoc(String id) async {
     final ds = state.value;
     if (ds != null) state = AsyncData(_daDoc(ds, id));
@@ -60,7 +59,7 @@ List<Conversation> _daDoc(List<Conversation> ds, String id) => [
     if (c.id == id && c.chuaDoc) c.copyWith(unreadCount: 0) else c,
 ];
 
-// Hội thoại vừa nhắn nhảy lên đầu, giữ đúng thứ tự server trả ở lần tải sau
+// Hội thoại vừa nhắn nhảy lên đầu
 List<Conversation> _tinCuoiCuaToi(
   List<Conversation> ds,
   String id,

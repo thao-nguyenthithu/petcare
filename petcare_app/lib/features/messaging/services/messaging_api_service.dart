@@ -3,11 +3,9 @@ import 'package:petcare_app/core/network/api_client.dart';
 import 'package:petcare_app/features/messaging/data/chat_message.dart';
 import 'package:petcare_app/shared/data/conversation.dart';
 
-// `truocTiep` là con trỏ thời gian, null nghĩa là đã tới đầu luồng
 typedef TrangTin = ({List<ChatMessage> items, String? truocTiep});
 
 class MessagingApiService {
-  // Gửi kèm vai đọc chứ không để server đoán, hai vai hai danh sách
   static String _vai(bool laChuNuoi) => laChuNuoi ? 'OWNER' : 'PROVIDER';
 
   Future<List<Conversation>> danhSach({required bool laChuNuoi}) async {
@@ -21,7 +19,6 @@ class MessagingApiService {
     ];
   }
 
-  // Màn chi tiết chỉ cầm id đơn; chưa ai nhắn thì server tự mở hội thoại
   Future<Conversation?> theoDon(
     String bookingId, {
     required bool laChuNuoi,
@@ -79,7 +76,6 @@ class MessagingApiService {
     return _docTin(res.data);
   }
 
-  // Multipart chứ không base64, nhét vào JSON là phình thêm một phần ba
   Future<ChatMessage> guiAnh(
     String conversationId,
     List<String> duongDan, {

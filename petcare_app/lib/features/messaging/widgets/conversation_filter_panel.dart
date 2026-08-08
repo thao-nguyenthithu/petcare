@@ -16,8 +16,8 @@ class ConversationFilterPanel extends StatelessWidget {
     required this.onToggleServiceType,
   });
 
-  final ConversationState? sessionFilter; // null = tất cả trạng thái
-  final Set<ServiceType> serviceTypes; // rỗng = tất cả loại dịch vụ
+  final ConversationState? sessionFilter;
+  final Set<ServiceType> serviceTypes;
   final ValueChanged<ConversationState?> onSessionChanged;
   final ValueChanged<ServiceType> onToggleServiceType;
 
