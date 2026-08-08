@@ -2,27 +2,46 @@
 
 REST API và WebSocket cho nền tảng P2P kết nối chủ nuôi với người chăm thú cưng.
 
-Kiến trúc: NestJS modular monolith · Prisma 7 + Supabase PostgreSQL/PostGIS · Redis (BullMQ,
+Kiến trúc: NestJS 11 modular monolith · Prisma 7 + Supabase PostgreSQL/PostGIS · Redis (BullMQ,
 OTP, Socket.io adapter) · JWT + Firebase Admin · Supabase Storage.
 
 Quy mô hiện tại: 17 cụm module, 39 controller, 197 route, 6 gateway, 5 cron, 49 bộ test.
+Lược đồ dữ liệu 37 model và 22 enum.
 
 ## Yêu cầu môi trường
 
-Node.js 24.x · npm 11.x · Docker (chạy Redis tại chỗ).
+Node.js 24.x · npm 11.x · Docker (chạy Redis tại chỗ, container `petcare_redis`).
 
 ## Cài đặt
 
 ```bash
 npm install
-cp .env.example .env
 docker compose up -d
 npx prisma generate
 npm run start:dev
 ```
 
-Điền `.env` theo `.env.example`. Ba biến bắt buộc mới chạy được: `DATABASE_URL`,
-`DIRECT_URL`, `JWT_SECRET`.
+Tự tạo file `.env` ở thư mục này theo bảng bên dưới. Bốn biến bắt buộc mới chạy được:
+`DATABASE_URL`, `DIRECT_URL`, `JWT_SECRET`, `SUPABASE_URL` kèm `SUPABASE_SERVICE_KEY`.
+Máy chủ nghe cổng `PORT` (mặc định 3000), tiền tố API là `/api/v1`.
+
+## Biến môi trường
+
+| Biến | Dùng làm gì |
+|---|---|
+| `DATABASE_URL` | Kết nối lúc chạy, đi qua pooler Supabase cổng 6543 |
+| `DIRECT_URL` | Kết nối trực tiếp cổng 5432 cho `prisma migrate`, khai trong `prisma.config.ts` |
+| `SHADOW_DATABASE_URL` | Chỉ cần khi tạo migration mới, xem mục Database |
+| `JWT_SECRET`, `JWT_EXPIRES_IN` | Ký token, hạn mặc định `30d` |
+| `SUPABASE_URL`, `SUPABASE_SERVICE_KEY` | Tải ảnh lên Storage và ký đường dẫn riêng tư |
+| `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY` | Social login và đẩy thông báo; thiếu thì Firebase khởi tạo mềm, tính năng liên quan tắt |
+| `MAIL_USER`, `MAIL_APP_PASSWORD` | Gửi mail OTP qua Gmail App Password |
+| `ANTHROPIC_API_KEY`, `GEMINI_API_KEY` | Hai adapter quét ảnh check-in, thiếu key nào thì adapter đó bị bỏ qua |
+| `REDIS_URL` hoặc `REDIS_HOST` + `REDIS_PORT` | BullMQ, OTP, Socket.io adapter |
+| `PAYMENT_GATEWAY` | `mock`, `vnpay` hoặc `auto` |
+| `VNPAY_TMN_CODE`, `VNPAY_HASH_SECRET`, `VNPAY_PAY_URL`, `VNPAY_RETURN_URL` | Cổng VNPay sandbox |
+| `CORS_ORIGINS` | Danh sách origin phân tách bằng dấu phẩy |
+| `PORT`, `NODE_ENV`, `DEBUG_PRISMA` | Cổng chạy, chế độ chạy, bật log truy vấn Prisma |
 
 ## Database
 
@@ -86,9 +105,17 @@ modules/
   wallet/        ví, rút tiền, tài khoản ngân hàng
 ```
 
+## Tác vụ định kỳ
+
+Năm cron chạy trong tiến trình máy chủ, nhịp cụ thể tra bộ luật:
+
+- tự hoàn tất đơn quá hạn (`bookings/auto-complete.job.ts`)
+- quét đơn treo trạng thái (`bookings/booking-sweep.job.ts`)
+- nhắc lịch phòng bệnh (`pets/prevention-reminder.job.ts`)
+- giải phóng tiền tạm giữ về ví người chăm (`wallet/escrow-release.job.ts`)
+
 ## Điểm cần biết
 
-- **Con số nghiệp vụ** không nằm trong mã nguồn cứng mà tra `.claude/so-lieu-nghiep-vu.md`;
   ngưỡng vận hành đọc từ bảng `SystemSetting` và đóng băng theo đơn.
 - **Redis**: có `REDIS_URL` thì dùng chuỗi đó (kèm mật khẩu, dành cho môi trường thật),
   không có mới rơi về `REDIS_HOST`/`REDIS_PORT`.
@@ -98,7 +125,6 @@ modules/
 - **Cổng thanh toán**: `NODE_ENV=production` mà còn `PAYMENT_GATEWAY=mock` thì máy chủ
   không khởi động (bộ luật mục 15).
 - **Swagger** ở `/api/docs`, tiền tố API là `/api/v1`.
-- Chi tiết Prisma, Railway, GIST, timezone: `.claude/notes-ky-thuat.md`.
 
 ## Deploy
 
@@ -107,4 +133,5 @@ railway up --service petcare-backend --detach
 ```
 
 Biến môi trường khai trong Railway Dashboard, không dùng file `.env` trên máy chủ.
-Healthcheck trỏ `/api/docs`.
+Healthcheck trỏ `/api/docs`. Push vào `main` sẽ tự chạy job deploy ở
+`.github/workflows/deploy.yml`.

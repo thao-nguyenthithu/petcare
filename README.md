@@ -6,13 +6,14 @@ Nền tảng On-Demand P2P Marketplace kết nối chủ nuôi thú cưng với 
 
 ## Giới thiệu
 
-Hệ thống gồm 3 loại dịch vụ:
+Ba loại dịch vụ:
 
 - Dắt thú cưng (Dog Walking) - theo dõi GPS realtime trong suốt buổi dắt
 - Trông giữ thú cưng (Pet Boarding) - photo log định kỳ theo phiên
 - Chăm sóc tại nhà (Home Grooming) - xác minh vị trí bằng geofencing
 
-3 vai trò người dùng: Pet Owner, Service Provider, Admin.
+Ba vai trò người dùng: chủ nuôi (Owner), người chăm (Sitter), quản trị viên (Admin).
+Owner và Sitter dùng chung ứng dụng di động, Admin dùng web quản trị riêng.
 
 ---
 
@@ -20,15 +21,25 @@ Hệ thống gồm 3 loại dịch vụ:
 
 ```
 smart-pet-care/
-├── petcare_backend/    - NestJS API, Prisma, Supabase PostgreSQL + PostGIS
-├── petcare_app/        - Flutter Mobile App (Owner + Service Provider)
-└── .github/workflows/  - CI/CD pipeline (GitHub Actions)
+├── petcare_backend/    - NestJS 11 API + WebSocket, Prisma 7, Supabase PostgreSQL + PostGIS
+├── petcare_app/        - Flutter app cho Owner và Sitter
+├── petcare_admin/      - Web quản trị (React 19 + Vite + Tailwind)
+├── docs/               - Tài liệu kiến trúc, ADR, thiết kế (đọc docs/README.md trước)
+└── .github/workflows/  - CI/CD pipeline (GitHub Actions, deploy Railway)
 ```
 
-Mỗi thành phần có README riêng với hướng dẫn setup chi tiết:
+Hướng dẫn setup chi tiết ở README từng thành phần:
 
 - [petcare_backend/README.md](./petcare_backend/README.md)
 - [petcare_app/README.md](./petcare_app/README.md)
+
+Web quản trị chạy bằng Vite:
+
+```bash
+cd petcare_admin
+npm install
+npm run dev
+```
 
 ---
 
@@ -36,44 +47,30 @@ Mỗi thành phần có README riêng với hướng dẫn setup chi tiết:
 
 | Thành phần | Công nghệ |
 |---|---|
-| Backend | NestJS 10 + TypeScript, Prisma ORM (Driver Adapter pattern) |
-| Mobile | Flutter + Riverpod |
-| Database | Supabase PostgreSQL + PostGIS (Southeast Asia) |
-| Auth | Firebase Auth (Social Login) |
+| Backend | NestJS 11 + TypeScript, Prisma 7 (Driver Adapter `@prisma/adapter-pg`) |
+| Mobile | Flutter 3.41 + Riverpod 3 + go_router, i18n ARB vi/en |
+| Web quản trị | React 19 + Vite + TypeScript, Tailwind + Radix UI, TanStack Query, i18next |
+| Database | Supabase PostgreSQL + PostGIS (Southeast Asia), 37 model - 22 enum |
+| Auth | JWT (passport-jwt) + Firebase Admin cho social login Google/Facebook |
 | Push Notification | Firebase Cloud Messaging (FCM) |
-| Realtime | Socket.io + Redis adapter - GPS Realtime và In-session Chat |
-| Storage | Supabase Storage (RLS + Firebase JWT Third-party Auth) |
-| Queue | BullMQ + Redis |
-| AI | Anthropic Claude Vision API - xác minh ảnh dây xích/rọ mõm |
-| Bản đồ | flutter_map / OpenStreetMap |
+| Realtime | Socket.io + Redis adapter - GPS realtime và chat trong đơn |
+| Storage | Supabase Storage, đường dẫn riêng tư ký tạm thời |
+| Queue - cache | BullMQ + Redis (mail, hết hạn thanh toán, OTP) |
+| Mail | nodemailer qua Gmail App Password |
+| AI | Vision adapter Anthropic Claude và Google Gemini - xác minh ảnh check-in |
+| Thanh toán | VNPay sandbox, cổng mock cho môi trường chạy máy |
+| Bản đồ | flutter_map / OpenStreetMap (app), Leaflet (web quản trị) |
 | Deploy | Railway (backend), GitHub Actions CI/CD |
 
 ---
 
-## Architecture Decision Records
+## Phạm vi chức năng
 
-| ADR | Tóm tắt |
+| Thành phần | Cụm chính |
 |---|---|
-| ADR-001 | AI fail 3 lần - Owner Override 5 phút (thay Admin Manual Review) |
-| ADR-002 | (Deprecated bởi ADR-004) GPS Dual Stream Firebase RTDB |
-| ADR-003 | Optimistic Lock bằng `updatedAt` cho Booking State Machine - tránh Race Condition |
-| ADR-004 | WebSocket (Socket.io + Redis adapter) thay Firebase RTDB cho GPS Realtime và In-session Chat |
-| ADR-005 | flutter_map (OpenStreetMap) thay google_maps_flutter |
-
----
-
-## Timeline
-
-6 sprint, từ 12/05/2026 đến 31/07/2026.
-
-| Sprint | Thời gian | Nội dung chính |
-|---|---|---|
-| Sprint 1 | 12/05 - 25/05 | Init NestJS + Flutter, Database schema, Supabase Storage |
-| Sprint 2 | 26/05 - 08/06 | Kiến trúc tổng thể, API Contract, Auth API, UI/UX wireframe |
-| Sprint 3 | 09/06 - 22/06 | Booking State Machine, Service Catalog, Provider API |
-| Sprint 4 | 23/06 - 06/07 | WebSocket Gateway (GPS + Chat), Evidence Storage API |
-| Sprint 5 | 07/07 - 20/07 | AI Photo Verification, Review/Report API, Admin |
-| Sprint 6 | 21/07 - 31/07 | Integration, Unit Test, Deploy, Hoàn thiện báo cáo |
+| Backend | 17 cụm module - 39 controller - 197 route - 6 gateway - 5 cron - 49 bộ test |
+| Ứng dụng di động | Owner: tìm kiếm, đặt đơn, thú cưng, địa chỉ, ví, đánh giá, nhắn tin, thông báo · Sitter: đăng ký làm người chăm, dịch vụ, lịch, đơn, ví |
+| Web quản trị | Người dùng, người chăm, đơn, khiếu nại, bằng chứng, tài chính, phạt, đánh giá, dịch vụ, thông báo, tham số hệ thống |
 
 ---
 
