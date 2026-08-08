@@ -41,7 +41,7 @@ TrangThaiDon trangThaiTuMa(String? ma) => switch (ma) {
   'pending' => TrangThaiDon.choNhan,
   'confirmed' => TrangThaiDon.daNhan,
   'awaitingOwnerConfirm' => TrangThaiDon.choChuNuoiChot,
-  'inProgress' || 'pausedWaitingOwner' => TrangThaiDon.dangChay,
+  'inProgress' => TrangThaiDon.dangChay,
   'completed' => TrangThaiDon.hoanThanh,
   'cancelledByOwner' ||
   'cancelledBySitter' ||

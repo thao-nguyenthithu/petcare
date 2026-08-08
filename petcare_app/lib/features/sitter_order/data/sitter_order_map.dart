@@ -117,7 +117,6 @@ TinhTrangDonNcc _tinhTrang(ChiTietDonNccApi api, DateTime bayGio) {
       if (api.xuatPhatLuc != null) return TinhTrangDonNcc.dangToi;
       return TinhTrangDonNcc.daNhanDon;
     case TrangThaiDonApi.dangChay:
-    case TrangThaiDonApi.choChuNuoiDuyetAnh:
       return TinhTrangDonNcc.dangDat;
     case TrangThaiDonApi.choChuNuoiChot:
     // Khiếu nại vẫn là chờ chốt, không đẩy sang hoàn thành

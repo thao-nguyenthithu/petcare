@@ -38,8 +38,7 @@ LoaiDichVu _loaiDichVu(ServiceType loai) => switch (loai) {
 SitterBookingStatus _trangThaiCard(TrangThaiDonApi tt) => switch (tt) {
   TrangThaiDonApi.choNhan => SitterBookingStatus.choXacNhan,
   TrangThaiDonApi.daNhan => SitterBookingStatus.daXacNhan,
-  TrangThaiDonApi.dangChay ||
-  TrangThaiDonApi.choChuNuoiDuyetAnh => SitterBookingStatus.dangDienRa,
+  TrangThaiDonApi.dangChay => SitterBookingStatus.dangDienRa,
   TrangThaiDonApi.choChuNuoiChot => SitterBookingStatus.choChuNuoiXacNhan,
   TrangThaiDonApi.khieuNai => SitterBookingStatus.khieuNai,
   TrangThaiDonApi.hoanThanh ||

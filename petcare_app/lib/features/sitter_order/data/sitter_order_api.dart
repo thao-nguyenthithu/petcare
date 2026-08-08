@@ -7,7 +7,6 @@ import 'package:petcare_app/shared/data/sitter_services.dart';
 enum TrangThaiDonApi {
   choNhan,
   daNhan,
-  choChuNuoiDuyetAnh,
   dangChay,
   choChuNuoiChot,
   hoanThanh,
@@ -24,7 +23,6 @@ enum TrangThaiDonApi {
 TrangThaiDonApi trangThaiDonTuMa(String? ma) => switch (ma) {
   'pending' => TrangThaiDonApi.choNhan,
   'confirmed' => TrangThaiDonApi.daNhan,
-  'pausedWaitingOwner' => TrangThaiDonApi.choChuNuoiDuyetAnh,
   'inProgress' => TrangThaiDonApi.dangChay,
   'awaitingOwnerConfirm' => TrangThaiDonApi.choChuNuoiChot,
   'completed' => TrangThaiDonApi.hoanThanh,

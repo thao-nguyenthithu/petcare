@@ -39,6 +39,42 @@ String moTaLoiDonNcc(BuildContext context, Object error) {
     case 'CHUA_BAO_THIEU_DUNG_CU':
     case 'CHU_NUOI_DA_TOI':
       return messageFromError(error) ?? l10n.loiKetNoiMayChu;
+    case 'THIEU_HO_TEN':
+      return l10n.loiThieuHoTen;
+    case 'SDT_DA_DUOC_DUNG':
+      return l10n.loiSdtDaDuocDung;
+    case 'TOKEN_KHONG_HOP_LE':
+      return l10n.loiTokenKhongHopLe;
+    case 'KHONG_PHAI_DON_CUA_BAN':
+      return l10n.loiKhongPhaiDonCuaBan;
+    case 'KHONG_TIM_THAY_LO_ANH':
+      return l10n.loiKhongTimThayLoAnh;
+    case 'CHUA_QUET_DU_CAC_BE':
+      return l10n.loiChuaQuetDuCacBe;
+    case 'KHONG_DOC_DUOC_KICH_THUOC_ANH':
+      return l10n.loiKhongDocDuocKichThuocAnh;
+    case 'SAI_DANH_SACH_SLOT':
+      return l10n.loiSaiDanhSachSlot;
+    case 'DANG_QUET_LO_TRUOC':
+      return l10n.loiDangQuetLoTruoc;
+    case 'TRUNG_SLOT_TRONG_LO':
+      return l10n.loiTrungSlotTrongLo;
+    case 'THIEU_ANH_BE':
+      return l10n.loiThieuAnhBe;
+    case 'SLOT_KHONG_HOP_LE':
+      return l10n.loiSlotKhongHopLe;
+    case 'CHUA_DUOC_TU_XAC_NHAN':
+      return l10n.loiChuaDuocTuXacNhan;
+    case 'DON_DA_NHAN_KHONG_TU_CHOI_DUOC':
+      return l10n.loiDonDaNhanKhongTuChoiDuoc;
+    case 'TRUNG_LICH_DON_KHAC':
+      return l10n.loiTrungLichDonKhac;
+    case 'SAI_LOAI_DICH_VU':
+      return l10n.loiSaiLoaiDichVuViec;
+    case 'THIEU_ANH_BANG_CHUNG':
+      return l10n.loiThieuAnhBangChung;
+    case 'KHONG_CO_ANH_DO_DUNG':
+      return l10n.loiKhongCoAnhDoDung;
   }
   return messageFromError(error) ?? l10n.loiKetNoiMayChu;
 }
