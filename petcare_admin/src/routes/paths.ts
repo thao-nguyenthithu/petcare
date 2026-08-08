@@ -1,0 +1,25 @@
+export const LOGIN_PATH = '/login';
+
+export const PATHS = {
+  login: LOGIN_PATH,
+  forgotPassword: '/forgot-password',
+  verifyOtp: '/forgot-password/verify',
+  resetPassword: '/forgot-password/reset',
+  dashboard: '/',
+  users: '/users',
+  sitterApprovals: '/sitter-approvals',
+  penalties: '/penalties',
+  services: '/services',
+  bookings: '/bookings',
+  gpsFlagged: '/bookings/flagged',
+  evidence: '/evidence',
+  disputes: '/disputes',
+  reviews: '/reviews',
+  finance: '/finance',
+  payments: '/payments',
+  refunds: '/refunds',
+  broadcast: '/broadcast',
+  notificationTypes: '/notification-types',
+  settings: '/settings',
+  limits: '/limits',
+} as const;
