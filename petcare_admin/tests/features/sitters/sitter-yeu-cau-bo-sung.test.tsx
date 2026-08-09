@@ -22,6 +22,7 @@ function hoSoChoDuyet(ghiDe: Record<string, unknown> = {}) {
       province: 'Hà Nội',
       addressDetail: 'Số 12 Giải Phóng, Đống Đa, Hà Nội',
       submittedAt: '2026-08-05T02:00:00+07:00',
+      approvedAt: null,
       onboardedAt: null,
       serviceAddress: null,
       serviceAddressNote: null,

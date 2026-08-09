@@ -21,6 +21,7 @@ function hoSo(services: unknown[], ghiDeSitter: Record<string, unknown> = {}) {
       province: 'Hà Nội',
       addressDetail: 'Số 12 Giải Phóng, Đống Đa, Hà Nội',
       submittedAt: '2026-07-20T02:00:00+07:00',
+      approvedAt: '2026-07-21T02:00:00+07:00',
       onboardedAt: '2026-07-22T02:00:00+07:00',
       serviceAddress: 'Số 12 Giải Phóng, Đống Đa, Hà Nội',
       serviceAddressNote: null,
