@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petcare_app/core/config/cau_hinh_nghiep_vu_provider.dart';
 import 'package:petcare_app/core/l10n/generated/app_localizations.dart';
 import 'package:petcare_app/core/l10n/locale_provider.dart';
+import 'package:petcare_app/core/network/api_client.dart';
 import 'package:petcare_app/core/providers/app_container.dart';
 import 'package:petcare_app/core/services/push_refresh.dart';
 import 'package:petcare_app/core/services/local_notif_service.dart';
@@ -19,6 +20,7 @@ import 'package:petcare_app/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  canhBaoApiUrl();
   if (!kIsWeb) FlutterForegroundTask.initCommunicationPort();
   // Bảng chọn ảnh chặn đúng số ảnh cho phép
   batPhotoPickerAndroid();

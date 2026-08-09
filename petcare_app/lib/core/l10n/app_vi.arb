@@ -3144,7 +3144,10 @@
     }
   },
   "daToiNoi": "Đã tới nơi",
-  "loiKhongLayDuocViTri": "Không lấy được vị trí, hãy bật định vị rồi thử lại",
+  "loiKhongLayDuocViTri": "Chưa đo được chỗ bạn đang đứng, ra chỗ thoáng rồi thử lại",
+  "loiDinhViDangTat": "Định vị của máy đang tắt, hãy bật rồi thử lại",
+  "loiChuaCapQuyenViTri": "Ứng dụng cần quyền vị trí để xác nhận bạn đã tới điểm hẹn",
+  "loiQuyenViTriBiChan": "Quyền vị trí đang bị chặn, mở Cài đặt để cấp lại",
   "toiDenMuon": "Tôi đến muộn",
   "daBaoDenMuon": "Đã báo đến muộn",
   "xemDonDangCho": "Xem đơn đang chờ",

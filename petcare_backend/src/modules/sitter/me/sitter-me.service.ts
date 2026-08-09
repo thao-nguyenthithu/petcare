@@ -186,7 +186,9 @@ export class SitterMeService {
       if (path) {
         try {
           await this.supabase.deleteFile(BUCKET, path);
-        } catch {}
+        } catch {
+          // Xoá hụt một file trên storage không đáng chặn cả lượt xoá bản ghi
+        }
       }
     }
     await this.prisma.sitterPhoto.deleteMany({

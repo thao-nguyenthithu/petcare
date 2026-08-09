@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { gioVn, MOT_PHUT_MS, ngayThangVn } from '../../../common/thoi-gian-vn';
 import { PrismaService } from '../../../prisma/prisma.service';
+import { SystemSettingsService } from '../../admin/system-settings.service';
 import {
   DEPART_WINDOW_MINUTES,
   ARRIVE_GEOFENCE_METERS,
@@ -40,6 +41,7 @@ export class SitterActionsService {
     private readonly notify: BookingNotifyService,
     private readonly chat: BookingChatService,
     private readonly lich: SitterLichService,
+    private readonly thamSo: SystemSettingsService,
   ) {}
 
   async nhanDon(userId: string, id: string, dto: AcceptBookingDto) {
@@ -133,14 +135,18 @@ export class SitterActionsService {
     }
     chuaCoMoc(don.arrivedAt, 'DA_TOI_ROI', 'Bạn đã báo tới nơi rồi');
     const met = metToiDiemHen(don, dto.lat, dto.lng);
-    if (met === null || met > ARRIVE_GEOFENCE_METERS) {
+    // Công tắc màn 15, tắt thì vẫn ghi khoảng cách để về sau soát lại (bộ luật mục 15)
+    if (
+      this.thamSo.batGeofence() &&
+      (met === null || met > ARRIVE_GEOFENCE_METERS)
+    ) {
       throw new ConflictException({
         code: 'NGOAI_VUNG_DIEM_DON',
         message: `Bạn cần vào trong ${ARRIVE_GEOFENCE_METERS} m quanh điểm hẹn`,
       });
     }
     const luc = new Date();
-    const saiLech = Math.round(met);
+    const saiLech = met === null ? null : Math.round(met);
     await this.prisma.booking.update({
       where: { id: don.id },
       data: { arrivedAt: luc, arriveDistanceM: saiLech },

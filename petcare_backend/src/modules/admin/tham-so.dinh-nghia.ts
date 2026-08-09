@@ -146,6 +146,12 @@ export const THAM_SO = {
     nhan: 'Bật thanh toán qua VNPay',
     congKhai: true,
   },
+  'checkin.geofence.enabled': {
+    kieu: 'batTat',
+    macDinh: true,
+    nhan: 'Kiểm vị trí quanh điểm hẹn',
+    congKhai: true,
+  },
   'ai.vision.provider': {
     kieu: 'chon',
     macDinh: 'anthropic',

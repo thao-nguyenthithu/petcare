@@ -1569,6 +1569,10 @@
         "sitter_auto_approve": {
           "bat": "Hồ sơ người chăm nộp mới sẽ tự được duyệt, không ai đối chiếu ảnh căn cước nữa.",
           "tat": "Hồ sơ người chăm nộp mới quay lại chờ quản trị viên duyệt tay."
+        },
+        "checkin_geofence_enabled": {
+          "bat": "Người chăm phải đứng trong 200 m quanh điểm hẹn mới báo được đã tới nơi và mới kết thúc được phiên.",
+          "tat": "Người chăm báo đã tới nơi và kết thúc phiên từ bất cứ đâu. Khoảng cách vẫn được ghi lại theo đơn, nhưng các nhánh vắng mặt và thiếu dụng cụ mất chỗ dựa bằng chứng. Chỉ dùng khi chạy thử hoặc trình diễn."
         }
       }
     },
@@ -1668,6 +1672,7 @@
       "search_radius_max_km": "Bán kính tìm kiếm tối đa",
       "sitter_auto_approve": "Tự duyệt hồ sơ người chăm",
       "payment_vnpay_enabled": "Bật thanh toán qua VNPay",
+      "checkin_geofence_enabled": "Kiểm vị trí quanh điểm hẹn",
       "ai_vision_provider": "Nhà cung cấp nhận diện ảnh"
     }
   },

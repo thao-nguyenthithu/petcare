@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/generated/app_localizations.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
@@ -14,6 +13,7 @@ import 'package:petcare_app/features/sitter_order/data/sitter_check_in.dart';
 import 'package:petcare_app/features/sitter_order/services/checkin_scan_api_service.dart';
 import 'package:petcare_app/features/sitter_order/services/sitter_order_error_mapper.dart';
 import 'package:petcare_app/features/sitter_order/widgets/camera_parts.dart';
+import 'package:petcare_app/shared/utils/lay_vi_tri.dart';
 import 'package:petcare_app/shared/widgets/flat_section.dart';
 
 // Camera check-in, chụp đủ rồi mới gửi cả lô cho AI kiểm
@@ -157,14 +157,12 @@ class _SitterCheckInCameraScreenState extends State<SitterCheckInCameraScreen>
       _dangGui = true;
       _loiGui = null;
     });
-    final Position viTri;
-    try {
-      viTri = await Geolocator.getCurrentPosition();
-    } on Exception {
-      if (!mounted) return;
+    final (viTri, loiViTri) = await layViTriHienTai();
+    if (!mounted) return;
+    if (viTri == null) {
       setState(() {
         _dangGui = false;
-        _loiGui = l10n.loiKhongLayDuocViTri;
+        _loiGui = chuLoiViTri(l10n, loiViTri!);
       });
       return;
     }

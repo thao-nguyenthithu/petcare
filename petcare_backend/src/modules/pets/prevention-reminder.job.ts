@@ -1,6 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
-import { homNayVn, ngayDb, themNgay } from '../../common/thoi-gian-vn';
+import {
+  MUI_GIO_VN,
+  homNayVn,
+  ngayDb,
+  themNgay,
+} from '../../common/thoi-gian-vn';
 import { PrismaService } from '../../prisma/prisma.service';
 import { PreventionNotifyService } from '../notifications/prevention-notify.service';
 
@@ -15,7 +20,7 @@ export class PreventionReminderJob {
     private readonly notify: PreventionNotifyService,
   ) {}
 
-  @Cron('0 8 * * *', { timeZone: 'Asia/Ho_Chi_Minh' })
+  @Cron('0 8 * * *', { timeZone: MUI_GIO_VN })
   async quet() {
     const homNay = homNayVn();
     const dsMui = await this.prisma.preventionDose.findMany({

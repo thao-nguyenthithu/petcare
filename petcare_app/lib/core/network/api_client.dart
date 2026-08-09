@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/storage/token_storage.dart';
 
@@ -8,6 +9,15 @@ const String apiUrl = String.fromEnvironment(
 );
 
 final String serverGoc = apiUrl.replaceFirst(RegExp(r'/api/v\d+$'), '');
+
+void canhBaoApiUrl() {
+  debugPrint('API_URL đang dùng: $apiUrl');
+  if (!apiUrl.contains('localhost') && !apiUrl.contains('127.0.0.1')) return;
+  debugPrint(
+    'CẢNH BÁO: máy thật và máy ảo không gọi được localhost, '
+    'build kèm --dart-define-from-file=secrets.env',
+  );
+}
 
 final Dio apiClient = Dio(
   BaseOptions(

@@ -49,6 +49,7 @@ SitterOrderDetail donNccTuApi(
     phanTramPhiHuy: cauHinh.phiHuyMuonPhanTram,
     gioGiuTien: cauHinh.gioGiuTien,
     tranTyLeHuy: cauHinh.tranTyLeHuy,
+    batGeofence: cauHinh.batGeofence,
     mocPhu: _mocPhu(l10n, api, tinhTrang, bayGio),
     gioMoChiDuong: _gio(api.mocMoChiDuong),
     ngayMoChiDuong: _ngay(api.mocMoChiDuong),

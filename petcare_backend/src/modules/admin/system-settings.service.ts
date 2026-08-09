@@ -24,6 +24,9 @@ export const KHOA_NHA_AI = 'ai.vision.provider';
 // Khoá công tắc cổng thanh toán
 export const KHOA_BAT_VNPAY = 'payment.vnpay.enabled';
 
+// Khoá công tắc hàng rào vị trí quanh điểm hẹn
+export const KHOA_BAT_GEOFENCE = 'checkin.geofence.enabled';
+
 // Nhịp nạp lại cả bảng, để ai sửa thẳng cơ sở dữ liệu vẫn hội tụ
 const NHIP_LAM_MOI_MS = 60_000;
 
@@ -257,6 +260,10 @@ export class SystemSettingsService implements OnModuleInit {
   // Cụm thanh toán đọc qua đây để không phải nhớ tên khoá
   batVnpay(): boolean {
     return this.bat(KHOA_BAT_VNPAY);
+  }
+
+  batGeofence(): boolean {
+    return this.bat(KHOA_BAT_GEOFENCE);
   }
 
   nhaAi(): GiaTriChon<typeof KHOA_NHA_AI> {

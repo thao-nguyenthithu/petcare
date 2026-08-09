@@ -75,6 +75,7 @@ class SitterOrderDetail {
     this.phanTramPhiHuy = phiHuyMuonMacDinh,
     this.gioGiuTien = gioGiuTienMacDinh,
     this.tranTyLeHuy = tranTyLeHuyMacDinh,
+    this.batGeofence = batGeofenceMacDinh,
     this.avatarChuNuoi,
     this.diaChiDayDu,
     this.viTri,
@@ -136,6 +137,9 @@ class SitterOrderDetail {
   final int phanTramPhiHuy;
   final int gioGiuTien;
   final int tranTyLeHuy;
+
+  // Công tắc màn 15, tắt thì bỏ hàng rào 200 m (bộ luật mục 15)
+  final bool batGeofence;
   final String? mocPhu;
   final String? gioMoChiDuong;
   final String? ngayMoChiDuong;
@@ -281,6 +285,7 @@ class SitterOrderDetail {
     int? phanTramPhiHuy,
     int? gioGiuTien,
     int? tranTyLeHuy,
+    bool? batGeofence,
     String? avatarChuNuoi,
     String? diaChiDayDu,
     LatLng? viTri,
@@ -341,6 +346,7 @@ class SitterOrderDetail {
     phanTramPhiHuy: phanTramPhiHuy ?? this.phanTramPhiHuy,
     gioGiuTien: gioGiuTien ?? this.gioGiuTien,
     tranTyLeHuy: tranTyLeHuy ?? this.tranTyLeHuy,
+    batGeofence: batGeofence ?? this.batGeofence,
     avatarChuNuoi: avatarChuNuoi ?? this.avatarChuNuoi,
     diaChiDayDu: diaChiDayDu ?? this.diaChiDayDu,
     viTri: viTri ?? this.viTri,

@@ -1,4 +1,4 @@
-﻿name: CI/CD Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
@@ -20,8 +20,30 @@ jobs:
           cache: 'npm'
           cache-dependency-path: petcare_backend/package-lock.json
       - run: npm ci
+      # Prisma 7 không tự sinh client lúc cài, thiếu bước này thì eslint thấy mọi kiểu Prisma là any
+      - run: npx prisma generate
       - run: npm run lint
       - run: npm run build
+      - run: npm test
+
+  admin:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: petcare_admin
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+          cache-dependency-path: petcare_admin/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run test:run
+      - run: npm run build
+        env:
+          VITE_API_URL: http://localhost:3000/api/v1
 
   deploy:
     needs: build

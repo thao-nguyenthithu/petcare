@@ -11,6 +11,12 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+val khoaKy = Properties()
+val tepKhoaKy = rootProject.file("key.properties")
+if (tepKhoaKy.exists()) {
+    FileInputStream(tepKhoaKy).use { khoaKy.load(it) }
+}
+
 android {
     namespace = "com.petcare.smart_pet_care_app"
     compileSdk = flutter.compileSdkVersion
@@ -37,9 +43,6 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
 
-        manifestPlaceholders["MAPS_API_KEY"] = 
-        project.findProperty("MAPS_API_KEY") as String? ?: "CHUA_CO_KEY"
-
         resValue(
             "string",
             "facebook_app_id",
@@ -52,11 +55,25 @@ android {
         )
     }
 
+    signingConfigs {
+        if (tepKhoaKy.exists()) {
+            create("release") {
+                keyAlias = khoaKy["keyAlias"] as String
+                keyPassword = khoaKy["keyPassword"] as String
+                storeFile = file(khoaKy["storeFile"] as String)
+                storePassword = khoaKy["storePassword"] as String
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            // Không có key.properties thì APK ký khoá debug, chỉ cài được trên máy dev
+            signingConfig = if (tepKhoaKy.exists()) {
+                signingConfigs.getByName("release")
+            } else {
+                signingConfigs.getByName("debug")
+            }
         }
     }
 }

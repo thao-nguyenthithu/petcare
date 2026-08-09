@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
+import { Cron } from '@nestjs/schedule';
 import { PrismaService } from '../../prisma/prisma.service';
-import { homNayVn, ngayDb } from '../../common/thoi-gian-vn';
+import { MUI_GIO_VN, homNayVn, ngayDb } from '../../common/thoi-gian-vn';
 
 @Injectable()
 export class UserCleanupService {
@@ -9,7 +9,7 @@ export class UserCleanupService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  @Cron(CronExpression.EVERY_DAY_AT_3AM)
+  @Cron('0 3 * * *', { timeZone: MUI_GIO_VN })
   async donNgayCaiRiengDaQua() {
     const ketQua = await this.prisma.sitterDaySetting.deleteMany({
       where: { date: { lt: ngayDb(homNayVn()) } },

@@ -24,7 +24,8 @@ class SitterCheckInScreen extends StatelessWidget {
 
   final CheckInArgs args;
 
-  bool get _duGan => (args.don.metCachDiemDon ?? 0) <= metGeofence;
+  bool get _duGan =>
+      !args.don.batGeofence || (args.don.metCachDiemDon ?? 0) <= metGeofence;
 
   @override
   Widget build(BuildContext context) {

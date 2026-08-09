@@ -10,6 +10,7 @@ const int tranTyLeHuyMacDinh = 20;
 const int donToiThieuXetTyLeHuyMacDinh = 5;
 const int banKinhTimToiDaKmMacDinh = 15;
 const bool batVnpayMacDinh = false;
+const bool batGeofenceMacDinh = true;
 
 class CauHinhNghiepVu {
   const CauHinhNghiepVu({
@@ -24,6 +25,7 @@ class CauHinhNghiepVu {
     this.donToiThieuXetTyLeHuy = donToiThieuXetTyLeHuyMacDinh,
     this.banKinhTimToiDaKm = banKinhTimToiDaKmMacDinh,
     this.batVnpay = batVnpayMacDinh,
+    this.batGeofence = batGeofenceMacDinh,
     this.capNhatLuc,
   });
 
@@ -43,6 +45,7 @@ class CauHinhNghiepVu {
 
   // Tắt thì đơn đi qua cổng giả lập
   final bool batVnpay;
+  final bool batGeofence;
 
   final DateTime? capNhatLuc;
 
@@ -75,6 +78,11 @@ class CauHinhNghiepVu {
         banKinhTimToiDaKmMacDinh,
       ),
       batVnpay: _cong(thamSo, 'payment.vnpay.enabled', batVnpayMacDinh),
+      batGeofence: _cong(
+        thamSo,
+        'checkin.geofence.enabled',
+        batGeofenceMacDinh,
+      ),
       capNhatLuc: DateTime.tryParse(json['capNhatLuc'] as String? ?? ''),
     );
   }

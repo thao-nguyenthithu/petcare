@@ -8,6 +8,7 @@ import { SitterOrderStore } from '../src/modules/sitter/orders/sitter-order-stor
 import { SitterLichService } from '../src/modules/sitter/orders/sitter-lich.service';
 import { BookingNotifyService } from '../src/modules/notifications/booking-notify.service';
 import { BookingChatService } from '../src/modules/messaging/booking-chat.service';
+import { SystemSettingsService } from '../src/modules/admin/system-settings.service';
 import { dieuKienNccCongKhai } from '../src/modules/sitter/public/sitter-public';
 import { layNccCuaToi } from '../src/modules/sitter/orders/sitter-guard';
 
@@ -136,6 +137,9 @@ function dungNhanDon(hiddenUntil: Date | null, trangThaiDon = 'PENDING') {
       daNhanDon: () => Promise.resolve(undefined),
     } as unknown as BookingChatService,
     lich as unknown as SitterLichService,
+    {
+      batGeofence: () => true,
+    } as unknown as SystemSettingsService,
   );
   return { service, daCapNhat };
 }

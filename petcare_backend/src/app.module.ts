@@ -29,6 +29,7 @@ import { MessagingModule } from './modules/messaging/messaging.module';
 import { WalletModule } from './modules/wallet/wallet.module';
 import { SitterHomeModule } from './modules/sitter/home/sitter-home.module';
 import { AiModule } from './modules/ai/ai.module';
+import { HealthModule } from './modules/health/health.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { AiModule } from './modules/ai/ai.module';
     }),
     PrismaModule,
     RedisModule,
+    HealthModule,
     ThamSoModule,
     MailModule,
     AuthModule,

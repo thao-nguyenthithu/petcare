@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
@@ -32,6 +31,7 @@ import 'package:petcare_app/shared/widgets/walking_gear_commitment.dart';
 import 'package:petcare_app/features/sitter_order/data/boarding_session.dart';
 import 'package:petcare_app/shared/data/sitter_services.dart';
 import 'package:petcare_app/shared/utils/khoang_cach.dart';
+import 'package:petcare_app/shared/utils/lay_vi_tri.dart';
 import 'package:petcare_app/shared/utils/mo_chi_duong.dart';
 import 'package:petcare_app/shared/widgets/flat_section.dart';
 import 'package:petcare_app/shared/widgets/map_preview.dart';
@@ -124,16 +124,24 @@ class _SitterOrderDetailScreenState
 
   Future<void> _daToi() async {
     final l10n = context.l10n;
-    try {
-      final vt = await Geolocator.getCurrentPosition();
-      if (!mounted) return;
-      await _goi((s) => s.daToi(_id, lat: vt.latitude, lng: vt.longitude));
-    } on Exception {
-      if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(l10n.loiKhongLayDuocViTri)));
+    final messenger = ScaffoldMessenger.of(context);
+    final (vt, loi) = await layViTriHienTai();
+    if (!mounted) return;
+    if (vt == null) {
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(chuLoiViTri(l10n, loi!)),
+          action: canMoCaiDat(loi)
+              ? SnackBarAction(
+                  label: l10n.moCaiDat,
+                  onPressed: () => moCaiDatViTri(loi),
+                )
+              : null,
+        ),
+      );
+      return;
     }
+    await _goi((s) => s.daToi(_id, lat: vt.latitude, lng: vt.longitude));
   }
 
   void _moManTacNghiep() =>

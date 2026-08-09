@@ -20,7 +20,8 @@ class SitterGroomingStartScreen extends StatelessWidget {
 
   final SitterOrderDetail don;
 
-  bool get _duGan => (don.metCachDiemDon ?? 0) <= metGeofence;
+  bool get _duGan =>
+      !don.batGeofence || (don.metCachDiemDon ?? 0) <= metGeofence;
 
   @override
   Widget build(BuildContext context) {

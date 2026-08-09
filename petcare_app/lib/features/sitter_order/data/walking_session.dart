@@ -39,7 +39,9 @@ class WalkingSession {
   bool get duGio => don.duGioKetThuc;
 
   bool get duGan =>
-      don.viTri == null || (metConToiDiemTra ?? metGeofence + 1) <= metGeofence;
+      !don.batGeofence ||
+      don.viTri == null ||
+      (metConToiDiemTra ?? metGeofence + 1) <= metGeofence;
 
   bool get moKetThuc => duGio && duGan;
 

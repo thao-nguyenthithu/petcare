@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
-
-enum KetQuaQuyenViTri { daCap, tuChoi, tuChoiVinhVien, dichVuTat }
+import 'package:petcare_app/shared/utils/lay_vi_tri.dart';
 
 // Mở bottom sheet xin quyền vị trí
 Future<KetQuaQuyenViTri?> moSheetQuyenViTri(BuildContext context) {
@@ -21,23 +19,6 @@ Future<KetQuaQuyenViTri?> moSheetQuyenViTri(BuildContext context) {
     ),
     builder: (context) => const _LocationPermissionSheet(),
   );
-}
-
-// Hỏi hệ thống cấp quyền vị trí
-Future<KetQuaQuyenViTri> xinQuyenViTri() async {
-  if (!await Geolocator.isLocationServiceEnabled()) {
-    return KetQuaQuyenViTri.dichVuTat;
-  }
-  var quyen = await Geolocator.checkPermission();
-  if (quyen == LocationPermission.denied) {
-    quyen = await Geolocator.requestPermission();
-  }
-  return switch (quyen) {
-    LocationPermission.always ||
-    LocationPermission.whileInUse => KetQuaQuyenViTri.daCap,
-    LocationPermission.deniedForever => KetQuaQuyenViTri.tuChoiVinhVien,
-    _ => KetQuaQuyenViTri.tuChoi,
-  };
 }
 
 class _LocationPermissionSheet extends StatefulWidget {
