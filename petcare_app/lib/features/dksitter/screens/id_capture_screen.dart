@@ -135,15 +135,9 @@ class _IdCaptureScreenState extends State<IdCaptureScreen> {
             )
           else
             Center(
-              child: AspectRatio(
-                aspectRatio: 1 / controller.value.aspectRatio,
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    CameraPreview(controller),
-                    const IdCardViewfinder(color: AppColors.textWhite),
-                  ],
-                ),
+              child: CameraPreview(
+                controller,
+                child: const IdCardViewfinder(color: AppColors.textWhite),
               ),
             ),
           if (!_loiCamera && controller != null) _thanhDuoi(context),

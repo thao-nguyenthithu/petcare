@@ -12,6 +12,16 @@ void moAnhMinhChung(BuildContext context, OwnerBookingDetail don) {
   context.push(AppRoutes.bookingProofPhotos, extra: don);
 }
 
+void moBaoSuCo(BuildContext context, OwnerBookingDetail don) {
+  context.push(AppRoutes.bookingDispute, extra: don);
+}
+
+void moHoSoKhieuNai(BuildContext context, OwnerBookingDetail don) {
+  final ma = don.khieuNai?.ma;
+  if (ma == null) return;
+  context.push(AppRoutes.bookingDisputePath(ma));
+}
+
 Future<void> chuNuoiXuatPhat(
   BuildContext context,
   WidgetRef ref,

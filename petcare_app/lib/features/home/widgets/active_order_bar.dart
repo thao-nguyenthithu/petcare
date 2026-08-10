@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
+import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/home/data/owner_home.dart';
 import 'package:petcare_app/shared/data/service_catalog.dart';
-import 'package:petcare_app/shared/utils/placeholder_action.dart';
 import 'package:petcare_app/shared/utils/relative_time.dart';
 import 'package:petcare_app/shared/widgets/page_dots.dart';
 
@@ -94,7 +95,8 @@ class _OrderCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(AppRadius.radius14),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () => baoDangPhatTrien(context),
+        onTap: () =>
+            context.push(AppRoutes.bookingDetail, extra: order.id),
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Row(

@@ -8,22 +8,34 @@ import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/messaging/data/chat_message.dart';
 import 'package:petcare_app/features/messaging/widgets/media_viewers.dart';
-import 'package:petcare_app/shared/utils/placeholder_action.dart';
+import 'package:petcare_app/features/messaging/hanh_dong_tin_he_thong.dart';
 import 'package:petcare_app/shared/widgets/location_viewer.dart';
 import 'package:petcare_app/shared/widgets/map_tiles.dart';
 
 // Một bong bóng chat
 class MessageBubble extends StatelessWidget {
-  const MessageBubble({super.key, required this.message, this.onRetry});
+  const MessageBubble({
+    super.key,
+    required this.message,
+    required this.bookingId,
+    required this.laChuNuoi,
+    this.onRetry,
+  });
 
   final ChatMessage message;
+  final String? bookingId;
+  final bool laChuNuoi;
   final VoidCallback? onRetry; // gửi lại khi tin thất bại
 
   @override
   Widget build(BuildContext context) {
     final me = message.fromMe;
     final child = switch (message.kind) {
-      ChatMessageKind.image => _ImageContent(message: message),
+      ChatMessageKind.image => _ImageContent(
+        message: message,
+        bookingId: bookingId,
+        laChuNuoi: laChuNuoi,
+      ),
       ChatMessageKind.location => _LocationBubble(message: message),
       _ => _TextBubble(message: message),
     };
@@ -100,9 +112,15 @@ class _TextBubble extends StatelessWidget {
 
 // Nội dung ảnh không nền bong bóng, bấm để xem to
 class _ImageContent extends StatelessWidget {
-  const _ImageContent({required this.message});
+  const _ImageContent({
+    required this.message,
+    required this.bookingId,
+    required this.laChuNuoi,
+  });
 
   final ChatMessage message;
+  final String? bookingId;
+  final bool laChuNuoi;
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +156,12 @@ class _ImageContent extends StatelessWidget {
           if (message.actionLabel != null) ...[
             const SizedBox(height: 4),
             InkWell(
-              onTap: () => baoDangPhatTrien(context),
+              onTap: () => chayHanhDongTin(
+                context,
+                message.actionCode,
+                bookingId,
+                laChuNuoi: laChuNuoi,
+              ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [

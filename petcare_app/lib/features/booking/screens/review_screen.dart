@@ -15,12 +15,11 @@ import 'package:petcare_app/features/reviews/providers/reviews_provider.dart';
 import 'package:petcare_app/shared/data/service_summary.dart';
 import 'package:petcare_app/shared/data/sitter_services.dart';
 import 'package:petcare_app/shared/utils/anh_multipart.dart';
-import 'package:petcare_app/shared/utils/chon_anh.dart';
+import 'package:petcare_app/shared/widgets/photo_picker_grid.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 import 'package:petcare_app/shared/widgets/app_filter_chip.dart';
 import 'package:petcare_app/shared/widgets/app_screen_header.dart';
-import 'package:petcare_app/shared/widgets/dotted_box.dart';
 import 'package:petcare_app/shared/widgets/flat_section.dart';
 import 'package:petcare_app/shared/widgets/user_avatar.dart';
 import 'package:petcare_app/shared/widgets/app_screen.dart';
@@ -74,23 +73,9 @@ class ReviewScreen extends ConsumerStatefulWidget {
 class _ReviewScreenState extends ConsumerState<ReviewScreen> {
   final TextEditingController _nhanXet = TextEditingController();
   final Set<String> _khen = {};
-  final List<Uint8List> _anh = [];
+  List<Uint8List> _anh = [];
   late int _sao = widget.saoBanDau;
   bool _dangGui = false;
-
-  Future<void> _themAnh() async {
-    final conChoDuoc = _soAnhToiDa - _anh.length;
-    if (conChoDuoc <= 0) return;
-    final chon = await chonNhieuAnh(conChoDuoc);
-    if (!mounted) return;
-    if (chon.quaNang > 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.loiAnhQuaNang('$mbAnhToiDa'))),
-      );
-    }
-    if (chon.anh.isEmpty) return;
-    setState(() => _anh.addAll(chon.anh));
-  }
 
   @override
   void dispose() {
@@ -155,7 +140,11 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
           ),
           const FlatDivider(),
           FlatSection(
-            child: _NhanXet(controller: _nhanXet, anh: _anh, onThem: _themAnh),
+            child: _NhanXet(
+              controller: _nhanXet,
+              anh: _anh,
+              onDoiAnh: (ds) => setState(() => _anh = ds),
+            ),
           ),
         ],
       ),
@@ -301,12 +290,12 @@ class _NhanXet extends StatelessWidget {
   const _NhanXet({
     required this.controller,
     required this.anh,
-    required this.onThem,
+    required this.onDoiAnh,
   });
 
   final TextEditingController controller;
   final List<Uint8List> anh;
-  final VoidCallback onThem;
+  final ValueChanged<List<Uint8List>> onDoiAnh;
 
   @override
   Widget build(BuildContext context) {
@@ -328,40 +317,7 @@ class _NhanXet extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        Row(
-          children: [
-            for (var i = 0; i < _soAnhToiDa; i++) ...[
-              if (i != 0) const SizedBox(width: 12),
-              Expanded(
-                child: i < anh.length
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(AppRadius.radius14),
-                        child: AspectRatio(
-                          aspectRatio: 1,
-                          child: Image.memory(anh[i], fit: BoxFit.cover),
-                        ),
-                      )
-                    : DottedBox(
-                        onTap: onThem,
-                        child: Column(
-                          children: [
-                            const Icon(
-                              Icons.photo_camera_outlined,
-                              size: 22,
-                              color: AppColors.textSecondary,
-                            ),
-                            const SizedBox(height: 6),
-                            Text(
-                              l10n.nutThemAnh,
-                              style: AppTextStyles.captionSm,
-                            ),
-                          ],
-                        ),
-                      ),
-              ),
-            ],
-          ],
-        ),
+        PhotoPickerGrid(anh: anh, tran: _soAnhToiDa, onDoi: onDoiAnh),
       ],
     );
   }

@@ -82,7 +82,9 @@ class PetDetailScreen extends ConsumerWidget {
   Future<void> _xoaHoSo(BuildContext context, WidgetRef ref, Pet pet) async {
     if (pet.donDangChay case final don?) {
       final xemDon = await showBlockDeletePetSheet(context, pet, don);
-      if (xemDon && context.mounted) baoDangPhatTrien(context);
+      if (xemDon && context.mounted) {
+        context.push(AppRoutes.bookingDetail, extra: don.id);
+      }
       return;
     }
     final dongY = await showDeletePetSheet(context, pet);

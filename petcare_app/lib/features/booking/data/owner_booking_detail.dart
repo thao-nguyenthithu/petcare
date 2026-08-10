@@ -1,5 +1,6 @@
 import 'package:latlong2/latlong.dart';
 import 'package:petcare_app/core/config/cau_hinh_nghiep_vu.dart';
+import 'package:petcare_app/features/booking/data/owner_booking_detail_api.dart';
 import 'package:petcare_app/features/booking/data/owner_booking_parts.dart';
 import 'package:petcare_app/shared/data/booking_common.dart';
 import 'package:petcare_app/shared/data/pet.dart';
@@ -13,6 +14,7 @@ enum TinhTrangDon {
   choXacNhan,
   daXacNhan,
   dangToi,
+  daToiDiemHen,
   denMuon,
   quaGioHen,
   dangDienRa,
@@ -104,6 +106,8 @@ class OwnerBookingDetail {
     this.phutConToiDon,
     this.nhatKyKyGiu = const [],
     this.chinhSachHuy,
+    this.baiDanhGia,
+    this.khieuNai,
     this.gioGiuTien = gioGiuTienMacDinh,
     this.phanTramPhiHuy = phiHuyMuonMacDinh,
   });
@@ -182,6 +186,13 @@ class OwnerBookingDetail {
   final ThongTinHuy? thongTinHuy;
 
   final ChinhSachHuyDon? chinhSachHuy;
+  final BaiDanhGiaApi? baiDanhGia;
+
+  final KhieuNaiDonApi? khieuNai;
+
+  bool get dangKhieuNai => khieuNai?.dangMo ?? false;
+
+  bool get daDanhGia => baiDanhGia != null;
 
   final int gioGiuTien;
   final int phanTramPhiHuy;
@@ -314,6 +325,8 @@ class OwnerBookingDetail {
     int? phutConToiDon,
     List<NgayNhatKyGiu>? nhatKyKyGiu,
     ChinhSachHuyDon? chinhSachHuy,
+    BaiDanhGiaApi? baiDanhGia,
+    KhieuNaiDonApi? khieuNai,
     int? gioGiuTien,
     int? phanTramPhiHuy,
   }) => OwnerBookingDetail(
@@ -390,6 +403,8 @@ class OwnerBookingDetail {
     phutConToiDon: phutConToiDon ?? this.phutConToiDon,
     nhatKyKyGiu: nhatKyKyGiu ?? this.nhatKyKyGiu,
     chinhSachHuy: chinhSachHuy ?? this.chinhSachHuy,
+    baiDanhGia: baiDanhGia ?? this.baiDanhGia,
+    khieuNai: khieuNai ?? this.khieuNai,
     gioGiuTien: gioGiuTien ?? this.gioGiuTien,
     phanTramPhiHuy: phanTramPhiHuy ?? this.phanTramPhiHuy,
   );

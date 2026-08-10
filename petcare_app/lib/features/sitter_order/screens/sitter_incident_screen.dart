@@ -9,22 +9,23 @@ import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/sitter_order/data/sitter_order_detail.dart';
 import 'package:petcare_app/features/sitter_order/services/sitter_order_actions.dart';
-import 'package:petcare_app/features/sitter_order/widgets/handover_photo_group.dart';
-import 'package:petcare_app/shared/utils/chon_anh.dart';
+import 'package:petcare_app/shared/data/booking_common.dart';
+import 'package:petcare_app/shared/widgets/photo_picker_grid.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_screen_header.dart';
 import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 import 'package:petcare_app/shared/widgets/app_card.dart';
 import 'package:petcare_app/shared/widgets/app_screen.dart';
+import 'package:petcare_app/shared/widgets/dispute_booking_facts.dart';
 
-const int _soAnhToiDa = 3;
 const int _moTaToiThieu = 10;
+const String _maLyDoKhac = 'khac';
 const List<String> _maLyDo = [
   'beKhongHopTac',
   'chuNuoiVang',
   'diaChiSai',
   'thoiTietXau',
-  'khac',
+  _maLyDoKhac,
 ];
 
 String _nhanLyDo(AppLocalizations l10n, String ma) => switch (ma) {
@@ -48,7 +49,7 @@ class SitterIncidentScreen extends ConsumerStatefulWidget {
 
 class _SitterIncidentScreenState extends ConsumerState<SitterIncidentScreen> {
   final _moTaController = TextEditingController();
-  final List<Uint8List> _anh = [];
+  List<Uint8List> _anh = [];
   int _selected = 0;
   bool _dangGui = false;
 
@@ -58,20 +59,11 @@ class _SitterIncidentScreenState extends ConsumerState<SitterIncidentScreen> {
     super.dispose();
   }
 
-  Future<void> _chup() async {
-    if (_anh.length >= _soAnhToiDa) return;
-    final chon = await chupMotAnh();
-    if (!mounted) return;
-    if (chon.quaNang) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.loiAnhQuaNang('$mbAnhToiDa'))),
-      );
-      return;
-    }
-    final bytes = chon.anh;
-    if (bytes == null) return;
-    setState(() => _anh.add(bytes));
-  }
+
+  bool get _laLyDoKhac => _maLyDo[_selected] == _maLyDoKhac;
+
+  bool get _guiDuoc =>
+      !_laLyDoKhac || _moTaController.text.trim().length >= _moTaToiThieu;
 
   List<String> _options(BuildContext context) {
     final l10n = context.l10n;
@@ -105,11 +97,6 @@ class _SitterIncidentScreenState extends ConsumerState<SitterIncidentScreen> {
     final l10n = context.l10n;
     final options = _options(context);
     final don = widget.don;
-    final orderCtx = l10n.maDonDichVuNBe(
-      don.maDon,
-      don.tenDichVu.split('·').first.trim(),
-      '${don.pets.length}',
-    );
     return AppScreen(
       backgroundColor: AppColors.surface,
       header: Column(
@@ -126,8 +113,15 @@ class _SitterIncidentScreenState extends ConsumerState<SitterIncidentScreen> {
           AppSpacing.screenEdgeGap,
         ),
         children: [
-          Text(orderCtx, style: AppTextStyles.captionSm),
-          const SizedBox(height: AppSpacing.itemGap),
+          DisputeBookingFacts(
+            tenDichVu: don.tenDichVu.split('·').first.trim(),
+            maDon: don.maDon,
+            tenBe: [for (final be in don.pets) be.name],
+            nhanDoiPhuong: l10n.chuNuoi,
+            tenDoiPhuong: don.tenChuNuoi,
+            thoiGian: don.moTaThoiGian,
+          ),
+          const SizedBox(height: AppSpacing.blockGap),
           Text(l10n.chuyenGiDangXayRa, style: AppTextStyles.label),
           const SizedBox(height: AppSpacing.itemGap),
           for (var i = 0; i < options.length; i++) ...[
@@ -140,7 +134,10 @@ class _SitterIncidentScreenState extends ConsumerState<SitterIncidentScreen> {
               const SizedBox(height: AppSpacing.labelGap),
           ],
           const SizedBox(height: AppSpacing.blockGap),
-          Text(l10n.moTaVaAnh, style: AppTextStyles.label),
+          Text(
+            _laLyDoKhac ? l10n.moTaHuyBatBuoc : l10n.moTaVaAnhTuyChon,
+            style: AppTextStyles.label,
+          ),
           const SizedBox(height: AppSpacing.itemGap),
           AppCard(
             nen: AppColors.background,
@@ -159,11 +156,12 @@ class _SitterIncidentScreenState extends ConsumerState<SitterIncidentScreen> {
             ),
           ),
           const SizedBox(height: AppSpacing.itemGap),
-          HandoverPhotoGroup(
-            tieuDe: l10n.anhSuCoTrenTran('${_anh.length}', '$_soAnhToiDa'),
+          PhotoPickerGrid(
+            tieuDe: l10n.anhSuCoTrenTran('${_anh.length}', '$soAnhMoKhieuNai'),
             anh: _anh,
-            tran: _soAnhToiDa,
-            onThem: _chup,
+            tran: soAnhMoKhieuNai,
+            onDoi: (ds) => setState(() => _anh = ds),
+            batBuocChup: true,
           ),
           const SizedBox(height: AppSpacing.stackGap),
           _CanhBaoBanner(text: l10n.canhBaoNguyHiem),
@@ -171,7 +169,7 @@ class _SitterIncidentScreenState extends ConsumerState<SitterIncidentScreen> {
       ),
       bottomBar: _BottomBar(
         onSubmit: _gui,
-        guiDuoc: _moTaController.text.trim().length >= _moTaToiThieu,
+        guiDuoc: _guiDuoc,
         dangGui: _dangGui,
       ),
     );
@@ -276,16 +274,29 @@ class _BottomBar extends StatelessWidget {
       ),
       child: SafeArea(
         top: false,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+        child: Row(
           children: [
-            AppButton(
-              text: l10n.guiBaoCaoSuCo,
-              color: AppColors.accent,
-              height: 50,
-              enabled: guiDuoc,
-              dangTai: dangGui,
-              onTap: onSubmit,
+            Expanded(
+              child: AppButton(
+                text: l10n.huy,
+                outlined: true,
+                height: 50,
+                mauChu: AppColors.textSecondary,
+                enabled: !dangGui,
+                onTap: () => Navigator.of(context).pop(),
+              ),
+            ),
+            const SizedBox(width: AppSpacing.itemGap),
+            Expanded(
+              flex: 2,
+              child: AppButton(
+                text: l10n.guiBaoCaoSuCo,
+                color: AppColors.accent,
+                height: 50,
+                enabled: guiDuoc,
+                dangTai: dangGui,
+                onTap: onSubmit,
+              ),
             ),
           ],
         ),

@@ -14,6 +14,25 @@ typedef NccCuaDon = ({
 
 typedef PhienApi = ({double? km, int? phut, int? giayMoiLuotGui});
 
+typedef AnhPhienApi = ({
+  List<String> truoc,
+  List<String> sau,
+  List<String> nhatKy,
+  int tong,
+});
+
+typedef KetQuaApi = ({int phut, double? km, int soAnh});
+
+typedef BaiDanhGiaApi = ({
+  int sao,
+  String nhanXet,
+  List<String> anh,
+  List<String> maKhen,
+  String? phanHoi,
+  DateTime? phanHoiLuc,
+  DateTime? luc,
+});
+
 typedef ChoNguoiChamApi = ({
   String? khuVuc,
   String? diaChiDayDu,
@@ -47,6 +66,8 @@ typedef ThongTinHuyApi = ({
   int phiHuy,
 });
 
+typedef KhieuNaiDonApi = ({String ma, bool dangMo, bool banMo});
+
 class ChiTietDonApi {
   const ChiTietDonApi({
     required this.id,
@@ -76,6 +97,10 @@ class ChiTietDonApi {
     this.choNcc,
     this.phien,
     this.thongTinHuy,
+    this.anh = (truoc: const [], sau: const [], nhatKy: const [], tong: 0),
+    this.ketQua,
+    this.baiDanhGia,
+    this.khieuNai,
   });
 
   factory ChiTietDonApi.fromJson(Map<String, dynamic> json) {
@@ -128,6 +153,10 @@ class ChiTietDonApi {
       tongTien: ((json['totalPrice'] as num?) ?? 0).round(),
       chinhSachHuy: _chinhSach(_map(json['cancelPolicy'])),
       thongTinHuy: _thongTinHuy(json['cancellation']),
+      anh: _anhPhien(json['photos']),
+      ketQua: _ketQua(json['result']),
+      baiDanhGia: _baiDanhGia(json['myReview']),
+      khieuNai: _khieuNai(json['dispute']),
     );
   }
 
@@ -159,6 +188,71 @@ class ChiTietDonApi {
   final int tongTien;
   final ChinhSachHuyApi chinhSachHuy;
   final ThongTinHuyApi? thongTinHuy;
+  final AnhPhienApi anh;
+  final KetQuaApi? ketQua;
+  final BaiDanhGiaApi? baiDanhGia;
+  final KhieuNaiDonApi? khieuNai;
+}
+
+KhieuNaiDonApi? _khieuNai(Object? o) {
+  if (o is! Map) return null;
+  final m = Map<String, dynamic>.from(o);
+  final ma = m['code'] as String?;
+  if (ma == null || ma.isEmpty) return null;
+  return (
+    ma: ma,
+    dangMo: m['open'] as bool? ?? false,
+    banMo: m['byOwner'] as bool? ?? false,
+  );
+}
+
+BaiDanhGiaApi? _baiDanhGia(Object? o) {
+  if (o is! Map) return null;
+  final m = Map<String, dynamic>.from(o);
+  return (
+    sao: (m['rating'] as num?)?.toInt() ?? 0,
+    nhanXet: m['comment'] as String? ?? '',
+    anh: _duongAnh(m['photos']),
+    maKhen: [
+      if (m['praiseTags'] is List)
+        for (final e in m['praiseTags'] as List)
+          if (e is String) e,
+    ],
+    phanHoi: m['reply'] as String?,
+    phanHoiLuc: docMocVn(m['replyAt'] as String?),
+    luc: docMocVn(m['createdAt'] as String?),
+  );
+}
+
+List<String> _duongAnh(Object? o) => [
+  if (o is List)
+    for (final e in o)
+      if (e is String && e.isNotEmpty) e,
+];
+
+AnhPhienApi _anhPhien(Object? o) {
+  final m = _map(o);
+  final truoc = _duongAnh(m['before']);
+  final sau = _duongAnh(m['after']);
+  final nhatKy = _duongAnh(m['log']);
+  return (
+    truoc: truoc,
+    sau: sau,
+    nhatKy: nhatKy,
+    tong:
+        (m['total'] as num?)?.toInt() ??
+        truoc.length + sau.length + nhatKy.length,
+  );
+}
+
+KetQuaApi? _ketQua(Object? o) {
+  if (o is! Map) return null;
+  final m = Map<String, dynamic>.from(o);
+  return (
+    phut: (m['durationMinutes'] as num?)?.toInt() ?? 0,
+    km: (m['distanceKm'] as num?)?.toDouble(),
+    soAnh: (m['photoCount'] as num?)?.toInt() ?? 0,
+  );
 }
 
 Map<String, dynamic> _map(Object? o) =>

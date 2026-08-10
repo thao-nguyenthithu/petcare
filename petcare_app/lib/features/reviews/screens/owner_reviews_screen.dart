@@ -208,10 +208,16 @@ class _TabDaDanhGia extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: AppSpacing.stackGap),
         child: AppDongKe(),
       ),
-      itemBuilder: (_, i) => ReviewItem(
+      itemBuilder: (context, i) => ReviewItem(
         review: reviews[i],
         tienTo: l10n.banDanhGia,
         nhanPhanHoi: l10n.nguoiChamPhanHoi(reviews[i].name),
+        onMoDon: reviews[i].bookingId.isEmpty
+            ? null
+            : () => context.push(
+                AppRoutes.bookingDetail,
+                extra: reviews[i].bookingId,
+              ),
       ),
     );
   }

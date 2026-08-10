@@ -5,7 +5,10 @@ import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/booking/data/owner_booking_detail.dart';
+import 'package:petcare_app/features/booking/data/owner_booking_detail_api.dart';
 import 'package:petcare_app/features/booking/screens/review_screen.dart';
+import 'package:petcare_app/features/reviews/widgets/review_item.dart';
+import 'package:petcare_app/shared/data/bai_danh_gia_cua_toi.dart';
 
 // Chạm một sao là sang màn đánh giá với số sao đó điền sẵn
 class RatingInviteBlock extends StatelessWidget {
@@ -16,6 +19,7 @@ class RatingInviteBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    if (don.baiDanhGia case final bai?) return _BaiDaViet(don: don, bai: bai);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -35,6 +39,24 @@ class RatingInviteBlock extends StatelessWidget {
         const SizedBox(height: 10),
         Text(l10n.chamDeChamSao, style: AppTextStyles.captionSm),
       ],
+    );
+  }
+}
+
+// Đã đánh giá thì hiện lại đúng bài đã viết, không mời chấm sao lần nữa
+class _BaiDaViet extends StatelessWidget {
+  const _BaiDaViet({required this.don, required this.bai});
+
+  final OwnerBookingDetail don;
+  final BaiDanhGiaApi bai;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return ReviewItem(
+      review: baiCuaToiThanhReview(don, bai, l10n),
+      tienTo: l10n.banDanhGia,
+      nhanPhanHoi: l10n.nguoiChamPhanHoi(don.tenNcc),
     );
   }
 }

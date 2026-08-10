@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
+import 'package:petcare_app/core/router/app_router.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/home/data/owner_home.dart';
 import 'package:petcare_app/shared/data/service_catalog.dart';
 import 'package:petcare_app/shared/widgets/user_avatar.dart';
 import 'package:petcare_app/shared/utils/diem_so.dart';
-import 'package:petcare_app/shared/utils/placeholder_action.dart';
 import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 
 // Danh sách Đặt lại lần nữa
@@ -40,7 +41,8 @@ class _RecentBookingRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return InkWell(
-      onTap: () => baoDangPhatTrien(context),
+      onTap: () =>
+          context.push(AppRoutes.sitterDetailPath(booking.sitterId)),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
         child: Row(

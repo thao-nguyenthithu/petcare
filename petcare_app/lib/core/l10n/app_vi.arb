@@ -647,6 +647,7 @@
   "scThoiTietXau": "Thời tiết xấu, không đảm bảo an toàn",
   "scKhac": "Khác",
   "moTaVaAnh": "Mô tả và ảnh",
+  "moTaVaAnhTuyChon": "Mô tả và ảnh (tuỳ chọn)",
   "moTaSuCoHint": "Mô tả cụ thể tình huống để đội hỗ trợ và chủ nuôi nắm rõ...",
   "canhBaoNguyHiem": "Nếu bé đang gặp nguy hiểm, gọi ngay cho chủ nuôi trước khi gửi báo cáo.",
   "guiBaoCaoSuCo": "Gửi báo cáo sự cố",
@@ -672,6 +673,13 @@
   "ketThucDichVu": "Kết thúc dịch vụ",
   "anhTruoc": "Trước",
   "anhTrong": "Trong",
+  "daGuiAnh": "Đã gửi ảnh",
+  "anhTrongPhien": "Ảnh trong phiên ({so})",
+  "@anhTrongPhien": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
   "anhSau": "Sau",
   "minhChungDichVu": "Minh chứng dịch vụ",
   "chonTuThuVien": "Chọn từ thư viện",
@@ -2533,6 +2541,20 @@
   "buocDangDienRa": "Đang diễn ra",
   "buocHoanThanh": "Hoàn thành",
   "nguoiChamDenMuon": "Người chăm đang đến",
+  "nguoiChamDaToi": "Người chăm đã tới",
+  "nccDaToiChoBatDau": "{ten} đã tới điểm hẹn",
+  "@nccDaToiChoBatDau": {
+    "placeholders": {
+      "ten": {"type": "String"}
+    }
+  },
+  "moTaDaToiChoBatDau": "{ten} đã xác thực vị trí lúc {gio}, đang chờ giao bé để bắt đầu.",
+  "@moTaDaToiChoBatDau": {
+    "placeholders": {
+      "ten": {"type": "String"},
+      "gio": {"type": "String"}
+    }
+  },
   "choNccXacNhan": "Chờ {ten} xác nhận",
   "@choNccXacNhan": {
     "placeholders": {
@@ -2694,6 +2716,13 @@
   "xemAnhCapNhat": "Xem ảnh cập nhật",
   "taiAnhVeMay": "Tải ảnh về máy",
   "ghiChuAnhMinhChung": "Người chăm chụp bao nhiêu tấm cũng được ở mỗi nhóm. Ngày giờ gửi ảnh ghi ngay trong ảnh.",
+  "chuaCoAnhMinhChung": "Đơn này chưa có ảnh minh chứng nào.",
+  "nhatKyCoNAnh": "Nhật ký ({so} ảnh)",
+  "@nhatKyCoNAnh": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
   "maDonSoBeSoAnh": "{maDon} · {soBe} bé · {soAnh} ảnh",
   "@maDonSoBeSoAnh": {
     "placeholders": {
@@ -3698,6 +3727,12 @@
   "xuatPhatToiDiemHen": "Xuất phát tới điểm hẹn",
   "toiNhaChuNuoi": "Tới nhà chủ nuôi",
   "chupThem": "Chụp thêm",
+  "conChonDuocNAnh": "Còn chọn được {so} ảnh",
+  "@conChonDuocNAnh": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
   "nGio": "{so} giờ",
   "@nGio": {
     "placeholders": {
@@ -4475,6 +4510,104 @@
     }
   },
   "daGuiPhanHoiKhieuNai": "Đã gửi phản hồi, hỗ trợ sẽ xem xét và kết luận",
+  "scBeBiThuongOm": "Bé bị thương hoặc mệt sau buổi",
+  "scKhongDungDichVu": "Làm không đúng dịch vụ đã đặt",
+  "scTreGioBoDo": "Trễ giờ hoặc bỏ dở giữa chừng",
+  "scThieuBangChung": "Ảnh và cập nhật không đúng thực tế",
+  "banGapVanDeGi": "Bạn gặp vấn đề gì?",
+  "moTaChiTietBatBuoc": "Mô tả chi tiết (bắt buộc)",
+  "hintMoTaKhieuNai": "Kể rõ chuyện đã xảy ra và mong muốn xử lý của bạn...",
+  "conThieuNKyTu": "Cần thêm {so} ký tự nữa",
+  "@conThieuNKyTu": {
+    "placeholders": {
+      "so": {"type": "String"}
+    }
+  },
+  "moKhieuNaiGiuTien": "Gửi báo cáo là mở hồ sơ khiếu nại: tiền của đơn tạm giữ cho tới khi đội hỗ trợ kết luận.",
+  "daMoHoSoKhieuNai": "Đã gửi báo cáo, hồ sơ khiếu nại đã mở",
+  "loaiSuCo": "Loại sự cố",
+  "phanAnhCuaBan": "Phản ánh của bạn",
+  "nguoiChamPhanAnh": "Người chăm phản ánh",
+  "phanHoiCuaNguoiCham": "Phản hồi của người chăm",
+  "daGuiChoNccPhanHoi": "Đã gửi, chờ người chăm phản hồi",
+  "moTaChoNccPhanHoi": "Người chăm còn một lượt phản hồi. Tiền của đơn tạm giữ cho tới khi đội hỗ trợ kết luận.",
+  "hoTroDangXemXet": "Đội hỗ trợ đang xem xét",
+  "moTaHoTroDangXemXet": "Đội hỗ trợ đã nhận đủ hai phía và sẽ báo bạn khi có kết luận.",
+  "daCoKetLuanHoanTien": "Đã có kết luận · hoàn {tien}",
+  "@daCoKetLuanHoanTien": {
+    "placeholders": {
+      "tien": {"type": "String"}
+    }
+  },
+  "moTaKhongChapNhanChuNuoi": "Đội hỗ trợ kết luận lúc {moc}, đơn này không được hoàn tiền.",
+  "@moTaKhongChapNhanChuNuoi": {
+    "placeholders": {
+      "moc": {"type": "String"}
+    }
+  },
+  "tienHoanChoBan": "Hoàn về nguồn thanh toán",
+  "chuaCauHinhEmailHoTro": "Chưa cấu hình hộp thư hỗ trợ, vui lòng thử lại sau",
+  "guiEmailToiDiaChi": "Không mở được ứng dụng email, hãy gửi thư tới {email}",
+  "@guiEmailToiDiaChi": {
+    "placeholders": {
+      "email": {"type": "String"}
+    }
+  },
+  "cauHoiThuongGap": "Câu hỏi thường gặp",
+  "faqHuyDonHoi": "Huỷ đơn có mất phí không?",
+  "faqHuyDonDap": "Huỷ trong hạn miễn phí thì hoàn đủ tiền. Quá hạn thì phí huỷ bằng {phanTram}% giá đơn, phần còn lại hoàn về nguồn thanh toán.",
+  "@faqHuyDonDap": {
+    "placeholders": {
+      "phanTram": {"type": "String"}
+    }
+  },
+  "faqHoanTienHoi": "Tiền hoàn về đâu, mất bao lâu?",
+  "faqBaoSuCoHoi": "Tôi báo sự cố được trong bao lâu?",
+  "faqBaoSuCoDap": "Trong {gio} giờ kể từ lúc đơn kết thúc. Gửi báo cáo là hồ sơ khiếu nại mở ra và tiền của đơn tạm giữ tới khi đội hỗ trợ kết luận.",
+  "@faqBaoSuCoDap": {
+    "placeholders": {
+      "gio": {"type": "String"}
+    }
+  },
+  "faqThanhToanHoi": "Thanh toán bằng cách nào?",
+  "faqThanhToanDap": "Chỉ thanh toán qua VNPay ngay khi đặt lịch. Tiền được nền tảng giữ và chỉ chuyển cho người chăm sau khi đơn hoàn thành.",
+  "faqThanhNguoiChamHoi": "Làm sao để trở thành người chăm?",
+  "faqThanhNguoiChamDap": "Vào tab Tài khoản, chọn Trở thành người cung cấp dịch vụ rồi gửi hồ sơ. Đội duyệt sẽ báo kết quả qua thông báo.",
+  "lienHeDoiHoTro": "Liên hệ đội hỗ trợ",
+  "moTaLienHeHoTro": "Không tìm thấy câu trả lời? Gửi email cho đội hỗ trợ, chúng tôi phản hồi trong vòng 24 giờ.",
+  "guiEmailChoHoTro": "Gửi email cho đội hỗ trợ",
+  "troGiupChoDonNay": "Trợ giúp cho đơn này",
+  "banCanHoTroViecGi": "Bạn cần hỗ trợ việc gì?",
+  "cdThanhToanHoanTien": "Thanh toán và hoàn tiền",
+  "cdNguoiChamKhongToi": "Người chăm không tới",
+  "cdChatLuongDichVu": "Chất lượng dịch vụ",
+  "cdBeGapVanDe": "Bé gặp vấn đề sau buổi",
+  "slaHoTro": "Đội hỗ trợ phản hồi trong vòng 24 giờ kể từ khi nhận được email.",
+  "tieuDeEmailHoTroDon": "Hỗ trợ đơn {ma}",
+  "@tieuDeEmailHoTroDon": {
+    "placeholders": {
+      "ma": {"type": "String"}
+    }
+  },
+  "baoMuonChuNuoiMoTa": "Người chăm sẽ nhận được tin báo ngay. Chọn mức trễ so với giờ hẹn.",
+  "daBaoChoNguoiCham": "Đã báo cho người chăm",
+  "tbChuNuoiBaoMuonTieuDe": "Chủ nuôi báo tới muộn",
+  "tbChuNuoiBaoMuonGiaoNoiDung": "{tenChuNuoi} mang bé tới muộn khoảng {soPhut} phút · đơn {code}.",
+  "@tbChuNuoiBaoMuonGiaoNoiDung": {
+    "placeholders": {
+      "tenChuNuoi": {"type": "String"},
+      "soPhut": {"type": "String"},
+      "code": {"type": "String"}
+    }
+  },
+  "tbChuNuoiBaoMuonDonNoiDung": "{tenChuNuoi} tới đón bé muộn khoảng {soPhut} phút · đơn {code}.",
+  "@tbChuNuoiBaoMuonDonNoiDung": {
+    "placeholders": {
+      "tenChuNuoi": {"type": "String"},
+      "soPhut": {"type": "String"},
+      "code": {"type": "String"}
+    }
+  },
   "daChiTrongThang": "Đã chi {tien}đ trong tháng {thang}",
   "@daChiTrongThang": {
     "placeholders": {

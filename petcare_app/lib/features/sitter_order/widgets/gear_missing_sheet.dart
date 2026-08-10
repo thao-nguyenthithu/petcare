@@ -6,8 +6,7 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/sitter_order/data/sitter_check_in.dart';
-import 'package:petcare_app/features/sitter_order/widgets/handover_photo_group.dart';
-import 'package:petcare_app/shared/utils/chon_anh.dart';
+import 'package:petcare_app/shared/widgets/photo_picker_grid.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 
 // Báo thiếu rọ mõm hoặc dây xích, không ảnh thì không gửi được
@@ -31,22 +30,8 @@ class _GearMissingSheet extends StatefulWidget {
 }
 
 class _GearMissingSheetState extends State<_GearMissingSheet> {
-  final List<Uint8List> _anh = [];
+  List<Uint8List> _anh = [];
 
-  Future<void> _chup() async {
-    if (_anh.length >= soAnhThieuDungCuToiDa) return;
-    final chon = await chupMotAnh();
-    if (!mounted) return;
-    if (chon.quaNang) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.loiAnhQuaNang('$mbAnhToiDa'))),
-      );
-      return;
-    }
-    final bytes = chon.anh;
-    if (bytes == null) return;
-    setState(() => _anh.add(bytes));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,14 +50,15 @@ class _GearMissingSheetState extends State<_GearMissingSheet> {
               style: AppTextStyles.captionSm,
             ),
             const SizedBox(height: AppSpacing.blockGap),
-            HandoverPhotoGroup(
+            PhotoPickerGrid(
               tieuDe: l10n.anhThayRoBeTrenTran(
                 '${_anh.length}',
                 '$soAnhThieuDungCuToiDa',
               ),
               anh: _anh,
               tran: soAnhThieuDungCuToiDa,
-              onThem: _chup,
+              onDoi: (ds) => setState(() => _anh = ds),
+            batBuocChup: true,
             ),
             const SizedBox(height: AppSpacing.blockGap),
             AppButton(

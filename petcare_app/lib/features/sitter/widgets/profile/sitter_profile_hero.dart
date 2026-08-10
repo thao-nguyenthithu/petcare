@@ -7,7 +7,6 @@ import 'package:petcare_app/shared/data/sitter_profile.dart';
 import 'package:petcare_app/shared/widgets/page_dots.dart';
 import 'package:petcare_app/shared/widgets/photo_viewer.dart';
 import 'package:petcare_app/features/sitter/widgets/profile/circle_icon_button.dart';
-import 'package:petcare_app/shared/utils/placeholder_action.dart';
 import 'package:petcare_app/shared/utils/anh_cache.dart';
 
 // Ảnh bìa trang cá nhân NCC
@@ -104,17 +103,11 @@ class _SitterProfileHeroState extends State<SitterProfileHero> {
                     onTap: () => context.pop(),
                   ),
                   const Spacer(),
-                  CircleIconButton(
-                    icon: Icons.ios_share,
-                    onTap: () => baoDangPhatTrien(context),
-                  ),
-                  if (widget.onEdit != null) ...[
-                    const SizedBox(width: 8),
+                  if (widget.onEdit != null)
                     CircleIconButton(
                       icon: Icons.edit_outlined,
                       onTap: widget.onEdit!,
                     ),
-                  ],
                 ],
               ),
             ),

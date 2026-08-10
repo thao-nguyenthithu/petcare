@@ -10,10 +10,9 @@ import 'package:petcare_app/core/utils/vn_date.dart';
 import 'package:petcare_app/features/booking/data/owner_booking_detail.dart';
 import 'package:petcare_app/features/booking/providers/booking_refresh.dart';
 import 'package:petcare_app/features/booking/services/bookings_api_service.dart';
-import 'package:petcare_app/features/sitter_order/widgets/handover_photo_group.dart';
+import 'package:petcare_app/shared/widgets/photo_picker_grid.dart';
 import 'package:petcare_app/shared/data/booking_common.dart';
 import 'package:petcare_app/shared/utils/anh_multipart.dart';
-import 'package:petcare_app/shared/utils/chon_anh.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_note_box.dart';
 
@@ -30,22 +29,8 @@ class NoShowContestBox extends ConsumerStatefulWidget {
 
 class _NoShowContestBoxState extends ConsumerState<NoShowContestBox> {
   final _moTa = TextEditingController();
-  final List<Uint8List> _anh = [];
+  List<Uint8List> _anh = [];
   bool _dangGui = false;
-
-  Future<void> _themAnh() async {
-    final conChoDuoc = soAnhMoKhieuNai - _anh.length;
-    if (conChoDuoc <= 0) return;
-    final chon = await chonNhieuAnh(conChoDuoc);
-    if (!mounted) return;
-    if (chon.quaNang > 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.loiAnhQuaNang('$mbAnhToiDa'))),
-      );
-    }
-    if (chon.anh.isEmpty) return;
-    setState(() => _anh.addAll(chon.anh));
-  }
 
   @override
   void dispose() {
@@ -108,14 +93,14 @@ class _NoShowContestBoxState extends ConsumerState<NoShowContestBox> {
           decoration: InputDecoration(hintText: l10n.hintPhanDoiVangMat),
         ),
         const SizedBox(height: 12),
-        HandoverPhotoGroup(
+        PhotoPickerGrid(
           tieuDe: l10n.anhKhieuNaiTrenTran(
             '${_anh.length}',
             '$soAnhMoKhieuNai',
           ),
           anh: _anh,
           tran: soAnhMoKhieuNai,
-          onThem: _themAnh,
+          onDoi: (ds) => setState(() => _anh = ds),
         ),
         const SizedBox(height: 12),
         AppButton(
