@@ -572,7 +572,6 @@
   "chuaCoDonNao": "Chưa có đơn nào",
   "datDichVuDauTien": "Đặt dịch vụ đầu tiên để chăm sóc bé cưng của bạn.",
   "timNguoiCham": "Tìm dịch vụ quanh bạn",
-  "timDonHint": "Tìm theo tên bé, người chăm...",
   "khongCoDonPhuHop": "Không có đơn phù hợp",
   "nguoiCungCapDaXacMinh": "Người cung cấp · Đã xác minh",
   "dangOCheDoNguoiCungCap": "Đang ở chế độ Người cung cấp",
@@ -1669,7 +1668,6 @@
     }
   },
   "dangChon": "Đang chọn",
-  "ngayNghi": "Nghỉ",
   "daKinDon": "Đã kín đơn",
   "nghiHoacDaQua": "Nghỉ hoặc đã qua",
   "nhanTinCay": "Tin cậy",
@@ -2768,7 +2766,7 @@
       "ten": {"type": "String"}
     }
   },
-  "checkInDaXacMinhDayDu": "Check-in đã xác minh đủ rọ mõm và dây xích lúc {gio}, ảnh lưu trong nhật ký để đối chiếu.",
+  "checkInDaXacMinhDayDu": "Check-in đã xác minh rọ mõm lúc {gio}, ảnh lưu trong nhật ký để đối chiếu.",
   "@checkInDaXacMinhDayDu": {
     "placeholders": {
       "gio": {"type": "String"}
@@ -3288,7 +3286,7 @@
       "phut": {"type": "String"}
     }
   },
-  "roMomVaDayXich": "Rọ mõm và dây xích",
+  "roMomVaDayXich": "Rọ mõm",
   "caDan": "Cả đàn",
   "beThuMay": "Bé {so}",
   "@beThuMay": {
@@ -3297,7 +3295,7 @@
     }
   },
   "huongDanChupCaDan": "Chụp một tấm thấy đủ cả đàn, mỗi bé đều lộ rõ cổ và mõm.",
-  "huongDanChupMotBe": "Chụp riêng {ten}, lấy gần để thấy rõ rọ mõm và dây xích.",
+  "huongDanChupMotBe": "Chụp riêng {ten}, lấy gần để thấy rõ rọ mõm.",
   "@huongDanChupMotBe": {
     "placeholders": {
       "ten": {"type": "String"}
@@ -3380,15 +3378,12 @@
       "be": {"type": "String"}
     }
   },
-  "toiXacNhanCacBeDaDeoDu": "Tôi xác nhận các bé đã đeo đủ",
-  "toiXacNhanBeDaDeoDu": "Tôi xác nhận {be} đã đeo đủ",
-  "@toiXacNhanBeDaDeoDu": {
-    "placeholders": {
-      "be": {"type": "String"}
-    }
-  },
   "tuXacNhanVaBatDau": "Tôi xác nhận các bé đã đeo đủ · Bắt đầu dịch vụ",
-  "moTaVanXaTuXacNhan": "Máy đã hết lượt đọc, nhưng bạn đang đứng cạnh bé nên bạn nhìn rõ hơn máy. Xác nhận ở đây được ghi kèm giờ, vị trí và các tấm ảnh đã chụp; khai sai xếp vào bỏ mặc thú cưng, khoá hồ sơ vĩnh viễn.",
+  "toiXacNhanCacBeDaDeoDu": "Tôi xác nhận các bé đã đeo đủ",
+  "thuChupLaiLanNua": "Thử chụp lại lần nữa",
+  "heThongNhanDienDangLoi": "Hệ thống nhận diện đang lỗi",
+  "moTaLoiHeThongCheckIn": "Lỗi này thuộc về hệ thống nên không tính vào số lần chụp lại của bạn. Bạn có thể thử lại, hoặc tự xác nhận vì bạn đang đứng cạnh bé.",
+  "moTaVanXaTuXacNhan": "Máy chưa đọc được sau khi bạn đã chụp lại, nhưng bạn đang đứng cạnh bé nên bạn nhìn rõ hơn máy. Xác nhận ở đây được ghi kèm giờ, vị trí và các tấm ảnh đã chụp; khai sai xếp vào bỏ mặc thú cưng, khoá hồ sơ vĩnh viễn.",
   "guiLai": "Gửi lại",
   "chuNuoiBaoBanChuaToi": "Chủ nuôi báo bạn chưa tới",
   "moTaDieuKienBaoVangMat": "Chỉ dùng khi bạn đã tới đúng điểm hẹn và chờ đủ {phut} phút.",
@@ -3550,7 +3545,7 @@
       "gio": {"type": "String"}
     }
   },
-  "daXacMinhRoMomDayXichLuc": "Đã xác minh rọ mõm và dây xích lúc {gio}",
+  "daXacMinhRoMomDayXichLuc": "Đã xác minh rọ mõm lúc {gio}",
   "@daXacMinhRoMomDayXichLuc": {
     "placeholders": {
       "gio": {"type": "String"}
@@ -4269,7 +4264,7 @@
     }
   },
   "khongTimThayDon": "Không tìm thấy đơn nào",
-  "thuTuKhoaKhac": "Thử tên khách, mã đơn hoặc tên bé khác",
+  "thuTuKhoaKhacDon": "Thử tên khách, mã đơn hoặc tên bé khác",
   "nhapTuKhoaTimDon": "Nhập tên khách, mã đơn hoặc tên bé để tra cứu",
   "soDuKhaDung": "Số dư khả dụng",
   "daNhanTrongThang": "Đã nhận {tien}đ trong tháng {thang}",
@@ -4509,7 +4504,6 @@
       "ma": {"type": "String"}
     }
   },
-  "daGuiPhanHoiKhieuNai": "Đã gửi phản hồi, hỗ trợ sẽ xem xét và kết luận",
   "scBeBiThuongOm": "Bé bị thương hoặc mệt sau buổi",
   "scKhongDungDichVu": "Làm không đúng dịch vụ đã đặt",
   "scTreGioBoDo": "Trễ giờ hoặc bỏ dở giữa chừng",
@@ -4625,7 +4619,6 @@
   },
   "chiTieuThangNay": "Chi tiêu tháng này",
   "chamDeXemChiTieu": "Chạm để xem chi tiêu theo tuần / tháng / năm",
-  "macDinh": "Mặc định",
   "tienDangTamGiu": "Tiền đang tạm giữ",
   "dangTamGiu": "Đang tạm giữ",
   "moTaTamGiuChuNuoi": "Tiền được giữ đủ {gio} giờ kể từ khi đơn kết thúc, hết hạn báo sự cố mới chuyển sang ví người chăm.",
@@ -4661,7 +4654,6 @@
       "nganHang": {"type": "String"}
     }
   },
-  "nganHangDaQuet": "Ngân hàng đã thanh toán",
   "nguonDaThanhToan": "nguồn bạn đã thanh toán",
   "thanhToanVaHoanTien": "Thanh toán và hoàn tiền",
   "thanhToanQuaVnpay": "Thanh toán qua VNPay",
@@ -4675,12 +4667,9 @@
   "hoanTienDonHuy": "Hoàn tiền đơn huỷ",
   "dangTamGiuChoHoanThanh": "Đang tạm giữ · chờ hoàn thành",
   "banDaTra": "Bạn đã trả",
-  "giaDichVu": "Giá dịch vụ",
   "phuPhiNgoaiGio": "Phụ phí ngoài giờ",
   "khuyenMai": "Khuyến mãi",
-  "tongThanhToan": "Tổng thanh toán",
   "viSaoDuocHoan": "Vì sao được hoàn",
-  "phiHuy": "Phí huỷ",
   "thongTinKhac": "Thông tin khác",
   "nguonTien": "Nguồn tiền",
   "xemChinhSachHuyDon": "Xem chính sách huỷ đơn",
@@ -4709,7 +4698,6 @@
       "so": {"type": "String"}
     }
   },
-  "tatCaDichVu": "Tất cả dịch vụ",
   "nguoiChamPhanHoi": "{ten} phản hồi",
   "@nguoiChamPhanHoi": {
     "placeholders": {
@@ -5191,7 +5179,7 @@
   "loiTokenKhongHopLe": "Phiên đăng nhập không hợp lệ",
   "loiKhongPhaiDonCuaBan": "Bạn không giữ đơn này",
   "loiKhongTimThayLoAnh": "Không tìm thấy lô ảnh này",
-  "loiChuaQuetDuCacBe": "Còn bé chưa xác minh đủ rọ mõm và dây xích",
+  "loiChuaQuetDuCacBe": "Còn bé chưa xác minh được rọ mõm",
   "loiKhongDocDuocKichThuocAnh": "Không đọc được kích thước ảnh. Hãy chụp lại bằng máy ảnh.",
   "loiSaiDanhSachSlot": "Danh sách chỗ chụp không khớp số ảnh gửi lên",
   "loiDangQuetLoTruoc": "Lô ảnh trước đang được chấm, hãy đợi kết quả",

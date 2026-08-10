@@ -5,6 +5,7 @@ import { SystemSettingsService } from '../../admin/system-settings.service';
 import {
   anhDuNet,
   CAU_TIENG_VIET,
+  laHeThongHong,
   xuLySlot,
   type MaKetQuaAi,
 } from '../../ai/ai-ket-luan';
@@ -39,6 +40,7 @@ export class PetSafetyScanReadService {
     return this.prisma.petSafetyScan.findMany({
       where: { bookingId },
       select: {
+        batchId: true,
         slotIndex: true,
         trangThai: true,
         code: true,
@@ -132,7 +134,8 @@ export class PetSafetyScanReadService {
             ? CAU_TIENG_VIET.ANH_DO_PHAN_GIAI_THAP
             : null,
         anhUrl: chot?.photoUrl ?? null,
-        soLanConLai: conLai(ds, slot),
+        loiHeThong: chot?.code ? laHeThongHong(chot.code as MaKetQuaAi) : false,
+        soLanConLai: conLai(ds),
         daTuXacNhan: daXacNhan.has(slot),
         duocTuXacNhan: duocTuXacNhan(
           ds,
@@ -161,7 +164,7 @@ export class PetSafetyScanReadService {
     if (thieu.length) {
       throw new ConflictException({
         code: 'CHUA_QUET_DU_CAC_BE',
-        message: 'Còn bé chưa xác minh đủ rọ mõm và dây xích',
+        message: 'Còn bé chưa xác minh được rọ mõm',
         slotIndexes: thieu,
       });
     }

@@ -1,5 +1,11 @@
 export const SO_LAN_QUET_MOI_BE = 1;
-export const SO_LUOT_CHUP_MOI_BE = 3;
+
+// Đếm chung cả đơn theo lượt bấm gửi, không theo bé và không theo tấm (bộ luật mục 8)
+export const SO_LUOT_GUI_MOI_DON = 3;
+
+// Từ lượt hỏng này trở đi mở nút tự xác nhận, chưa cần cạn lượt (bộ luật mục 8)
+export const LUOT_HONG_MO_VAN_XA = 2;
+
 export const SO_LAN_GOI_TOI_DA_MOI_DON = 15;
 export const CANH_DAI_DU_NET_PX = 1920;
 

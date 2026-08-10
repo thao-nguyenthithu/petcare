@@ -149,9 +149,9 @@ class _SitterAiScanScreenState extends ConsumerState<SitterAiScanScreen> {
     }
   }
 
-  Future<void> _tuXacNhanMotBe(SlotQuet slot) async {
+  Future<void> _tuXacNhanCacBe() async {
     setState(() => _dangGoi = true);
-    await _kyCacSlot([slot]);
+    await _kyCacSlot(_ketQua.slotKyDuoc);
     if (mounted) setState(() => _dangGoi = false);
   }
 
@@ -238,13 +238,10 @@ class _SitterAiScanScreenState extends ConsumerState<SitterAiScanScreen> {
             ],
             AiScanDaiAnh(slots: _ketQua.slots),
           ],
-          if (_ketQua.man == ManQuetAi.hetLanChup) ...[
+          if (_moTaVanXa(l10n) case final moTa?) ...[
             const FlatDivider(),
             FlatSection(
-              child: Text(
-                l10n.moTaVanXaTuXacNhan,
-                style: AppTextStyles.captionSm,
-              ),
+              child: Text(moTa, style: AppTextStyles.captionSm),
             ),
           ],
           if (_ketQua.man == ManQuetAi.aiDu) ...[
@@ -266,9 +263,22 @@ class _SitterAiScanScreenState extends ConsumerState<SitterAiScanScreen> {
     );
   }
 
+  String? _moTaVanXa(AppLocalizations l10n) {
+    if (_ketQua.slotDangVuong?.loiHeThong ?? false) {
+      return l10n.moTaLoiHeThongCheckIn;
+    }
+    return switch (_ketQua.man) {
+      ManQuetAi.hetLanChup || ManQuetAi.vanXaConLuot => l10n.moTaVanXaTuXacNhan,
+      _ => null,
+    };
+  }
+
   Widget _dongKetLuan(AppLocalizations l10n) {
     final vuong = _ketQua.slotDangVuong;
     final be = vuong == null ? '' : l10n.beThuMay('${vuong.slotIndex}');
+    if (vuong?.loiHeThong ?? false) {
+      return Text(l10n.heThongNhanDienDangLoi, style: AppTextStyles.h3);
+    }
     final (String chinh, String? phu) = switch (_ketQua.man) {
       ManQuetAi.dangQuet => (
         _quaHanCho
@@ -279,6 +289,10 @@ class _SitterAiScanScreenState extends ConsumerState<SitterAiScanScreen> {
       ManQuetAi.aiDu => (l10n.aiXacMinhDuCaNBe('$_soBe'), null),
       ManQuetAi.chuaQuaKiem => (
         l10n.beChuaQuaKiem(be),
+        l10n.conNLanChupLai('${vuong?.soLanConLai ?? 0}'),
+      ),
+      ManQuetAi.vanXaConLuot => (
+        l10n.aiVanKhongDocDuoc(be),
         l10n.conNLanChupLai('${vuong?.soLanConLai ?? 0}'),
       ),
       ManQuetAi.hetLanChup => (l10n.aiVanKhongDocDuoc(be), l10n.hetLuotChup),
@@ -338,19 +352,37 @@ class _SitterAiScanScreenState extends ConsumerState<SitterAiScanScreen> {
       ],
       ManQuetAi.chuaQuaKiem => [
         AppButton(
-          text: l10n.chupLaiBe(be),
+          text: (vuong?.loiHeThong ?? false) ? l10n.thuLai : l10n.chupLaiBe(be),
           height: 50,
+          enabled: vuong != null,
+          onTap: () => _chupLai(vuong!),
+        ),
+      ],
+      ManQuetAi.vanXaConLuot => [
+        AppButton(
+          text: l10n.toiXacNhanCacBeDaDeoDu,
+          height: 50,
+          dangTai: _dangGoi,
+          onTap: _tuXacNhanCacBe,
+        ),
+        const SizedBox(height: 8),
+        AppButton(
+          text: (vuong?.loiHeThong ?? false)
+              ? l10n.thuLai
+              : l10n.thuChupLaiLanNua,
+          outlined: true,
+          height: 50,
+          mauChu: AppColors.textSecondary,
           enabled: vuong != null,
           onTap: () => _chupLai(vuong!),
         ),
       ],
       ManQuetAi.hetLanChup => [
         AppButton(
-          text: l10n.toiXacNhanBeDaDeoDu(be),
+          text: l10n.toiXacNhanCacBeDaDeoDu,
           height: 50,
-          enabled: vuong != null,
           dangTai: _dangGoi,
-          onTap: () => _tuXacNhanMotBe(vuong!),
+          onTap: _tuXacNhanCacBe,
         ),
       ],
     };

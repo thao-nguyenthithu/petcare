@@ -9,7 +9,9 @@ import 'package:petcare_app/features/sitter_order/data/ai_scan.dart';
 import 'package:petcare_app/shared/utils/anh_cache.dart';
 import 'package:petcare_app/shared/widgets/flat_section.dart';
 
-const double _oAnh = 80;
+// Ô dọc 3:4 theo khung máy ảnh: ảnh to mà cover không phải cắt hai bên như ô vuông
+const double _oAnhRong = 112;
+const double _oAnhCao = 149;
 
 // Một hàng kết quả của một bé, mỗi bé quét độc lập
 class AiScanHangBe extends StatelessWidget {
@@ -87,6 +89,7 @@ class AiScanHangBe extends StatelessWidget {
   String? _dongPhu(AppLocalizations l10n) {
     if (dangQuet) return null;
     if (slot.daTuXacNhan) return l10n.banDaTuXacNhan;
+    if (slot.loiHeThong) return null;
     if (!slot.xong) return l10n.conNLanChupLai('${slot.soLanConLai}');
     if (!slot.anhDuNet) return null;
     return l10n.doTinCayPhanTram('${slot.phanTramTinCay}');
@@ -102,7 +105,7 @@ class AiScanDaiAnh extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return SizedBox(
-      height: _oAnh,
+      height: _oAnhCao,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: leMucPhang),
@@ -112,8 +115,8 @@ class AiScanDaiAnh extends StatelessWidget {
           final slot = slots[i];
           final caDan = slot.slotIndex == slotCaDan;
           return SizedBox(
-            width: _oAnh,
-            height: _oAnh,
+            width: _oAnhRong,
+            height: _oAnhCao,
             child: Stack(
               fit: StackFit.expand,
               children: [
@@ -160,7 +163,7 @@ class AiScanDaiAnh extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: url,
       fit: BoxFit.cover,
-      memCacheWidth: beRongCache(context, _oAnh),
+      memCacheWidth: beRongCache(context, _oAnhRong),
       errorWidget: (_, _, _) => const ColoredBox(
         color: AppColors.cardMint,
         child: Icon(Icons.broken_image_outlined, color: AppColors.neutral),

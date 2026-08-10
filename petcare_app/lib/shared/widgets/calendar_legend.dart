@@ -31,7 +31,7 @@ class CalendarLegend extends StatelessWidget {
             nen: AppColors.primaryColor,
           ),
         _Muc(nhan: l10n.daKinDon, nen: AppColors.neutral),
-        _Muc(nhan: hienDaQua ? l10n.nghiHoacDaQua : l10n.ngayNghi, chuMo: true),
+        _Muc(nhan: hienDaQua ? l10n.nghiHoacDaQua : l10n.nghi, chuMo: true),
         if (hienCoDon) _Muc(nhan: l10n.coDon, cham: true),
       ],
     );

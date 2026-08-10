@@ -5,7 +5,7 @@ import {
   NGUONG_TIN_CAY_TU_XAC_NHAN,
   SO_LAN_GOI_TOI_DA_MOI_DON,
   SO_LAN_QUET_MOI_BE,
-  SO_LUOT_CHUP_MOI_BE,
+  SO_LUOT_GUI_MOI_DON,
   TRAN_ANH_GUI_AI_BYTE,
 } from '../../ai/ai.constants';
 import { MOI_LUOT as DON_MOI_LUOT_TU_CHOT } from '../../bookings/auto-complete.job';
@@ -201,7 +201,7 @@ export function nhomVanHanh(): NhomGioiHan[] {
         },
         {
           ma: 'aiAnh.soLuotChupMoiBeKeCaLanDau',
-          value: so(SO_LUOT_CHUP_MOI_BE),
+          value: so(SO_LUOT_GUI_MOI_DON),
           unit: 'luot',
         },
         {

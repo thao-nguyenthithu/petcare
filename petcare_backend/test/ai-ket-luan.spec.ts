@@ -11,7 +11,7 @@ import {
 } from '../src/modules/ai/ai-ket-luan';
 import { AiVerifyResult } from '../src/modules/ai/interfaces/ai-vision.interface';
 
-// AI xác minh rọ mõm và dây xích (bộ luật mục 8); sai ở đây là thả bé ra đường
+// AI chỉ phán quyết rọ mõm, dây xích không có máy nào soi (bộ luật mục 8)
 
 type Gear = BaoCaoModel['muzzle'];
 
@@ -26,7 +26,7 @@ type ToHop = {
 function moTa(bc: BaoCaoModel): string {
   const co = bc.dog_visible ? 'thấy bé' : 'không thấy bé';
   const ro = bc.image_clear ? 'ảnh rõ' : 'ảnh mờ';
-  return `${co}, ${ro}, rọ mõm ${bc.muzzle}, dây xích ${bc.leash}`;
+  return `${co}, ${ro}, rọ mõm ${bc.muzzle}`;
 }
 
 function dungToHop(): ToHop[] {
@@ -34,24 +34,17 @@ function dungToHop(): ToHop[] {
   for (const dogVisible of [true, false]) {
     for (const imageClear of [true, false]) {
       for (const muzzle of GEAR) {
-        for (const leash of GEAR) {
-          const bc: BaoCaoModel = {
-            dog_visible: dogVisible,
-            image_clear: imageClear,
-            muzzle,
-            leash,
-            confidence: 0.9,
-          };
-          ds.push({
-            ten: moTa(bc),
-            bc,
-            datMongDoi:
-              dogVisible &&
-              imageClear &&
-              muzzle === 'PRESENT' &&
-              leash === 'PRESENT',
-          });
-        }
+        const bc: BaoCaoModel = {
+          dog_visible: dogVisible,
+          image_clear: imageClear,
+          muzzle,
+          confidence: 0.9,
+        };
+        ds.push({
+          ten: moTa(bc),
+          bc,
+          datMongDoi: dogVisible && imageClear && muzzle === 'PRESENT',
+        });
       }
     }
   }
@@ -67,9 +60,9 @@ function quetMotAnh(tho: unknown): AiVerifyResult {
   return ketLuanTuBaoCao(bc, {});
 }
 
-describe('không đường nào ra đạt ngoài đủ rọ mõm và dây xích', () => {
-  it('quét đủ 36 tổ hợp, đúng một tổ hợp được đạt', () => {
-    expect(TO_HOP).toHaveLength(36);
+describe('không đường nào ra đạt ngoài thấy rõ rọ mõm', () => {
+  it('quét đủ 12 tổ hợp, đúng một tổ hợp được đạt', () => {
+    expect(TO_HOP).toHaveLength(12);
     expect(TO_HOP.filter((t) => t.datMongDoi)).toHaveLength(1);
   });
 
@@ -96,7 +89,6 @@ describe('không đường nào ra đạt ngoài đủ rọ mõm và dây xích'
       dog_visible: true,
       image_clear: true,
       muzzle: 'PRESENT',
-      leash: 'PRESENT',
       confidence: 0.62,
     };
     expect(ketLuanTuBaoCao(bc, {}).confidence).toBe(0.62);
@@ -104,80 +96,36 @@ describe('không đường nào ra đạt ngoài đủ rọ mõm và dây xích'
 });
 
 describe('chưa xác minh được khác không đạt', () => {
-  function bc(muzzle: Gear, leash: Gear): BaoCaoModel {
+  function bc(muzzle: Gear): BaoCaoModel {
     return {
       dog_visible: true,
       image_clear: true,
       muzzle,
-      leash,
       confidence: 0.9,
     };
   }
 
   it('rọ mõm UNCLEAR thì cho chụp lại chứ không ghi nhận vi phạm', () => {
-    const ket = ketLuanTuBaoCao(bc('UNCLEAR', 'PRESENT'), {});
+    const ket = ketLuanTuBaoCao(bc('UNCLEAR'), {});
     expect(ket.trangThai).toBe('CHUA_XAC_MINH_DUOC');
     expect(ket.code).toBe('KHONG_RO_RO_MOM');
   });
 
-  it('dây xích UNCLEAR thì cho chụp lại chứ không ghi nhận vi phạm', () => {
-    const ket = ketLuanTuBaoCao(bc('PRESENT', 'UNCLEAR'), {});
-    expect(ket.trangThai).toBe('CHUA_XAC_MINH_DUOC');
-    expect(ket.code).toBe('KHONG_RO_DAY_XICH');
-  });
-
-  it('UNCLEAR đứng cạnh ABSENT vẫn là chưa xác minh được', () => {
-    expect(ketLuanTuBaoCao(bc('UNCLEAR', 'ABSENT'), {}).trangThai).toBe(
-      'CHUA_XAC_MINH_DUOC',
-    );
-  });
-
-  it('không tổ hợp UNCLEAR nào rơi vào KHONG_DAT', () => {
-    const coUnclear = TO_HOP.filter(
-      (t) =>
-        t.bc.dog_visible &&
-        t.bc.image_clear &&
-        (t.bc.muzzle === 'UNCLEAR' || t.bc.leash === 'UNCLEAR'),
-    );
-    expect(coUnclear.length).toBeGreaterThan(0);
-    for (const { bc: bao } of coUnclear) {
-      expect(ketLuanTuBaoCao(bao, {}).trangThai).toBe('CHUA_XAC_MINH_DUOC');
-    }
-  });
-
   it('không thấy bé và ảnh mờ đều là chưa xác minh được, độ tin về 0', () => {
     const khongThay = ketLuanTuBaoCao(
-      { ...bc('PRESENT', 'PRESENT'), dog_visible: false },
+      { ...bc('PRESENT'), dog_visible: false },
       {},
     );
     expect(khongThay.code).toBe('KHONG_THAY_CHO');
     expect(khongThay.confidence).toBe(0);
-    const anhMo = ketLuanTuBaoCao(
-      { ...bc('PRESENT', 'PRESENT'), image_clear: false },
-      {},
-    );
+    const anhMo = ketLuanTuBaoCao({ ...bc('PRESENT'), image_clear: false }, {});
     expect(anhMo.code).toBe('ANH_MO');
   });
 
-  it('thiếu thật thì mới là KHONG_DAT, đủ ba nhánh', () => {
-    expect(ketLuanTuBaoCao(bc('ABSENT', 'PRESENT'), {}).code).toBe(
-      'THIEU_RO_MOM',
-    );
-    expect(ketLuanTuBaoCao(bc('PRESENT', 'ABSENT'), {}).code).toBe(
-      'THIEU_DAY_XICH',
-    );
-    expect(ketLuanTuBaoCao(bc('ABSENT', 'ABSENT'), {}).code).toBe(
-      'THIEU_CA_HAI',
-    );
-    for (const cap of [
-      ['ABSENT', 'PRESENT'],
-      ['PRESENT', 'ABSENT'],
-      ['ABSENT', 'ABSENT'],
-    ] as [Gear, Gear][]) {
-      expect(ketLuanTuBaoCao(bc(cap[0], cap[1]), {}).trangThai).toBe(
-        'KHONG_DAT',
-      );
-    }
+  it('thiếu thật thì mới là KHONG_DAT', () => {
+    const ket = ketLuanTuBaoCao(bc('ABSENT'), {});
+    expect(ket.trangThai).toBe('KHONG_DAT');
+    expect(ket.code).toBe('THIEU_RO_MOM');
   });
 });
 
@@ -190,45 +138,21 @@ describe('dữ liệu model trả về hỏng', () => {
     ['số', 7],
     ['mảng', []],
     ['vật rỗng', {}],
-    [
-      'thiếu leash',
-      { dog_visible: true, image_clear: true, muzzle: 'PRESENT' },
-    ],
-    [
-      'thiếu dog_visible',
-      { image_clear: true, muzzle: 'PRESENT', leash: 'PRESENT' },
-    ],
+    ['thiếu muzzle', { dog_visible: true, image_clear: true }],
+    ['thiếu dog_visible', { image_clear: true, muzzle: 'PRESENT' }],
     [
       'cờ là chuỗi thay vì boolean',
-      {
-        dog_visible: 'true',
-        image_clear: true,
-        muzzle: 'PRESENT',
-        leash: 'PRESENT',
-      },
+      { dog_visible: 'true', image_clear: true, muzzle: 'PRESENT' },
     ],
     [
       'gear là giá trị lạ',
-      {
-        dog_visible: true,
-        image_clear: true,
-        muzzle: 'MAYBE',
-        leash: 'PRESENT',
-      },
+      { dog_visible: true, image_clear: true, muzzle: 'MAYBE' },
     ],
     [
       'gear viết thường',
-      {
-        dog_visible: true,
-        image_clear: true,
-        muzzle: 'present',
-        leash: 'present',
-      },
+      { dog_visible: true, image_clear: true, muzzle: 'present' },
     ],
-    [
-      'gear là null',
-      { dog_visible: true, image_clear: true, muzzle: null, leash: 'PRESENT' },
-    ],
+    ['gear là null', { dog_visible: true, image_clear: true, muzzle: null }],
   ];
 
   it.each(RAC)('%s thì docBaoCao trả null và không ném', (_ten, tho) => {
@@ -242,24 +166,31 @@ describe('dữ liệu model trả về hỏng', () => {
     expect(ket.isSafe).toBe(false);
   });
 
+  it('trường leash thừa từ model cũ bị bỏ qua, không làm hỏng bước đọc', () => {
+    const bc = docBaoCao({
+      dog_visible: true,
+      image_clear: true,
+      muzzle: 'PRESENT',
+      leash: 'ABSENT',
+      confidence: 0.8,
+    });
+    expect(bc?.muzzle).toBe('PRESENT');
+    expect(ketLuanTuBaoCao(bc!, {}).trangThai).toBe('DAT');
+  });
+
   it('thiếu confidence vẫn đọc được, độ tin coi như 0', () => {
     const bc = docBaoCao({
       dog_visible: true,
       image_clear: true,
       muzzle: 'PRESENT',
-      leash: 'PRESENT',
     });
     expect(bc?.confidence).toBe(0);
   });
 
   it('confidence ngoài khoảng bị kẹp về 0 đến 1', () => {
     const chung = { dog_visible: true, image_clear: true, muzzle: 'PRESENT' };
-    expect(
-      docBaoCao({ ...chung, leash: 'PRESENT', confidence: 9 })?.confidence,
-    ).toBe(1);
-    expect(
-      docBaoCao({ ...chung, leash: 'PRESENT', confidence: -3 })?.confidence,
-    ).toBe(0);
+    expect(docBaoCao({ ...chung, confidence: 9 })?.confidence).toBe(1);
+    expect(docBaoCao({ ...chung, confidence: -3 })?.confidence).toBe(0);
   });
 });
 
@@ -300,7 +231,6 @@ describe('hai kiểu chưa xác minh được đi hai đường khác nhau', () 
     'ANH_MO',
     'KHONG_THAY_CHO',
     'KHONG_RO_RO_MOM',
-    'KHONG_RO_DAY_XICH',
   ] as (keyof typeof CAU_TIENG_VIET)[];
 
   const HE_THONG_HONG = [
@@ -315,12 +245,12 @@ describe('hai kiểu chưa xác minh được đi hai đường khác nhau', () 
     'KIEU_ANH_KHONG_HO_TRO',
   ] as (keyof typeof CAU_TIENG_VIET)[];
 
-  it.each(ANH_KHONG_DUNG_DUOC)('%s trừ lượt chụp lại của bé', (ma) => {
+  it.each(ANH_KHONG_DUNG_DUOC)('%s trừ lượt gửi của đơn', (ma) => {
     expect(laHeThongHong(ma)).toBe(false);
     expect(truLuotChupLai(ma)).toBe(true);
   });
 
-  it.each(HE_THONG_HONG)('%s KHÔNG trừ lượt chụp lại của bé', (ma) => {
+  it.each(HE_THONG_HONG)('%s KHÔNG trừ lượt gửi của đơn', (ma) => {
     expect(laHeThongHong(ma)).toBe(true);
     expect(truLuotChupLai(ma)).toBe(false);
   });
@@ -329,8 +259,6 @@ describe('hai kiểu chưa xác minh được đi hai đường khác nhau', () 
     for (const ma of [
       'DAT',
       'THIEU_RO_MOM',
-      'THIEU_DAY_XICH',
-      'THIEU_CA_HAI',
     ] as (keyof typeof CAU_TIENG_VIET)[]) {
       expect(truLuotChupLai(ma)).toBe(true);
     }
@@ -382,12 +310,9 @@ describe('câu tiếng Việt trả cho người chăm', () => {
       new Set([
         'DAT',
         'THIEU_RO_MOM',
-        'THIEU_DAY_XICH',
-        'THIEU_CA_HAI',
         'KHONG_THAY_CHO',
         'ANH_MO',
         'KHONG_RO_RO_MOM',
-        'KHONG_RO_DAY_XICH',
       ]),
     );
   });
@@ -420,7 +345,6 @@ describe('câu tiếng Việt trả cho người chăm', () => {
         dog_visible: true,
         image_clear: true,
         muzzle: 'PRESENT',
-        leash: 'PRESENT',
         confidence: 0.8,
       },
       { nhaCungCap: 'anthropic', tokenVao: 1234 },
