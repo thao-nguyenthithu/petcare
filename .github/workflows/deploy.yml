@@ -45,8 +45,26 @@ jobs:
         env:
           VITE_API_URL: http://localhost:3000/api/v1
 
+  app:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: petcare_app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      # Thư mục l10n sinh tự động không nằm trong Git nên phải sinh lại trước khi phân tích
+      - run: flutter gen-l10n
+      - run: flutter analyze
+      - run: flutter test
+
   deploy:
-    needs: build
+    # Ba job kiểm thử cùng chặn deploy, một mảng đỏ là không lên Railway
+    needs: [build, admin, app]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     defaults:

@@ -1,10 +1,8 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:petcare_app/shared/utils/chon_anh.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
-import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/sitter_order/data/walking_session.dart';
 import 'package:petcare_app/features/sitter_order/services/sitter_order_actions.dart';
@@ -12,8 +10,8 @@ import 'package:petcare_app/shared/utils/khoang_cach.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/flat_section.dart';
-import 'package:petcare_app/shared/widgets/app_card.dart';
 import 'package:petcare_app/shared/widgets/app_screen.dart';
+import 'package:petcare_app/shared/widgets/photo_picker_grid.dart';
 
 // Màn kết thúc phiên dắt, phải có ít nhất một ảnh
 class SitterFinishWalkScreen extends ConsumerStatefulWidget {
@@ -38,20 +36,6 @@ class _SitterFinishWalkScreenState
   void dispose() {
     _ghiChu.dispose();
     super.dispose();
-  }
-
-  Future<void> _chup() async {
-    final chon = await chupMotAnh();
-    if (!mounted) return;
-    if (chon.quaNang) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.loiAnhQuaNang('$mbAnhToiDa'))),
-      );
-      return;
-    }
-    final bytes = chon.anh;
-    if (bytes == null) return;
-    setState(() => _anh.add(bytes));
   }
 
   // Ảnh đi cùng lượt kết thúc, gửi rời là ghi hai lần
@@ -120,7 +104,17 @@ class _SitterFinishWalkScreenState
                   style: AppTextStyles.label,
                 ),
                 const SizedBox(height: 14),
-                _HangAnh(anh: _anh, onThem: _chup),
+                PhotoPickerGrid(
+                  anh: _anh,
+                  tran: soAnhKetThucToiDa,
+                  soCot: 3,
+                  batBuocChup: true,
+                  onDoi: (ds) => setState(() {
+                    _anh
+                      ..clear()
+                      ..addAll(ds);
+                  }),
+                ),
                 const SizedBox(height: 22),
                 Text(l10n.ghiChuGuiChuNuoi, style: AppTextStyles.label),
                 const SizedBox(height: 14),
@@ -200,94 +194,6 @@ class _TongKet extends StatelessWidget {
           _Cot(so: l10n.nAnh('${phien.soAnhDaGui}'), nhan: l10n.daGui),
         ],
       ),
-    );
-  }
-}
-
-// Tấm đã chụp đứng trước, ô Thêm lấp cho đủ trần
-class _HangAnh extends StatelessWidget {
-  const _HangAnh({required this.anh, required this.onThem});
-
-  final List<Uint8List> anh;
-  final VoidCallback onThem;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        for (var i = 0; i < soAnhKetThucToiDa; i++) ...[
-          if (i != 0) const SizedBox(width: 10),
-          Expanded(
-            child: i < anh.length
-                ? _OAnh(bytes: anh[i])
-                : _OThem(onTap: onThem),
-          ),
-        ],
-      ],
-    );
-  }
-}
-
-class _OAnh extends StatelessWidget {
-  const _OAnh({required this.bytes});
-
-  final Uint8List bytes;
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(AppRadius.radius14),
-      child: AspectRatio(
-        aspectRatio: 1,
-        child: Image.memory(bytes, fit: BoxFit.cover),
-      ),
-    );
-  }
-}
-
-class _OThem extends StatelessWidget {
-  const _OThem({required this.onTap});
-
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(AppRadius.radius14),
-      child: _KhungOTrong(
-        child: AspectRatio(
-          aspectRatio: 1,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.photo_camera_outlined,
-                size: 20,
-                color: AppColors.textSecondary,
-              ),
-              const SizedBox(height: 8),
-              Text(context.l10n.them, style: AppTextStyles.captionSm),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// Khung ô trống của ảnh chưa chụp
-class _KhungOTrong extends StatelessWidget {
-  const _KhungOTrong({required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return AppCard(
-      nen: AppColors.background,
-      padding: EdgeInsets.zero,
-      child: child,
     );
   }
 }

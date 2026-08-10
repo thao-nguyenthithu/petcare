@@ -27,7 +27,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: JwtPayload) {
     const user = await this.prisma.user.findUnique({
       where: { id: payload.sub },
-      select: { passwordChangedAt: true, isActive: true },
+      select: { passwordChangedAt: true, isActive: true, role: true },
     });
     if (!user?.isActive) {
       throw new UnauthorizedException({
@@ -45,6 +45,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         message: 'Mật khẩu đã được đổi, vui lòng đăng nhập lại',
       });
     }
-    return { id: payload.sub, email: payload.email, role: payload.role };
+    // Vai lấy từ DB chứ không tin token, để hạ quyền có hiệu lực ngay chứ không đợi token hết hạn
+    return { id: payload.sub, email: payload.email, role: user.role };
   }
 }

@@ -10,7 +10,9 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import { THROTTLE_XAC_THUC } from '../../common/gioi-han-ip/gioi-han-ip.constants';
 import { CAU_HINH_ANH, type UploadedImage } from '../media/image-upload';
 import { AccountService } from './account.service';
 import { AuthService } from './auth.service';
@@ -34,36 +36,42 @@ export class AuthController {
   ) {}
 
   @Post('register')
+  @Throttle(THROTTLE_XAC_THUC)
   @ApiOperation({ summary: 'Đăng ký tài khoản mới, gửi OTP xác minh về email' })
   register(@Body() dto: RegisterDto) {
     return this.authService.register(dto);
   }
 
   @Post('verify-email')
+  @Throttle(THROTTLE_XAC_THUC)
   @ApiOperation({ summary: 'Xác minh email bằng mã OTP 6 số' })
   verifyEmail(@Body() dto: VerifyEmailDto) {
     return this.authService.verifyEmail(dto);
   }
 
   @Post('resend-verify-otp')
+  @Throttle(THROTTLE_XAC_THUC)
   @ApiOperation({ summary: 'Gửi lại mã xác minh email (cooldown 30 giây)' })
   resendVerifyOtp(@Body() dto: SendOtpDto) {
     return this.authService.resendVerifyOtp(dto.email);
   }
 
   @Post('login')
+  @Throttle(THROTTLE_XAC_THUC)
   @ApiOperation({ summary: 'Đăng nhập bằng Email/Password, trả về JWT' })
   login(@Body() dto: LoginDto) {
     return this.authService.login(dto);
   }
 
   @Post('login/google')
+  @Throttle(THROTTLE_XAC_THUC)
   @ApiOperation({ summary: 'Đăng nhập Google (Firebase ID Token), trả về JWT' })
   loginGoogle(@Body() dto: FirebaseAuthDto) {
     return this.authService.loginWithFirebase(dto.idToken);
   }
 
   @Post('login/facebook')
+  @Throttle(THROTTLE_XAC_THUC)
   @ApiOperation({
     summary: 'Đăng nhập Facebook (Firebase ID Token), trả về JWT',
   })
@@ -72,21 +80,24 @@ export class AuthController {
   }
 
   @Post('forgot-password')
+  @Throttle(THROTTLE_XAC_THUC)
   @ApiOperation({
     summary:
-      'Gửi OTP đặt lại mật khẩu về email. scope admin chỉ nhận tài khoản ADMIN và luôn trả cùng một câu',
+      'Gửi OTP đặt lại mật khẩu về email, luôn trả cùng một câu bất kể email có tồn tại hay không',
   })
   forgotPassword(@Body() dto: ForgotPasswordDto) {
     return this.account.forgotPassword(dto.email, dto.scope);
   }
 
   @Post('verify-reset-otp')
+  @Throttle(THROTTLE_XAC_THUC)
   @ApiOperation({ summary: 'Xác minh OTP quên mật khẩu, trả về resetToken' })
   verifyResetOtp(@Body() dto: VerifyResetOtpDto) {
     return this.account.verifyResetOtp(dto.email, dto.otp, dto.scope);
   }
 
   @Post('reset-password')
+  @Throttle(THROTTLE_XAC_THUC)
   @ApiOperation({ summary: 'Đặt mật khẩu mới bằng resetToken' })
   resetPassword(@Body() dto: ResetPasswordDto) {
     return this.account.resetPassword(dto.resetToken, dto.newPassword);

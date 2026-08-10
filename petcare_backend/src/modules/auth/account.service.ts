@@ -16,6 +16,7 @@ import {
   AuthScope,
   BCRYPT_ROUNDS,
   BUCKET_AVATAR,
+  PHAN_HOI_QUEN_MAT_KHAU,
   PHAN_HOI_QUEN_MAT_KHAU_ADMIN,
 } from './auth.constants';
 
@@ -40,15 +41,11 @@ export class AccountService {
       return { message: PHAN_HOI_QUEN_MAT_KHAU_ADMIN };
     }
 
-    if (!user) {
-      throw new NotFoundException({
-        code: 'USER_NOT_FOUND',
-        message: 'Email chưa được đăng ký',
-      });
+    // Luôn trả cùng một câu để không lộ email nào đã có tài khoản (bộ luật mục 12)
+    if (user) {
+      await this.otpService.generateAndSend(email, 'reset');
     }
-
-    await this.otpService.generateAndSend(email, 'reset');
-    return { message: 'Mã xác minh đã được gửi tới email của bạn' };
+    return { message: PHAN_HOI_QUEN_MAT_KHAU };
   }
 
   async verifyResetOtp(email: string, otp: string, scope: AuthScope = 'app') {
@@ -56,17 +53,11 @@ export class AccountService {
 
     const user = await this.prisma.user.findUnique({ where: { email } });
 
-    if (scope === 'admin' && user?.role !== UserRole.ADMIN) {
+    // Email không có tài khoản cũng trả OTP_INVALID, câu báo khác đi là lộ email đã đăng ký
+    if (!user || (scope === 'admin' && user.role !== UserRole.ADMIN)) {
       throw new BadRequestException({
         code: 'OTP_INVALID',
         message: 'Mã xác minh không đúng',
-      });
-    }
-
-    if (!user) {
-      throw new NotFoundException({
-        code: 'USER_NOT_FOUND',
-        message: 'Tài khoản không tồn tại',
       });
     }
 

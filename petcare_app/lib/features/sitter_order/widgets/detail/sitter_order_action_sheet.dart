@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_radius.dart';
@@ -8,17 +7,15 @@ import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/sitter_order/data/sitter_cancel_reasons.dart';
 import 'package:petcare_app/features/sitter_order/data/sitter_order_detail.dart';
-import 'package:petcare_app/shared/utils/chon_anh.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 import 'package:petcare_app/shared/widgets/app_filter_chip.dart';
 import 'package:petcare_app/shared/widgets/app_text_field.dart';
 import 'package:petcare_app/shared/widgets/order_summary_head.dart';
-import 'package:petcare_app/shared/widgets/photo_source_sheet.dart';
+import 'package:petcare_app/shared/widgets/photo_picker_grid.dart';
 
 typedef LyDoBoDon = ({String lyDo, String moTa, List<Uint8List> anh});
 
-const double _oAnh = 72;
 typedef NhomLyDo = ({String? tieuDe, List<String> maLyDo});
 
 // Khung chung cho các sheet bỏ đơn
@@ -108,23 +105,6 @@ class _SitterOrderActionSheetState extends State<_SitterOrderActionSheet> {
     super.dispose();
   }
 
-  Future<void> _themAnh() async {
-    FocusScope.of(context).unfocus();
-    final nguon = await showPhotoSourceSheet(context);
-    if (nguon == null || !mounted) return;
-    final chon = nguon == ImageSource.camera
-        ? await chupMotAnh()
-        : await chonMotAnh();
-    if (!mounted) return;
-    if (chon.quaNang) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.loiAnhQuaNang('$mbAnhToiDa'))),
-      );
-      return;
-    }
-    if (chon.anh == null) return;
-    setState(() => _anh.add(chon.anh!));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -200,11 +180,15 @@ class _SitterOrderActionSheetState extends State<_SitterOrderActionSheet> {
                 ],
               ),
               const SizedBox(height: AppSpacing.labelGap),
-              _HangAnh(
+              PhotoPickerGrid(
                 anh: _anh,
-                toiDa: widget.soAnhToiDa,
-                onThem: _themAnh,
-                onXoa: (i) => setState(() => _anh.removeAt(i)),
+                tran: widget.soAnhToiDa,
+                soCot: 4,
+                onDoi: (ds) => setState(() {
+                  _anh
+                    ..clear()
+                    ..addAll(ds);
+                }),
               ),
             ],
             if (widget.anhHuong.isNotEmpty) ...[
@@ -240,84 +224,6 @@ class _SitterOrderActionSheetState extends State<_SitterOrderActionSheet> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _HangAnh extends StatelessWidget {
-  const _HangAnh({
-    required this.anh,
-    required this.toiDa,
-    required this.onThem,
-    required this.onXoa,
-  });
-
-  final List<Uint8List> anh;
-  final int toiDa;
-  final VoidCallback onThem;
-  final ValueChanged<int> onXoa;
-
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      spacing: AppSpacing.labelGap,
-      runSpacing: AppSpacing.labelGap,
-      children: [
-        for (final (i, bytes) in anh.indexed)
-          SizedBox(
-            width: _oAnh,
-            height: _oAnh,
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(AppRadius.radius14),
-                    child: Image.memory(bytes, fit: BoxFit.cover),
-                  ),
-                ),
-                Positioned(
-                  top: 2,
-                  right: 2,
-                  child: InkWell(
-                    onTap: () => onXoa(i),
-                    customBorder: const CircleBorder(),
-                    child: Container(
-                      padding: const EdgeInsets.all(2),
-                      decoration: BoxDecoration(
-                        color: AppColors.textPrimary.withValues(alpha: 0.55),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.close,
-                        size: 13,
-                        color: AppColors.textWhite,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        if (anh.length < toiDa)
-          InkWell(
-            onTap: onThem,
-            borderRadius: BorderRadius.circular(AppRadius.radius14),
-            child: Container(
-              width: _oAnh,
-              height: _oAnh,
-              decoration: BoxDecoration(
-                color: AppColors.background,
-                borderRadius: BorderRadius.circular(AppRadius.radius14),
-                border: Border.all(color: AppColors.neutralLight),
-              ),
-              child: const Icon(
-                Icons.add_a_photo_outlined,
-                size: 22,
-                color: AppColors.textSecondary,
-              ),
-            ),
-          ),
-      ],
     );
   }
 }

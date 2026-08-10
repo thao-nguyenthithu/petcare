@@ -37,6 +37,8 @@ export class SitterProfileService {
     }
     // Ảnh giấy tờ vào bucket riêng nhưng quản trị viên vẫn mở ra xem, phải soi kiểu thật
     const kieu = kiemTraAnh(file);
+    // Ép bucket riêng tư ngay trong code, không phó mặc cho cấu hình tay trên Supabase
+    await this.supabase.ensurePrivateBucket('cccd-imgs');
     const loai = mat === 'back' ? 'back' : 'front';
     const path = `${randomUUID()}_${loai}.${kieu.duoi}`;
     await this.supabase.uploadFile(
