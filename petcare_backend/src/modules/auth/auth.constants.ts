@@ -10,3 +10,6 @@ export type AuthScope = 'app' | 'admin';
 
 export const PHAN_HOI_QUEN_MAT_KHAU_ADMIN =
   'Nếu email thuộc tài khoản quản trị, mã xác minh đã được gửi tới hộp thư đó';
+
+export const PHAN_HOI_QUEN_MAT_KHAU =
+  'Nếu email đã được đăng ký, mã xác minh đã được gửi tới hộp thư đó';

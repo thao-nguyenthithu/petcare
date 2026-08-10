@@ -1,11 +1,20 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { BullModule } from '@nestjs/bullmq';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ThrottlerModule } from '@nestjs/throttler';
+import type Redis from 'ioredis';
 import configuration from './config/configuration';
 import { PrismaModule } from './prisma/prisma.module';
-import { RedisModule } from './common/redis/redis.module';
+import { RedisModule, REDIS_CLIENT } from './common/redis/redis.module';
 import { tuyChonRedis } from './common/redis/redis-ket-noi';
+import {
+  CUA_SO_IP_MS,
+  TRAN_IP_MOI_PHUT,
+} from './common/gioi-han-ip/gioi-han-ip.constants';
+import { IpThrottlerGuard } from './common/gioi-han-ip/ip-throttler.guard';
+import { ThrottlerRedisStorage } from './common/gioi-han-ip/throttler-redis.storage';
 import { MailModule } from './modules/mail/mail.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MediaModule } from './modules/media/media.module';
@@ -45,6 +54,13 @@ import { HealthModule } from './modules/health/health.module';
         connection: tuyChonRedis(config),
       }),
     }),
+    ThrottlerModule.forRootAsync({
+      inject: [REDIS_CLIENT],
+      useFactory: (redis: Redis) => ({
+        throttlers: [{ ttl: CUA_SO_IP_MS, limit: TRAN_IP_MOI_PHUT }],
+        storage: new ThrottlerRedisStorage(redis),
+      }),
+    }),
     PrismaModule,
     RedisModule,
     HealthModule,
@@ -72,5 +88,6 @@ import { HealthModule } from './modules/health/health.module';
     SitterHomeModule,
     AiModule,
   ],
+  providers: [{ provide: APP_GUARD, useClass: IpThrottlerGuard }],
 })
 export class AppModule {}

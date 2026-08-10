@@ -5,6 +5,7 @@ import {
   ServiceUnavailableException,
 } from '@nestjs/common';
 import { ApiExcludeController } from '@nestjs/swagger';
+import { SkipThrottle } from '@nestjs/throttler';
 import Redis from 'ioredis';
 import { REDIS_CLIENT } from '../../common/redis/redis.module';
 import { PrismaService } from '../../prisma/prisma.service';
@@ -13,6 +14,7 @@ type TinhTrang = { db: boolean; redis: boolean };
 
 // Nằm ngoài tiền tố api/v1 và ngoài Swagger, healthcheck gọi được mà không dựng trang tài liệu
 @ApiExcludeController()
+@SkipThrottle()
 @Controller('health')
 export class HealthController {
   constructor(

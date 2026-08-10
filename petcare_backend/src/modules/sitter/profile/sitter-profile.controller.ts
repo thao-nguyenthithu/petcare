@@ -12,7 +12,10 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
 import { CurrentUser } from '../../../common/decorators/current-user.decorator';
+import { THROTTLE_XAC_THUC } from '../../../common/gioi-han-ip/gioi-han-ip.constants';
+import { CAU_HINH_ANH } from '../../media/image-upload';
 import { Roles } from '../../auth/decorators/roles.decorator';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../auth/guards/roles.guard';
@@ -42,12 +45,13 @@ export class SitterProfileController {
 
   @Post('cccd')
   @ApiOperation({ summary: 'Tải ảnh CCCD lên kho lưu trữ (qua service key)' })
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('file', CAU_HINH_ANH))
   uploadCccd(@UploadedFile() file: UploadedImage, @Body('mat') mat: string) {
     return this.service.uploadCccd(file, mat);
   }
 
   @Get('check-cccd')
+  @Throttle(THROTTLE_XAC_THUC)
   @ApiOperation({ summary: 'Kiểm tra số CCCD đã có ở hồ sơ người khác chưa' })
   checkCccd(
     @CurrentUser() user: { id: string },

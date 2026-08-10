@@ -1,10 +1,8 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:petcare_app/shared/utils/chon_anh.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
-import 'package:petcare_app/core/theme/app_radius.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/sitter_order/data/sitter_order_detail.dart';
 import 'package:petcare_app/features/sitter_order/services/sitter_order_actions.dart';
@@ -15,8 +13,8 @@ import 'package:petcare_app/shared/utils/song_ngu.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/flat_section.dart';
-import 'package:petcare_app/shared/widgets/app_card.dart';
 import 'package:petcare_app/shared/widgets/app_screen.dart';
+import 'package:petcare_app/shared/widgets/photo_picker_grid.dart';
 
 const _maTinhTrangBe = [
   'hopTacTot',
@@ -70,19 +68,8 @@ class _SitterFinishGroomingScreenState
     super.dispose();
   }
 
-  Future<void> _chup(int viTriBe) async {
-    if (_anhSau[viTriBe].length >= soAnhMoiBeToiDa) return;
-    final chon = await chupMotAnh();
-    if (!mounted) return;
-    if (chon.quaNang) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.loiAnhQuaNang('$mbAnhToiDa'))),
-      );
-      return;
-    }
-    final bytes = chon.anh;
-    if (bytes == null) return;
-    setState(() => _anhSau[viTriBe].add(bytes));
+  void _doiAnh(int viTriBe, List<Uint8List> ds) {
+    setState(() => _anhSau[viTriBe] = ds);
   }
 
   // Ảnh sau khi làm đi cùng lượt kết thúc
@@ -177,7 +164,7 @@ class _SitterFinishGroomingScreenState
             child: _AnhSauKhiLam(
               goiTungBe: _goiTungBe,
               anh: _anhSau,
-              onThem: _chup,
+              onDoi: _doiAnh,
             ),
           ),
           const SizedBox(height: 20),
@@ -260,12 +247,12 @@ class _AnhSauKhiLam extends StatelessWidget {
   const _AnhSauKhiLam({
     required this.goiTungBe,
     required this.anh,
-    required this.onThem,
+    required this.onDoi,
   });
 
   final List<GoiGroomingCuaBe> goiTungBe;
   final List<List<Uint8List>> anh;
-  final ValueChanged<int> onThem;
+  final void Function(int viTriBe, List<Uint8List> ds) onDoi;
 
   @override
   Widget build(BuildContext context) {
@@ -284,17 +271,12 @@ class _AnhSauKhiLam extends StatelessWidget {
           if (i != 0) const SizedBox(height: 14),
           Text(goi.be.name, style: AppTextStyles.captionSm),
           const SizedBox(height: 8),
-          Row(
-            children: [
-              for (var o = 0; o < soAnhMoiBeToiDa; o++) ...[
-                if (o != 0) const SizedBox(width: 10),
-                Expanded(
-                  child: o < anh[i].length
-                      ? _OAnh(bytes: anh[i][o])
-                      : _OThem(onTap: () => onThem(i)),
-                ),
-              ],
-            ],
+          PhotoPickerGrid(
+            anh: anh[i],
+            tran: soAnhMoiBeToiDa,
+            soCot: 3,
+            batBuocChup: true,
+            onDoi: (ds) => onDoi(i, ds),
           ),
         ],
         const SizedBox(height: 12),
@@ -303,56 +285,6 @@ class _AnhSauKhiLam extends StatelessWidget {
           style: AppTextStyles.captionSm,
         ),
       ],
-    );
-  }
-}
-
-class _OAnh extends StatelessWidget {
-  const _OAnh({required this.bytes});
-
-  final Uint8List bytes;
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(AppRadius.radius14),
-      child: AspectRatio(
-        aspectRatio: 1,
-        child: Image.memory(bytes, fit: BoxFit.cover),
-      ),
-    );
-  }
-}
-
-class _OThem extends StatelessWidget {
-  const _OThem({required this.onTap});
-
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(AppRadius.radius14),
-      child: AppCard(
-        nen: AppColors.background,
-        padding: EdgeInsets.zero,
-        child: AspectRatio(
-          aspectRatio: 1,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.photo_camera_outlined,
-                size: 20,
-                color: AppColors.textSecondary,
-              ),
-              const SizedBox(height: 8),
-              Text(context.l10n.them, style: AppTextStyles.captionSm),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

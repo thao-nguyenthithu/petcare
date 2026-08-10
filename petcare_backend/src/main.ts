@@ -1,7 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import type { NestExpressApplication } from '@nestjs/platform-express';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import helmet from 'helmet';
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { RedisIoAdapter } from './common/redis/redis-io.adapter';
@@ -43,11 +45,16 @@ function inCauHinhDangChay(config: ConfigService, logger: Logger) {
 }
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const logger = new Logger('Bootstrap');
   const config = app.get(ConfigService);
   chanCauHinhNguyHiem(config);
   inCauHinhDangChay(config, logger);
+
+  // Tin đúng một bậc proxy của Railway, thiếu dòng này thì trần theo IP đếm nhầm IP proxy cho mọi người
+  app.set('trust proxy', 1);
+  // Tắt CSP vì API chỉ trả JSON, trang HTML duy nhất là Swagger vốn vỡ với CSP mặc định
+  app.use(helmet({ contentSecurityPolicy: false }));
 
   app.useGlobalFilters(new AllExceptionsFilter());
 
