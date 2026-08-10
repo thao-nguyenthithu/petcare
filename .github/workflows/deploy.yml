@@ -58,7 +58,7 @@ jobs:
           cache: true
       # Hai thứ nằm ngoài Git: file khoá Firebase thay bằng bản giả, assets/mock tạo rỗng
       - run: |
-          cp tool/ci/firebase_options_stub.dart lib/firebase_options.dart
+          cp ../.github/ci/firebase_options_stub.dart lib/firebase_options.dart
           mkdir -p assets/mock
       - run: flutter pub get
       # Thư mục l10n sinh tự động không nằm trong Git nên phải sinh lại trước khi phân tích
