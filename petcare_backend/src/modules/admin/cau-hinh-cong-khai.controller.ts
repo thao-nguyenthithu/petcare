@@ -37,6 +37,11 @@ export class CauHinhCongKhaiController {
       res.status(304);
       return;
     }
-    return { capNhatLuc: moc, thamSo: this.service.congKhai() };
+    return {
+      capNhatLuc: moc,
+      thamSo: this.service.congKhai(),
+      // Hộp thư gửi OTP kiêm hộp thư hỗ trợ, không phải tham số vận hành
+      lienHe: { email: process.env.MAIL_USER ?? null },
+    };
   }
 }

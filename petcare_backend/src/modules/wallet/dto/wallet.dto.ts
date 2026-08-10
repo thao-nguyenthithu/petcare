@@ -37,11 +37,24 @@ export class BankAccountDto {
 export const SO_ANH_MO_KHIEU_NAI = 6;
 export const SO_ANH_PHAN_HOI_KHIEU_NAI = 3;
 
+export const LY_DO_SU_CO_CHU_NUOI = [
+  'beBiThuongOm',
+  'khongDungDichVu',
+  'treGioBoDo',
+  'thieuBangChung',
+  'khac',
+] as const;
+
 export class OpenDisputeDto {
   @ApiProperty({ description: 'Nội dung phản ánh' })
   @IsString()
   @Length(10, 2000)
   description!: string;
+
+  @ApiPropertyOptional({ enum: LY_DO_SU_CO_CHU_NUOI })
+  @IsOptional()
+  @IsIn(LY_DO_SU_CO_CHU_NUOI)
+  reason?: (typeof LY_DO_SU_CO_CHU_NUOI)[number];
 }
 
 export class DisputeReplyDto {

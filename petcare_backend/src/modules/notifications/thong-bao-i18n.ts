@@ -26,6 +26,11 @@ const VI = {
     'Đơn {code} chưa có người nhận. Bạn có thể chọn người chăm khác.',
   tbDaXuatPhatTieuDe: 'Người chăm đang trên đường',
   tbDaXuatPhatNoiDung: '{tenNcc} đã xuất phát tới điểm hẹn của đơn {code}.',
+  tbChuNuoiBaoMuonTieuDe: 'Chủ nuôi báo tới muộn',
+  tbChuNuoiBaoMuonGiaoNoiDung:
+    '{tenChuNuoi} mang bé tới muộn khoảng {soPhut} phút · đơn {code}.',
+  tbChuNuoiBaoMuonDonNoiDung:
+    '{tenChuNuoi} tới đón bé muộn khoảng {soPhut} phút · đơn {code}.',
   tbDaToiNoiTieuDe: 'Người chăm đã tới điểm hẹn',
   tbDaToiNoiNoiDung: 'Đơn {code} đang chờ bạn giao bé.',
   tbSapHetGioGiaoBeTieuDe: 'Còn 5 phút để giao bé',
@@ -98,6 +103,8 @@ const VI = {
     'Đơn {code} đã được quản trị viên huỷ. Bạn được hoàn đủ tiền, lệnh hoàn đã gửi đi. Lý do: {lyDo}',
   tbAdminHuyDonNccNoiDung:
     'Đơn {code} đã được quản trị viên huỷ. Lần huỷ này không tính vào tỷ lệ huỷ của bạn. Lý do: {lyDo}',
+  tbTinNhanMoiTieuDe: 'Tin nhắn mới từ {tenNguoiGui}',
+  tbTinNhanMoiNoiDung: 'Đơn {code} có tin nhắn mới đang chờ bạn.',
   tbKhieuNaiKetLuanTieuDe: 'Khiếu nại đã có kết luận',
   tbKhieuNaiCoHoanNoiDung:
     'Đơn {code}: {ketLuan}. Khoản hoàn cho chủ nuôi: {soTien}. Lý do: {lyDo}',

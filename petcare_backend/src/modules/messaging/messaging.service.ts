@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { AnhKyService } from '../media/anh-ky.service';
+import { BookingNotifyService } from '../notifications/booking-notify.service';
 import { cheThongTinLienLac } from './che-thong-tin';
 import {
   chatDaKhoa,
@@ -37,6 +38,7 @@ export class MessagingService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly kyAnh: AnhKyService,
+    private readonly notify: BookingNotifyService,
   ) {}
 
   async moHoiThoai(bookingId: string) {
@@ -274,6 +276,7 @@ export class MessagingService {
       }),
     ]);
 
+    await this.notify.tinNhanMoi(ngu.bookingId, ngu.vai === 'OWNER');
     const kyAnh = await this.kyAnh.kyLo(tin.images);
     return {
       conversationId: ngu.conversationId,

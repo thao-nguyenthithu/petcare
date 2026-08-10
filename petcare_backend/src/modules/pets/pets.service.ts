@@ -3,26 +3,22 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { BookingStatus } from 'generated/prisma/enums';
 import { soTuoi } from '../../common/thoi-gian-vn';
 import { PrismaService } from '../../prisma/prisma.service';
 import { SupabaseService } from '../media/supabase.service';
 import { CreatePetDto, TUOI_BE_TOI_DA } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
-import { HO_SO_DAY_DU, PetsCommon, type UploadedImage } from './pets.shared';
+import {
+  DON_CHUA_XONG,
+  HO_SO_DAY_DU,
+  PetsCommon,
+  type UploadedImage,
+} from './pets.shared';
 
 // Dải ảnh của bé tối đa
 export const MAX_PET_PHOTOS = 10;
 
 export const MAX_PET_MOI_CHU = 20;
-
-// Đơn chưa kết thúc thì chặn xoá hồ sơ bé
-const DON_CHUA_XONG: BookingStatus[] = [
-  BookingStatus.PENDING,
-  BookingStatus.CONFIRMED,
-  BookingStatus.AWAITING_OWNER_CONFIRM,
-  BookingStatus.IN_PROGRESS,
-];
 
 @Injectable()
 export class PetsService extends PetsCommon {

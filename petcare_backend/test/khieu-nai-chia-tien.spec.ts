@@ -391,6 +391,7 @@ describe('Bảng tiền hồ sơ khiếu nại bên người chăm', () => {
     });
 
     const hs = await service.theoMa(NGUOI_CHAM, 'KN-PC001');
+    if (!('cacDongTien' in hs)) throw new Error('Phải ra bản người chăm');
 
     expect(hs.cacDongTien.map((d) => d.tien)).toEqual([500_000, -75_000, -0]);
     expect(hs.tongCuoi.tien).toBe(425_000);
@@ -404,6 +405,7 @@ describe('Bảng tiền hồ sơ khiếu nại bên người chăm', () => {
     });
 
     const hs = await service.theoMa(NGUOI_CHAM, 'KN-PC001');
+    if (!('cacDongTien' in hs)) throw new Error('Phải ra bản người chăm');
 
     expect(hs.cacDongTien.map((d) => d.tien)).toEqual([
       500_000, -45_000, -200_000,

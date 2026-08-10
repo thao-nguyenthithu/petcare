@@ -5,6 +5,7 @@ export const CHON = {
   id: true,
   code: true,
   status: true,
+  ownerId: true,
   scheduledAt: true,
   scheduledEndAt: true,
   acceptedAt: true,
@@ -14,6 +15,9 @@ export const CHON = {
   arrivedAt: true,
   startedAt: true,
   endedAt: true,
+  lateMinutes: true,
+  etaAt: true,
+  lateReportedAt: true,
   cancelledAt: true,
   cancellationReason: true,
   cancellationNote: true,
@@ -37,6 +41,30 @@ export const CHON = {
       totalWaypoints: true,
       totalDistanceM: true,
       durationMinutes: true,
+    },
+  },
+  sessionPhotos: {
+    orderBy: { takenAt: 'asc' },
+    select: { photoUrl: true, phase: true, anhDoDung: true, takenAt: true },
+  },
+  boardingUpdates: {
+    orderBy: { createdAt: 'desc' },
+    select: { photoUrls: true, createdAt: true },
+  },
+  reports: {
+    orderBy: { createdAt: 'desc' },
+    take: 1,
+    select: { code: true, reporterId: true, resolvedAt: true },
+  },
+  review: {
+    select: {
+      rating: true,
+      comment: true,
+      photos: true,
+      praiseTags: true,
+      reply: true,
+      replyAt: true,
+      createdAt: true,
     },
   },
   sitter: {

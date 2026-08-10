@@ -20,10 +20,27 @@ import {
   TRANG_THAI_HUY_DUOC,
 } from './owner-booking-select';
 
+type KyAnh = (duong: string) => string;
+
+// Mọi ảnh chủ nuôi được xem của một đơn, để ký một lượt trước khi dựng payload
+export function anhChuNuoiXemDuoc(d: DonChiTiet): string[] {
+  return [
+    ...d.sessionPhotos.map((a) => a.photoUrl),
+    ...d.boardingUpdates.flatMap((u) => u.photoUrls),
+    ...(d.review?.photos ?? []),
+    ...d.noShowProofUrls,
+  ];
+}
+
 export function raChiTiet(d: DonChiTiet, kyAnh?: ReadonlyMap<string, string>) {
   const loai = LOAI_RA_APP[d.service.type];
   const dem = soDem(d);
+  const ky: KyAnh = kyAnh ? (v) => kyAnh.get(v) ?? v : (v) => v;
+  const anh = khoiAnh(d, loai, ky);
   return {
+    photos: anh,
+    result: ketQuaPhien(d, loai, anh.total),
+    myReview: baiDanhGia(d, ky),
     id: d.id,
     code: d.code,
     status: maTrangThaiHieuLuc(d),
@@ -65,12 +82,92 @@ export function raChiTiet(d: DonChiTiet, kyAnh?: ReadonlyMap<string, string>) {
     totalPrice: d.totalPrice ?? 0,
     cancelPolicy: chinhSachHuy(d, loai, dem),
     cancellation: thongTinHuy(d, kyAnh),
+    dispute: khoiKhieuNai(d),
+  };
+}
+
+// Hồ sơ mới nhất của đơn, đủ để màn đơn mở thẳng màn hồ sơ mà không cần tra mã
+function khoiKhieuNai(d: DonChiTiet) {
+  const hs = d.reports[0];
+  if (!hs) return null;
+  return {
+    code: hs.code,
+    open: hs.resolvedAt === null,
+    byOwner: hs.reporterId === d.ownerId,
   };
 }
 
 function kmDaDi(d: DonChiTiet, loai: LoaiDichVuDto): number | null {
   if (loai !== 'walking' || !d.gpsReport) return null;
   return kmHienThi(d.gpsReport.totalWaypoints, d.gpsReport.totalDistanceM);
+}
+
+function anhTheoPha(
+  d: DonChiTiet,
+  pha: 'CHECK_IN' | 'IN_PROGRESS' | 'CHECK_OUT',
+  ky: KyAnh,
+): string[] {
+  return d.sessionPhotos
+    .filter((a) => a.phase === pha && !a.anhDoDung)
+    .map((a) => ky(a.photoUrl));
+}
+
+// Grooming tách trước và sau; hai dịch vụ kia gom thành một dải nhật ký theo thời gian
+function khoiAnh(d: DonChiTiet, loai: LoaiDichVuDto, ky: KyAnh) {
+  const nhanBe = anhTheoPha(d, 'CHECK_IN', ky);
+  const traBe = anhTheoPha(d, 'CHECK_OUT', ky);
+  const giuaPhien = anhTheoPha(d, 'IN_PROGRESS', ky);
+  const hangNgay = d.boardingUpdates.flatMap((u) => u.photoUrls.map(ky));
+  if (loai === 'grooming') {
+    const log = giuaPhien;
+    return {
+      before: nhanBe,
+      after: traBe,
+      log,
+      total: nhanBe.length + traBe.length + log.length,
+    };
+  }
+  const log =
+    loai === 'boarding'
+      ? [...nhanBe, ...hangNgay, ...traBe]
+      : [...nhanBe, ...giuaPhien, ...traBe];
+  return { before: [], after: [], log, total: log.length };
+}
+
+// Có bài rồi thì màn đơn hiện lại bài đó thay cho lời mời chấm sao
+function baiDanhGia(d: DonChiTiet, ky: KyAnh) {
+  const bai = d.review;
+  if (!bai) return null;
+  return {
+    rating: bai.rating,
+    comment: bai.comment,
+    photos: bai.photos.map(ky),
+    praiseTags: bai.praiseTags,
+    reply: bai.reply,
+    replyAt: bai.replyAt,
+    createdAt: bai.createdAt,
+  };
+}
+
+// Dải số liệu chốt chỉ có nghĩa khi phiên đã khép lại
+function ketQuaPhien(d: DonChiTiet, loai: LoaiDichVuDto, soAnh: number) {
+  if (d.status !== 'AWAITING_OWNER_CONFIRM' && d.status !== 'COMPLETED') {
+    return null;
+  }
+  return {
+    durationMinutes: phutDaLam(d),
+    distanceKm: kmDaDi(d, loai),
+    photoCount: soAnh,
+  };
+}
+
+function phutDaLam(d: DonChiTiet): number {
+  const bc = d.gpsReport;
+  if (bc && bc.durationMinutes > 0) return bc.durationMinutes;
+  if (!d.startedAt) return 0;
+  const ket = d.endedAt ?? new Date();
+  const phut = Math.round((ket.getTime() - d.startedAt.getTime()) / 60000);
+  return phut > 0 ? phut : 0;
 }
 
 function khoiPhien(d: DonChiTiet, loai: LoaiDichVuDto) {

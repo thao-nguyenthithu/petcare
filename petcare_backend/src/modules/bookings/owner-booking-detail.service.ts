@@ -26,7 +26,13 @@ import { tinhKetThucSom } from './booking-pricing';
 import { SitterScoreService } from '../search/sitter-score.service';
 import { CancelBookingDto, LY_DO_CAN_MO_TA } from './dto/cancel-booking.dto';
 import { EndEarlyDto } from './dto/end-early.dto';
-import { donXetHuy, raChiTiet, soDem } from './owner-booking-detail.mapper';
+import { OwnerLateDto } from './dto/owner-late.dto';
+import {
+  anhChuNuoiXemDuoc,
+  donXetHuy,
+  raChiTiet,
+  soDem,
+} from './owner-booking-detail.mapper';
 import { AnhKyService } from '../media/anh-ky.service';
 import { CHON, DonChiTiet, TRANG_THAI_HUY_DUOC } from './owner-booking-select';
 import { PHAT_NCC_CHUA_TOI } from './sitter-penalty-rules';
@@ -47,7 +53,7 @@ export class OwnerBookingDetailService {
   ) {}
 
   private async raChiTietDaKy(d: DonChiTiet) {
-    return raChiTiet(d, await this.kyAnh.kyLo(d.noShowProofUrls));
+    return raChiTiet(d, await this.kyAnh.kyLo(anhChuNuoiXemDuoc(d)));
   }
 
   async chiTiet(userId: string, id: string) {
@@ -196,6 +202,45 @@ export class OwnerBookingDetailService {
     });
     await this.chat.chuNuoiDaXuatPhat(don.id, donVe);
     return { id: don.id, departedAt: luc, chieuDonVe: donVe };
+  }
+
+  // Báo muộn chỉ là tin cho người chăm, mốc tiền vẫn theo GPS (bộ luật mục 5)
+  async baoMuon(userId: string, id: string, dto: OwnerLateDto) {
+    const don = await this.timCuaToi(userId, id);
+    if (LOAI_RA_APP[don.service.type] !== 'boarding') {
+      throw new ConflictException({
+        code: 'SAI_LOAI_DICH_VU',
+        message: 'Chỉ đơn trông giữ mới có nút báo muộn của chủ nuôi',
+      });
+    }
+    const donVe = don.status === 'IN_PROGRESS';
+    if (!donVe && don.status !== 'CONFIRMED') {
+      throw new ConflictException({
+        code: 'TRANG_THAI_KHONG_HOP_LE',
+        message: 'Đơn không còn ở bước báo muộn được',
+      });
+    }
+    const daBaoPhaNay =
+      don.lateReportedAt &&
+      (!donVe || (don.startedAt && don.lateReportedAt > don.startedAt));
+    if (daBaoPhaNay) {
+      throw new ConflictException({
+        code: 'DA_BAO_MUON',
+        message: 'Lượt này đã báo muộn rồi',
+      });
+    }
+    const moc = donVe ? don.scheduledEndAt : don.scheduledAt;
+    const eta = moc
+      ? new Date(moc.getTime() + dto.minutes * MOT_PHUT_MS)
+      : null;
+    const luc = new Date();
+    await this.prisma.booking.update({
+      where: { id: don.id },
+      data: { lateMinutes: dto.minutes, etaAt: eta, lateReportedAt: luc },
+    });
+    await this.chat.chuNuoiBaoMuon(don.id, dto.minutes, eta, donVe);
+    await this.notify.chuNuoiBaoMuon(don.id, dto.minutes, donVe);
+    return { id: don.id, minutes: dto.minutes, etaAt: eta, reportedAt: luc };
   }
 
   async ketThucSom(userId: string, id: string, dto: EndEarlyDto) {

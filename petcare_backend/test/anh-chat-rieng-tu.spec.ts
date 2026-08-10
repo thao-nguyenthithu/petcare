@@ -11,6 +11,7 @@ import { SupabaseService } from '../src/modules/media/supabase.service';
 import { type UploadedImage } from '../src/modules/media/image-upload';
 import { ChatPhotoService } from '../src/modules/messaging/chat-photo.service';
 import { MessagingService } from '../src/modules/messaging/messaging.service';
+import { BookingNotifyService } from '../src/modules/notifications/booking-notify.service';
 
 const CHU_NUOI = 'u-chu-nuoi';
 const NGUOI_CHAM = 'u-ncc';
@@ -125,6 +126,7 @@ function dungChat(tuyChon: { status?: string; tin?: unknown[] } = {}) {
   const messaging = new MessagingService(
     prisma,
     new AnhKyService(kho.supabase),
+    { tinNhanMoi: () => Promise.resolve() } as unknown as BookingNotifyService,
   );
   const anh = new ChatPhotoService(
     new AnhTaiLenService(kho.supabase),
