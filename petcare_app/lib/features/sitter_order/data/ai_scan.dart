@@ -7,7 +7,7 @@ enum KetLuanQuet { dat, khongDat, chuaXacMinhDuoc }
 
 enum XuLySlot { diTiep, canTuXacNhan, chupLai }
 
-enum ManQuetAi { dangQuet, aiDu, chuaQuaKiem, hetLanChup }
+enum ManQuetAi { dangQuet, aiDu, chuaQuaKiem, vanXaConLuot, hetLanChup }
 
 KetLuanQuet _ketLuan(String? ma) => switch (ma) {
   'DAT' => KetLuanQuet.dat,
@@ -38,7 +38,9 @@ class SlotQuet {
     required this.anhDuNet,
     required this.soLanConLai,
     required this.daTuXacNhan,
+    required this.duocTuXacNhan,
     required this.luotNayCoTru,
+    required this.loiHeThong,
     this.anhUrl,
   });
 
@@ -52,7 +54,9 @@ class SlotQuet {
     anhDuNet: json['anhDuNet'] != false,
     soLanConLai: (json['soLanConLai'] as num?)?.toInt() ?? 0,
     daTuXacNhan: json['daTuXacNhan'] == true,
+    duocTuXacNhan: json['duocTuXacNhan'] == true,
     luotNayCoTru: json['luotNayCoTru'] != false,
+    loiHeThong: json['loiHeThong'] == true,
     anhUrl: json['anhUrl'] as String?,
   );
 
@@ -67,12 +71,21 @@ class SlotQuet {
 
   final int soLanConLai;
   final bool daTuXacNhan;
+
+  // Server chốt mốc mở van xả, app không tự suy từ bộ đếm (bộ luật mục 8)
+  final bool duocTuXacNhan;
+
   final bool luotNayCoTru;
+
+  // Lỗi nền tảng thì chụp lại cũng vô ích, màn phải nói khác và giấu bộ đếm đi
+  final bool loiHeThong;
 
   final String? anhUrl;
 
   bool get xong => daTuXacNhan || xuLy != XuLySlot.chupLai;
   bool get canTuXacNhan => xuLy == XuLySlot.canTuXacNhan && !daTuXacNhan;
+
+  bool get kyDuoc => duocTuXacNhan && !daTuXacNhan;
 
   bool get conLuot => soLanConLai > 0;
 
@@ -120,9 +133,9 @@ class KetQuaLoQuet {
     if (be.isEmpty) return ManQuetAi.dangQuet;
     final chua = be.where((s) => !s.xong).toList();
     if (chua.isEmpty) return ManQuetAi.aiDu;
-    return chua.any((s) => s.conLuot)
-        ? ManQuetAi.chuaQuaKiem
-        : ManQuetAi.hetLanChup;
+    final conLuot = chua.any((s) => s.conLuot);
+    if (!chua.any((s) => s.kyDuoc)) return ManQuetAi.chuaQuaKiem;
+    return conLuot ? ManQuetAi.vanXaConLuot : ManQuetAi.hetLanChup;
   }
 
   SlotQuet? get slotDangVuong {
@@ -133,6 +146,9 @@ class KetQuaLoQuet {
 
   List<SlotQuet> get slotCanTuXacNhan =>
       slotBe.where((s) => s.canTuXacNhan).toList();
+
+  // Bộ đếm lượt tính chung cả đơn nên van xả cũng ký một lần cho mọi bé còn vướng
+  List<SlotQuet> get slotKyDuoc => slotBe.where((s) => s.kyDuoc).toList();
 
   bool get batDauDuoc => duDieuKienBatDau && man == ManQuetAi.aiDu;
 }

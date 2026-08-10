@@ -18,7 +18,7 @@ import {
   IAiVisionService,
 } from '../interfaces/ai-vision.interface';
 
-const MODEL = 'gemini-2.5-flash';
+const MODEL = 'gemini-flash-latest';
 
 const GOC_API = 'https://generativelanguage.googleapis.com/v1beta/models';
 

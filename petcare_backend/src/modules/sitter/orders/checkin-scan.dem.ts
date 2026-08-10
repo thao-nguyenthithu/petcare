@@ -1,7 +1,11 @@
 import { xuLySlot, type XuLySlot } from '../../ai/ai-ket-luan';
-import { SO_LUOT_CHUP_MOI_BE } from '../../ai/ai.constants';
+import {
+  LUOT_HONG_MO_VAN_XA,
+  SO_LUOT_GUI_MOI_DON,
+} from '../../ai/ai.constants';
 
 export type DongQuet = {
+  batchId: string;
   slotIndex: number;
   trangThai: string | null;
   code: string | null;
@@ -17,12 +21,22 @@ export function cuaSlot(ds: DongQuet[], slot: number): DongQuet[] {
   return ds.filter((d) => d.slotIndex === slot);
 }
 
-export function luotDaTru(ds: DongQuet[], slot: number): number {
-  return cuaSlot(ds, slot).filter((d) => d.tinhLuot).length;
+// Một lô gửi là một lượt dù trong đó có mấy tấm (bộ luật mục 8)
+export function luotDaTru(ds: DongQuet[]): number {
+  return new Set(ds.filter((d) => d.tinhLuot).map((d) => d.batchId)).size;
 }
 
-export function conLai(ds: DongQuet[], slot: number): number {
-  return Math.max(0, SO_LUOT_CHUP_MOI_BE - luotDaTru(ds, slot));
+export function conLai(ds: DongQuet[]): number {
+  return Math.max(0, SO_LUOT_GUI_MOI_DON - luotDaTru(ds));
+}
+
+// Lô mà mọi dòng đều là lỗi nền tảng thì không trừ lượt nhưng vẫn phải đếm để mở van xả
+export function loHongHaTang(ds: DongQuet[]): number {
+  const theoLo = new Map<string, boolean>();
+  for (const d of ds) {
+    theoLo.set(d.batchId, (theoLo.get(d.batchId) ?? true) && !d.tinhLuot);
+  }
+  return [...theoLo.values()].filter(Boolean).length;
 }
 
 export function chotCuaSlot(ds: DongQuet[], slot: number): DongQuet | null {
@@ -67,7 +81,11 @@ export function duocTuXacNhan(
   const xuLy = xuLyCuaSlot(ds, slot);
   if (xuLy === 'DI_TIEP') return false;
   if (xuLy === 'TU_XAC_NHAN') return true;
-  return conLai(ds, slot) === 0 || !conQuotaDon;
+  if (!conQuotaDon || conLai(ds) === 0) return true;
+  return (
+    luotDaTru(ds) >= LUOT_HONG_MO_VAN_XA ||
+    loHongHaTang(ds) >= LUOT_HONG_MO_VAN_XA
+  );
 }
 
 export function tranAnhMoiLuot(soBe: number): number {

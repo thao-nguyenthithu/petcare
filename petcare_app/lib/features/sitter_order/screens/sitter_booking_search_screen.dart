@@ -140,7 +140,7 @@ class _SitterBookingSearchScreenState
                 child: AppEmptyState(
                   icon: Icons.search_off_rounded,
                   title: l10n.khongTimThayDon,
-                  message: l10n.thuTuKhoaKhac,
+                  message: l10n.thuTuKhoaKhacDon,
                   circleColor: AppColors.cardMint,
                 ),
               )

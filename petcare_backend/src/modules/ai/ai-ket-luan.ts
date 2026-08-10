@@ -11,24 +11,17 @@ export type BaoCaoModel = {
   dog_visible: boolean;
   image_clear: boolean;
   muzzle: Gear;
-  leash: Gear;
   confidence: number;
 };
 
 export const CAU_TIENG_VIET = {
-  DAT: 'Bé đã có rọ mõm và dây xích, ảnh đạt yêu cầu.',
+  DAT: 'Bé đã đeo rọ mõm, ảnh đạt yêu cầu.',
   THIEU_RO_MOM: 'Không thấy rọ mõm trên mõm bé. Hãy đeo rọ mõm rồi chụp lại.',
-  THIEU_DAY_XICH:
-    'Không thấy dây xích nối vào vòng cổ hoặc yếm của bé. Hãy móc dây xích rồi chụp lại.',
-  THIEU_CA_HAI:
-    'Không thấy cả rọ mõm lẫn dây xích. Hãy đeo đủ rọ mõm và dây xích rồi chụp lại.',
   KHONG_THAY_CHO:
     'Không nhận ra bé nào trong ảnh. Hãy chụp lại rõ cả người bé.',
   ANH_MO: 'Ảnh mờ hoặc thiếu sáng nên chưa soi được. Hãy chụp lại rõ hơn.',
   KHONG_RO_RO_MOM:
     'Chưa nhìn rõ phần mõm của bé. Hãy chụp lại thấy rõ mặt và mõm.',
-  KHONG_RO_DAY_XICH:
-    'Chưa nhìn rõ dây xích. Hãy chụp lại thấy rõ chỗ móc dây vào vòng cổ.',
   ANH_DO_PHAN_GIAI_THAP:
     'Ảnh chưa đủ nét để máy chắc chắn. Bạn đang đứng cạnh bé nên hãy tự xác nhận.',
   ANH_KHONG_TAI_DUOC: 'Không tải được ảnh vừa gửi. Hãy thử chụp lại.',
@@ -132,13 +125,12 @@ export function docBaoCao(tho: unknown): BaoCaoModel | null {
   const o = tho as Record<string, unknown>;
   if (typeof o.dog_visible !== 'boolean') return null;
   if (typeof o.image_clear !== 'boolean') return null;
-  if (!laGear(o.muzzle) || !laGear(o.leash)) return null;
+  if (!laGear(o.muzzle)) return null;
   const doTin = typeof o.confidence === 'number' ? o.confidence : 0;
   return {
     dog_visible: o.dog_visible,
     image_clear: o.image_clear,
     muzzle: o.muzzle,
-    leash: o.leash,
     confidence: Math.min(1, Math.max(0, doTin)),
   };
 }
@@ -152,19 +144,8 @@ export function ketLuanTuBaoCao(
   if (bc.muzzle === 'UNCLEAR') {
     return chuaXacMinhDuoc('KHONG_RO_RO_MOM', rawResponse);
   }
-  if (bc.leash === 'UNCLEAR') {
-    return chuaXacMinhDuoc('KHONG_RO_DAY_XICH', rawResponse);
-  }
-  const thieuRoMom = bc.muzzle === 'ABSENT';
-  const thieuDayXich = bc.leash === 'ABSENT';
-  if (thieuRoMom && thieuDayXich) {
-    return ketLuan('KHONG_DAT', 'THIEU_CA_HAI', bc.confidence, rawResponse);
-  }
-  if (thieuRoMom) {
+  if (bc.muzzle === 'ABSENT') {
     return ketLuan('KHONG_DAT', 'THIEU_RO_MOM', bc.confidence, rawResponse);
-  }
-  if (thieuDayXich) {
-    return ketLuan('KHONG_DAT', 'THIEU_DAY_XICH', bc.confidence, rawResponse);
   }
   return ketLuan('DAT', 'DAT', bc.confidence, rawResponse);
 }

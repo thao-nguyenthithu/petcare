@@ -10,7 +10,7 @@ import { PrismaService } from '../../../prisma/prisma.service';
 import { SystemSettingsService } from '../../admin/system-settings.service';
 import {
   HAN_CHO_GOI_AI_MS,
-  SO_LUOT_CHUP_MOI_BE,
+  SO_LUOT_GUI_MOI_DON,
   SO_LAN_GOI_TOI_DA_MOI_DON,
 } from '../../ai/ai.constants';
 import { canhDai, doKichThuoc } from '../../media/anh-kich-thuoc';
@@ -242,13 +242,13 @@ export class PetSafetyScanService {
         message: 'Lô này không có ảnh bé nào để quét',
       });
     }
+    if (conLai(ds) === 0) {
+      throw new ConflictException({
+        code: 'HET_LUOT_CHUP_LAI',
+        message: `Đơn này đã dùng hết ${SO_LUOT_GUI_MOI_DON} lượt gửi ảnh, hãy tự xác nhận`,
+      });
+    }
     for (const slot of canQuet) {
-      if (conLai(ds, slot) === 0) {
-        throw new ConflictException({
-          code: 'HET_LUOT_CHUP_LAI',
-          message: `Bé ${slot} đã dùng hết ${SO_LUOT_CHUP_MOI_BE} lượt chụp, hãy tự xác nhận`,
-        });
-      }
       if (daXacNhan.has(slot)) {
         throw new ConflictException({
           code: 'SLOT_DA_TU_XAC_NHAN',
