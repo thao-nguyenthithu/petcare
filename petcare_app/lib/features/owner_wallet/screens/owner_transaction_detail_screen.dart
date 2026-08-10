@@ -7,7 +7,6 @@ import 'package:petcare_app/core/theme/app_spacing.dart';
 import 'package:petcare_app/features/owner_wallet/data/owner_wallet.dart';
 import 'package:petcare_app/shared/data/booking_common.dart';
 import 'package:petcare_app/shared/data/service_catalog.dart';
-import 'package:petcare_app/shared/utils/placeholder_action.dart';
 import 'package:petcare_app/shared/widgets/app_dong_ke.dart';
 import 'package:petcare_app/shared/widgets/app_screen.dart';
 import 'package:petcare_app/shared/widgets/app_screen_header.dart';
@@ -95,11 +94,11 @@ class OwnerTransactionDetailScreen extends StatelessWidget {
           const SizedBox(height: AppSpacing.stackGap),
           ViInfoRows(dong: _thongTinKhac(context)),
           const SizedBox(height: AppSpacing.groupGap),
-          ViSecondaryButton(
-            nhan: _nhanNutDay(context),
-            // TODO: nối màn khiếu nại, hỗ trợ và chính sách huỷ của chủ nuôi
-            onTap: () => baoDangPhatTrien(context),
-          ),
+          if (_dichNutDay(context) case final dich?)
+            ViSecondaryButton(
+              nhan: _nhanNutDay(context),
+              onTap: () => context.push(dich.duong, extra: dich.extra),
+            ),
         ],
       ),
     );
@@ -153,9 +152,30 @@ class OwnerTransactionDetailScreen extends StatelessWidget {
 
   String _nhanNutDay(BuildContext context) {
     final l10n = context.l10n;
-    return switch (chiTiet.giaoDich.loai) {
-      LoaiGiaoDichChuNuoi.thanhToan => l10n.xemHoSoKhieuNai,
+    final gd = chiTiet.giaoDich;
+    return switch (gd.loai) {
+      LoaiGiaoDichChuNuoi.thanhToan when gd.maKhieuNai != null =>
+        l10n.xemHoSoKhieuNai,
+      LoaiGiaoDichChuNuoi.thanhToan => l10n.xemChiTietDon,
       LoaiGiaoDichChuNuoi.hoanTien => l10n.xemChinhSachHuyDon,
+    };
+  }
+
+  // Giao dịch thanh toán không gắn đơn thì nút đẩy tự ẩn
+  ({String duong, Object? extra})? _dichNutDay(BuildContext context) {
+    final gd = chiTiet.giaoDich;
+    return switch (gd.loai) {
+      LoaiGiaoDichChuNuoi.thanhToan when gd.maKhieuNai != null => (
+        duong: AppRoutes.bookingDisputePath(gd.maKhieuNai!),
+        extra: null,
+      ),
+      LoaiGiaoDichChuNuoi.thanhToan => gd.don == null
+          ? null
+          : (duong: AppRoutes.bookingDetail, extra: gd.don!.id),
+      LoaiGiaoDichChuNuoi.hoanTien => (
+        duong: AppRoutes.cancelPolicy,
+        extra: null,
+      ),
     };
   }
 }

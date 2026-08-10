@@ -1,11 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 
+// Đích của nút trong tin hệ thống, app đọc mã này để điều hướng
+export const MA_HANH_DONG_TIN = [
+  'chiDuong',
+  'viTriTrucTiep',
+  'anhMinhChung',
+  'xacNhanHoanThanh',
+  'vi',
+] as const;
+
+export type MaHanhDongTin = (typeof MA_HANH_DONG_TIN)[number];
+
 export type NoiDungTinHeThong = {
   text: string;
   textSitter?: string;
   actionLabel?: string;
   actionLabelSitter?: string;
+  actionCode?: MaHanhDongTin;
   canGap?: boolean;
   images?: string[];
   soAnhThem?: number;
@@ -36,6 +48,7 @@ export class SystemMessageService {
           textSitter: noiDung.textSitter ?? null,
           actionLabel: noiDung.actionLabel ?? null,
           actionLabelSitter: noiDung.actionLabelSitter ?? null,
+          actionCode: noiDung.actionCode ?? null,
           canGap: noiDung.canGap ?? false,
           images: noiDung.images ?? [],
           soAnhThem: noiDung.soAnhThem ?? null,

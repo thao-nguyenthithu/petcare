@@ -8,7 +8,8 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/sitter_order/data/sitter_order_detail.dart';
 import 'package:petcare_app/features/sitter_order/services/sitter_order_actions.dart';
-import 'package:petcare_app/features/sitter_order/widgets/handover_photo_group.dart';
+import 'package:petcare_app/features/sitter_order/widgets/handover_notice_box.dart';
+import 'package:petcare_app/shared/widgets/photo_picker_grid.dart';
 import 'package:petcare_app/features/sitter_order/data/boarding_session.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
@@ -27,8 +28,8 @@ class SitterHandoverScreen extends ConsumerStatefulWidget {
 }
 
 class _SitterHandoverScreenState extends ConsumerState<SitterHandoverScreen> {
-  late final List<Uint8List> _anhBe = [...widget.args.anhBe];
-  late final List<Uint8List> _anhDoDung = [...widget.args.anhDoDung];
+  late List<Uint8List> _anhBe = [...widget.args.anhBe];
+  late List<Uint8List> _anhDoDung = [...widget.args.anhDoDung];
   final _ghiChu = TextEditingController();
   bool _dangGui = false;
 
@@ -118,26 +119,28 @@ class _SitterHandoverScreenState extends ConsumerState<SitterHandoverScreen> {
           ),
           const SizedBox(height: 20),
           FlatSection(
-            child: HandoverPhotoGroup(
+            child: PhotoPickerGrid(
               tieuDe: l10n.anhLucNhanBeTrenTran(
                 '${_anhBe.length}',
                 '${_phien.tranAnhBe}',
               ),
               anh: _anhBe,
               tran: _phien.tranAnhBe,
-              onThem: _chupThem,
+              onDoi: (ds) => setState(() => _anhBe = ds),
+              onThemTuyBien: _chupThem,
             ),
           ),
           const SizedBox(height: 20),
           FlatSection(
-            child: HandoverPhotoGroup(
+            child: PhotoPickerGrid(
               tieuDe: l10n.anhDoDungLucNhanTrenTran(
                 '${_anhDoDung.length}',
                 '$soAnhDoDungToiDa',
               ),
               anh: _anhDoDung,
               tran: soAnhDoDungToiDa,
-              onThem: _chupThem,
+              onDoi: (ds) => setState(() => _anhDoDung = ds),
+              onThemTuyBien: _chupThem,
             ),
           ),
           const SizedBox(height: 20),

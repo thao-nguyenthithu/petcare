@@ -25,6 +25,26 @@ import {
 
 const BUCKET_KHIEU_NAI = BUCKET_ANH_DON;
 
+type HoSoCuaChuNuoi = {
+  code: string;
+  reporterId: string;
+  description: string;
+  reasonCode: string | null;
+  evidenceUrls: unknown;
+  sitterReply: string | null;
+  sitterReplyAt: Date | null;
+  sitterReplyPhotos: string[];
+  resolution: string | null;
+  resolutionReason: string | null;
+  refundAmount: number | null;
+  resolvedAt: Date | null;
+  createdAt: Date;
+  booking: Parameters<typeof raTheDon>[0] & {
+    ownerId: string;
+    sitter: { user: { fullName: string } } | null;
+  };
+};
+
 function laNhanhPhanDoi(don: {
   status: string;
   cancellationReason: string | null;
@@ -103,6 +123,7 @@ export class DisputeService {
         bookingId: don.id,
         reporterId: userId,
         description: dto.description,
+        reasonCode: dto.reason ?? null,
         evidenceUrls: anh,
         replyDeadline: new Date(
           bayGio.getTime() + HAN_PHAN_DOI_HOURS * 3_600_000,
@@ -204,7 +225,9 @@ export class DisputeService {
           select: {
             ...CHON_DON_VI,
             ownerId: true,
-            sitter: { select: { userId: true } },
+            sitter: {
+              select: { userId: true, user: { select: { fullName: true } } },
+            },
           },
         },
       },
@@ -215,15 +238,15 @@ export class DisputeService {
         message: 'Không tìm thấy hồ sơ khiếu nại',
       });
     }
-    const laCuaToi =
-      hs.booking.ownerId === userId || hs.booking.sitter?.userId === userId;
-    if (!laCuaToi) {
+    const laChuNuoi = hs.booking.ownerId === userId;
+    if (!laChuNuoi && hs.booking.sitter?.userId !== userId) {
       throw new NotFoundException({
         code: 'KHONG_TIM_THAY_KHIEU_NAI',
         message: 'Không tìm thấy hồ sơ khiếu nại',
       });
     }
-    return this.raHoSo(hs, await this.kyAnh.kyLo(this.anhCuaHoSo(hs)));
+    const ky = await this.kyAnh.kyLo(this.anhCuaHoSo(hs));
+    return laChuNuoi ? this.raHoSoChuNuoi(hs, ky) : this.raHoSo(hs, ky);
   }
 
   async phanHoi(
@@ -369,6 +392,66 @@ export class DisputeService {
       ],
       tongCuoi: { nhan: 'Thực nhận', tien: thucNhan },
     };
+  }
+
+  // Bản cho vai chủ nuôi: cắt mọi khoản tiền của người chăm khỏi payload
+  private raHoSoChuNuoi(hs: HoSoCuaChuNuoi, ky?: ReadonlyMap<string, string>) {
+    const kyMot = (v: string) => ky?.get(v) ?? v;
+    const phanAnh = Array.isArray(hs.evidenceUrls)
+      ? (hs.evidenceUrls as string[])
+      : [];
+    const the = raTheDon(hs.booking);
+    const banMo = hs.reporterId === hs.booking.ownerId;
+    return {
+      ma: hs.code,
+      trangThai: this.trangThaiChuNuoi(hs, banMo),
+      banMo,
+      lyDo: hs.reasonCode,
+      don: {
+        id: the.id,
+        code: the.code,
+        status: the.status,
+        serviceType: the.serviceType,
+        serviceName: the.serviceName,
+        sitterName: hs.booking.sitter?.user.fullName ?? '',
+        pets: the.pets,
+        startAt: the.startAt,
+        endAt: the.endAt,
+        durationMinutes: the.durationMinutes,
+        nights: the.nights,
+        totalPrice: the.totalPrice,
+      },
+      phanAnh: hs.description,
+      anhPhanAnh: phanAnh.map(kyMot),
+      thoiDiemPhanAnh: hs.createdAt.toISOString(),
+      phanHoiNguoiCham: hs.sitterReply,
+      anhPhanHoiNguoiCham: hs.sitterReplyPhotos.map(kyMot),
+      thoiDiemPhanHoi: hs.sitterReplyAt?.toISOString() ?? null,
+      ketLuan: hs.resolvedAt && {
+        noiDung: hs.resolution,
+        lyDo: hs.resolutionReason,
+        nguoiXuLy: 'Bộ phận hỗ trợ Smart Pet Care',
+        thoiDiem: hs.resolvedAt.toISOString(),
+      },
+      tienHoan: hs.refundAmount,
+    };
+  }
+
+  // Hồ sơ do chính người chăm mở thì không có lượt đáp nào (bộ luật mục 7)
+  private trangThaiChuNuoi(
+    hs: {
+      sitterReplyAt: Date | null;
+      resolvedAt: Date | null;
+      refundAmount: number | null;
+    },
+    banMo: boolean,
+  ) {
+    if (!hs.resolvedAt) {
+      return banMo && !hs.sitterReplyAt
+        ? 'choNguoiChamPhanHoi'
+        : 'choHoTroXuLy';
+    }
+    return (hs.refundAmount ?? 0) > 0 ? 'daHoanMotPhan' : 'khongChapNhan';
   }
 
   private trangThaiApp(hs: {

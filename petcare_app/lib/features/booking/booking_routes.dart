@@ -14,6 +14,8 @@ import 'package:petcare_app/features/booking/screens/booking_walking_screen.dart
 import 'package:petcare_app/features/booking/screens/cancel_policy_screen.dart';
 import 'package:petcare_app/features/booking/screens/order_pets_screen.dart';
 import 'package:petcare_app/features/booking/screens/owner_booking_detail_screen.dart';
+import 'package:petcare_app/features/booking/screens/owner_dispute_detail_screen.dart';
+import 'package:petcare_app/features/booking/screens/owner_dispute_screen.dart';
 import 'package:petcare_app/features/booking/screens/mock_payment_screen.dart';
 import 'package:petcare_app/features/booking/screens/payment_processing_screen.dart';
 import 'package:petcare_app/features/booking/screens/payment_result_screen.dart';
@@ -114,6 +116,16 @@ final bookingRoutes = <RouteBase>[
       final args = state.extra as ({DonDeDanhGia don, int sao});
       return ReviewScreen(don: args.don, saoBanDau: args.sao);
     },
+  ),
+  GoRoute(
+    path: AppRoutes.bookingDispute,
+    builder: (context, state) =>
+        OwnerDisputeScreen(don: state.extra as OwnerBookingDetail),
+  ),
+  GoRoute(
+    path: AppRoutes.bookingDisputeDetail,
+    builder: (context, state) =>
+        OwnerDisputeDetailScreen(ma: state.pathParameters['ma'] ?? ''),
   ),
   GoRoute(
     path: AppRoutes.bookingDetail,

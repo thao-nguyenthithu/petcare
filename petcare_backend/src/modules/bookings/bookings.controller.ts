@@ -16,6 +16,7 @@ import { CancelBookingDto } from './dto/cancel-booking.dto';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { EndEarlyDto } from './dto/end-early.dto';
 import { ListBookingsDto } from './dto/list-bookings.dto';
+import { OwnerLateDto } from './dto/owner-late.dto';
 import { OwnerBookingDetailService } from './owner-booking-detail.service';
 import { OwnerBookingsService } from './owner-bookings.service';
 
@@ -77,6 +78,18 @@ export class BookingsController {
     @Param('id', ParseUUIDPipe) id: string,
   ) {
     return this.ownerDetail.xacNhanHoanThanh(user.id, id);
+  }
+
+  @Post(':id/late')
+  @ApiOperation({
+    summary: 'Chủ nuôi đơn trông giữ báo tới muộn, người chăm chỉ nhận tin',
+  })
+  baoMuon(
+    @CurrentUser() user: { id: string },
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: OwnerLateDto,
+  ) {
+    return this.ownerDetail.baoMuon(user.id, id, dto);
   }
 
   @Post(':id/depart')

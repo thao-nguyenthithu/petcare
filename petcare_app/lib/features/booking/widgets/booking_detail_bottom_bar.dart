@@ -10,11 +10,12 @@ import 'package:petcare_app/features/booking/providers/owner_booking_detail_prov
 import 'package:petcare_app/features/booking/screens/review_screen.dart';
 import 'package:petcare_app/features/booking/services/booking_error_mapper.dart';
 import 'package:petcare_app/features/booking/widgets/booking_detail_actions.dart';
+import 'package:petcare_app/features/booking/widgets/booking_help_sheet.dart';
 import 'package:petcare_app/features/booking/widgets/confirm_done_sheet.dart';
 import 'package:petcare_app/features/booking/widgets/owner_cancel_sheet.dart';
+import 'package:petcare_app/features/booking/widgets/owner_late_sheet.dart';
 import 'package:petcare_app/features/messaging/mo_chat_cua_don.dart';
 import 'package:petcare_app/shared/data/sitter_services.dart';
-import 'package:petcare_app/shared/utils/placeholder_action.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
 import 'package:petcare_app/shared/widgets/app_loading_overlay.dart';
 import 'package:petcare_app/shared/widgets/flat_section.dart';
@@ -120,7 +121,7 @@ class BookingDetailBottomBar extends ConsumerWidget {
                   outlined: true,
                   height: 50,
                   mauChu: AppColors.primaryColor,
-                  onTap: () => baoDangPhatTrien(context),
+                  onTap: () => showBookingHelpSheet(context, don),
                 )
               else
                 AppButton(
@@ -135,53 +136,53 @@ class BookingDetailBottomBar extends ConsumerWidget {
                       : moHoSoNcc(context, don),
                 ),
               const SizedBox(height: 4),
-              if (don.dangChay && don.dangDiDonBe)
+              if (don.dangKhieuNai)
+                _LienKet(
+                  nhan: l10n.xemHoSoKhieuNai,
+                  onTap: () => moHoSoKhieuNai(context, don),
+                )
+              else if (don.dangChay && don.dangDiDonBe)
                 _LienKet(
                   nhan: l10n.toiToiDonMuon,
-                  onTap: () => baoDangPhatTrien(context),
+                  onTap: () => showOwnerLateSheet(context, ref, don),
                 )
               else if (don.dangChay && don.dangNhanBeVe)
+                const SizedBox.shrink()
+              else if (don.dangChay && don.chuNuoiPhaiDi)
+                _LienKet(
+                  nhan: don.daChotKetThucSom || don.laNgayCuoiKy
+                      ? l10n.nhanChoNguoiCham
+                      : l10n.ketThucSomNhan,
+                  onTap: () => don.daChotKetThucSom || don.laNgayCuoiKy
+                      ? moChatCuaDon(context, don.id, laChuNuoi: true)
+                      : context.push(AppRoutes.bookingEarlyEnd, extra: don),
+                )
+              else if (don.dangChay)
+                const SizedBox.shrink()
+              else if (don.choBanChot)
                 _LienKet(
                   nhan: l10n.baoSuCo,
-                  onTap: () => baoDangPhatTrien(context),
+                  onTap: () => moBaoSuCo(context, don),
                 )
-              else if (don.dangChay && don.chuNuoiPhaiDi)
+              else if (don.daXong)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (don.daChotKetThucSom || don.laNgayCuoiKy)
-                      _LienKet(
-                        nhan: l10n.nhanChoNguoiCham,
-                        onTap: () =>
-                            moChatCuaDon(context, don.id, laChuNuoi: true),
-                      )
-                    else
-                      _LienKet(
-                        nhan: l10n.ketThucSomNhan,
-                        onTap: () =>
-                            context.push(AppRoutes.bookingEarlyEnd, extra: don),
-                      ),
+                    _LienKet(
+                      nhan: l10n.datLaiDichVuNayNhan,
+                      onTap: () => moHoSoNcc(context, don),
+                    ),
                     Text('·', style: AppTextStyles.captionSm),
                     _LienKet(
                       nhan: l10n.baoSuCo,
-                      onTap: () => baoDangPhatTrien(context),
+                      onTap: () => moBaoSuCo(context, don),
                     ),
                   ],
-                )
-              else if (don.dangChay || don.choBanChot)
-                _LienKet(
-                  nhan: l10n.baoSuCo,
-                  onTap: () => baoDangPhatTrien(context),
-                )
-              else if (don.daXong)
-                _LienKet(
-                  nhan: l10n.datLaiDichVuNayNhan,
-                  onTap: () => baoDangPhatTrien(context),
                 )
               else if (don.daHuy || don.chuaDocDuoc)
                 _LienKet(
                   nhan: l10n.lienHeHoTro,
-                  onTap: () => baoDangPhatTrien(context),
+                  onTap: () => showBookingHelpSheet(context, don),
                 )
               else
                 Row(
@@ -192,7 +193,7 @@ class BookingDetailBottomBar extends ConsumerWidget {
                         !don.daToiNoi) ...[
                       _LienKet(
                         nhan: l10n.toiMangBeToiMuon,
-                        onTap: () => baoDangPhatTrien(context),
+                        onTap: () => showOwnerLateSheet(context, ref, don),
                       ),
                       Text('·', style: AppTextStyles.captionSm),
                     ],

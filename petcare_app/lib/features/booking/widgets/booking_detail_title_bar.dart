@@ -21,6 +21,7 @@ class BookingDetailTitleBar extends StatelessWidget {
       TinhTrangDon.denMuon when don.dangGiaoBe => AppColors.primaryColor,
       TinhTrangDon.daXacNhan ||
       TinhTrangDon.dangToi ||
+      TinhTrangDon.daToiDiemHen ||
       TinhTrangDon.dangDienRa => AppColors.primaryColor,
       TinhTrangDon.hoanThanh || TinhTrangDon.daHuy => AppColors.neutral,
       _ => AppColors.accent,
@@ -70,6 +71,7 @@ String _nhanTinhTrang(BuildContext context, OwnerBookingDetail don) {
     TinhTrangDon.daXacNhan => l10n.daXacNhan,
     TinhTrangDon.dangToi when don.chuNuoiPhaiDi => l10n.dangMangBeToi,
     TinhTrangDon.dangToi => l10n.nguoiChamDenMuon,
+    TinhTrangDon.daToiDiemHen => l10n.nguoiChamDaToi,
     TinhTrangDon.denMuon when don.dangGiaoBe => l10n.dangGiaoBe,
     TinhTrangDon.denMuon => l10n.nguoiChamDenMuon,
     TinhTrangDon.dangDienRa when don.dangDiDonBe => l10n.dangDonBeVeNhan,

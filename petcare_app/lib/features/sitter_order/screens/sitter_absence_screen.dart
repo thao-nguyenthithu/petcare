@@ -9,9 +9,8 @@ import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/sitter_order/data/sitter_absence.dart';
 import 'package:petcare_app/features/sitter_order/data/sitter_order_detail.dart';
 import 'package:petcare_app/features/sitter_order/services/sitter_order_actions.dart';
-import 'package:petcare_app/features/sitter_order/widgets/handover_photo_group.dart';
+import 'package:petcare_app/shared/widgets/photo_picker_grid.dart';
 import 'package:petcare_app/shared/data/booking_common.dart';
-import 'package:petcare_app/shared/utils/chon_anh.dart';
 import 'package:petcare_app/shared/utils/khoang_cach.dart';
 import 'package:petcare_app/shared/utils/money_format.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
@@ -32,7 +31,7 @@ class SitterAbsenceScreen extends ConsumerStatefulWidget {
 }
 
 class _SitterAbsenceState extends ConsumerState<SitterAbsenceScreen> {
-  final List<Uint8List> _anh = [];
+  List<Uint8List> _anh = [];
   bool _dangGui = false;
 
   BaoVangMat get bao => widget.bao;
@@ -43,20 +42,6 @@ class _SitterAbsenceState extends ConsumerState<SitterAbsenceScreen> {
 
   bool get _duAnh => _anh.length >= soAnhVangMatToiThieu;
 
-  Future<void> _chup() async {
-    if (_anh.length >= soAnhVangMatToiDa) return;
-    final chon = await chupMotAnh();
-    if (!mounted) return;
-    if (chon.quaNang) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.loiAnhQuaNang('$mbAnhToiDa'))),
-      );
-      return;
-    }
-    final bytes = chon.anh;
-    if (bytes == null) return;
-    setState(() => _anh.add(bytes));
-  }
 
   Future<void> _guiBao() async {
     final id = bao.don.bookingId;
@@ -148,14 +133,15 @@ class _SitterAbsenceState extends ConsumerState<SitterAbsenceScreen> {
           const SizedBox(height: 14),
           if (_toiBao) ...[
             FlatSection(
-              child: HandoverPhotoGroup(
+              child: PhotoPickerGrid(
                 tieuDe: l10n.anhTaiDiemHenTrenTran(
                   '${_anh.length}',
                   '$soAnhVangMatToiDa',
                 ),
                 anh: _anh,
                 tran: soAnhVangMatToiDa,
-                onThem: _chup,
+                onDoi: (ds) => setState(() => _anh = ds),
+                batBuocChup: true,
               ),
             ),
             const SizedBox(height: 10),

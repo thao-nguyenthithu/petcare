@@ -19,7 +19,6 @@ import 'package:petcare_app/features/messaging/widgets/message_bubble.dart';
 import 'package:petcare_app/features/messaging/widgets/quick_reply_bar.dart';
 import 'package:petcare_app/shared/data/conversation.dart';
 import 'package:petcare_app/shared/data/ket_qua_vi_tri.dart';
-import 'package:petcare_app/shared/utils/placeholder_action.dart';
 import 'package:petcare_app/shared/widgets/app_network_error.dart';
 import 'package:petcare_app/shared/widgets/app_skeleton.dart';
 
@@ -274,11 +273,13 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                 controller: _scrollController,
                 ended: _ended,
                 onRetry: _luong.guiLai,
+                bookingId: widget.conversation.bookingId,
+                laChuNuoi: widget.isOwner,
               ),
             ),
           ),
           if (_ended)
-            const ChatResetFooter()
+            ChatResetFooter(sitterId: widget.conversation.sitterId)
           else ...[
             QuickReplyBar(isOwner: widget.isOwner, onSelect: _sendQuickReply),
             const SizedBox(height: AppSpacing.labelGap),
@@ -301,12 +302,16 @@ class _DanhSachTin extends StatelessWidget {
     required this.controller,
     required this.ended,
     required this.onRetry,
+    required this.bookingId,
+    required this.laChuNuoi,
   });
 
   final List<ChatMessage> messages;
   final ScrollController controller;
   final bool ended;
   final ValueChanged<int> onRetry;
+  final String? bookingId;
+  final bool laChuNuoi;
 
   @override
   Widget build(BuildContext context) {
@@ -322,16 +327,24 @@ class _DanhSachTin extends StatelessWidget {
       separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.itemGap),
       itemBuilder: (context, i) {
         if (ended && i == messages.length) {
-          return ChatEndedNotice(onHelpTap: () => baoDangPhatTrien(context));
+          return ChatEndedNotice(
+            onHelpTap: () => context.push(AppRoutes.helpCenter),
+          );
         }
         final m = messages[i];
         if (m.kind == ChatMessageKind.system) {
           return m.systemKind == ChatSystemKind.suKien
-              ? ChatSystemMessage(message: m)
+              ? ChatSystemMessage(
+                  message: m,
+                  bookingId: bookingId,
+                  laChuNuoi: laChuNuoi,
+                )
               : ChatSystemChip(message: m);
         }
         return MessageBubble(
           message: m,
+          bookingId: bookingId,
+          laChuNuoi: laChuNuoi,
           onRetry: !ended && m.status == ChatSendStatus.failed
               ? () => onRetry(i)
               : null,

@@ -7,6 +7,7 @@ import 'package:petcare_app/shared/widgets/photo_viewer.dart';
 // Đơn chưa kết thúc của bé, dùng để chặn xoá hồ sơ
 class PetActiveBooking {
   const PetActiveBooking({
+    required this.id,
     required this.maDon,
     required this.tenDichVu,
     required this.tenNcc,
@@ -14,12 +15,39 @@ class PetActiveBooking {
     this.avatarNcc,
   });
 
+  final String id;
   final String maDon;
   final String tenDichVu;
   final String tenNcc;
 
   final String moTaThoiGian;
   final String? avatarNcc;
+}
+
+// Payload trả bookings[0].booking, rỗng khi bé không vướng đơn nào
+PetActiveBooking? _donDangChay(Object? o) {
+  if (o is! List || o.isEmpty) return null;
+  final b = (o.first as Map)['booking'];
+  if (b is! Map) return null;
+  final m = Map<String, dynamic>.from(b);
+  final id = m['id'] as String?;
+  if (id == null || id.isEmpty) return null;
+  final ncc = m['sitter'] is Map
+      ? Map<String, dynamic>.from(
+          (m['sitter'] as Map)['user'] as Map? ?? {},
+        )
+      : <String, dynamic>{};
+  final batDau = docMocVn(m['scheduledAt'] as String?);
+  return PetActiveBooking(
+    id: id,
+    maDon: m['code'] as String? ?? '',
+    tenDichVu: ((m['service'] as Map?)?['name'] as String?) ?? '',
+    tenNcc: ncc['fullName'] as String? ?? '',
+    avatarNcc: ncc['avatarUrl'] as String?,
+    moTaThoiGian: batDau == null
+        ? ''
+        : '${gioPhut(batDau)} · ${ngayThang(batDau)}',
+  );
 }
 
 // Hồ sơ một thú cưng của chủ nuôi
@@ -96,6 +124,7 @@ class Pet {
       for (final p in (j['preventions'] as List? ?? []))
         PreventionRecord.fromJson(Map<String, dynamic>.from(p as Map)),
     ],
+    donDangChay: _donDangChay(j['bookings']),
   );
 
   // Thân request khi tạo hoặc sửa hồ sơ

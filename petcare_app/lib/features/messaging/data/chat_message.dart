@@ -7,6 +7,24 @@ enum ChatSystemKind { sessionStart, safety, suKien }
 
 enum ChatSendStatus { sent, read, sending, failed }
 
+// Đích của nút trong tin hệ thống, máy chủ gửi kèm mã chứ không chỉ nhãn chữ
+enum MaHanhDongTin {
+  chiDuong,
+  viTriTrucTiep,
+  anhMinhChung,
+  xacNhanHoanThanh,
+  vi,
+}
+
+MaHanhDongTin? _maHanhDong(String? ma) => switch (ma) {
+  'chiDuong' => MaHanhDongTin.chiDuong,
+  'viTriTrucTiep' => MaHanhDongTin.viTriTrucTiep,
+  'anhMinhChung' => MaHanhDongTin.anhMinhChung,
+  'xacNhanHoanThanh' => MaHanhDongTin.xacNhanHoanThanh,
+  'vi' => MaHanhDongTin.vi,
+  _ => null,
+};
+
 // Một dòng trong luồng chat
 class ChatMessage {
   const ChatMessage({
@@ -23,6 +41,7 @@ class ChatMessage {
     this.masked = false,
     this.canGap = false,
     this.actionLabel,
+    this.actionCode,
     this.soAnhThem,
   });
 
@@ -30,6 +49,7 @@ class ChatMessage {
     String noiDung, {
     this.canGap = false,
     this.actionLabel,
+    this.actionCode,
     this.id,
   }) : kind = ChatMessageKind.system,
        systemKind = ChatSystemKind.suKien,
@@ -58,6 +78,7 @@ class ChatMessage {
       masked = false,
       canGap = false,
       actionLabel = null,
+      actionCode = null,
       soAnhThem = null;
 
   const ChatMessage.safety()
@@ -74,6 +95,7 @@ class ChatMessage {
       masked = false,
       canGap = false,
       actionLabel = null,
+      actionCode = null,
       soAnhThem = null;
 
   factory ChatMessage.fromJson(Map<String, dynamic> json) {
@@ -108,6 +130,7 @@ class ChatMessage {
       masked: json['masked'] as bool? ?? false,
       canGap: json['canGap'] as bool? ?? false,
       actionLabel: json['actionLabel'] as String?,
+      actionCode: _maHanhDong(json['actionCode'] as String?),
       soAnhThem: (json['soAnhThem'] as num?)?.toInt(),
     );
   }
@@ -126,6 +149,7 @@ class ChatMessage {
   final bool masked;
   final bool canGap;
   final String? actionLabel;
+  final MaHanhDongTin? actionCode;
   final int? soAnhThem;
 
   ChatMessage copyWith({ChatSendStatus? status}) => ChatMessage(
@@ -142,6 +166,7 @@ class ChatMessage {
     masked: masked,
     canGap: canGap,
     actionLabel: actionLabel,
+    actionCode: actionCode,
     soAnhThem: soAnhThem,
   );
 

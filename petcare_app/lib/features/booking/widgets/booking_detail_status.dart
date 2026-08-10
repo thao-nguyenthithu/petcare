@@ -69,6 +69,12 @@ class BookingDetailStatus extends StatelessWidget {
         l10n.moTaKhoiHanhKipGio(ten, don.gioKhoiHanh ?? '', don.gioHen ?? ''),
         AppColors.primaryColor,
       ),
+      TinhTrangDon.daToiDiemHen => (
+        Icons.pin_drop_outlined,
+        l10n.nccDaToiChoBatDau(ten),
+        l10n.moTaDaToiChoBatDau(ten, don.gioToiNoi ?? ''),
+        AppColors.primaryColor,
+      ),
       TinhTrangDon.denMuon when don.dangGiaoBe => (
         Icons.check_circle_outline,
         l10n.banDaToiNhaNcc(ten),

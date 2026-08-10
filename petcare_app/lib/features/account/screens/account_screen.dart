@@ -12,7 +12,6 @@ import 'package:petcare_app/features/account/widgets/role_entry_card.dart';
 import 'package:petcare_app/features/auth/providers/auth_provider.dart';
 import 'package:petcare_app/features/auth/providers/current_user_provider.dart';
 import 'package:petcare_app/features/dksitter/providers/dksitter_provider.dart';
-import 'package:petcare_app/shared/utils/placeholder_action.dart';
 import 'package:petcare_app/shared/widgets/app_menu_card.dart';
 import 'package:petcare_app/shared/widgets/app_refresh_indicator.dart';
 import 'package:petcare_app/shared/widgets/confirm_dialog.dart';
@@ -78,14 +77,9 @@ class AccountScreen extends ConsumerWidget {
         () => context.push(AppRoutes.ownerSpending),
       ),
       tile(
-        Icons.settings_outlined,
-        l10n.caiDat,
-        () => baoDangPhatTrien(context),
-      ),
-      tile(
         Icons.help_outline,
         l10n.troGiupHoTro,
-        () => baoDangPhatTrien(context),
+        () => context.push(AppRoutes.helpCenter),
       ),
       tile(
         Icons.logout,

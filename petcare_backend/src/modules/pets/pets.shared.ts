@@ -1,5 +1,6 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'crypto';
+import { BookingStatus } from 'generated/prisma/enums';
 import { PrismaService } from '../../prisma/prisma.service';
 import { kiemTraAnh, type UploadedImage } from '../media/image-upload';
 import { SupabaseService } from '../media/supabase.service';
@@ -8,7 +9,15 @@ export type { UploadedImage };
 
 export const BUCKET_PET = 'pet-media';
 
-// Lấy đủ hồ sơ một bé
+// Đơn chưa kết thúc thì chặn xoá hồ sơ bé
+export const DON_CHUA_XONG: BookingStatus[] = [
+  BookingStatus.PENDING,
+  BookingStatus.CONFIRMED,
+  BookingStatus.AWAITING_OWNER_CONFIRM,
+  BookingStatus.IN_PROGRESS,
+];
+
+// Lấy đủ hồ sơ một bé, kèm đơn chưa xong gần nhất để app chặn xoá từ sớm
 export const HO_SO_DAY_DU = {
   photos: { orderBy: { sortOrder: 'asc' } },
   preventions: {
@@ -17,6 +26,26 @@ export const HO_SO_DAY_DU = {
       doses: {
         orderBy: { doneAt: 'desc' },
         include: { photos: { orderBy: { createdAt: 'asc' } } },
+      },
+    },
+  },
+  bookings: {
+    where: { booking: { status: { in: DON_CHUA_XONG } } },
+    orderBy: { booking: { scheduledAt: 'desc' } },
+    take: 1,
+    select: {
+      booking: {
+        select: {
+          id: true,
+          code: true,
+          scheduledAt: true,
+          service: { select: { name: true } },
+          sitter: {
+            select: {
+              user: { select: { fullName: true, avatarUrl: true } },
+            },
+          },
+        },
       },
     },
   },

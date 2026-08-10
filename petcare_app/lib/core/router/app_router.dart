@@ -75,6 +75,9 @@ class AppRoutes {
   static const String ownerProfileEdit = '/profile/edit';
   static const String ownerReviews = '/my-reviews';
 
+  // Trợ giúp và hỗ trợ, hai vai dùng chung
+  static const String helpCenter = '/help';
+
   // Luồng đặt lịch phía chủ nuôi
   static const String bookingWalking = '/booking/walking';
   static const String bookingBoarding = '/booking/boarding';
@@ -96,6 +99,10 @@ class AppRoutes {
   static const String bookingEarlyEnd = '/booking/detail/early-end';
   static const String bookingStayLog = '/booking/detail/stay-log';
   static const String bookingReview = '/booking/detail/review';
+  static const String bookingDispute = '/booking/detail/dispute';
+  static const String bookingDisputeDetail = '/booking/detail/dispute/:ma';
+
+  static String bookingDisputePath(String ma) => '/booking/detail/dispute/$ma';
 
   // Ví và chi tiêu của chủ nuôi
   static const String ownerWallet = '/wallet';

@@ -68,6 +68,12 @@ OwnerBookingDetail chiTietTuApi(
     phutQuaHen: tinhTrang == TinhTrangDon.quaGioHen ? phutQuaHen : null,
     gioToiNoi: api.toiNoiLuc == null ? null : gioPhut(api.toiNoiLuc!),
     phien: _phien(api, tinhTrang, bayGio),
+    ketQua: api.ketQua,
+    baiDanhGia: api.baiDanhGia,
+    anhTruoc: api.anh.truoc,
+    anhSau: api.anh.sau,
+    anhNhatKy: api.anh.nhatKy,
+    tongAnh: api.anh.tong,
     gioHoanThanh: api.ketThucThat == null ? null : gioPhut(api.ketThucThat!),
     ngayHoanThanh:
         api.trangThai == TrangThaiDon.hoanThanh && api.ketThucThat != null
@@ -77,6 +83,7 @@ OwnerBookingDetail chiTietTuApi(
         ? gioPhut(api.ketThuc!)
         : null,
     thongTinHuy: _thongTinHuy(context, api),
+    khieuNai: api.khieuNai,
     gioGiuTien: cauHinh.gioGiuTien,
     phanTramPhiHuy: cauHinh.phiHuyMuonPhanTram,
     chinhSachHuy: (
@@ -128,7 +135,11 @@ TinhTrangDon _tinhTrang(ChiTietDonApi api, DateTime bayGio) {
     case TrangThaiDon.choNhan:
       return TinhTrangDon.choXacNhan;
     case TrangThaiDon.daNhan:
-      if (api.toiNoiLuc == null && api.xuatPhatLuc != null) {
+      // Trông giữ đi chiều ngược, mốc tới nơi bên đó không phải của người chăm
+      if (api.toiNoiLuc != null && api.loai != ServiceType.boarding) {
+        return TinhTrangDon.daToiDiemHen;
+      }
+      if (api.xuatPhatLuc != null && api.toiNoiLuc == null) {
         return TinhTrangDon.dangToi;
       }
       final quaHen = bayGio.difference(api.batDau).inMinutes >= _phutQuaHenNcc;
@@ -231,6 +242,7 @@ String? _mocPhu(
       final phut? => l10n.xacNhanTrongKhoang(dongHoConLai(l10n, phut)),
       _ => null,
     },
+    TinhTrangDon.daToiDiemHen ||
     TinhTrangDon.daXacNhan => switch (conLai(api.batDau)) {
       final phut? => nhanToiTrong(l10n, phut),
       _ => null,

@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+} from '@nestjs/common';
 import { BookingStatus } from 'generated/prisma/enums';
 import { MOT_PHUT_MS } from '../../../common/thoi-gian-vn';
 import { PrismaService } from '../../../prisma/prisma.service';
@@ -19,6 +23,7 @@ import {
   FinishDto,
   HandoverDto,
   IncidentDto,
+  LY_DO_SU_CO_CAN_MO_TA,
 } from './dto/sitter-order.dto';
 import { PetSafetyScanReadService } from './pet-safety-scan-read.service';
 import {
@@ -121,12 +126,18 @@ export class SitterSessionService {
     dto: IncidentDto,
   ) {
     phaiHopLeAnhSuCo(files);
+    if (dto.reason === LY_DO_SU_CO_CAN_MO_TA && !dto.description) {
+      throw new BadRequestException({
+        code: 'THIEU_MO_TA_SU_CO',
+        message: 'Chọn lý do khác thì cần mô tả thêm',
+      });
+    }
     const { don } = await this.store.timDon(userId, id);
     const anh = await this.store.dayAnhLenStorage(don.id, files);
     return this.khieuNai.moBoiNguoiCham(
       userId,
       don.id,
-      dto.description,
+      dto.description ?? '',
       anh,
       dto.reason,
     );

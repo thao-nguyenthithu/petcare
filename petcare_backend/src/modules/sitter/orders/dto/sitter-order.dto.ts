@@ -119,17 +119,26 @@ export class LateReportDto {
   minutes!: number;
 }
 
+export const LY_DO_SU_CO = [
+  'beKhongHopTac',
+  'chuNuoiVang',
+  'diaChiSai',
+  'thoiTietXau',
+  'khac',
+] as const;
+
+export const LY_DO_SU_CO_CAN_MO_TA = 'khac';
+
 export class IncidentDto {
+  @IsIn(LY_DO_SU_CO)
+  reason!: string;
+
+  @IsOptional()
   @IsString()
   @MaxLength(2000)
   @Transform(({ value }) => (value as string)?.trim())
   @MinLength(10)
-  description!: string;
-
-  @IsOptional()
-  @IsString()
-  @MaxLength(40)
-  reason?: string;
+  description?: string;
 }
 
 export class FinishDto {

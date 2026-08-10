@@ -64,6 +64,7 @@ export type TinDb = {
   textSitter: string | null;
   actionLabel: string | null;
   actionLabelSitter: string | null;
+  actionCode: string | null;
   canGap: boolean;
   masked: boolean;
   images: string[];
@@ -91,6 +92,7 @@ export function tinTheoVai(
     actionLabel: laNguoiCham
       ? (tin.actionLabelSitter ?? tin.actionLabel)
       : tin.actionLabel,
+    actionCode: tin.actionCode,
     canGap: tin.canGap,
     masked: tin.masked,
     images: tin.images.map((a) => kyAnh?.get(a) ?? a),

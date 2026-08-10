@@ -51,6 +51,17 @@ String? _cau(AppLocalizations l10n, String? khoa, Map<String, String> p) {
       _t(p, 'tenNcc'),
       _t(p, 'code'),
     ),
+    'tbChuNuoiBaoMuonTieuDe' => l10n.tbChuNuoiBaoMuonTieuDe,
+    'tbChuNuoiBaoMuonGiaoNoiDung' => l10n.tbChuNuoiBaoMuonGiaoNoiDung(
+      _t(p, 'tenChuNuoi'),
+      _t(p, 'soPhut'),
+      _t(p, 'code'),
+    ),
+    'tbChuNuoiBaoMuonDonNoiDung' => l10n.tbChuNuoiBaoMuonDonNoiDung(
+      _t(p, 'tenChuNuoi'),
+      _t(p, 'soPhut'),
+      _t(p, 'code'),
+    ),
     'tbDaToiNoiTieuDe' => l10n.tbDaToiNoiTieuDe,
     'tbDaToiNoiNoiDung' => l10n.tbDaToiNoiNoiDung(_t(p, 'code')),
     'tbSapHetGioGiaoBeTieuDe' => l10n.tbSapHetGioGiaoBeTieuDe,

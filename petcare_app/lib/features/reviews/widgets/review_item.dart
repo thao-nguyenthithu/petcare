@@ -20,12 +20,16 @@ class ReviewItem extends StatelessWidget {
     required this.nhanPhanHoi,
     this.tienTo,
     this.duoi,
+    this.onMoDon,
   });
 
   final SitterReview review;
   final String nhanPhanHoi;
   final String? tienTo;
   final Widget? duoi;
+
+  // Lối về đúng đơn của bài, chỉ có ở trang đánh giá của chủ nuôi
+  final VoidCallback? onMoDon;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +66,30 @@ class ReviewItem extends StatelessWidget {
                   const SizedBox(height: AppSpacing.textGap),
                   ReviewStars(so: r.stars),
                   const SizedBox(height: AppSpacing.textGap),
-                  Text(phu, style: AppTextStyles.captionSm),
+                  if (onMoDon case final mo?)
+                    InkWell(
+                      onTap: mo,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              phu,
+                              style: AppTextStyles.captionSm.copyWith(
+                                color: AppColors.primaryColor,
+                              ),
+                            ),
+                          ),
+                          const Icon(
+                            Icons.chevron_right_rounded,
+                            size: 14,
+                            color: AppColors.primaryColor,
+                          ),
+                        ],
+                      ),
+                    )
+                  else
+                    Text(phu, style: AppTextStyles.captionSm),
                 ],
               ),
             ),

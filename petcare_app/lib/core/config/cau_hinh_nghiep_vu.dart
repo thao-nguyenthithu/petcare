@@ -26,6 +26,7 @@ class CauHinhNghiepVu {
     this.banKinhTimToiDaKm = banKinhTimToiDaKmMacDinh,
     this.batVnpay = batVnpayMacDinh,
     this.batGeofence = batGeofenceMacDinh,
+    this.emailHoTro,
     this.capNhatLuc,
   });
 
@@ -46,6 +47,8 @@ class CauHinhNghiepVu {
   // Tắt thì đơn đi qua cổng giả lập
   final bool batVnpay;
   final bool batGeofence;
+
+  final String? emailHoTro;
 
   final DateTime? capNhatLuc;
 
@@ -83,6 +86,9 @@ class CauHinhNghiepVu {
         'checkin.geofence.enabled',
         batGeofenceMacDinh,
       ),
+      emailHoTro: json['lienHe'] is Map
+          ? (json['lienHe'] as Map)['email'] as String?
+          : null,
       capNhatLuc: DateTime.tryParse(json['capNhatLuc'] as String? ?? ''),
     );
   }

@@ -68,6 +68,20 @@ export class BookingNotifyService {
     });
   }
 
+  async chuNuoiBaoMuon(bookingId: string, soPhut: number, donVe: boolean) {
+    const don = await this.layDon(bookingId);
+    if (!don) return;
+    await this.baoNguoiCham(bookingId, {
+      type: 'DON_HANG',
+      titleKey: 'tbChuNuoiBaoMuonTieuDe',
+      bodyKey: donVe
+        ? 'tbChuNuoiBaoMuonDonNoiDung'
+        : 'tbChuNuoiBaoMuonGiaoNoiDung',
+      params: { tenChuNuoi: don.owner.fullName, soPhut },
+      urgent: true,
+    });
+  }
+
   async donMoi(bookingId: string) {
     const don = await this.layDon(bookingId);
     if (!don?.sitter) return;
@@ -159,6 +173,38 @@ export class BookingNotifyService {
       titleKey: 'tbAnhMoiTieuDe',
       bodyKey: 'tbAnhMoiNoiDung',
     });
+  }
+
+  // Gộp theo hội thoại: người nhận còn một tin chưa đọc của đơn này thì đừng kêu lần nữa
+  async tinNhanMoi(bookingId: string, guiBoiChuNuoi: boolean) {
+    const don = await this.layDon(bookingId);
+    if (!don?.sitter) return;
+    const nguoiNhan = guiBoiChuNuoi ? don.sitter.userId : don.ownerId;
+    const daCo = await this.prisma.notification.findFirst({
+      where: {
+        userId: nguoiNhan,
+        targetId: bookingId,
+        type: 'TIN_NHAN',
+        isRead: false,
+      },
+      select: { id: true },
+    });
+    if (daCo) return;
+    const tin = {
+      type: 'TIN_NHAN',
+      titleKey: 'tbTinNhanMoiTieuDe',
+      bodyKey: 'tbTinNhanMoiNoiDung',
+      params: {
+        tenNguoiGui: guiBoiChuNuoi
+          ? don.owner.fullName
+          : don.sitter.user.fullName,
+      },
+    } as const;
+    if (guiBoiChuNuoi) {
+      await this.baoNguoiCham(bookingId, tin);
+    } else {
+      await this.baoChuNuoi(bookingId, tin);
+    }
   }
 
   async nccHuyDon(bookingId: string) {

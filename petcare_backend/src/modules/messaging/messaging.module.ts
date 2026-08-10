@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from '../auth/auth.module';
 import { MediaModule } from '../media/media.module';
+import { NotificationsModule } from '../notifications/notifications.module';
 import { ChatPhotoService } from './chat-photo.service';
 import { BookingChatService } from './booking-chat.service';
 import { MessagingController } from './messaging.controller';
@@ -9,7 +10,7 @@ import { MessagingService } from './messaging.service';
 import { SystemMessageService } from './system-message.service';
 
 @Module({
-  imports: [AuthModule, MediaModule],
+  imports: [AuthModule, MediaModule, NotificationsModule],
   controllers: [MessagingController],
   providers: [
     MessagingService,

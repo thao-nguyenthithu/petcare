@@ -125,7 +125,11 @@ class SitterOrdersApiService {
     required String maLyDo,
     List<MultipartFile> anh = const [],
   }) {
-    final phanChu = {'description': moTa, 'reason': maLyDo};
+    // Mô tả rỗng phải vắng mặt hẳn, gửi chuỗi rỗng là máy chủ chấm trượt độ dài
+    final phanChu = {
+      'reason': maLyDo,
+      if (moTa.isNotEmpty) 'description': moTa,
+    };
     return anh.isEmpty
         ? _post(id, 'incident', phanChu)
         : _postAnh(id, 'incident', anh, phanChu);

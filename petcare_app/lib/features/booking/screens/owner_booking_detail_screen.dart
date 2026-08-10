@@ -36,7 +36,6 @@ import 'package:petcare_app/features/booking/widgets/grooming_pet_packages.dart'
 import 'package:petcare_app/shared/widgets/session_blocks.dart';
 import 'package:petcare_app/shared/data/sitter_services.dart';
 import 'package:petcare_app/shared/utils/mo_chi_duong.dart';
-import 'package:petcare_app/shared/utils/placeholder_action.dart';
 import 'package:petcare_app/shared/widgets/flat_section.dart';
 import 'package:petcare_app/shared/widgets/location_viewer.dart';
 import 'package:petcare_app/shared/widgets/map_preview.dart';
@@ -289,7 +288,7 @@ class _ThanDon extends ConsumerWidget {
                                     extra: don,
                                   );
                                 case ServiceType.walking:
-                                  baoDangPhatTrien(context);
+                                  moAnhMinhChung(context, don);
                               }
                             },
                           ),

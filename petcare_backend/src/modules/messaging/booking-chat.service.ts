@@ -41,6 +41,7 @@ export class BookingChatService {
       text: `${nguoiCham} đã xuất phát lúc ${gioVn(luc)}`,
       textSitter: `Bạn đã xuất phát lúc ${gioVn(luc)}`,
       actionLabelSitter: 'Xem chỉ đường',
+      actionCode: 'chiDuong',
     });
   }
 
@@ -72,6 +73,7 @@ export class BookingChatService {
       text: `Dịch vụ bắt đầu lúc ${gioVn(luc)}`,
       textSitter: `Bạn đã bắt đầu dịch vụ lúc ${gioVn(luc)}${coGps ? ' · vị trí đang chia sẻ cho chủ nuôi' : ''}`,
       actionLabel: coGps ? 'Xem vị trí trực tiếp' : undefined,
+      actionCode: coGps ? 'viTriTrucTiep' : undefined,
     });
   }
 
@@ -90,6 +92,7 @@ export class BookingChatService {
       caption: ghiChu ?? undefined,
       actionLabel: `Xem tất cả ${tongSoAnh} ảnh trong nhật ký`,
       actionLabelSitter: `Xem tất cả ${tongSoAnh} ảnh trong nhật ký`,
+      actionCode: 'anhMinhChung',
     });
   }
 
@@ -99,6 +102,7 @@ export class BookingChatService {
       text: `Đơn hoàn thành lúc ${gioVn(luc)} · chờ bạn xác nhận, hết ${soGioHan} giờ hệ thống tự chốt`,
       textSitter: `Bạn đã báo hoàn thành lúc ${gioVn(luc)} · chờ ${chuNuoi} xác nhận, hết ${soGioHan} giờ hệ thống tự chốt`,
       actionLabel: 'Xác nhận hoàn thành',
+      actionCode: 'xacNhanHoanThanh',
       canGap: true,
     });
     return nguoiCham;
@@ -114,6 +118,7 @@ export class BookingChatService {
       text: `Bạn đã xác nhận hoàn thành · ${tien(khoanNccNhan)} nền tảng đang giữ, chuyển cho ${nguoiCham} sau ${soGioNha} giờ`,
       textSitter: `${chuNuoi} đã xác nhận hoàn thành · ${tien(khoanNccNhan)} vào ví bạn sau ${soGioNha} giờ kể từ khi kết thúc`,
       actionLabelSitter: 'Xem ví',
+      actionCode: 'vi',
     });
   }
 
@@ -231,6 +236,22 @@ export class BookingChatService {
     await this.system.ghi(bookingId, {
       text: 'Bạn đã báo sự cố · thanh toán tạm giữ tới khi đội hỗ trợ có kết luận',
       textSitter: `${chuNuoi} đã báo sự cố · thanh toán tạm giữ tới khi đội hỗ trợ có kết luận`,
+      canGap: true,
+    });
+  }
+
+  async chuNuoiBaoMuon(
+    bookingId: string,
+    soPhut: number,
+    eta: Date | null,
+    chieuDonVe: boolean,
+  ) {
+    const { chuNuoi } = await this.ten(bookingId);
+    const viec = chieuDonVe ? 'tới đón bé' : 'mang bé tới';
+    const duKien = eta ? ` · dự kiến ${gioVn(eta)}` : '';
+    await this.system.ghi(bookingId, {
+      text: `Bạn đã báo ${viec} muộn khoảng ${soPhut} phút${duKien}`,
+      textSitter: `${chuNuoi} báo ${viec} muộn khoảng ${soPhut} phút${duKien}`,
       canGap: true,
     });
   }

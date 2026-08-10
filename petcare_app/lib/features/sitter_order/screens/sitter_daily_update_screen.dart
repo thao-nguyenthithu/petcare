@@ -2,12 +2,12 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:petcare_app/shared/utils/chon_anh.dart';
 import 'package:petcare_app/core/l10n/l10n_ext.dart';
 import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/sitter_order/services/sitter_order_actions.dart';
-import 'package:petcare_app/features/sitter_order/widgets/handover_photo_group.dart';
+import 'package:petcare_app/features/sitter_order/widgets/handover_notice_box.dart';
+import 'package:petcare_app/shared/widgets/photo_picker_grid.dart';
 import 'package:petcare_app/features/sitter_order/data/boarding_session.dart';
 import 'package:petcare_app/features/sitter_order/widgets/session/pet_condition_chips.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
@@ -28,7 +28,7 @@ class SitterDailyUpdateScreen extends ConsumerStatefulWidget {
 
 class _SitterDailyUpdateScreenState
     extends ConsumerState<SitterDailyUpdateScreen> {
-  final List<Uint8List> _anh = [];
+  List<Uint8List> _anh = [];
   final Set<String> _tinhTrang = {};
   final _loiNhan = TextEditingController();
   bool _dangGui = false;
@@ -43,20 +43,6 @@ class _SitterDailyUpdateScreenState
     super.dispose();
   }
 
-  Future<void> _chup() async {
-    if (_anh.length >= soAnhCapNhatToiDa) return;
-    final chon = await chupMotAnh();
-    if (!mounted) return;
-    if (chon.quaNang) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.loiAnhQuaNang('$mbAnhToiDa'))),
-      );
-      return;
-    }
-    final bytes = chon.anh;
-    if (bytes == null) return;
-    setState(() => _anh.add(bytes));
-  }
 
   Future<void> _gui() async {
     final id = _phien.don.bookingId;
@@ -126,14 +112,15 @@ class _SitterDailyUpdateScreenState
           ),
           const SizedBox(height: 20),
           FlatSection(
-            child: HandoverPhotoGroup(
+            child: PhotoPickerGrid(
               tieuDe: l10n.anhHomNayTrenTran(
                 '${_anh.length}',
                 '$soAnhCapNhatToiDa',
               ),
               anh: _anh,
               tran: soAnhCapNhatToiDa,
-              onThem: _chup,
+              onDoi: (ds) => setState(() => _anh = ds),
+                batBuocChup: true,
             ),
           ),
           const SizedBox(height: 20),

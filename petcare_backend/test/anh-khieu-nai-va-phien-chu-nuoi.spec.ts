@@ -216,6 +216,9 @@ function donDat(gpsReport: Record<string, number> | null) {
     },
     pets: [],
     payments: [],
+    sessionPhotos: [],
+    boardingUpdates: [],
+    reports: [],
   };
 }
 

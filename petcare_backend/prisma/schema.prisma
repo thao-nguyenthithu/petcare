@@ -728,6 +728,7 @@ model Message {
   textSitter        String?
   actionLabel       String?
   actionLabelSitter String?
+  actionCode        String?
   canGap            Boolean      @default(false)
   masked            Boolean      @default(false)
   images            String[]     @default([])

@@ -16,6 +16,7 @@ import 'package:petcare_app/shared/widgets/app_screen_header.dart';
 import 'package:petcare_app/shared/widgets/flat_section.dart';
 import 'package:petcare_app/shared/utils/anh_cache.dart';
 import 'package:petcare_app/shared/widgets/app_screen.dart';
+import 'package:petcare_app/shared/widgets/photo_viewer.dart';
 
 // Màn Ảnh minh chứng của phiên tắm và cắt tỉa, chia nhóm trước và sau khi làm
 class ProofPhotosScreen extends ConsumerWidget {
@@ -29,6 +30,8 @@ class ProofPhotosScreen extends ConsumerWidget {
     final don = donHienHanh(context, ref, banChup);
     final truoc = don.anhTruoc;
     final sau = don.anhSau;
+    final nhatKy = don.anhNhatKy;
+    final tatCa = [...truoc, ...sau, ...nhatKy];
     return AppScreen(
       backgroundColor: AppColors.surface,
       header: Column(
@@ -38,7 +41,7 @@ class ProofPhotosScreen extends ConsumerWidget {
             subtitle: l10n.maDonSoBeSoAnh(
               don.maDon,
               '${don.pets.length}',
-              '${truoc.length + sau.length}',
+              '${tatCa.length}',
             ),
           ),
           const AppDongKe(),
@@ -47,11 +50,14 @@ class ProofPhotosScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.only(top: 18, bottom: 24),
         children: [
+          if (tatCa.isEmpty)
+            FlatSection(child: AppNoteBox(text: l10n.chuaCoAnhMinhChung)),
           if (truoc.isNotEmpty)
             FlatSection(
               child: _Nhom(
                 tieuDe: l10n.anhTruocKhiLam('${truoc.length}'),
                 anh: truoc,
+                tatCa: tatCa,
               ),
             ),
           if (sau.isNotEmpty) ...[
@@ -60,6 +66,18 @@ class ProofPhotosScreen extends ConsumerWidget {
               child: _Nhom(
                 tieuDe: l10n.anhSauKhiLam('${sau.length}'),
                 anh: sau,
+                tatCa: tatCa,
+              ),
+            ),
+          ],
+          if (nhatKy.isNotEmpty) ...[
+            if (truoc.isNotEmpty || sau.isNotEmpty)
+              const SizedBox(height: 22),
+            FlatSection(
+              child: _Nhom(
+                tieuDe: l10n.nhatKyCoNAnh('${nhatKy.length}'),
+                anh: nhatKy,
+                tatCa: tatCa,
               ),
             ),
           ],
@@ -90,12 +108,23 @@ class ProofPhotosScreen extends ConsumerWidget {
   }
 }
 
+// Ba ô một hàng: ảnh bằng chứng cần nhìn được cả tập, không cần từng tấm thật to
+const int _soCot = 3;
+const double _khe = 10;
+
 // Một nhóm ảnh
 class _Nhom extends StatelessWidget {
-  const _Nhom({required this.tieuDe, required this.anh});
+  const _Nhom({
+    required this.tieuDe,
+    required this.anh,
+    required this.tatCa,
+  });
 
   final String tieuDe;
   final List<String> anh;
+
+  // Cả tập ảnh của đơn, để mở trình xem là vuốt được sang nhóm khác
+  final List<String> tatCa;
 
   @override
   Widget build(BuildContext context) {
@@ -109,12 +138,18 @@ class _Nhom extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           itemCount: anh.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
-            childAspectRatio: 1.15,
+            crossAxisCount: _soCot,
+            crossAxisSpacing: _khe,
+            mainAxisSpacing: _khe,
           ),
-          itemBuilder: (_, i) => _O(url: anh[i]),
+          itemBuilder: (_, i) => _O(
+            url: anh[i],
+            onTap: () => showPhotoViewer(
+              context,
+              anh: [for (final u in tatCa) PhotoItem.mang(u)],
+              viTri: tatCa.indexOf(anh[i]),
+            ),
+          ),
         ),
       ],
     );
@@ -122,34 +157,42 @@ class _Nhom extends StatelessWidget {
 }
 
 class _O extends StatelessWidget {
-  const _O({required this.url});
+  const _O({required this.url, required this.onTap});
 
   final String url;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
+    final canh =
+        (MediaQuery.sizeOf(context).width -
+            2 * AppSpacing.screenPadding -
+            (_soCot - 1) * _khe) /
+        _soCot;
     return ClipRRect(
       borderRadius: BorderRadius.circular(AppRadius.radius14),
-      child: Container(
+      child: Material(
         color: AppColors.cardMint,
-        alignment: Alignment.center,
-        child: url.isEmpty
-            ? const Icon(Icons.pets, color: AppColors.primaryColor, size: 30)
-            : CachedNetworkImage(
-                imageUrl: url,
-                fit: BoxFit.cover,
-                memCacheWidth: beRongCache(
-                  context,
-                  (MediaQuery.sizeOf(context).width -
-                          2 * AppSpacing.screenPadding -
-                          AppSpacing.itemGap) /
-                      2,
+        child: InkWell(
+          onTap: url.isEmpty ? null : onTap,
+          child: url.isEmpty
+              ? const Center(
+                  child: Icon(
+                    Icons.pets,
+                    color: AppColors.primaryColor,
+                    size: 30,
+                  ),
+                )
+              : CachedNetworkImage(
+                  imageUrl: url,
+                  fit: BoxFit.cover,
+                  memCacheWidth: beRongCache(context, canh),
+                  placeholder: (_, _) =>
+                      const ColoredBox(color: AppColors.cardMint),
+                  errorWidget: (_, _, _) =>
+                      const ColoredBox(color: AppColors.cardMint),
                 ),
-                placeholder: (_, _) =>
-                    const ColoredBox(color: AppColors.cardMint),
-                errorWidget: (_, _, _) =>
-                    const ColoredBox(color: AppColors.cardMint),
-              ),
+        ),
       ),
     );
   }

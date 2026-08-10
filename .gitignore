@@ -8,6 +8,7 @@ petcare_app/lib/firebase_options.dart
 petcare_backend/.env
 
 # Flutter build
+*.apk
 petcare_app/build/
 petcare_app/.dart_tool/
 petcare_app/.flutter-plugins

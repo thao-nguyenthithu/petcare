@@ -5,6 +5,7 @@ import 'package:petcare_app/features/booking/data/booking_created.dart';
 import 'package:petcare_app/features/booking/data/booking_draft.dart';
 import 'package:petcare_app/features/booking/data/owner_booking.dart';
 import 'package:petcare_app/features/booking/data/owner_booking_detail_api.dart';
+import 'package:petcare_app/features/booking/data/owner_dispute.dart';
 import 'package:petcare_app/shared/data/sitter_slots.dart';
 import 'package:petcare_app/shared/data/sitter_services.dart';
 
@@ -53,18 +54,36 @@ class BookingsApiService {
     await apiClient.post('/bookings/$id/depart');
   }
 
+  Future<void> baoMuon(String id, {required int phut}) async {
+    await apiClient.post('/bookings/$id/late', data: {'minutes': phut});
+  }
+
   Future<ChiTietDonApi> xacNhanHoanThanh(String id) async {
     final res = await apiClient.post('/bookings/$id/confirm');
     return ChiTietDonApi.fromJson(Map<String, dynamic>.from(res.data as Map));
   }
 
-  Future<void> moKhieuNai(
+  Future<String> moKhieuNai(
     String id, {
     required String moTa,
+    String? maLyDo,
     List<MultipartFile> anh = const [],
   }) async {
-    final form = FormData.fromMap({'description': moTa, 'photos': anh});
-    await apiClient.post('/bookings/$id/dispute', data: form);
+    final form = FormData.fromMap({
+      'description': moTa,
+      'reason': ?maLyDo,
+      'photos': anh,
+    });
+    final res = await apiClient.post('/bookings/$id/dispute', data: form);
+    final data = res.data;
+    return data is Map ? data['code'] as String? ?? '' : '';
+  }
+
+  Future<HoSoKhieuNaiChuNuoi> hoSoKhieuNai(String ma) async {
+    final res = await apiClient.get('/disputes/$ma');
+    return HoSoKhieuNaiChuNuoi.fromJson(
+      Map<String, dynamic>.from(res.data as Map),
+    );
   }
 
   Future<ChiTietDonApi> ketThucSom(

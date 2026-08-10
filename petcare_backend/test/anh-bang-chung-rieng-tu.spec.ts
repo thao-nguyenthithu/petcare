@@ -331,7 +331,7 @@ const DON_HO_SO = {
   service: { name: 'Dắt đi dạo', type: 'WALKING' },
   pets: [{ pet: { name: 'Mun', species: 'DOG' } }],
   ownerId: CHU_NUOI,
-  sitter: { userId: NGUOI_CHAM },
+  sitter: { userId: NGUOI_CHAM, user: { fullName: 'Nam' } },
 };
 
 function hoSoMau() {
@@ -358,6 +358,7 @@ describe('Ảnh khiếu nại chỉ mở cho hai bên của đơn', () => {
     const { gia, service } = dungKhieuNai(hoSoMau());
 
     const ra = await service.theoMa(CHU_NUOI, 'KN-001');
+    if (!('anhPhanHoiNguoiCham' in ra)) throw new Error('Phải ra bản chủ nuôi');
 
     expect(gia.luot).toHaveLength(1);
     expect(gia.luot[0]).toEqual([
@@ -369,7 +370,7 @@ describe('Ảnh khiếu nại chỉ mở cho hai bên của đơn', () => {
       'ky://don-1/kn-0.jpg',
       'ky://don-1/kn-1.jpg',
     ]);
-    expect(ra.anhPhanHoi).toEqual(['ky://don-1/ph-0.jpg']);
+    expect(ra.anhPhanHoiNguoiCham).toEqual(['ky://don-1/ph-0.jpg']);
   });
 
   it('người chăm của đơn cũng xem được', async () => {

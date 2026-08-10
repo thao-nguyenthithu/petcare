@@ -149,7 +149,11 @@ class CameraViewfinder extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         if (camera case final cam? when cam.value.isInitialized)
-          CameraPreview(cam)
+          // CameraPreview tự lo tỉ lệ và chiều xoay, chỉ cần đừng ép nó vừa khung
+          ColoredBox(
+            color: AppColors.textPrimary,
+            child: Center(child: CameraPreview(cam)),
+          )
         else
           ColoredBox(
             color: AppColors.textPrimary,
