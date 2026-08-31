@@ -203,7 +203,7 @@ describe('không phép tính nào trong luồng tiền sinh ra số thực', () 
 });
 
 describe('đối soát với cổng thanh toán khớp tuyệt đối', () => {
-  function dungCong(soTienGhiSo: number) {
+  function dungCong(soTienGhiSo: number, trangThaiDon = 'AWAITING_PAYMENT') {
     const daGhi: Record<string, unknown>[] = [];
     const tx = {
       $executeRaw: () => Promise.resolve(1),
@@ -214,7 +214,7 @@ describe('đối soát với cổng thanh toán khớp tuyệt đối', () => {
             bookingId: 'bk-1',
             amount: soTienGhiSo,
             status: 'PENDING',
-            booking: { status: 'AWAITING_PAYMENT' },
+            booking: { status: trangThaiDon },
           }),
         update: (arg: Record<string, unknown>) => {
           daGhi.push(arg);
@@ -268,6 +268,13 @@ describe('đối soát với cổng thanh toán khớp tuyệt đối', () => {
       const ket = await dv.xacNhanTra({ ...KET_QUA, soTien });
       expect(ket.ma).toBe('LECH_TIEN');
     }
+  });
+
+  it('tiền về sau khi đơn giữ chỗ đã chết thì sang thẳng chờ hoàn', async () => {
+    const { dv, daGhi } = dungCong(150_000, 'CANCELLED_UNPAID');
+    const ket = await dv.xacNhanTra({ ...KET_QUA, soTien: 150_000 });
+    expect(ket.ma).toBe('DON_DA_CHET');
+    expect(daGhi[0]).toMatchObject({ data: { status: 'REFUNDING' } });
   });
 });
 
