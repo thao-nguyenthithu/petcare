@@ -118,7 +118,7 @@ dự án, đụng vào sớm là ôm hai bản lệch nhau suốt nhiều tháng
 
 ## Quy ước code
 
-Chi tiết ở `.claude/rule/rule-flutter.md`, ba điều hay sai nhất:
+Ba điều hay sai nhất:
 
 - Dùng widget Material 3 gốc (`FilledButton`, `OutlinedButton`, `TextButton`...), style khai
   một lần trong `AppTheme`. Không tự chế lại thứ đã có sẵn.
