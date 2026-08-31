@@ -58,3 +58,6 @@ pids
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 /generated
+
+# Log thô của k6, phần lớn là dòng tiến trình; số liệu chốt nằm ở load-test/ket-qua.md
+/load-test/ket-qua-*.txt
