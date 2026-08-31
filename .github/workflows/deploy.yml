@@ -55,7 +55,8 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: 3.38.x
+          # Ghim theo bản Flutter đang dev, stable mới hơn từng làm analyze đỏ dù mã không đổi
+          flutter-version: 3.44.x
           cache: true
       # Hai thứ nằm ngoài Git: file khoá Firebase thay bằng bản giả, assets/mock tạo rỗng
       - run: |
