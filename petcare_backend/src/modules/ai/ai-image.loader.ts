@@ -7,8 +7,7 @@ import { HAN_CHO_GOI_AI_MS, TRAN_ANH_GUI_AI_BYTE } from './ai.constants';
 export type KieuAnhAi = 'image/jpeg' | 'image/png' | 'image/webp';
 export type AnhChoAi = { base64: string; contentType: KieuAnhAi };
 export type KetQuaTaiAnh =
-  | { ok: true; anh: AnhChoAi }
-  | { ok: false; code: MaKetQuaAi };
+  { ok: true; anh: AnhChoAi } | { ok: false; code: MaKetQuaAi };
 
 @Injectable()
 export class AiImageLoader {
