@@ -9,6 +9,8 @@ import { server } from '@tests/support/server';
 
 const DEM_TAB = { waitingSitter: 3, waitingSupport: 5, resolved: 12 };
 
+const GIO_MS = 3_600_000;
+
 function hoSo(ghiDe: Record<string, unknown> = {}) {
   return {
     code: 'KN-PC9C4RN6',
@@ -20,8 +22,9 @@ function hoSo(ghiDe: Record<string, unknown> = {}) {
     reporterAvatarUrl: null,
     sitterName: 'Trịnh Văn Nam',
     description: 'Người chăm tới muộn 40 phút',
-    createdAt: '2026-08-06T02:00:00+07:00',
-    replyDeadline: '2026-08-07T02:00:00+07:00',
+    // Ngày tính lúc chạy, chốt cứng là hồ sơ tự vượt chỉ tiêu 7 ngày và huy hiệu trễ hiện ra
+    createdAt: new Date(Date.now() - 2 * GIO_MS).toISOString(),
+    replyDeadline: new Date(Date.now() + 22 * GIO_MS).toISOString(),
     sitterReplyAt: null,
     status: 'OPEN',
     refundAmount: null,
