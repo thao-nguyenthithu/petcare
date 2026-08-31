@@ -57,7 +57,7 @@ npm run dev
 | Storage | Supabase Storage, đường dẫn riêng tư ký tạm thời |
 | Queue - cache | BullMQ + Redis (mail, hết hạn thanh toán, OTP) |
 | Mail | nodemailer qua Gmail App Password |
-| AI | Vision adapter Anthropic Claude và Google Gemini - xác minh ảnh check-in |
+| AI | Vision adapter Google Gemini - xác minh ảnh check-in |
 | Thanh toán | VNPay sandbox, cổng mock cho môi trường chạy máy |
 | Bản đồ | flutter_map / OpenStreetMap (app), Leaflet (web quản trị) |
 | Deploy | Railway (backend), GitHub Actions CI/CD |

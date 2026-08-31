@@ -149,7 +149,7 @@ xong là lượt nhả kế tiếp thấy ngay.
 
 ## Điểm cần biết
 
-- **Con số nghiệp vụ**: tra `.claude/so-lieu-nghiep-vu.md` trước khi code, đừng lấy từ mã
+- **Con số nghiệp vụ**: tra tài liệu nghiệp vụ trước khi code, đừng lấy từ mã
   nguồn cũ. Mười bốn tham số vận hành đọc từ bảng `SystemSetting`, đổi ở màn quản trị 15,
   và đóng băng theo đơn — phí nền tảng cùng phí huỷ chốt lúc tạo đơn, mốc nhả tiền chốt
   lúc đơn kết thúc.
