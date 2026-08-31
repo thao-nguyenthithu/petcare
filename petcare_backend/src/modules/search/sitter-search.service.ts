@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Prisma, ServiceType } from '../../../generated/prisma/client';
-import { khuVucHaiCap } from '../../common/khu-vuc';
+import { khuVucHaiCap, lamTronToaDo } from '../../common/khu-vuc';
 import { PrismaService } from '../../prisma/prisma.service';
 import { SystemSettingsService } from '../admin/system-settings.service';
 import {
@@ -82,9 +82,22 @@ export class SitterSearchService {
 
     const ncc = await this.prisma.sitter.findMany({
       where,
-      include: {
+      select: {
+        id: true,
+        userId: true,
+        ratingAvg: true,
+        totalReviews: true,
+        trustedBadge: true,
+        staticScore: true,
+        createdAt: true,
+        serviceAddress: true,
+        lat: true,
+        lng: true,
         user: { select: TRUONG_USER_CONG_KHAI },
-        services: { where: dieuKienDichVu },
+        services: {
+          where: dieuKienDichVu,
+          select: { type: true, pricing: true },
+        },
         photos: {
           orderBy: [{ sortOrder: 'asc' }, { createdAt: 'asc' }],
           take: 1,
@@ -121,9 +134,10 @@ export class SitterSearchService {
         .sort((a, b) => a - b)[0];
       const nhanToiDa = dichVu
         .map((s) => soBeToiDa(s.pricing))
-        .reduce<
-          number | null
-        >((max, e) => (e === null || max === null ? null : Math.max(max, e)), 0);
+        .reduce<number | null>(
+          (max, e) => (e === null || max === null ? null : Math.max(max, e)),
+          0,
+        );
       return {
         maxPets: nhanToiDa,
         availableDays: khoang
@@ -147,8 +161,8 @@ export class SitterSearchService {
         staticScore: e.staticScore,
         createdAt: e.createdAt,
         area: khuVucHaiCap(e.serviceAddress),
-        lat: e.lat,
-        lng: e.lng,
+        lat: lamTronToaDo(e.lat),
+        lng: lamTronToaDo(e.lng),
         serviceTypes: dichVu.map((s) => s.type.toLowerCase()),
         priceFrom: giaTu ?? null,
         distanceKm:

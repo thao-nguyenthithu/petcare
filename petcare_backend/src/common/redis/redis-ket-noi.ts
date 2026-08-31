@@ -26,7 +26,7 @@ export function tuyChonRedis(config: ConfigService): TuyChonRedis {
     password: decodeURIComponent(dia.password) || undefined,
     family: 0,
     ...(dia.protocol === 'rediss:'
-      ? { tls: { rejectUnauthorized: false } }
+      ? { tls: { rejectUnauthorized: true } }
       : {}),
   };
 }

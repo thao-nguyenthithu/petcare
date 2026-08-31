@@ -15,3 +15,8 @@ export function khuVucHaiCap(diaChiDayDu: string | null): string | null {
   const phuong = phan.slice(0, -1).find((e) => CAP_PHUONG.test(e));
   return phuong ? `${phuong}, ${tinh}` : tinh;
 }
+
+// Làm tròn 3 số lẻ (~111m, theo nợ bảo mật ghi ở ui-contracts/sitter-profile/03) để không lộ toạ độ chính xác nhà người chăm ra client
+export function lamTronToaDo(so: number | null): number | null {
+  return so === null ? null : Math.round(so * 1000) / 1000;
+}

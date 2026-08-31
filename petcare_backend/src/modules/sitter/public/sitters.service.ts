@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { khuVucHaiCap } from '../../../common/khu-vuc';
+import { khuVucHaiCap, lamTronToaDo } from '../../../common/khu-vuc';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { SitterPenaltyService } from '../../bookings/sitter-penalty.service';
 import { dieuKienNccCongKhai, TRUONG_USER_CONG_KHAI } from './sitter-public';
@@ -18,13 +18,26 @@ export class SittersService {
   async getPublicProfile(id: string, xemBoiUserId?: string) {
     const ncc = await this.prisma.sitter.findFirst({
       where: { id, ...dieuKienNccCongKhai() },
-      include: {
+      select: {
+        id: true,
+        userId: true,
+        bio: true,
+        ratingAvg: true,
+        totalReviews: true,
+        trustedBadge: true,
+        serviceAddress: true,
+        lat: true,
+        lng: true,
+        serviceAddressNote: true,
+        serviceRadiusKm: true,
         user: { select: TRUONG_USER_CONG_KHAI },
         photos: {
           orderBy: [{ sortOrder: 'asc' }, { createdAt: 'asc' }],
           select: { id: true, url: true, sortOrder: true, createdAt: true },
         },
-        services: true,
+        services: {
+          select: { type: true, enabled: true, petKind: true, pricing: true },
+        },
       },
     });
     if (!ncc) {
@@ -67,8 +80,8 @@ export class SittersService {
       services,
       serviceArea: {
         area: khuVucHaiCap(ncc.serviceAddress),
-        lat: ncc.lat,
-        lng: ncc.lng,
+        lat: lamTronToaDo(ncc.lat),
+        lng: lamTronToaDo(ncc.lng),
         addressNote: ncc.serviceAddressNote,
         radiusKm: ncc.serviceRadiusKm,
       },

@@ -10,7 +10,7 @@ import { RedisIoAdapter } from './common/redis/redis-io.adapter';
 import { nguonChoPhep } from './common/cors';
 
 // Môi trường thật mà còn cấu hình của máy dev thì chặn khởi động
-function chanCauHinhNguyHiem(config: ConfigService) {
+function chanCauHinhNguyHiem(config: ConfigService, logger: Logger) {
   if (process.env.NODE_ENV !== 'production') return;
   if (config.get<string>('payment.gateway') === 'mock') {
     throw new Error(
@@ -21,6 +21,17 @@ function chanCauHinhNguyHiem(config: ConfigService) {
   if (/localhost|127\.0\.0\.1/.test(returnUrl)) {
     throw new Error(
       'VNPAY_RETURN_URL còn trỏ localhost, người dùng trả tiền xong sẽ không quay lại được',
+    );
+  }
+  // Chỉ cảnh báo (không chặn khởi động) vì không xác nhận được giá trị thật đang chạy trên Railway
+  if (!returnUrl.startsWith('https://')) {
+    logger.warn(
+      'VNPAY_RETURN_URL không bắt đầu bằng https://, callback thanh toán có thể đi không mã hoá',
+    );
+  }
+  if (process.env.DATABASE_URL && !/sslmode=/.test(process.env.DATABASE_URL)) {
+    logger.warn(
+      'DATABASE_URL thiếu sslmode=require tường minh, đang phụ thuộc Supabase tự ép TLS',
     );
   }
 }
@@ -45,11 +56,17 @@ function inCauHinhDangChay(config: ConfigService, logger: Logger) {
 }
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    bodyParser: false,
+  });
   const logger = new Logger('Bootstrap');
   const config = app.get(ConfigService);
-  chanCauHinhNguyHiem(config);
+  chanCauHinhNguyHiem(config, logger);
   inCauHinhDangChay(config, logger);
+
+  // Tự cấu hình body parser (thay cho mặc định) để ép trần kích thước tường minh, chặn payload khổng lồ làm tràn bộ nhớ
+  app.useBodyParser('json', { limit: '2mb' });
+  app.useBodyParser('urlencoded', { limit: '2mb', extended: true });
 
   // Tin đúng một bậc proxy của Railway, thiếu dòng này thì trần theo IP đếm nhầm IP proxy cho mọi người
   app.set('trust proxy', 1);

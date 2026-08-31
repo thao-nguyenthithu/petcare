@@ -5,7 +5,6 @@ import {
   Param,
   Patch,
   Post,
-  Query,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -19,6 +18,7 @@ import { CAU_HINH_ANH } from '../../media/image-upload';
 import { Roles } from '../../auth/decorators/roles.decorator';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../auth/guards/roles.guard';
+import { CheckCccdDto } from './dto/check-cccd.dto';
 import { CreateSitterProfileDto } from './dto/create-sitter-profile.dto';
 import { ReviewSitterProfileDto } from './dto/review-sitter-profile.dto';
 import {
@@ -50,14 +50,12 @@ export class SitterProfileController {
     return this.service.uploadCccd(file, mat);
   }
 
-  @Get('check-cccd')
+  // POST chứ không GET để số CCCD không lọt vào query string, log truy cập hay lịch sử trình duyệt
+  @Post('check-cccd')
   @Throttle(THROTTLE_XAC_THUC)
   @ApiOperation({ summary: 'Kiểm tra số CCCD đã có ở hồ sơ người khác chưa' })
-  checkCccd(
-    @CurrentUser() user: { id: string },
-    @Query('nationalId') nationalId: string,
-  ) {
-    return this.service.checkCccd(user.id, nationalId);
+  checkCccd(@CurrentUser() user: { id: string }, @Body() dto: CheckCccdDto) {
+    return this.service.checkCccd(user.id, dto.nationalId);
   }
 
   @Get('me')
