@@ -115,6 +115,7 @@ export class SearchSittersDto {
   @Type(() => Number)
   @IsInt()
   @Min(1)
+  @Max(50)
   page?: number;
 
   @IsOptional()
