@@ -183,7 +183,7 @@ class _BanDoLoTrinhState extends State<_BanDoLoTrinh> {
       mapController: _mapController,
       options: MapOptions(initialCenter: viTri, initialZoom: 15),
       children: [
-        voyagerTileLayer(),
+        osmTileLayer(),
         if (_duongDi.length >= 2)
           PolylineLayer(
             polylines: [

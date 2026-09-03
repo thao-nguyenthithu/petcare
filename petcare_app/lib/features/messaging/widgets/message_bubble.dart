@@ -377,7 +377,7 @@ class _MapPreview extends StatelessWidget {
               ),
             ),
             children: [
-              voyagerTileLayer(),
+              osmTileLayer(),
               MarkerLayer(
                 markers: [
                   Marker(

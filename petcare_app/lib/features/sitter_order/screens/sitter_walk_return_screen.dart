@@ -31,7 +31,7 @@ class SitterWalkReturnScreen extends StatelessWidget {
           FlutterMap(
             options: MapOptions(initialCenter: viTri, initialZoom: 16),
             children: [
-              voyagerTileLayer(),
+              osmTileLayer(),
               MarkerLayer(
                 markers: [
                   Marker(

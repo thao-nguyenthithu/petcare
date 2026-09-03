@@ -163,11 +163,11 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
               onPositionChanged: (camera, _) => _khiDoiTam(camera.center),
             ),
             children: [
-              voyagerTileLayer(),
+              osmTileLayer(),
               const RichAttributionWidget(
                 alignment: AttributionAlignment.bottomLeft,
                 attributions: [
-                  TextSourceAttribution('© OpenStreetMap, © CARTO'),
+                  TextSourceAttribution('© OpenStreetMap'),
                 ],
               ),
             ],

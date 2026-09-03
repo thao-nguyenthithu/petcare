@@ -91,7 +91,7 @@ class _MapPreviewState extends State<MapPreview> {
                   ),
                 ),
                 children: [
-                  voyagerTileLayer(),
+                  osmTileLayer(),
                   if (banKinhKm != null)
                     CircleLayer(
                       circles: [
