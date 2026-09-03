@@ -344,13 +344,7 @@
   "loiMangXaHoiChuaCauHinh": "Đăng nhập mạng xã hội chưa được cấu hình trên máy chủ",
   "loiTokenMangXaHoi": "Phiên đăng nhập mạng xã hội không hợp lệ, vui lòng thử lại",
   "loiMangXaHoiThieuEmail": "Tài khoản mạng xã hội không cung cấp email",
-  "loiEmailDaDangNhapCachKhac": "Email này đã đăng nhập bằng cách khác. Hãy dùng Google hoặc email và mật khẩu.",
-  "loiSaiTaiKhoanLienKet": "Bạn cần đăng nhập đúng tài khoản {email} để dùng chung một tài khoản cho hai cách đăng nhập",
-  "@loiSaiTaiKhoanLienKet": {
-    "placeholders": {
-      "email": {"type": "String"}
-    }
-  },
+  "loiEmailDaDangNhapCachKhac": "Email này đã có tài khoản đăng nhập bằng cách khác. Hãy dùng đúng cách bạn đã đăng ký lần đầu.",
   "loiDangNhapMangXaHoiThatBai": "Đăng nhập bằng mạng xã hội không thành công, vui lòng thử lại",
   "loiMaOtpKhongDung": "Mã xác minh không đúng",
   "loiMaOtpHetHan": "Mã xác minh đã hết hạn, vui lòng gửi lại mã",

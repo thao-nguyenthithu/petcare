@@ -2,11 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-// Chọn nhầm tài khoản khác với email đang cần liên kết hai cách đăng nhập
-class LoiSaiTaiKhoanLienKet implements Exception {
-  const LoiSaiTaiKhoanLienKet(this.email);
-
-  final String email;
+// Email đã thuộc về một tài khoản đăng nhập bằng cách khác
+class LoiEmailDaCoCachKhac implements Exception {
+  const LoiEmailDaCoCachKhac();
 }
 
 class SocialAuthService {
@@ -21,13 +19,13 @@ class SocialAuthService {
   Future<String?> signInWithGoogle() async {
     final credential = await _credentialGoogle();
     if (credential == null) return null;
-    return _dangNhapFirebase(credential, _credentialFacebook);
+    return _dangNhapFirebase(credential);
   }
 
   Future<String?> signInWithFacebook() async {
     final credential = await _credentialFacebook();
     if (credential == null) return null;
-    return _dangNhapFirebase(credential, _credentialGoogle);
+    return _dangNhapFirebase(credential);
   }
 
   Future<AuthCredential?> _credentialGoogle() async {
@@ -57,38 +55,16 @@ class SocialAuthService {
     }
   }
 
-  // Firebase giữ một tài khoản cho mỗi email nên cách đăng nhập thứ hai phải gắn vào tài khoản cũ
-  Future<String?> _dangNhapFirebase(
-    AuthCredential credential,
-    Future<AuthCredential?> Function() layCachDaCo,
-  ) async {
-    final auth = FirebaseAuth.instance;
+  // Một email một tài khoản Firebase, cách thứ hai dừng ở đây chứ không tự gắn
+  Future<String?> _dangNhapFirebase(AuthCredential credential) async {
     try {
-      final ketQua = await auth.signInWithCredential(credential);
+      final ketQua = await FirebaseAuth.instance.signInWithCredential(
+        credential,
+      );
       return ketQua.user?.getIdToken();
     } on FirebaseAuthException catch (e) {
       if (e.code != 'account-exists-with-different-credential') rethrow;
-      final cachDaCo = await layCachDaCo();
-      if (cachDaCo == null) return null;
-      final ketQua = await auth.signInWithCredential(cachDaCo);
-      final user = ketQua.user;
-      if (user == null) return null;
-      final emailCanLienKet = e.email?.toLowerCase();
-      if (emailCanLienKet != null &&
-          user.email?.toLowerCase() != emailCanLienKet) {
-        await auth.signOut();
-        throw LoiSaiTaiKhoanLienKet(e.email!);
-      }
-      await _gan(user, e.credential ?? credential);
-      return user.getIdToken();
-    }
-  }
-
-  Future<void> _gan(User user, AuthCredential credential) async {
-    try {
-      await user.linkWithCredential(credential);
-    } on FirebaseAuthException catch (e) {
-      if (e.code != 'provider-already-linked') rethrow;
+      throw const LoiEmailDaCoCachKhac();
     }
   }
 }
