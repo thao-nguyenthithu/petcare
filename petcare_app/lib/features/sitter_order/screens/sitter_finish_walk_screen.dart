@@ -6,6 +6,7 @@ import 'package:petcare_app/core/theme/app_colors.dart';
 import 'package:petcare_app/core/theme/app_text_styles.dart';
 import 'package:petcare_app/features/sitter_order/data/walking_session.dart';
 import 'package:petcare_app/features/sitter_order/services/sitter_order_actions.dart';
+import 'package:petcare_app/shared/services/gps_api_service.dart';
 import 'package:petcare_app/shared/utils/khoang_cach.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
@@ -29,8 +30,29 @@ class _SitterFinishWalkScreenState
   final List<Uint8List> _anh = [];
   final _ghiChu = TextEditingController();
   bool _dangGui = false;
+  double? _kmLoTrinh;
 
-  WalkingSession get _phien => widget.phien;
+  WalkingSession get _phien => _kmLoTrinh == null
+      ? widget.phien
+      : widget.phien.copyWith(kmDaDi: _kmLoTrinh);
+
+  @override
+  void initState() {
+    super.initState();
+    _napLoTrinh();
+  }
+
+  // Số km chốt gửi lên phải đo từ lộ trình thật, để trống thì máy chủ đối soát ra lệch
+  Future<void> _napLoTrinh() async {
+    try {
+      final diem = await GpsApiService().lichSuLoTrinh(
+        widget.phien.don.bookingId,
+      );
+      if (mounted && diem.length >= 2) {
+        setState(() => _kmLoTrinh = kmTuLoTrinh(diem));
+      }
+    } catch (_) {}
+  }
 
   @override
   void dispose() {

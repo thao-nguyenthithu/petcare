@@ -33,9 +33,7 @@ PetActiveBooking? _donDangChay(Object? o) {
   final id = m['id'] as String?;
   if (id == null || id.isEmpty) return null;
   final ncc = m['sitter'] is Map
-      ? Map<String, dynamic>.from(
-          (m['sitter'] as Map)['user'] as Map? ?? {},
-        )
+      ? Map<String, dynamic>.from((m['sitter'] as Map)['user'] as Map? ?? {})
       : <String, dynamic>{};
   final batDau = docMocVn(m['scheduledAt'] as String?);
   return PetActiveBooking(

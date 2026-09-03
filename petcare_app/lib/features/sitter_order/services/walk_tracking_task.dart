@@ -61,6 +61,7 @@ class WalkTrackingTaskHandler extends TaskHandler {
 
   Position? _moiNhat;
   Position? _diemTruoc;
+  DateTime? _tsCuoi;
   double _kmDaDi = 0;
   bool _daGuiDiemDau = false;
 
@@ -100,6 +101,26 @@ class WalkTrackingTaskHandler extends TaskHandler {
     _socket = GpsSocketService(serverGoc: serverGoc, token: token)
       ..ketNoi(bookingId: bookingId);
     _batDauNgheViTri();
+    unawaited(_diemMocDauPhien());
+  }
+
+  // Thiếu điểm mốc này thì bản đồ chủ nuôi trống tới khi người chăm đi đủ 10 m
+  Future<void> _diemMocDauPhien() async {
+    try {
+      _nhanViTri(
+        await Geolocator.getCurrentPosition(
+          locationSettings: const LocationSettings(
+            accuracy: LocationAccuracy.best,
+            timeLimit: Duration(seconds: 20),
+          ),
+        ),
+      );
+    } on Exception {
+      FlutterForegroundTask.sendDataToMain(const {
+        'loai': gpsGoiLoi,
+        'code': 'GPS_BI_TAT',
+      });
+    }
   }
 
   void _batDauNgheViTri() {
@@ -123,6 +144,9 @@ class WalkTrackingTaskHandler extends TaskHandler {
   }
 
   void _nhanViTri(Position p) {
+    // Luồng đọc một lần và luồng theo dõi cùng phát fix đầu tiên, không chặn thì lưu trùng
+    if (_tsCuoi == p.timestamp) return;
+    _tsCuoi = p.timestamp;
     _moiNhat = p;
     _congQuangDuong(p);
     _buffer.add(

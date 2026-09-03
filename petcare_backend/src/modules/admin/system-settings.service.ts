@@ -17,6 +17,7 @@ import {
   THAM_SO,
   laKhoaThamSo,
 } from './tham-so.dinh-nghia';
+import { moMoiCuaThoiGian } from '../../common/che-do-demo';
 
 // Khoá chọn nhà cung cấp nhận diện ảnh
 export const KHOA_NHA_AI = 'ai.vision.provider';
@@ -137,6 +138,8 @@ export class SystemSettingsService implements OnModuleInit {
       if (!THAM_SO[khoa].congKhai) continue;
       ket[khoa] = this.doc(khoa, this.cache.get(khoa));
     }
+    // Diễn thử thì ứng dụng cũng phải mở nút, không chỉ máy chủ bỏ chặn
+    if (moMoiCuaThoiGian()) ket['checkin.geofence.enabled'] = false;
     return ket;
   }
 

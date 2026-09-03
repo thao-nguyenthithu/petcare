@@ -28,10 +28,7 @@ import {
 } from '../../bookings/sitter-penalty-rules';
 import {
   DIEM_MOI_LAN_GUI,
-  NGUONG_LECH_KM,
-  NGUONG_LECH_TY_LE,
   NGUONG_NOISE_KMH,
-  NGUONG_TOC_DO_TB_KMH,
   PHUT_AN_HAN_FLUSH_CUOI,
   TRAN_WAYPOINT_MOI_BATCH,
 } from '../../gps/gps.constants';
@@ -168,24 +165,9 @@ export function nhomVanHanh(): NhomGioiHan[] {
           unit: 'kmGio',
         },
         {
-          ma: 'gps.nguongTocDoTrungBinhCaLuot',
-          value: so(NGUONG_TOC_DO_TB_KMH),
-          unit: 'kmGio',
-        },
-        {
           ma: 'gps.anHanNhanGoiCuoi',
           value: so(PHUT_AN_HAN_FLUSH_CUOI),
           unit: 'phut',
-        },
-        {
-          ma: 'gps.nguongLechQuangDuong',
-          value: so(NGUONG_LECH_KM),
-          unit: 'km',
-        },
-        {
-          ma: 'gps.nguongLechTheoTyLe',
-          value: phanTram(NGUONG_LECH_TY_LE),
-          unit: 'phanTram',
         },
       ],
     },

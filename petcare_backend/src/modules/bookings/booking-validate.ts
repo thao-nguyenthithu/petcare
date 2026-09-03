@@ -29,6 +29,7 @@ import {
 } from './booking-time';
 import { CreateBookingDto, LoaiDichVuDto } from './dto/create-booking.dto';
 import { NgayLich } from './sitter-slots.service';
+import { moMoiCuaThoiGian } from '../../common/che-do-demo';
 
 export type BeCuaDon = {
   id: string;
@@ -124,7 +125,10 @@ export function dungMocThoiGian(
   }
   const batDau = mocVn(dto.startDate, dto.startTime);
   const bayGio = Date.now();
-  if ((batDau.getTime() - bayGio) / MOT_PHUT_MS < MIN_LEAD_MINUTES) {
+  if (
+    !moMoiCuaThoiGian() &&
+    (batDau.getTime() - bayGio) / MOT_PHUT_MS < MIN_LEAD_MINUTES
+  ) {
     throw new BadRequestException({
       code: 'CHUA_DU_LEAD_TIME',
       message: `Đơn phải đặt trước giờ bắt đầu ít nhất ${MIN_LEAD_MINUTES / 60} giờ`,

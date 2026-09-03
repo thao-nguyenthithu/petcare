@@ -166,9 +166,7 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
               osmTileLayer(),
               const RichAttributionWidget(
                 alignment: AttributionAlignment.bottomLeft,
-                attributions: [
-                  TextSourceAttribution('© OpenStreetMap'),
-                ],
+                attributions: [TextSourceAttribution('© OpenStreetMap')],
               ),
             ],
           ),

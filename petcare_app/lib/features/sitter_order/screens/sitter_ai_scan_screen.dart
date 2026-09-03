@@ -240,9 +240,7 @@ class _SitterAiScanScreenState extends ConsumerState<SitterAiScanScreen> {
           ],
           if (_moTaVanXa(l10n) case final moTa?) ...[
             const FlatDivider(),
-            FlatSection(
-              child: Text(moTa, style: AppTextStyles.captionSm),
-            ),
+            FlatSection(child: Text(moTa, style: AppTextStyles.captionSm)),
           ],
           if (_ketQua.man == ManQuetAi.aiDu) ...[
             const FlatDivider(),

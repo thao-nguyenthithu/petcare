@@ -6,8 +6,8 @@ import {
 import { PrismaService } from '../../prisma/prisma.service';
 import { GpsBatchDto } from './dto/gps-batch.dto';
 import { danhDauNoise, DiemGps } from './gps-noise';
-import { lechDangKe, tiLeLech, tongQuangDuongKm } from './gps-quang-duong';
-import { NGUONG_TOC_DO_TB_KMH, PHUT_AN_HAN_FLUSH_CUOI } from './gps.constants';
+import { tongQuangDuongKm } from './gps-quang-duong';
+import { PHUT_AN_HAN_FLUSH_CUOI } from './gps.constants';
 
 interface DonGps {
   id: string;
@@ -131,7 +131,7 @@ export class GpsService {
       })),
     });
 
-    if (don.endedAt) await this.chotBaoCao(don.id);
+    await this.chotBaoCao(don.id);
 
     return {
       batchSeq,
@@ -169,12 +169,13 @@ export class GpsService {
     };
   }
 
+  // Chốt sau mỗi batch chứ không đợi kết thúc, các màn đọc quãng đường ngay trong phiên
+  // Chỉ ghi số liệu, cờ soát là việc của quản trị viên nên không đụng tới
   async chotBaoCao(bookingId: string): Promise<void> {
     const don = await this.prisma.booking.findUnique({
       where: { id: bookingId },
       select: {
         id: true,
-        distanceKm: true,
         startedAt: true,
         endedAt: true,
         service: { select: { type: true } },
@@ -191,41 +192,29 @@ export class GpsService {
       diem.map((d) => ({ lat: d.latitude, lng: d.longitude })),
     );
     const phut = this.phutPhien(don, diem);
-    const kmApp = don.distanceKm;
-    const lech = diem.length < 2 ? (kmApp ?? 0) > 0 : lechDangKe(km, kmApp);
-
-    const [soDiemGia, daSoat] = await Promise.all([
-      this.prisma.locationTrack.count({
-        where: { bookingId: don.id, isMocked: true },
-      }),
-      this.prisma.bookingGpsReport.findUnique({
-        where: { bookingId: don.id },
-        select: { reviewedAt: true },
-      }),
-    ]);
+    const soDiemGia = await this.prisma.locationTrack.count({
+      where: { bookingId: don.id, isMocked: true },
+    });
     const tocDoTb = phut > 0 ? Math.round((km / (phut / 60)) * 10) / 10 : 0;
-    const chayXe = tocDoTb > NGUONG_TOC_DO_TB_KMH;
-    const canXem = lech || chayXe || soDiemGia > 0;
 
     const soLieu = {
       totalWaypoints: diem.length,
       totalDistanceM: Math.round(km * 1000),
       durationMinutes: phut,
       avgSpeedKmh: tocDoTb,
-      suspicionScore: tiLeLech(km, kmApp),
+      suspicionScore: null,
       mockedCount: soDiemGia,
-      speedFlag: chayXe,
-    };
-    const ketLuanMay = {
-      flaggedForReview: canXem,
-      suspicionNote: canXem
-        ? this.ghiChuNghiNgo(diem.length, km, kmApp, lech, tocDoTb, soDiemGia)
-        : null,
+      speedFlag: false,
     };
     await this.prisma.bookingGpsReport.upsert({
       where: { bookingId: don.id },
-      create: { bookingId: don.id, ...soLieu, ...ketLuanMay },
-      update: daSoat?.reviewedAt ? soLieu : { ...soLieu, ...ketLuanMay },
+      create: {
+        bookingId: don.id,
+        ...soLieu,
+        flaggedForReview: false,
+        suspicionNote: null,
+      },
+      update: soLieu,
     });
   }
 
@@ -237,33 +226,5 @@ export class GpsService {
     const cuoi = don.endedAt ?? diem.at(-1)?.clientTs ?? null;
     if (!dau || !cuoi) return 0;
     return Math.max(0, Math.round((cuoi.getTime() - dau.getTime()) / 60_000));
-  }
-
-  private ghiChuNghiNgo(
-    soDiem: number,
-    km: number,
-    kmApp: number | null,
-    lech: boolean,
-    tocDoTb: number,
-    soDiemGia: number,
-  ): string {
-    const y: string[] = [];
-    if (lech) {
-      const soApp = (kmApp ?? 0).toFixed(1);
-      y.push(
-        soDiem < 2
-          ? `Server không nhận được lộ trình nào, app báo đã đi ${soApp} km`
-          : `App báo ${soApp} km, lộ trình về tới server ${km.toFixed(1)} km`,
-      );
-    }
-    if (tocDoTb > NGUONG_TOC_DO_TB_KMH) {
-      y.push(
-        `Tốc độ trung bình cả lượt ${tocDoTb} km/h, vượt mức đi bộ ${NGUONG_TOC_DO_TB_KMH} km/h`,
-      );
-    }
-    if (soDiemGia > 0) {
-      y.push(`Có ${soDiemGia} điểm bị hệ điều hành báo là vị trí giả`);
-    }
-    return y.join('. ');
   }
 }

@@ -199,7 +199,10 @@ class _OAnh extends StatelessWidget {
                 color: AppColors.cardMint,
                 child: InkWell(
                   onTap: onXem,
-                  child: Ink.image(image: MemoryImage(bytes), fit: BoxFit.cover),
+                  child: Ink.image(
+                    image: MemoryImage(bytes),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),

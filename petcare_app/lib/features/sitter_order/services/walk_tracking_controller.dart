@@ -39,8 +39,8 @@ class WalkTrackingController {
   static Future<bool> xinBoToiUuPin() =>
       FlutterForegroundTask.requestIgnoreBatteryOptimization();
 
-  // Vòng đời service
-  static Future<bool> batDau({
+  // Vòng đời service, trả null khi chạy được và trả lý do khi hỏng
+  static Future<String?> batDau({
     required String bookingId,
     required String tieuDeThongBao,
     required String noiDungThongBao,
@@ -48,9 +48,9 @@ class WalkTrackingController {
     int nhipGiay = gpsNhipWorkingGiay,
   }) async {
     // Đang chạy là phiên trước chưa đóng, không khởi động chồng
-    if (await FlutterForegroundTask.isRunningService) return true;
+    if (await FlutterForegroundTask.isRunningService) return null;
     final token = await TokenStorageService().getAccessToken();
-    if (token == null || token.isEmpty) return false;
+    if (token == null || token.isEmpty) return 'THIEU_TOKEN';
 
     await FlutterForegroundTask.saveData(key: gpsKeyToken, value: token);
     await FlutterForegroundTask.saveData(
@@ -83,7 +83,9 @@ class WalkTrackingController {
       notificationText: noiDungThongBao,
       callback: walkTrackingTaskKhoiDong,
     );
-    return ketQua is ServiceRequestSuccess;
+    if (ketQua is ServiceRequestSuccess) return null;
+    if (ketQua is ServiceRequestFailure) return ketQua.error.toString();
+    return ketQua.toString();
   }
 
   // Gọi ở mọi nhánh khép phiên, xoá luôn token của isolate

@@ -32,7 +32,6 @@ class _GearMissingSheet extends StatefulWidget {
 class _GearMissingSheetState extends State<_GearMissingSheet> {
   List<Uint8List> _anh = [];
 
-
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -58,7 +57,7 @@ class _GearMissingSheetState extends State<_GearMissingSheet> {
               anh: _anh,
               tran: soAnhThieuDungCuToiDa,
               onDoi: (ds) => setState(() => _anh = ds),
-            batBuocChup: true,
+              batBuocChup: true,
             ),
             const SizedBox(height: AppSpacing.blockGap),
             AppButton(

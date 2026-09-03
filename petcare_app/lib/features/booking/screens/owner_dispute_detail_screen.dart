@@ -136,7 +136,9 @@ class _Banner extends StatelessWidget {
       ),
       TinhTrangHoSo.daHoanMotPhan => ViStatusBanner(
         icon: Icons.check_rounded,
-        tieuDe: l10n.daCoKetLuanHoanTien('${dinhDangTien(hoSo.tienHoan ?? 0)}đ'),
+        tieuDe: l10n.daCoKetLuanHoanTien(
+          '${dinhDangTien(hoSo.tienHoan ?? 0)}đ',
+        ),
         moTa: l10n.hoanTienVeTaiKhoan,
         mau: AppColors.primaryColor,
       ),

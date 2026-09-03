@@ -12,8 +12,8 @@ import 'package:petcare_app/features/sitter_order/services/walk_tracking_control
 import 'package:petcare_app/features/sitter_order/services/walk_tracking_task.dart';
 import 'package:petcare_app/features/sitter_order/widgets/session/session_action_grid.dart';
 import 'package:petcare_app/features/sitter_order/widgets/session/session_finish_button.dart';
-import 'package:petcare_app/features/sitter_order/widgets/session/walk_permission_sheet.dart';
 import 'package:petcare_app/features/sitter_order/widgets/session/walk_return_distance.dart';
+import 'package:petcare_app/features/sitter_order/widgets/session/walk_route_scope.dart';
 import 'package:petcare_app/shared/utils/khoang_cach.dart';
 import 'package:petcare_app/shared/widgets/app_back_button.dart';
 import 'package:petcare_app/shared/widgets/app_button.dart';
@@ -36,8 +36,6 @@ class SitterWalkingSessionScreen extends StatefulWidget {
 
 class _SitterWalkingSessionScreenState extends State<SitterWalkingSessionScreen>
     with WidgetsBindingObserver {
-  // Đang chờ cấp quyền nền trong Cài đặt, quay lại là kiểm lại
-  bool _choCapQuyenNen = false;
   bool _dangBatTheoDoi = false;
 
   String? get _bookingId => widget.phien.bookingId;
@@ -62,24 +60,16 @@ class _SitterWalkingSessionScreenState extends State<SitterWalkingSessionScreen>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state != AppLifecycleState.resumed || _bookingId == null) return;
-    if (_choCapQuyenNen) {
-      _choCapQuyenNen = false;
-      unawaited(_sauKhiVeTuCaiDat());
-    }
+    unawaited(_batLaiSauKhiVeApp());
   }
 
-  // Xin riêng từng quyền theo luật Android, không gộp
+  // Vào phiên là bật thẳng, chỉ hộp thoại quyền của hệ thống chứ không thêm sheet nào
   Future<void> _damBaoTheoDoi() async {
     final bookingId = _bookingId;
     if (bookingId == null || _dangBatTheoDoi) return;
     _dangBatTheoDoi = true;
     try {
       if (await WalkTrackingController.dangChay()) return;
-      if (!mounted) return;
-      if (!await moSheetGioiThieuChiaSe(context)) {
-        if (mounted) _baoLoi(context.l10n.chuNuoiKhongThayViTri);
-        return;
-      }
       if (!await WalkTrackingController.coQuyenThongBao()) {
         await WalkTrackingController.xinQuyenThongBao();
       }
@@ -92,46 +82,29 @@ class _SitterWalkingSessionScreenState extends State<SitterWalkingSessionScreen>
         if (mounted) _baoLoi(context.l10n.chuNuoiKhongThayViTri);
         return;
       }
-      if (quyen != LocationPermission.always) {
-        if (!mounted) return;
-        final chon = await moSheetThieuQuyenNen(context);
-        if (chon == LuaChonQuyenNen.moCaiDat) {
-          _choCapQuyenNen = true;
-          await WalkTrackingController.moCaiDatUngDung();
-          return;
-        }
-      }
-      await _hoiBoToiUuPin();
       await _batService(bookingId);
     } finally {
       _dangBatTheoDoi = false;
     }
   }
 
-  Future<void> _sauKhiVeTuCaiDat() async {
+  Future<void> _batLaiSauKhiVeApp() async {
     final bookingId = _bookingId;
     if (bookingId == null || await WalkTrackingController.dangChay()) return;
-    await _hoiBoToiUuPin();
     await _batService(bookingId);
-  }
-
-  Future<void> _hoiBoToiUuPin() async {
-    if (await WalkTrackingController.daBoToiUuPin() || !mounted) return;
-    if (await moSheetBoToiUuPin(context)) {
-      await WalkTrackingController.xinBoToiUuPin();
-    }
   }
 
   Future<void> _batService(String bookingId) async {
     if (!mounted) return;
     final l10n = context.l10n;
-    final duocBat = await WalkTrackingController.batDau(
+    final loi = await WalkTrackingController.batDau(
       bookingId: bookingId,
       tieuDeThongBao: l10n.thongBaoDangChiaSe,
       noiDungThongBao: l10n.thongBaoChiaSeDon(widget.phien.don.maDon),
       tenKenhThongBao: l10n.kenhThongBaoChiaSeViTri,
     );
-    if (!duocBat && mounted) _baoLoi(l10n.khongTheBatChiaSe);
+    // Nêu luôn lý do máy chủ Android từ chối, nếu không thì lần nào cũng chỉ biết là hỏng
+    if (loi != null && mounted) _baoLoi('${l10n.khongTheBatChiaSe} · $loi');
   }
 
   Future<void> _truocKhiKetThuc() => WalkTrackingController.dungPhien();
@@ -250,7 +223,6 @@ class _KhoiBamGps extends StatefulWidget {
 
 class _KhoiBamGpsState extends State<_KhoiBamGps> {
   LatLng? _viTriGps;
-  double? _kmGps;
 
   @override
   void initState() {
@@ -270,12 +242,8 @@ class _KhoiBamGpsState extends State<_KhoiBamGps> {
       case gpsGoiViTri:
         final lat = data['lat'];
         final lng = data['lng'];
-        final km = data['kmDaDi'];
         if (lat is! num || lng is! num) return;
-        setState(() {
-          _viTriGps = LatLng(lat.toDouble(), lng.toDouble());
-          if (km is num) _kmGps = km.toDouble();
-        });
+        setState(() => _viTriGps = LatLng(lat.toDouble(), lng.toDouble()));
       case gpsGoiLoi:
         final thongBao = switch (data['code']) {
           'GPS_BI_TAT' => context.l10n.dinhViDangTat,
@@ -293,25 +261,31 @@ class _KhoiBamGpsState extends State<_KhoiBamGps> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final phien = _kmGps == null
-        ? widget.phien
-        : widget.phien.copyWith(kmDaDi: _kmGps);
-    return Column(
-      children: [
-        FlatSection(
-          child: MapPreview(
-            viTri:
-                _viTriGps ?? phien.don.viTri ?? const LatLng(21.0187, 105.8130),
-            icon: Icons.route_outlined,
-            nhan: l10n.banDoRealtimeLoTrinh(l10n.soKm(soLeKm(phien.kmLoTrinh))),
-            onDoi: () => context.push(
-              AppRoutes.sitterWalkReturnPath(phien.don.bookingId),
+    return WalkRouteScope(
+      phien: widget.phien,
+      builder: (context, phien, duongDi) => Column(
+        children: [
+          FlatSection(
+            child: MapPreview(
+              viTri:
+                  _viTriGps ??
+                  duongDi.lastOrNull ??
+                  phien.don.viTri ??
+                  const LatLng(21.0187, 105.8130),
+              icon: Icons.route_outlined,
+              duongDi: duongDi,
+              nhan: l10n.banDoRealtimeLoTrinh(
+                l10n.soKm(soLeKm(phien.kmLoTrinh)),
+              ),
+              onDoi: () => context.push(
+                AppRoutes.sitterWalkReturnPath(phien.don.bookingId),
+              ),
             ),
           ),
-        ),
-        const SizedBox(height: 12),
-        FlatSection(child: _LuoiSoLieu(phien: phien)),
-      ],
+          const SizedBox(height: 12),
+          FlatSection(child: _LuoiSoLieu(phien: phien)),
+        ],
+      ),
     );
   }
 }

@@ -242,8 +242,9 @@ String? _mocPhu(
       final phut? => l10n.xacNhanTrongKhoang(dongHoConLai(l10n, phut)),
       _ => null,
     },
-    TinhTrangDon.daToiDiemHen ||
-    TinhTrangDon.daXacNhan => switch (conLai(api.batDau)) {
+    TinhTrangDon.daToiDiemHen || TinhTrangDon.daXacNhan => switch (conLai(
+      api.batDau,
+    )) {
       final phut? => nhanToiTrong(l10n, phut),
       _ => null,
     },

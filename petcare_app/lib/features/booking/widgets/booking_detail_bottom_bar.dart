@@ -93,7 +93,7 @@ class BookingDetailBottomBar extends ConsumerWidget {
                   height: 50,
                   onTap: () => _chotDon(context, ref, don),
                 )
-              else if (don.daXong)
+              else if (don.daXong && !don.daDanhGia)
                 AppButton(
                   text: l10n.danhGiaDichVu,
                   color: AppColors.accent,
@@ -102,6 +102,12 @@ class BookingDetailBottomBar extends ConsumerWidget {
                     AppRoutes.bookingReview,
                     extra: (don: donDeDanhGia(don), sao: 0),
                   ),
+                )
+              else if (don.daXong)
+                AppButton(
+                  text: l10n.datLaiDichVuNay,
+                  height: 50,
+                  onTap: () => moHoSoNcc(context, don),
                 )
               else if (don.daHuy)
                 AppButton(
@@ -160,6 +166,11 @@ class BookingDetailBottomBar extends ConsumerWidget {
               else if (don.dangChay)
                 const SizedBox.shrink()
               else if (don.choBanChot)
+                _LienKet(
+                  nhan: l10n.baoSuCo,
+                  onTap: () => moBaoSuCo(context, don),
+                )
+              else if (don.daXong && don.daDanhGia)
                 _LienKet(
                   nhan: l10n.baoSuCo,
                   onTap: () => moBaoSuCo(context, don),

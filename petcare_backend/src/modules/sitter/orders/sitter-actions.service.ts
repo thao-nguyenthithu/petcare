@@ -33,6 +33,7 @@ import {
 import { KHONG_TINH_LOI } from '../../bookings/sitter-penalty-rules';
 import { dangBiTamAn } from '../public/sitter-public';
 import { SitterLichService } from './sitter-lich.service';
+import { moMoiCuaThoiGian } from '../../../common/che-do-demo';
 
 @Injectable()
 export class SitterActionsService {
@@ -121,7 +122,7 @@ export class SitterActionsService {
     chuaCoMoc(don.departedAt, 'DA_XUAT_PHAT', 'Bạn đã bấm xuất phát rồi');
     const moLuc =
       don.scheduledAt.getTime() - DEPART_WINDOW_MINUTES * MOT_PHUT_MS;
-    if (Date.now() < moLuc) {
+    if (!moMoiCuaThoiGian() && Date.now() < moLuc) {
       throw new ConflictException({
         code: 'CHUA_TOI_GIO_XUAT_PHAT',
         message: `Nút xuất phát mở trước giờ hẹn ${DEPART_WINDOW_MINUTES} phút`,
@@ -152,6 +153,7 @@ export class SitterActionsService {
     const met = metToiDiemHen(don, dto.lat, dto.lng);
     // Công tắc màn 15, tắt thì vẫn ghi khoảng cách để về sau soát lại (bộ luật mục 15)
     if (
+      !moMoiCuaThoiGian() &&
       this.thamSo.batGeofence() &&
       (met === null || met > ARRIVE_GEOFENCE_METERS)
     ) {

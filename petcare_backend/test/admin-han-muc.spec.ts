@@ -7,7 +7,6 @@ import { OTP_TTL_SECONDS } from '../src/modules/auth/otp.service';
 import { TRAN_PHUT_GROOMING } from '../src/modules/bookings/booking-pricing';
 import { hanNhanDonPhut } from '../src/modules/bookings/booking-time';
 import { BAC_NGAY_TAM_AN } from '../src/modules/bookings/sitter-penalty-rules';
-import { NGUONG_LECH_TY_LE } from '../src/modules/gps/gps.constants';
 import { GIOI_HAN_ANH_BYTE } from '../src/modules/media/image-upload';
 import { MAX_PET_MOI_CHU } from '../src/modules/pets/pets.service';
 import { TY_LE_HUY_TOI_DA } from '../src/modules/search/sitter-trusted';
@@ -96,9 +95,6 @@ describe('Giới hạn và hạn mức, màn 15b', () => {
   it('tỷ lệ ra phần trăm không lôi theo đuôi dấu phẩy động', () => {
     expect(timDong(nhom, 'dichVuLich.huyHieuTyLeHuyToiDa').value).toBe(
       String(Math.round(TY_LE_HUY_TOI_DA * 100)),
-    );
-    expect(timDong(nhom, 'gps.nguongLechTheoTyLe').value).toBe(
-      String(Math.round(NGUONG_LECH_TY_LE * 100)),
     );
   });
 

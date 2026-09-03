@@ -169,9 +169,10 @@ class OwnerTransactionDetailScreen extends StatelessWidget {
         duong: AppRoutes.bookingDisputePath(gd.maKhieuNai!),
         extra: null,
       ),
-      LoaiGiaoDichChuNuoi.thanhToan => gd.don == null
-          ? null
-          : (duong: AppRoutes.bookingDetail, extra: gd.don!.id),
+      LoaiGiaoDichChuNuoi.thanhToan =>
+        gd.don == null
+            ? null
+            : (duong: AppRoutes.bookingDetail, extra: gd.don!.id),
       LoaiGiaoDichChuNuoi.hoanTien => (
         duong: AppRoutes.cancelPolicy,
         extra: null,

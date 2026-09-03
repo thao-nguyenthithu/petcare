@@ -36,6 +36,7 @@ import {
   phaiHopLeAnhSuCo,
   SitterOrderStore,
 } from './sitter-order-store.service';
+import { moMoiCuaThoiGian } from '../../../common/che-do-demo';
 
 @Injectable()
 export class SitterSessionService {
@@ -63,7 +64,7 @@ export class SitterSessionService {
     const loai = loaiDichVu(don);
     const moLuc =
       don.scheduledAt.getTime() - START_WINDOW_MINUTES * MOT_PHUT_MS;
-    if (Date.now() < moLuc) {
+    if (!moMoiCuaThoiGian() && Date.now() < moLuc) {
       throw new ConflictException({
         code: 'CHUA_TOI_GIO_BAT_DAU',
         message: `Nút bắt đầu mở trước giờ hẹn ${START_WINDOW_MINUTES} phút`,

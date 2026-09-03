@@ -131,11 +131,7 @@ class _SitterEvidenceScreenState extends ConsumerState<SitterEvidenceScreen> {
 
 // Một nhóm ảnh, nhóm rỗng thì không chiếm chỗ
 class _Nhom extends StatelessWidget {
-  const _Nhom({
-    required this.tieuDe,
-    required this.anh,
-    required this.tatCa,
-  });
+  const _Nhom({required this.tieuDe, required this.anh, required this.tatCa});
 
   final String tieuDe;
   final List<String> anh;
@@ -199,10 +195,8 @@ class _O extends StatelessWidget {
             fit: BoxFit.cover,
             memCacheWidth: beRongCache(context, canh),
             placeholder: (_, _) => const ColoredBox(color: AppColors.cardMint),
-            errorWidget: (_, _, _) => const Icon(
-              Icons.image_outlined,
-              color: AppColors.primaryColor,
-            ),
+            errorWidget: (_, _, _) =>
+                const Icon(Icons.image_outlined, color: AppColors.primaryColor),
           ),
         ),
       ),

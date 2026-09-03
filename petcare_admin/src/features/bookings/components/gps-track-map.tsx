@@ -1,17 +1,92 @@
+import { useEffect, useMemo, useRef } from 'react';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { useTranslation } from 'react-i18next';
-import { MapPin } from 'lucide-react';
 
 type Diem = { lat: number; lng: number; isNoise: boolean };
 
-const RONG = 700;
-const CAO = 170;
-const LE = 24;
+const NEN_TILE = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+const GHI_NGUON = '&copy; OpenStreetMap contributors';
+const ZOOM_TOI_DA = 19;
+const CAO = 280;
+const LE_KHUNG = 0.15;
+
+const GHIM =
+  '<svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>';
+const CANH_GHIM = 28;
+const CANH_CHAM = 14;
+
+const CHAM =
+  '<span class="block h-[14px] w-[14px] rounded-full border-2 border-surface bg-primary"></span>';
 
 export function GpsTrackMap({ track }: { track: Diem[] }) {
   const { t } = useTranslation();
-  const diem = track.filter((item) => !item.isNoise);
+  const khung = useRef<HTMLDivElement>(null);
+  // Lọc lại mỗi lần dựng thì mảng luôn khác tham chiếu, bản đồ sẽ tạo lại liên tục
+  const diem = useMemo(() => track.filter((item) => !item.isNoise), [track]);
+  const duDiem = diem.length >= 2;
 
-  if (diem.length < 2) {
+  useEffect(() => {
+    const o = khung.current;
+    if (!o || !duDiem) return;
+
+    const toaDo = diem.map((item) => L.latLng(item.lat, item.lng));
+    const banDo = L.map(o, { scrollWheelZoom: false });
+    L.tileLayer(NEN_TILE, {
+      attribution: GHI_NGUON,
+      maxZoom: ZOOM_TOI_DA,
+    }).addTo(banDo);
+
+    const khungNhin = L.latLngBounds(toaDo).pad(LE_KHUNG);
+    banDo.fitBounds(khungNhin);
+
+    L.polyline(toaDo, {
+      className: 'stroke-primary',
+      weight: 4,
+      lineCap: 'round',
+      lineJoin: 'round',
+    }).addTo(banDo);
+
+    L.marker(toaDo[0], {
+      keyboard: false,
+      icon: L.divIcon({
+        html: CHAM,
+        className: '',
+        iconSize: [CANH_CHAM, CANH_CHAM],
+        iconAnchor: [CANH_CHAM / 2, CANH_CHAM / 2],
+      }),
+    }).addTo(banDo);
+
+    L.marker(toaDo[toaDo.length - 1], {
+      keyboard: false,
+      icon: L.divIcon({
+        html: GHIM,
+        className: 'text-accent',
+        iconSize: [CANH_GHIM, CANH_GHIM],
+        iconAnchor: [CANH_GHIM / 2, CANH_GHIM],
+      }),
+    }).addTo(banDo);
+
+    // Khối bị ẩn lúc dựng thì bản đồ ra kích thước 0, phải đo lại rồi khớp khung nhìn
+    let daCoKichThuoc = o.clientHeight > 0;
+    const doKhung =
+      typeof ResizeObserver === 'undefined'
+        ? null
+        : new ResizeObserver(() => {
+            banDo.invalidateSize();
+            if (daCoKichThuoc || o.clientHeight === 0) return;
+            daCoKichThuoc = true;
+            banDo.fitBounds(khungNhin);
+          });
+    doKhung?.observe(o);
+
+    return () => {
+      doKhung?.disconnect();
+      banDo.remove();
+    };
+  }, [diem, duDiem]);
+
+  if (!duDiem) {
     return (
       <div className="flex h-[170px] items-center justify-center rounded-card bg-card-mint/50 text-caption-sm text-text-secondary">
         {t('don.gps.chuaCoLoTrinh')}
@@ -19,77 +94,13 @@ export function GpsTrackMap({ track }: { track: Diem[] }) {
     );
   }
 
-  const lats = diem.map((item) => item.lat);
-  const lngs = diem.map((item) => item.lng);
-  const minLat = Math.min(...lats);
-  const maxLat = Math.max(...lats);
-  const minLng = Math.min(...lngs);
-  const maxLng = Math.max(...lngs);
-
-  const toaDo = (item: Diem) => {
-    const x = maxLng === minLng ? 0.5 : (item.lng - minLng) / (maxLng - minLng);
-    const y = maxLat === minLat ? 0.5 : (item.lat - minLat) / (maxLat - minLat);
-    return {
-      x: LE + x * (RONG - LE * 2),
-      y: CAO - LE - y * (CAO - LE * 2),
-    };
-  };
-
-  const diemVe = diem.map(toaDo);
-  const duong = diemVe.map((item) => `${item.x.toFixed(1)},${item.y.toFixed(1)}`).join(' ');
-  const batDau = diemVe[0];
-  const ketThuc = diemVe[diemVe.length - 1];
-
   return (
-    <div className="relative h-[170px] overflow-hidden rounded-card bg-card-mint/50">
-      <svg
-        viewBox={`0 0 ${RONG} ${CAO}`}
-        preserveAspectRatio="none"
-        className="h-full w-full"
-        role="img"
-        aria-label={t('don.gps.tieuDe')}
-      >
-        {Array.from({ length: 7 }).map((_, index) => (
-          <line
-            key={`ngang-${index}`}
-            x1={0}
-            x2={RONG}
-            y1={((index + 1) * CAO) / 8}
-            y2={((index + 1) * CAO) / 8}
-            className="stroke-neutral-light"
-            strokeWidth={1}
-          />
-        ))}
-        {Array.from({ length: 13 }).map((_, index) => (
-          <line
-            key={`doc-${index}`}
-            y1={0}
-            y2={CAO}
-            x1={((index + 1) * RONG) / 14}
-            x2={((index + 1) * RONG) / 14}
-            className="stroke-neutral-light"
-            strokeWidth={1}
-          />
-        ))}
-
-        <polyline
-          points={duong}
-          fill="none"
-          className="stroke-primary"
-          strokeWidth={3}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          vectorEffect="non-scaling-stroke"
-        />
-        <circle cx={batDau.x} cy={batDau.y} r={6} className="fill-primary" />
-      </svg>
-
-      <span
-        className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2"
-        style={{ left: `${(ketThuc.x / RONG) * 100}%`, top: `${(ketThuc.y / CAO) * 100}%` }}
-      >
-        <MapPin className="h-[26px] w-[26px] text-accent" strokeWidth={2} />
-      </span>
-    </div>
+    <div
+      ref={khung}
+      role="img"
+      aria-label={t('don.gps.tieuDe')}
+      style={{ height: CAO }}
+      className="z-0 w-full rounded-card border border-neutral-light bg-neutral-light"
+    />
   );
 }

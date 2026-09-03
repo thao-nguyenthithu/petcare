@@ -43,7 +43,6 @@ class _SitterDailyUpdateScreenState
     super.dispose();
   }
 
-
   Future<void> _gui() async {
     final id = _phien.don.bookingId;
     setState(() => _dangGui = true);
@@ -120,7 +119,7 @@ class _SitterDailyUpdateScreenState
               anh: _anh,
               tran: soAnhCapNhatToiDa,
               onDoi: (ds) => setState(() => _anh = ds),
-                batBuocChup: true,
+              batBuocChup: true,
             ),
           ),
           const SizedBox(height: 20),

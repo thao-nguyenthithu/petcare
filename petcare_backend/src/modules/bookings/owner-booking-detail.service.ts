@@ -37,6 +37,7 @@ import { AnhKyService } from '../media/anh-ky.service';
 import { CHON, DonChiTiet, TRANG_THAI_HUY_DUOC } from './owner-booking-select';
 import { PHAT_NCC_CHUA_TOI } from './sitter-penalty-rules';
 import { SitterPenaltyService } from './sitter-penalty.service';
+import { moMoiCuaThoiGian } from '../../common/che-do-demo';
 
 const GIO_BAO_TRUOC_KET_THUC_SOM = 1;
 
@@ -187,7 +188,7 @@ export class OwnerBookingDetailService {
       });
     }
     const moLuc = moc.getTime() - DEPART_WINDOW_MINUTES * MOT_PHUT_MS;
-    if (Date.now() < moLuc) {
+    if (!moMoiCuaThoiGian() && Date.now() < moLuc) {
       throw new ConflictException({
         code: 'CHUA_TOI_GIO_XUAT_PHAT',
         message: `Nút xuất phát mở trước giờ hẹn ${DEPART_WINDOW_MINUTES / 60} giờ`,

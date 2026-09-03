@@ -699,6 +699,8 @@
       "thoiGianPhien": "Thời gian phiên",
       "tocDoTrungBinh": "Tốc độ trung bình",
       "diemNghiNgo": "Điểm nghi ngờ",
+      "soDiemGhiNhan": "Số điểm ghi nhận",
+      "diem": "{{value}} điểm",
       "km": "{{value}} km",
       "phut": "{{value}} phút",
       "kmh": "{{value}} km/h",
@@ -2031,21 +2033,9 @@
           "nhan": "Ngưỡng nhiễu tốc độ",
           "mo": "Vượt ở cả chiều vào lẫn ra mới bỏ điểm"
         },
-        "nguongTocDoTrungBinhCaLuot": {
-          "nhan": "Ngưỡng tốc độ trung bình cả lượt",
-          "mo": "Vượt thì gắn cờ cho đội hỗ trợ, không tự phạt"
-        },
         "anHanNhanGoiCuoi": {
           "nhan": "Ân hạn nhận gói cuối",
           "mo": "Tính từ lúc phiên đã kết thúc"
-        },
-        "nguongLechQuangDuong": {
-          "nhan": "Ngưỡng lệch quãng đường",
-          "mo": "Phải vượt cùng lúc với ngưỡng tỷ lệ mới gắn cờ"
-        },
-        "nguongLechTheoTyLe": {
-          "nhan": "Ngưỡng lệch theo tỷ lệ",
-          "mo": "So số ứng dụng khai với số máy chủ tự cộng"
         }
       },
       "aiAnh": {
