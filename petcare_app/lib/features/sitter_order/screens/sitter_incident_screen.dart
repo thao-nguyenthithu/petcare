@@ -59,7 +59,6 @@ class _SitterIncidentScreenState extends ConsumerState<SitterIncidentScreen> {
     super.dispose();
   }
 
-
   bool get _laLyDoKhac => _maLyDo[_selected] == _maLyDoKhac;
 
   bool get _guiDuoc =>

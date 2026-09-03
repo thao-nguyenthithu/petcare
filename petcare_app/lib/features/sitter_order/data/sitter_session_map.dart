@@ -31,6 +31,8 @@ WalkingSession phienDatTuDon(
         : dongHoPhutGiay(het.difference(bayGio)),
     phutDaDat: phutDaDat < 0 ? 0 : phutDaDat,
     soAnhDaGui: phien?.tongAnh ?? 0,
+    batDauLuc: batDau,
+    ketThucLuc: het,
   );
 }
 

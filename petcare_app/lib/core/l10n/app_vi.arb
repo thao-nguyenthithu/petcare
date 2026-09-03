@@ -2707,7 +2707,7 @@
   },
   "xemAnhCapNhat": "Xem ảnh cập nhật",
   "taiAnhVeMay": "Tải ảnh về máy",
-  "ghiChuAnhMinhChung": "Người chăm chụp bao nhiêu tấm cũng được ở mỗi nhóm. Ngày giờ gửi ảnh ghi ngay trong ảnh.",
+  "ghiChuAnhMinhChung": "Người chăm chụp bao nhiêu tấm cũng được ở mỗi nhóm.",
   "chuaCoAnhMinhChung": "Đơn này chưa có ảnh minh chứng nào.",
   "nhatKyCoNAnh": "Nhật ký ({so} ảnh)",
   "@nhatKyCoNAnh": {

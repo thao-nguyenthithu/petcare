@@ -105,7 +105,6 @@ class _SitterOrderActionSheetState extends State<_SitterOrderActionSheet> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context);

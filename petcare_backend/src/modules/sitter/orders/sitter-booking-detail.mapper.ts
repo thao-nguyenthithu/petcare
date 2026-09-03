@@ -24,6 +24,7 @@ import {
   PHUT_MO_NUT_BAT_DAU,
 } from './sitter-booking-select';
 import { SitterPenaltyService } from '../../bookings/sitter-penalty.service';
+import { moMoiCuaThoiGian } from '../../../common/che-do-demo';
 
 type KyAnh = (duong: string) => string;
 
@@ -132,8 +133,10 @@ export function raChiTiet(
     pickupLat: hienDiaChi ? d.addressLat : null,
     pickupLng: hienDiaChi ? d.addressLng : null,
     directionsOpenAt: mocMoDiaChi(d, loai),
-    departOpenAt: mocLui(d, DEPART_WINDOW_MINUTES),
-    startButtonOpenAt: mocLui(d, PHUT_MO_NUT_BAT_DAU),
+    departOpenAt: moMoiCuaThoiGian() ? null : mocLui(d, DEPART_WINDOW_MINUTES),
+    startButtonOpenAt: moMoiCuaThoiGian()
+      ? null
+      : mocLui(d, PHUT_MO_NUT_BAT_DAU),
     geofenceMeters: ARRIVE_GEOFENCE_METERS,
     acceptedAt: d.acceptedAt,
     departedAt: d.departedAt,
@@ -180,6 +183,7 @@ function khuVuc(d: DonChiTiet): string | null {
 function moDiaChi(d: DonChiTiet, loai: LoaiDichVuDto): boolean {
   if (loai === 'boarding') return false;
   if (d.status !== 'CONFIRMED' && !dangLamViec(d.status)) return false;
+  if (moMoiCuaThoiGian()) return true;
   return Date.now() >= mocLui(d, GIO_MO_DIA_CHI * 60).getTime();
 }
 
@@ -240,7 +244,7 @@ function khoiPhien(d: DonChiTiet, ky: KyAnh) {
       d.sessionPhotos.find((a) => a.phase === 'CHECK_IN')?.takenAt ?? null,
     distanceKm: kmChot(d),
     endedAt: d.endedAt,
-    finishOpenAt: d.scheduledEndAt,
+    finishOpenAt: moMoiCuaThoiGian() ? null : d.scheduledEndAt,
     photos: nhatKy,
     totalPhotos: nhatKy.length,
     sitterNote: d.sitterNote,

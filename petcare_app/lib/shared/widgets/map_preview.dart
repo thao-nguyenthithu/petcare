@@ -21,6 +21,7 @@ class MapPreview extends StatefulWidget {
     this.nhan,
     this.khoa = false,
     this.hienGhim = true,
+    this.duongDi = const <LatLng>[],
   });
 
   final bool hienGhim;
@@ -31,6 +32,7 @@ class MapPreview extends StatefulWidget {
   final IconData icon;
   final String? nhan;
   final bool khoa;
+  final List<LatLng> duongDi;
   static const double _cao = 160;
 
   @override
@@ -92,6 +94,16 @@ class _MapPreviewState extends State<MapPreview> {
                 ),
                 children: [
                   osmTileLayer(),
+                  if (widget.duongDi.length >= 2)
+                    PolylineLayer(
+                      polylines: [
+                        Polyline(
+                          points: widget.duongDi,
+                          strokeWidth: 4,
+                          color: AppColors.primaryColor,
+                        ),
+                      ],
+                    ),
                   if (banKinhKm != null)
                     CircleLayer(
                       circles: [

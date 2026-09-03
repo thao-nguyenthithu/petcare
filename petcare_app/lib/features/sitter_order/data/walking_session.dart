@@ -24,6 +24,8 @@ class WalkingSession {
     required this.soAnhDaGui,
     this.bookingId,
     this.metConToiDiemTra,
+    this.batDauLuc,
+    this.ketThucLuc,
   });
 
   final String? bookingId;
@@ -35,6 +37,10 @@ class WalkingSession {
   final int phutDaDat;
   final int soAnhDaGui;
   final int? metConToiDiemTra;
+
+  // Hai mốc để màn tự chạy đồng hồ, giữ chuỗi conLai thì số đứng im tới lần tải lại
+  final DateTime? batDauLuc;
+  final DateTime? ketThucLuc;
 
   bool get duGio => don.duGioKetThuc;
 
@@ -57,6 +63,8 @@ class WalkingSession {
     int? soAnhDaGui,
     String? bookingId,
     int? metConToiDiemTra,
+    DateTime? batDauLuc,
+    DateTime? ketThucLuc,
   }) => WalkingSession(
     don: don ?? this.don,
     giaiDoan: giaiDoan ?? this.giaiDoan,
@@ -67,5 +75,7 @@ class WalkingSession {
     soAnhDaGui: soAnhDaGui ?? this.soAnhDaGui,
     bookingId: bookingId ?? this.bookingId,
     metConToiDiemTra: metConToiDiemTra ?? this.metConToiDiemTra,
+    batDauLuc: batDauLuc ?? this.batDauLuc,
+    ketThucLuc: ketThucLuc ?? this.ketThucLuc,
   );
 }

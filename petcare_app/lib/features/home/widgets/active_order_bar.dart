@@ -95,8 +95,7 @@ class _OrderCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(AppRadius.radius14),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () =>
-            context.push(AppRoutes.bookingDetail, extra: order.id),
+        onTap: () => context.push(AppRoutes.bookingDetail, extra: order.id),
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Row(

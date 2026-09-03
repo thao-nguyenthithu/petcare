@@ -71,8 +71,7 @@ class ProofPhotosScreen extends ConsumerWidget {
             ),
           ],
           if (nhatKy.isNotEmpty) ...[
-            if (truoc.isNotEmpty || sau.isNotEmpty)
-              const SizedBox(height: 22),
+            if (truoc.isNotEmpty || sau.isNotEmpty) const SizedBox(height: 22),
             FlatSection(
               child: _Nhom(
                 tieuDe: l10n.nhatKyCoNAnh('${nhatKy.length}'),
@@ -114,11 +113,7 @@ const double _khe = 10;
 
 // Một nhóm ảnh
 class _Nhom extends StatelessWidget {
-  const _Nhom({
-    required this.tieuDe,
-    required this.anh,
-    required this.tatCa,
-  });
+  const _Nhom({required this.tieuDe, required this.anh, required this.tatCa});
 
   final String tieuDe;
   final List<String> anh;

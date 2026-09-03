@@ -42,7 +42,6 @@ class _SitterAbsenceState extends ConsumerState<SitterAbsenceScreen> {
 
   bool get _duAnh => _anh.length >= soAnhVangMatToiThieu;
 
-
   Future<void> _guiBao() async {
     final id = bao.don.bookingId;
     setState(() => _dangGui = true);

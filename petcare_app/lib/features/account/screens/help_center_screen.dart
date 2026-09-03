@@ -29,9 +29,15 @@ class HelpCenterScreen extends ConsumerWidget {
     final l10n = context.l10n;
     final cauHinh = ref.watch(cauHinhNghiepVuProvider);
     final cauHoi = [
-      (hoi: l10n.faqHuyDonHoi, dap: l10n.faqHuyDonDap('${cauHinh.phiHuyMuonPhanTram}')),
+      (
+        hoi: l10n.faqHuyDonHoi,
+        dap: l10n.faqHuyDonDap('${cauHinh.phiHuyMuonPhanTram}'),
+      ),
       (hoi: l10n.faqHoanTienHoi, dap: l10n.hoanTienVeTaiKhoan),
-      (hoi: l10n.faqBaoSuCoHoi, dap: l10n.faqBaoSuCoDap('${cauHinh.gioGiuTien}')),
+      (
+        hoi: l10n.faqBaoSuCoHoi,
+        dap: l10n.faqBaoSuCoDap('${cauHinh.gioGiuTien}'),
+      ),
       (hoi: l10n.faqThanhToanHoi, dap: l10n.faqThanhToanDap),
       (hoi: l10n.faqThanhNguoiChamHoi, dap: l10n.faqThanhNguoiChamDap),
     ];
@@ -87,9 +93,7 @@ class HelpCenterScreen extends ConsumerWidget {
                         color: AppColors.textSecondary,
                       ),
                       const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(email, style: AppTextStyles.label),
-                      ),
+                      Expanded(child: Text(email, style: AppTextStyles.label)),
                     ],
                   ),
                 ],

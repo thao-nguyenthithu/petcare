@@ -41,8 +41,7 @@ class _RecentBookingRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return InkWell(
-      onTap: () =>
-          context.push(AppRoutes.sitterDetailPath(booking.sitterId)),
+      onTap: () => context.push(AppRoutes.sitterDetailPath(booking.sitterId)),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
         child: Row(

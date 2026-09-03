@@ -4,21 +4,21 @@ import { GpsService } from '../src/modules/gps/gps.service';
 const BAT_DAU = new Date('2026-08-07T01:00:00.000Z');
 const KET_THUC = new Date('2026-08-07T01:30:00.000Z');
 
-// Hai điểm cách nhau chừng 1,1 km trong khi app khai 3 km nên thừa sức bật cờ
 const DIEM = [
   { latitude: 10.0, longitude: 106.0, clientTs: BAT_DAU },
   { latitude: 10.01, longitude: 106.0, clientTs: KET_THUC },
 ];
 
-function dungGhi(reviewedAt: Date | null) {
+function dungGhi() {
   const daGhi: Array<Record<string, unknown>> = [];
+  const daTao: Array<Record<string, unknown>> = [];
   const prisma = {
     daGhi,
+    daTao,
     booking: {
       findUnique: () =>
         Promise.resolve({
           id: 'don-1',
-          distanceKm: 3,
           startedAt: BAT_DAU,
           endedAt: KET_THUC,
           service: { type: 'WALKING' },
@@ -29,9 +29,12 @@ function dungGhi(reviewedAt: Date | null) {
       count: () => Promise.resolve(0),
     },
     bookingGpsReport: {
-      findUnique: () => Promise.resolve({ reviewedAt }),
-      upsert: (arg: { update: Record<string, unknown> }) => {
+      upsert: (arg: {
+        update: Record<string, unknown>;
+        create: Record<string, unknown>;
+      }) => {
         daGhi.push(arg.update);
+        daTao.push(arg.create);
         return Promise.resolve({ id: 'gps-1' });
       },
     },
@@ -40,24 +43,26 @@ function dungGhi(reviewedAt: Date | null) {
   return { service, prisma };
 }
 
-describe('Chốt lại báo cáo lộ trình khi có batch tới muộn', () => {
-  it('chưa ai soát thì máy chốt cả cờ lẫn ghi chú', async () => {
-    const { service, prisma } = dungGhi(null);
+describe('Chốt báo cáo lộ trình', () => {
+  it('ghi quãng đường và thời lượng đo được từ lộ trình', async () => {
+    const { service, prisma } = dungGhi();
 
     await service.chotBaoCao('don-1');
 
-    expect(prisma.daGhi[0]).toMatchObject({ flaggedForReview: true });
-    expect(prisma.daGhi[0].suspicionNote).toEqual(expect.any(String));
+    expect(prisma.daGhi[0]).toMatchObject({
+      totalWaypoints: 2,
+      durationMinutes: 30,
+    });
+    expect(prisma.daGhi[0].totalDistanceM).toBeGreaterThan(1000);
   });
 
-  it('đã soát rồi thì batch muộn chỉ cập nhật con số, không đụng cờ và ghi chú', async () => {
-    const { service, prisma } = dungGhi(new Date('2026-08-07T02:00:00.000Z'));
+  it('không đụng cờ soát, đó là kết luận của quản trị viên', async () => {
+    const { service, prisma } = dungGhi();
 
     await service.chotBaoCao('don-1');
 
-    // Ghi đè hai trường này là xoá mất kết luận của người soát, thứ dùng khi có khiếu nại
     expect(prisma.daGhi[0]).not.toHaveProperty('flaggedForReview');
     expect(prisma.daGhi[0]).not.toHaveProperty('suspicionNote');
-    expect(prisma.daGhi[0]).toMatchObject({ totalWaypoints: 2 });
+    expect(prisma.daTao[0]).toMatchObject({ flaggedForReview: false });
   });
 });

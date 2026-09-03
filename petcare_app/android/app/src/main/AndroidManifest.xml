@@ -48,7 +48,7 @@
 
         <!-- Foreground Service cho GPS tracking -->
         <service
-            android:name="com.pravera.flutter_foreground_task.service.ForegroundTaskService"
+            android:name="com.pravera.flutter_foreground_task.service.ForegroundService"
             android:foregroundServiceType="location"
             android:exported="false"/>
 

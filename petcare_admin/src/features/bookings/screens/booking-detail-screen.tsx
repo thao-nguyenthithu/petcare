@@ -369,12 +369,8 @@ function HanhTrinhGpsCard({ data }: { data: BookingDetail }) {
       value: report ? t('don.gps.kmh', { value: report.avgSpeedKmh }) : null,
     },
     {
-      label: t('don.gps.diemNghiNgo'),
-      value: report
-        ? `${report.suspicionScore ?? t('don.gps.khongDoiChieuDuoc')} · ${
-            report.flaggedForReview ? t('don.gps.daGanCo') : t('don.gps.chuaGanCo')
-          }`
-        : null,
+      label: t('don.gps.soDiemGhiNhan'),
+      value: report ? t('don.gps.diem', { value: report.totalWaypoints }) : null,
     },
   ];
 

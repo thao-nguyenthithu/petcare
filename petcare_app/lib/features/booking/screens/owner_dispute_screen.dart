@@ -160,11 +160,7 @@ class _OwnerDisputeScreenState extends ConsumerState<OwnerDisputeScreen> {
           _CanhBaoGiuTien(text: l10n.moKhieuNaiGiuTien),
         ],
       ),
-      bottomBar: _BottomBar(
-        guiDuoc: _guiDuoc,
-        dangGui: _dangGui,
-        onGui: _gui,
-      ),
+      bottomBar: _BottomBar(guiDuoc: _guiDuoc, dangGui: _dangGui, onGui: _gui),
     );
   }
 }
