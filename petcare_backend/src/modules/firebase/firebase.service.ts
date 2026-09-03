@@ -101,12 +101,19 @@ export class FirebaseService implements OnModuleInit {
     }
     try {
       const decoded = await admin.auth().verifyIdToken(idToken);
-      return {
-        firebaseUid: decoded.uid,
-        email: decoded.email ?? null,
-        fullName: (decoded.name as string | undefined) ?? null,
-        avatarUrl: decoded.picture ?? null,
-      };
+      let email = decoded.email ?? null;
+      let fullName = (decoded.name as string | undefined) ?? null;
+      let avatarUrl = decoded.picture ?? null;
+      // Bật liên kết nhiều tài khoản mỗi email thì Firebase bỏ trống email ở hồ sơ gốc, chỉ provider còn giữ
+      if (!email) {
+        const hoSo = await admin.auth().getUser(decoded.uid);
+        const nhaCungCap = hoSo.providerData.find((p) => p.email);
+        email = nhaCungCap?.email ?? null;
+        fullName =
+          fullName ?? hoSo.displayName ?? nhaCungCap?.displayName ?? null;
+        avatarUrl = avatarUrl ?? hoSo.photoURL ?? nhaCungCap?.photoURL ?? null;
+      }
+      return { firebaseUid: decoded.uid, email, fullName, avatarUrl };
     } catch {
       throw new UnauthorizedException({
         code: 'INVALID_SOCIAL_TOKEN',

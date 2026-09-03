@@ -73,15 +73,13 @@ jobs:
     needs: [build, admin, app]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    defaults:
-      run:
-        working-directory: petcare_backend
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
       - run: npm install -g @railway/cli
+      # Chạy ở gốc monorepo, service đặt Root Directory là petcare_backend nên đẩy từ trong thư mục đó là builder không thấy
       - run: railway up --service petcare-backend --detach
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
