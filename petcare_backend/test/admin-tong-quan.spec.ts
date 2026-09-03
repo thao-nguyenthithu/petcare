@@ -4,7 +4,11 @@ import {
   dauThangVn,
   dayKhoaThang,
   haiKy,
+  khoaThangVn,
 } from '../src/modules/admin/dashboard/dashboard-ky';
+
+// Khoá tháng phải tính lúc chạy, chốt cứng '2026-08' là test tự rớt khi sang tháng mới
+const KHOA_THANG_NAY = khoaThangVn(new Date());
 import { PrismaService } from '../src/prisma/prisma.service';
 
 type BanGhi = Record<string, unknown>;
@@ -146,7 +150,11 @@ describe('Bốn chỉ số và hai biểu đồ của màn tổng quan', () => {
         },
       ],
       theoThang: [
-        { khoa: '2026-08', sitterPayout: 364310000n, platformFee: 64290000n },
+        {
+          khoa: KHOA_THANG_NAY,
+          sitterPayout: 364310000n,
+          platformFee: 64290000n,
+        },
       ],
       donGanDay: [
         {
@@ -208,7 +216,7 @@ describe('Bốn chỉ số và hai biểu đồ của màn tổng quan', () => {
     const { service } = dungTongQuan({
       chiSo: [SO_RONG],
       theoThang: [
-        { khoa: '2026-08', sitterPayout: 340000.4, platformFee: 60000.6 },
+        { khoa: KHOA_THANG_NAY, sitterPayout: 340000.4, platformFee: 60000.6 },
       ],
     });
 

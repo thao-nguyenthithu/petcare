@@ -41,10 +41,22 @@ export class BookingsService {
       undefined,
       userId,
     );
-    const dichVuNcc = await this.layDichVuNcc(ncc.id, loai);
+    // 3 tra cứu độc lập nhau, chạy song song bớt round-trip DB. Dùng allSettled rồi tự
+    // xét lỗi theo đúng thứ tự cũ (dịch vụ trước, bé, địa chỉ sau) — Promise.all thường sẽ
+    // ném lỗi của lệnh nào reject nhanh nhất, thứ tự đổi bất định giữa các lần gọi
+    const [rDichVu, rPets, rDiaChi] = await Promise.allSettled([
+      this.layDichVuNcc(ncc.id, loai),
+      this.layBeCuaToi(userId, dto.petIds),
+      this.layDiaChiCuaToi(userId, dto.addressId),
+    ]);
+    if (rDichVu.status === 'rejected') throw rDichVu.reason;
+    if (rPets.status === 'rejected') throw rPets.reason;
+    if (rDiaChi.status === 'rejected') throw rDiaChi.reason;
+    const dichVuNcc = rDichVu.value;
+    const pets = rPets.value;
+    const diaChi = rDiaChi.value;
     const pricing = (dichVuNcc.pricing as Record<string, unknown>) ?? {};
 
-    const pets = await this.layBeCuaToi(userId, dto.petIds);
     kiemTraLoaiBe(pets, loai, dichVuNcc.petKind);
     kiemTraSoBe(pets.length, pricing, loai);
     if (loai === 'walking' && dto.gearCommitted !== true) {
@@ -54,7 +66,6 @@ export class BookingsService {
       });
     }
 
-    const diaChi = await this.layDiaChiCuaToi(userId, dto.addressId);
     if (loai !== 'boarding') {
       kiemTraBanKinh(diaChi, ncc);
     }

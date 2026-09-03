@@ -17,7 +17,7 @@ export default () => ({
 
   mail: {
     user: process.env.MAIL_USER,
-    appPassword: process.env.MAIL_APP_PASSWORD?.replace(/\s/g, ''),
+    brevoApiKey: process.env.BREVO_API_KEY,
   },
 
   ai: {

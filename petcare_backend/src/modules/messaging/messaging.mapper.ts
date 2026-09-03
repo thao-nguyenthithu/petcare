@@ -3,10 +3,7 @@ import type { BookingStatus, MessageKind } from 'generated/prisma/enums';
 export type VaiChat = 'OWNER' | 'PROVIDER';
 
 export type TrangThaiChat =
-  | 'sapToi'
-  | 'dangDienRa'
-  | 'choXacNhan'
-  | 'daKetThuc';
+  'sapToi' | 'dangDienRa' | 'choXacNhan' | 'daKetThuc';
 
 export function trangThaiChat(status: BookingStatus): TrangThaiChat {
   switch (status) {

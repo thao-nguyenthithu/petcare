@@ -187,3 +187,59 @@ describe('Người chăm báo sự cố', () => {
     expect(ket.code).toBe('KN-001-2');
   });
 });
+
+describe('Lượt đáp của người chăm', () => {
+  function dungDap(hs: {
+    reporterId: string;
+    sitterReplyAt?: Date | null;
+    replyDeadline?: Date | null;
+  }) {
+    const prisma = {
+      sitter: {
+        findUnique: () =>
+          Promise.resolve({ id: 'ncc-1', userId: NGUOI_CHAM, bannedAt: null }),
+      },
+      violationReport: {
+        findUnique: () =>
+          Promise.resolve({
+            id: 'hs-1',
+            status: 'OPEN',
+            reporterId: hs.reporterId,
+            sitterReplyAt: hs.sitterReplyAt ?? null,
+            replyDeadline: hs.replyDeadline ?? null,
+            bookingId: 'don-1',
+            booking: { sitterId: 'ncc-1' },
+          }),
+      },
+    };
+    const anhTaiLen = { dayLen: () => Promise.resolve([]) };
+    return new DisputeService(
+      prisma as unknown as PrismaService,
+      anhTaiLen as unknown as AnhTaiLenService,
+      anhKyGia().service,
+    );
+  }
+
+  it('hồ sơ do chính người chăm mở thì không có lượt đáp (bộ luật mục 7)', async () => {
+    const service = dungDap({ reporterId: NGUOI_CHAM });
+
+    await expect(
+      service.phanHoi(NGUOI_CHAM, 'KN-001', {
+        content: 'Tôi xin bổ sung thêm tình tiết',
+      }),
+    ).rejects.toMatchObject({
+      response: { code: 'HO_SO_TU_MO_KHONG_CO_LUOT_DAP' },
+    });
+  });
+
+  it('hồ sơ do chủ nuôi mở đã đáp rồi thì không đáp lần hai', async () => {
+    const service = dungDap({
+      reporterId: CHU_NUOI,
+      sitterReplyAt: new Date(),
+    });
+
+    await expect(
+      service.phanHoi(NGUOI_CHAM, 'KN-001', { content: 'Đáp lần thứ hai' }),
+    ).rejects.toMatchObject({ response: { code: 'DA_PHAN_HOI' } });
+  });
+});

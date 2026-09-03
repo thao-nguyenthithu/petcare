@@ -261,6 +261,7 @@ export class DisputeService {
       select: {
         id: true,
         status: true,
+        reporterId: true,
         sitterReplyAt: true,
         replyDeadline: true,
         bookingId: true,
@@ -271,6 +272,13 @@ export class DisputeService {
       throw new NotFoundException({
         code: 'KHONG_TIM_THAY_KHIEU_NAI',
         message: 'Không tìm thấy hồ sơ khiếu nại',
+      });
+    }
+    // Hồ sơ do chính người chăm mở không có lượt đáp nào (bộ luật mục 7)
+    if (hs.reporterId === userId) {
+      throw new ConflictException({
+        code: 'HO_SO_TU_MO_KHONG_CO_LUOT_DAP',
+        message: 'Hồ sơ do chính bạn mở đã chuyển thẳng cho đội hỗ trợ',
       });
     }
     if (hs.sitterReplyAt) {
@@ -352,7 +360,9 @@ export class DisputeService {
       refundAmount: number | null;
       resolvedAt: Date | null;
       createdAt: Date;
+      reporterId: string;
       booking: Parameters<typeof raTheDon>[0] & {
+        ownerId: string;
         sitterPayout: number | null;
         totalPrice: number | null;
         platformFee: number | null;
@@ -455,13 +465,15 @@ export class DisputeService {
   }
 
   private trangThaiApp(hs: {
-    status: string;
+    reporterId: string;
     sitterReplyAt: Date | null;
     resolvedAt: Date | null;
     refundAmount: number | null;
+    booking: { ownerId: string };
   }) {
     if (!hs.resolvedAt) {
-      return hs.sitterReplyAt ? 'choHoTroXuLy' : 'choBanPhanHoi';
+      const choDap = hs.reporterId === hs.booking.ownerId && !hs.sitterReplyAt;
+      return choDap ? 'choBanPhanHoi' : 'choHoTroXuLy';
     }
     return (hs.refundAmount ?? 0) > 0 ? 'daHoanMotPhan' : 'khongChapNhan';
   }

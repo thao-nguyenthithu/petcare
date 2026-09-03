@@ -129,6 +129,8 @@ model Sitter {
   @@index([status, createdAt])
   @@index([hiddenUntil])
   @@index([bannedAt])
+  // GIST idx_sitter_location (migration thủ công) không dùng được cho lọc range lat/lng thường ở tìm kiếm, cần thêm btree này
+  @@index([lat, lng])
 }
 
 model SitterPenalty {

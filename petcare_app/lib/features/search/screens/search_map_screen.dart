@@ -254,7 +254,7 @@ class _SearchMapScreenState extends ConsumerState<SearchMapScreen> {
               onTap: (_, diem) => _chamBanDo(diem),
             ),
             children: [
-              voyagerTileLayer(),
+              osmTileLayer(),
               if (_noiTim != null &&
                   !_noiTim!.laVungDangXem &&
                   _boLoc.dichVu == MucLocDichVu.trongGiu)

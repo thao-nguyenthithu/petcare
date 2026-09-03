@@ -6,13 +6,11 @@ import 'package:petcare_app/shared/utils/loi_vai_tro.dart';
 
 // Map mã lỗi backend sang chuỗi hiển thị theo ngôn ngữ đang chọn
 String mapAuthError(AppLocalizations l10n, Object error) {
-  if (error is LoiSaiTaiKhoanLienKet) {
-    return l10n.loiSaiTaiKhoanLienKet(error.email);
+  if (error is LoiEmailDaCoCachKhac) {
+    return l10n.loiEmailDaDangNhapCachKhac;
   }
   if (error is FirebaseAuthException) {
-    return error.code == 'account-exists-with-different-credential'
-        ? l10n.loiEmailDaDangNhapCachKhac
-        : l10n.loiDangNhapMangXaHoiThatBai;
+    return l10n.loiDangNhapMangXaHoiThatBai;
   }
   final loiVai = moTaLoiVaiTro(l10n, error);
   if (loiVai != null) return loiVai;

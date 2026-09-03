@@ -33,8 +33,10 @@ API_URL=http://10.0.2.2:3000/api/v1
 
 Máy Android thật thì thay bằng địa chỉ IP của máy chạy máy chủ trong cùng mạng LAN, ví dụ
 `http://192.168.1.10:3000/api/v1`; dùng máy chủ đã triển khai thì trỏ
-`https://petcare-backend.up.railway.app/api/v1`. Địa chỉ WebSocket **không khai riêng**:
-ứng dụng cắt phần `/api/v1` khỏi `API_URL` để ra gốc máy chủ rồi nối các namespace.
+`https://petcare-backend.up.railway.app/api/v1` — bản release bắt buộc dùng địa chỉ này
+vì `network_security_config.xml` chỉ mở `http` cho `10.0.2.2`, `localhost`, `127.0.0.1`.
+Địa chỉ WebSocket **không khai riêng**: ứng dụng cắt phần `/api/v1` khỏi `API_URL` để ra
+gốc máy chủ rồi nối các namespace.
 
 Facebook keys khai trong `android/gradle.properties`, thiếu thì chỉ tắt đăng nhập
 Facebook chứ không sập ứng dụng:
@@ -51,10 +53,12 @@ Bản đồ không cần khoá nào: dự án dùng `flutter_map` với OpenStre
 ```bash
 flutter run --dart-define-from-file=secrets.env
 flutter build apk --debug --dart-define-from-file=secrets.env
+flutter build apk --split-per-abi --dart-define-from-file=secrets.env
 ```
 
 Thiếu `--dart-define-from-file` thì `API_URL` rơi về `http://localhost:3000/api/v1`, tức
-chính máy Android chứ không phải máy chạy máy chủ — mọi lời gọi sẽ lỗi mạng.
+chính máy Android chứ không phải máy chạy máy chủ — mọi lời gọi sẽ lỗi mạng. APK nằm ở
+`build/app/outputs/flutter-apk/`, soát địa chỉ thật bằng `adb logcat -s flutter`.
 
 Thêm chuỗi hiển thị thì sinh lại l10n, bắt buộc trước khi build:
 

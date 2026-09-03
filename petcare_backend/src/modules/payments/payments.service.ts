@@ -175,11 +175,17 @@ export class PaymentsService {
       }
 
       const bayGio = new Date();
+      const donConCho = tra.booking.status === 'AWAITING_PAYMENT';
+      // Đơn đã chết mà để HELD là khoản kẹt vĩnh viễn: job nhả bỏ qua, màn hoàn tiền không thấy
       await tx.payment.update({
         where: { id: tra.id },
-        data: { ...chung, status: 'HELD', paidAt: bayGio },
+        data: {
+          ...chung,
+          status: donConCho ? 'HELD' : 'REFUNDING',
+          paidAt: bayGio,
+        },
       });
-      if (tra.booking.status !== 'AWAITING_PAYMENT') {
+      if (!donConCho) {
         return { ma: 'DON_DA_CHET' as const, bookingId: tra.bookingId };
       }
       await tx.booking.update({
@@ -194,7 +200,7 @@ export class PaymentsService {
     }
     if (ket.ma === 'DON_DA_CHET') {
       this.logger.warn(
-        `Tiền về sau khi đơn ${ket.bookingId} đã huỷ vì quá hạn giữ chỗ, cần hoàn lại`,
+        `Tiền về sau khi đơn ${ket.bookingId} đã huỷ vì quá hạn giữ chỗ, khoản đã chuyển sang chờ hoàn`,
       );
     }
     return ket;

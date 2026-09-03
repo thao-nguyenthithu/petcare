@@ -3,6 +3,7 @@ import {
   ConflictException,
   ForbiddenException,
   Injectable,
+  Logger,
 } from '@nestjs/common';
 import { gioVn, MOT_PHUT_MS, ngayThangVn } from '../../../common/thoi-gian-vn';
 import { PrismaService } from '../../../prisma/prisma.service';
@@ -35,6 +36,8 @@ import { SitterLichService } from './sitter-lich.service';
 
 @Injectable()
 export class SitterActionsService {
+  private readonly logger = new Logger(SitterActionsService.name);
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly store: SitterOrderStore,
@@ -74,9 +77,19 @@ export class SitterActionsService {
       where: { id: don.id },
       data: { status: 'CONFIRMED', acceptedAt: luc },
     });
-    await this.notify.daNhanDon(don.id);
-    await this.chat.daNhanDon(don.id, luc);
-    await this.lich.donDepDonChoChet(don, cungLich.dangCho);
+    await Promise.all([
+      this.notify.daNhanDon(don.id),
+      this.chat.daNhanDon(don.id, luc),
+    ]);
+    // Đơn đã nhận thành công rồi, dọn các đơn chờ trùng lịch lỗi thì log để xử lý tay chứ không kẹt phản hồi
+    try {
+      await this.lich.donDepDonChoChet(don, cungLich.dangCho);
+    } catch (loi) {
+      this.logger.error(
+        `Dọn đơn chờ trùng lịch sau khi nhận đơn ${don.id} lỗi`,
+        loi as Error,
+      );
+    }
     return { id: don.id, status: 'confirmed' };
   }
 
@@ -119,8 +132,10 @@ export class SitterActionsService {
       where: { id: don.id },
       data: { departedAt: luc },
     });
-    await this.notify.daXuatPhat(don.id);
-    await this.chat.daXuatPhat(don.id, luc);
+    await Promise.all([
+      this.notify.daXuatPhat(don.id),
+      this.chat.daXuatPhat(don.id, luc),
+    ]);
     return { id: don.id, departedAt: luc };
   }
 
@@ -151,8 +166,10 @@ export class SitterActionsService {
       where: { id: don.id },
       data: { arrivedAt: luc, arriveDistanceM: saiLech },
     });
-    await this.notify.daToiNoi(don.id);
-    await this.chat.daToiNoi(don.id, saiLech, luc);
+    await Promise.all([
+      this.notify.daToiNoi(don.id),
+      this.chat.daToiNoi(don.id, saiLech, luc),
+    ]);
     return { id: don.id, arrivedAt: luc, distanceMeters: saiLech };
   }
 

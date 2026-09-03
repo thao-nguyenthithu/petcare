@@ -5,6 +5,9 @@ import { layNccCuaToi } from '../sitter/orders/sitter-guard';
 import { CHON_DON_VI, khoanNccNhan, raTheDon } from './wallet-booking.mapper';
 import { WalletLedgerService } from './wallet-ledger.service';
 
+// Chặn phòng hờ, đơn giữ tạm bình thường không nhiều nhưng tránh kéo không giới hạn
+const TRAN_KHOAN_GIU_TAM = 200;
+
 @Injectable()
 export class WalletService {
   constructor(
@@ -63,6 +66,7 @@ export class WalletService {
     const dsThanhToan = await this.prisma.payment.findMany({
       where: { status: 'HELD', booking: { sitterId } },
       orderBy: { createdAt: 'desc' },
+      take: TRAN_KHOAN_GIU_TAM,
       select: {
         amount: true,
         createdAt: true,

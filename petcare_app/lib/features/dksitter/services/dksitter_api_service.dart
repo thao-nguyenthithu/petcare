@@ -33,9 +33,9 @@ class DkSitterApiService {
 
   // Kiểm tra CCCD đã đăng ký ở hồ sơ người khác chưa
   Future<bool> isCccdAvailable(String nationalId) async {
-    final res = await apiClient.get(
+    final res = await apiClient.post(
       '/sitter-profile/check-cccd',
-      queryParameters: {'nationalId': nationalId},
+      data: {'nationalId': nationalId},
     );
     final data = Map<String, dynamic>.from(res.data as Map);
     return data['available'] == true;

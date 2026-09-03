@@ -5,7 +5,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 export class SearchHistoryService {
   constructor(private readonly prisma: PrismaService) {}
 
-  private static readonly TOI_DA = 8;
+  private static readonly TOI_DA = 10;
 
   async danhSach(userId: string) {
     const ds = await this.prisma.searchHistory.findMany({

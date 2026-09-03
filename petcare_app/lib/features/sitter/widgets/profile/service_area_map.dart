@@ -19,7 +19,7 @@ List<Widget> lopBanDoKhuVuc(
   int radiusKm, {
   bool chinhChu = true,
 }) => [
-  voyagerTileLayer(),
+  osmTileLayer(),
   CircleLayer(
     circles: [
       CircleMarker(
